@@ -1,0 +1,28 @@
+{
+  "devFiles": [
+    "static/runtime/react-refresh.js",
+    "static/development/dll/dll_1e1e00cc57ed67ddd555.js",
+    "static/development/dll/dll_1e1e00cc57ed67ddd555.js.map"
+  ],
+  "lowPriorityFiles": [
+    "static/development/_buildManifest.js",
+    "static/development/_ssgManifest.js"
+  ],
+  "pages": {
+    "/_app": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/_error": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
+    "/_polyfills": [
+      "static/runtime/polyfills.js"
+    ],
+    "/vinos": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ]
+  }
+}
