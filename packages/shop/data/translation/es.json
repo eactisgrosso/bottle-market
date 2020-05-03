@@ -39,7 +39,7 @@
   "discountText": "Descuento",
   "vatText": "Incl. IVA",
 
-  "searchPlaceholder": "Por región, bodega, marca, cepa ...",
+  "searchPlaceholder": "Por región, bodega, marca, características ...",
   "searchButtonText": "Buscar",
   "navlinkOffer": "Oferta",
   "navlinkHelp": "Necesitas ayuda",
@@ -58,7 +58,7 @@
   "noProductFound": "No se encontraron productos.",
   "specialCode": "¿Tienes un cupón?",
   "couponApplied": "Cupón Aplicado",
-  "couponPlaceholder": "Ingrese el código de cupón aquí",
+  "couponPlaceholder": "Código",
   "sidebarYourOrder": "Orden",
   "profilePageTitle": "Tu perfil",
   "profileNameField": "Nombre",
@@ -75,7 +75,7 @@
   "siteFooter": "Pickbazar es un producto de",
   "itemsText": "artículos",
   "shippinFeeText": "Gastos de envío",
-  "voucherText": "Vale",
+  "voucherText": "Cupón de Descuento",
   "voucherApply": "Aplicar",
   "couponError": "Cupón Inválido",
 

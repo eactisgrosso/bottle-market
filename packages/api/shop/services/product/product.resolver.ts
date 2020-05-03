@@ -36,12 +36,19 @@ export class ProductResolver {
   };
 
   private queryByText = async (query: any, text: string) => {
+    if (!text) return;
+
+    const terms = text.split(" ");
     query.andWhere((builder: any) => {
-      builder
-        .where("title", "like", `%${text}%`)
-        .orWhere("producer", "like", `%${text}%`)
-        .orWhere("region", "like", `%${text}%`)
-        .orWhere("producer", "like", `%${text}%`);
+      for (let term of terms) {
+        builder.andWhere((innerBuilder: any) => {
+          innerBuilder
+            .where("title", "like", `%${term}%`)
+            .orWhere("producer", "like", `%${term}%`)
+            .orWhere("region", "like", `%${term}%`)
+            .orWhere("description", "like", `%${term}%`);
+        });
+      }
     });
   };
 

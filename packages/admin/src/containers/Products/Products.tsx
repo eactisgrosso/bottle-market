@@ -171,7 +171,7 @@ export default function Products() {
         <Col md={12}>
           <Header style={{ marginBottom: 15 }}>
             <Col md={2} xs={12}>
-              <Heading>Products</Heading>
+              <Heading>Productos</Heading>
             </Col>
 
             <Col md={10} xs={12}>

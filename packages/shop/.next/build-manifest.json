@@ -20,18 +20,6 @@
     "/_polyfills": [
       "static/runtime/polyfills.js"
     ],
-    "/oporto": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
-    "/spirits": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
-    "/vermouth": [
-      "static/runtime/webpack.js",
-      "static/runtime/main.js"
-    ],
     "/vinos": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"

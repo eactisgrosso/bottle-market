@@ -54,11 +54,11 @@ export default () => {
                 <LogoWrapper>
                   <LogoImage src={Logoimage} alt="bottlehub-admin" />
                 </LogoWrapper>
-                <FormTitle>Log in to admin</FormTitle>
+                <FormTitle>Log in como admin</FormTitle>
               </FormFields>
 
               <FormFields>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <Field
                   type="email"
                   name="username"
@@ -97,7 +97,7 @@ export default () => {
                   },
                 }}
               >
-                Submit
+                Ingresar
               </Button>
             </Form>
           )}
