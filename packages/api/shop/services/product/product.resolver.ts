@@ -56,10 +56,17 @@ export class ProductResolver {
       (key) => ((product as any)[key] = dbProduct[key])
     );
 
-    product.image = `https://bottlemarket.s3.amazonaws.com/${dbProduct.image}`;
-    const gallery = new Gallery();
-    gallery.url = product.image;
-    product.gallery = [gallery];
+    product.gallery = [];
+    product.image = "";
+    if (dbProduct.images) {
+      const images = dbProduct.images.split(",");
+      for (let image of images) {
+        const gallery = new Gallery();
+        gallery.url = `https://bottlemarket.s3.amazonaws.com/${image}`;
+        product.gallery.push(gallery);
+      }
+      product.image = product.gallery[0].url;
+    }
     product.unit = `${dbProduct.units} unidad(es)`;
     product.salePrice = 0;
     product.categories = [];
