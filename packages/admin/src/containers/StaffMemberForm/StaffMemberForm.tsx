@@ -158,7 +158,7 @@ const StuffMemberForm: React.FC<Props> = (props) => {
             <Col lg={4}>
               <FieldDetails>
                 Expand or restrict user’s permissions to access certain part of
-                pickbazar system.
+                bottlemarket system.
               </FieldDetails>
             </Col>
 

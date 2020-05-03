@@ -2,11 +2,11 @@
 
 # Introduction
 
-E-commerce built with React, NextJS, TypeScript, GraphQL, NestJS & Styled-Components. Its very easy to use, we used graphql and NestJS, you can build your schema very easily. GraphQL playground makes it’s own documentation.
+Wine ecommerce built with React, NextJS, TypeScript, GraphQL, NestJS & Styled-Components. We used graphql and NestJS in order to build the schema very easily. GraphQL playground makes it’s own documentation.
 
 # Tech We Have Used
 
-We have used monorepo folder structure with Yarn Workspace. In our template we have three different part Admin Dashboard, Shop and API. Tech specification for specific part is given below
+We have used monorepo folder structure with Yarn Workspace. We have three different part Admin Dashboard, Shop and API. Tech specification for specific part is given below
 
 ## Admin Dashboard
 
@@ -39,7 +39,7 @@ For getting started you have to follow the below procedure. First navigate to th
 yarn
 ```
 
-<br><br><br>
+<br><br>
 
 ## Admin
 
@@ -82,7 +82,7 @@ yarn dev:api-admin
 yarn serve:admin
 ```
 
-<br><br><br><br><br><br><br>
+<br><br>
 
 ## Shop
 
@@ -124,7 +124,7 @@ If you want to host the template in now.sh then follow the below command
 now
 ```
 
-<br><br><br><br>
+<br><br>
 
 ### Admin
 

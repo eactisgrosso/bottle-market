@@ -21,7 +21,7 @@ import OFFERS from "data/offers";
 import BannerImg from "image/makeup.png";
 import storeType from "constants/storeType";
 
-const PAGE_TYPE = "Oporto";
+const PAGE_TYPE = "oporto";
 
 function MakeupPage({ deviceType }) {
   const { query } = useRouter();

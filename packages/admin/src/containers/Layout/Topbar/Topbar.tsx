@@ -53,7 +53,7 @@ const Topbar = ({ refs }: any) => {
     <TopbarWrapper ref={refs}>
       <Logo>
         <Link to="/">
-          <LogoImage src={Logoimage} alt="pickbazar-admin" />
+          <LogoImage src={Logoimage} alt="bottlehub-admin" />
         </Link>
       </Logo>
 

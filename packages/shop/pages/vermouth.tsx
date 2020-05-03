@@ -21,7 +21,7 @@ import OFFERS from "data/offers";
 import BannerImg from "image/Bags.png";
 import storeType from "constants/storeType";
 
-const PAGE_TYPE = "Vermouth";
+const PAGE_TYPE = "vermouth";
 
 function BagsPage({ deviceType }) {
   const { query } = useRouter();

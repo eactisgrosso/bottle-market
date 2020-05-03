@@ -52,7 +52,7 @@ export default () => {
             <Form>
               <FormFields>
                 <LogoWrapper>
-                  <LogoImage src={Logoimage} alt="pickbazar-admin" />
+                  <LogoImage src={Logoimage} alt="bottlehub-admin" />
                 </LogoWrapper>
                 <FormTitle>Log in to admin</FormTitle>
               </FormFields>

@@ -21,7 +21,7 @@ import OFFERS from "data/offers";
 import BannerImg from "image/Cloths.png";
 import storeType from "constants/storeType";
 
-const PAGE_TYPE = "Spirits";
+const PAGE_TYPE = "spirits";
 
 function WomenClothsPage({ deviceType }) {
   const { query } = useRouter();

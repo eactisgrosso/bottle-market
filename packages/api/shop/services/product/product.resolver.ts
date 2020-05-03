@@ -17,21 +17,13 @@ export class ProductResolver {
   private queryByCategorySlug = async (query: any, category: string) => {
     if (!category) return;
 
-    const childrenCategories = await this.knex(
-      "marketplace_category_parent as mcp"
-    )
-      .select("mcfrom.id", "mcfrom.slug")
-      .join(
-        "marketplace_category as mcfrom",
-        "mcp.from_category_id",
-        "mcfrom.id"
-      )
-      .join("marketplace_category as mcto", "mcp.to_category_id", "mcto.id")
-      .where("mcto.slug", category);
+    const childrenCategories = await this.knex("marketplace_category_tree_view")
+      .select("slug")
+      .where("path", "like", `%[catalogo-publico]%`)
+      .andWhere("path", "like", `%[${category}]%`);
 
-    query.andWhere((builder: any) => {
-      builder.where("categoriesSlugs", "like", `%[${category}]%`);
-      if (childrenCategories && childrenCategories.length > 0) {
+    if (childrenCategories && childrenCategories.length > 0) {
+      query.andWhere((builder: any) => {
         for (let childrenCategory of childrenCategories) {
           builder.orWhere(
             "categoriesSlugs",
@@ -39,8 +31,8 @@ export class ProductResolver {
             `%[${childrenCategory.slug}]%`
           );
         }
-      }
-    });
+      });
+    }
   };
 
   private queryByText = async (query: any, text: string) => {
@@ -71,6 +63,9 @@ export class ProductResolver {
     if (category) {
       await this.queryByCategorySlug(query, category);
       await this.queryByCategorySlug(queryCount, category);
+    } else if (type) {
+      await this.queryByCategorySlug(query, type);
+      await this.queryByCategorySlug(queryCount, type);
     }
 
     if (text) {

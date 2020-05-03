@@ -21,7 +21,7 @@ import OFFERS from "data/offers";
 import BannerImg from "image/grocery.png";
 import storeType from "constants/storeType";
 
-const PAGE_TYPE = "Vino";
+const PAGE_TYPE = "vino";
 
 function HomePage({ deviceType }) {
   const { query } = useRouter();

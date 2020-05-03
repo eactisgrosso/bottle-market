@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from 'react';
-import CheckBoxStyle from './Checkbox.style';
+import React, { useState, useCallback } from "react";
+import CheckBoxStyle from "./Checkbox.style";
 
-const useToggle = initialValue => {
+const useToggle = (initialValue) => {
   const [value, setValue] = useState(initialValue);
-  const toggler = useCallback(() => setValue(value => !value), []);
+  const toggler = useCallback(() => setValue((value) => !value), []);
   return [value, toggler];
 };
 
@@ -16,7 +16,7 @@ type CheckBoxProps = {
   htmlFor?: any;
   value?: any;
   style?: React.CSSProperties;
-  labelPosition?: 'left' | 'right';
+  labelPosition?: "left" | "right";
 };
 
 const CheckBox: React.FC<CheckBoxProps> = ({
@@ -27,7 +27,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
   value,
   id,
   htmlFor,
-  labelPosition = 'right',
+  labelPosition = "right",
   disabled = false,
   ...props
 }) => {
@@ -35,7 +35,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
   const [toggleValue, toggleHandler] = useToggle(isChecked);
 
   // Add all classs to an array
-  const addAllClasses = ['pickbazar__checkbox'];
+  const addAllClasses = ["bottlehub__checkbox"];
 
   // Add label position class
   if (labelPosition) {
@@ -49,15 +49,15 @@ const CheckBox: React.FC<CheckBoxProps> = ({
 
   // label control
   const LabelField = labelText && (
-    <span className="pickbazar__field-label">{labelText}</span>
+    <span className="bottlehub__field-label">{labelText}</span>
   );
 
-  const position = labelPosition || 'right';
+  const position = labelPosition || "right";
 
   return (
-    <CheckBoxStyle className={addAllClasses.join(' ')} {...props} style={style}>
+    <CheckBoxStyle className={addAllClasses.join(" ")} {...props} style={style}>
       <label htmlFor={htmlFor}>
-        {position === 'left' || position === 'right' ? LabelField : ''}
+        {position === "left" || position === "right" ? LabelField : ""}
         <input
           type="checkbox"
           className="checkbox"

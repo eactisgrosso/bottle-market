@@ -14,15 +14,17 @@ export class CategoryResolver {
   async categories(
     @Args("type", { type: () => String }) type: string
   ): Promise<Category[]> {
-    const dbCategories = await this.knex("marketplace_category").map(function (
-      dbCategory: any
-    ) {
+    const query = this.knex("marketplace_category_tree_view")
+      .where("path", "like", `%[catalogo-publico]%`)
+      .andWhere("path", "like", `%[${type}]%`);
+
+    const dbCategories = await query.map(function (dbCategory: any) {
       let category = new Category();
       Object.keys(dbCategory).forEach(
         (key) => ((category as any)[key] = dbCategory[key])
       );
       category.icon = "FruitsVegetable";
-      category.type = "";
+      category.type = type;
       category.children = [];
 
       return category;
@@ -30,27 +32,20 @@ export class CategoryResolver {
 
     let categoryMap = Object.assign(
       {},
-      ...dbCategories.map((x: any) => ({ [x.id]: x }))
+      ...dbCategories.map((x: any) => ({ [`[${x.slug}]`]: x }))
     );
 
-    const categoryTree = await this.knex("marketplace_category_parent");
-    for (let relation of categoryTree) {
-      const child = categoryMap[relation.from_category_id];
-      const parent = categoryMap[relation.to_category_id];
-
-      if (parent.title === "CATALOGO PUBLICO") {
-        child.type = child.title;
+    let parent;
+    for (let dbCategory of dbCategories) {
+      if (dbCategory.slug === type) {
+        parent = dbCategory;
+        continue;
       }
 
-      parent.children.push(child);
+      const slugs = dbCategory.path.split(" > ");
+      const parentCategory = categoryMap[slugs[slugs.length - 2]];
+      parentCategory.children.push(dbCategory);
     }
-
-    const publicCategories = dbCategories.filter(
-      (item: Category) => item.type !== ""
-    );
-    const parent = publicCategories.find(
-      (item: Category) => item.title === type
-    );
 
     return parent.children;
   }
