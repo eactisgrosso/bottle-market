@@ -91,10 +91,10 @@ type ProductDTO {
 
 """The basic product types"""
 enum ProductType {
-  WINE
-  SPIRITS
-  OPORTO
-  VERMOUTH
+  vino
+  spirits
+  oporto
+  vermouth
 }
 
 type ProductResponse {

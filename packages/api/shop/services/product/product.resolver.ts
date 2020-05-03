@@ -6,13 +6,12 @@ import ProductDTO, { ProductResponse } from "./product.dto";
 import { filterItems, getRelatedItems } from "../../helpers/filter";
 import { ProductType } from "./product.enum";
 import Category from "../category/category.type";
+import Gallery from "./gallery.type";
 
 @Injectable()
 @Resolver()
 export class ProductResolver {
   constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {}
-
-  private readonly items: ProductDTO[] = createProductSamples();
 
   private queryByCategorySlug = async (query: any, category: string) => {
     if (!category) return;
@@ -52,6 +51,30 @@ export class ProductResolver {
     });
   };
 
+  private mapProduct = async (dbProduct: any, product: ProductDTO) => {
+    Object.keys(dbProduct).forEach(
+      (key) => ((product as any)[key] = dbProduct[key])
+    );
+
+    product.image = `https://bottlemarket.s3.amazonaws.com/${dbProduct.image}`;
+    const gallery = new Gallery();
+    gallery.url = product.image;
+    product.gallery = [gallery];
+    product.unit = `${dbProduct.units} unidad(es)`;
+    product.salePrice = 0;
+    product.categories = [];
+
+    return product;
+  };
+
+  private buildCategoryMap = async (categoryIds: Set<number>) => {
+    const dbCategories = await this.knex(
+      "marketplace_category_tree_view"
+    ).whereIn("id", [...categoryIds]);
+
+    return Object.assign({}, ...dbCategories.map((x: any) => ({ [x.id]: x })));
+  };
+
   @Query((returns) => ProductResponse)
   async products(
     @Args("limit", { type: () => Int, defaultValue: 10 }) limit: number,
@@ -60,7 +83,7 @@ export class ProductResolver {
     @Args("text", { nullable: true }) text?: string,
     @Args("category", { nullable: true }) category?: string
   ) {
-    let categoryIds = new Set();
+    let categoryIds = new Set<number>();
 
     const query = this.knex("marketplace_product_view as p").select("*");
     let queryCount = this.knex("marketplace_product_view as p").count(
@@ -83,17 +106,13 @@ export class ProductResolver {
     const dbProducts = await query
       .limit(limit)
       .offset(offset)
-      .map(function (dbProduct: any) {
-        let product = new ProductDTO();
-        Object.keys(dbProduct).forEach(
-          (key) => ((product as any)[key] = dbProduct[key])
-        );
-        product.image = `https://bottlemarket.s3.amazonaws.com/${dbProduct.image}`;
-        product.unit = `${dbProduct.units} unidad(es)`;
-        product.salePrice = 0;
-        product.type = ProductType.WINE;
-        product.gallery = [];
-        product.categories = [];
+      .map((dbProduct: any) => {
+        const product = new ProductDTO();
+        this.mapProduct(dbProduct, product);
+
+        product.type = (<any>ProductType)[
+          type != null ? type : ProductType.vino
+        ];
 
         let dbCategoryIds = dbProduct.categories.split(",");
         for (let categoryId of dbCategoryIds) {
@@ -106,14 +125,7 @@ export class ProductResolver {
         return product;
       });
 
-    const dbCategories = await this.knex("marketplace_category")
-      .select("*")
-      .whereIn("id", [...categoryIds]);
-
-    let categories = Object.assign(
-      {},
-      ...dbCategories.map((x: any) => ({ [x.id]: x }))
-    );
+    let categories = await this.buildCategoryMap(categoryIds);
 
     for (let dbProduct of dbProducts)
       for (let category of dbProduct.categories) {
@@ -121,7 +133,9 @@ export class ProductResolver {
         category.title = dbCategory.title;
         category.slug = dbCategory.slug;
         category.icon = "FruitsVegetable";
-        category.type = "wine";
+        category.type = (<any>ProductType)[
+          type != null ? type : ProductType.vino
+        ];
         category.children = [];
       }
 
@@ -135,7 +149,45 @@ export class ProductResolver {
 
   @Query((returns) => ProductDTO)
   async product(@Args("slug", { type: () => String }) slug: string) {
-    return await this.items.find((item) => item.slug === slug);
+    let categoryIds = new Set<number>();
+
+    const dbProduct = await this.knex("marketplace_product_view as p")
+      .first("*")
+      .where("slug", slug);
+
+    const product = new ProductDTO();
+    this.mapProduct(dbProduct, product);
+
+    let dbCategoryIds = dbProduct.categories.split(",");
+    for (let categoryId of dbCategoryIds) {
+      let category = new Category();
+      category.id = +categoryId;
+      categoryIds.add(category.id);
+      product.categories.push(category);
+    }
+
+    const type = await this.knex("marketplace_category_parent as mkp")
+      .first("mct.slug")
+      .join(
+        "marketplace_category_tree_view as mct",
+        "mkp.to_category_id",
+        "mct.id"
+      )
+      .whereIn("from_category_id", [...categoryIds])
+      .andWhere("mct.path", "like", "%[catalogo-publico]%");
+    product.type = type;
+
+    let categories = await this.buildCategoryMap(categoryIds);
+    for (let category of product.categories) {
+      let dbCategory = categories[category.id];
+      category.title = dbCategory.title;
+      category.slug = dbCategory.slug;
+      category.type = type;
+      category.icon = "FruitsVegetable";
+      category.children = [];
+    }
+
+    return product;
   }
 
   @Query(() => [ProductDTO], { description: "Get the Related products" })
@@ -143,7 +195,6 @@ export class ProductResolver {
     @Args("slug", { type: () => String }) slug: string,
     @Args("type", { nullable: true }) type?: string
   ): Promise<any> {
-    const relatedItem = await getRelatedItems(type, slug, this.items);
-    return relatedItem;
+    return null;
   }
 }

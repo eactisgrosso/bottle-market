@@ -28,7 +28,7 @@ ON pc.category_id = mk.id
 LEFT JOIN marketplace_producer pro
 ON p.producer_id = pro.id
 
-LEFT JOIN marketplace_region_view re
+INNER JOIN marketplace_region_view re
 ON p.region_id = re.id
 
 WHERE pi.image = (SELECT image FROM marketplace_productimage as pi2 WHERE pi2.product_id = pi.product_id LIMIT 1)

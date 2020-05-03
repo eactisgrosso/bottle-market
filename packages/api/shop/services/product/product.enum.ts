@@ -1,10 +1,10 @@
 import { registerEnumType } from "@nestjs/graphql";
 
 export enum ProductType {
-  WINE = "Vino",
-  SPIRITS = "Spirits",
-  OPORTO = "Oporto",
-  VERMOUTH = "Vermouth",
+  vino,
+  spirits,
+  oporto,
+  vermouth,
 }
 
 registerEnumType(ProductType, {
