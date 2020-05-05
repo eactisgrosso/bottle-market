@@ -8,7 +8,11 @@ on:
 
 jobs:
   build:
-    runs-on: node:8.16.0
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -23,21 +27,6 @@ jobs:
 
       - name: Zip
         run: zip -r dist/bottlehub.zip dist/ node_modules
-
-      - name: Save artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: dist
-          path: dist
-
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Restore artifact
-        uses: actions/download-artifact@v1
-        with:
-          name: dist
 
       - name: sam build
         uses: youyo/aws-sam-action/python3.8@master
