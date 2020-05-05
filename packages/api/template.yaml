@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  ButtleHub Stack
+
+Parameters:
+  StageName:
+    Type: String
+  Suffix:
+    Type: String
+    Default: ""
+
+Globals:
+  Api:
+    Cors:
+      AllowMethods: "'OPTIONS,GET,POST,DELETE'"
+      AllowHeaders: "'Accept, Accept-Language, Content-Type, Content-Language, Last-Event-ID, Authorization, X-Requested-With, Origin'"
+      AllowOrigin: "'*'"
+    GatewayResponses:
+      DEFAULT_4XX:
+        ResponseParameters:
+          Headers:
+            Access-Control-Allow-Origin: "'*'"
+  Function:
+    Timeout: 30
+
+Resources:
+  GraphQL:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: bottlehub.zip
+      Handler: dist/lambda-entry-point.handler
+      Runtime: nodejs10.x
+      Environment:
+        Variables:
+          BUCKET: !Ref IdentityVerificationBucket
+      Events:
+        Shop:
+          Type: Api
+          Properties:
+            Method: any
+            Path: /shop/graphql

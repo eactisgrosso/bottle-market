@@ -1,8 +1,9 @@
 import { AppModule } from "./shop/app.module";
-import { WebApp } from "./webapp";
+import { App } from "./app";
 
-async function bootstrap() {
-  const app = new WebApp(AppModule, 4000);
-  app.start();
+async function startLocal() {
+  const app = new App(AppModule);
+  const fastifyInstance = await app.bootstrap();
+  fastifyInstance.listen(3000, "0.0.0.0");
 }
-bootstrap();
+startLocal();
