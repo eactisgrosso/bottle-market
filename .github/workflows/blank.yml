@@ -1,0 +1,54 @@
+name: Deploy Lambda
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: node:8.16.0
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        cd packages/api
+        yarn install
+
+    - name: Build
+      run: yarn build
+
+    - name: Zip
+      run: zip -r dist/bottlehub.zip dist/ node_modules
+
+    - name: Save artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: dist
+        path: dist
+    
+  deploy:
+    runs-on: eactisgrosso/python-aws-sam:3.7
+    
+    steps:
+    - name: Restore artifact
+      uses: actions/download-artifact@v1
+      with:
+        name: dist
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: SAM Build
+      run: samdev build
+      
+    - name: SAM Deploy
+      run: yes | samdev deploy --stack-name identity-verification-staging --capabilities CAPABILITY_IAM 
+    
