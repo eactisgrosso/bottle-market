@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { GraphQLModule } from "@nestjs/graphql";
 
-import { IAppModule } from "../webapp";
+import { IAppModule } from "../app";
 
 import { ProductModule } from "./services/product/product.module";
 import { CategoryModule } from "./services/category/category.module";

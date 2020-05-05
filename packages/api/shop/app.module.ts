@@ -3,7 +3,7 @@ import { GraphQLModule } from "@nestjs/graphql";
 import { ConfigModule } from "@nestjs/config";
 import { KnexModule } from "@nestjsplus/knex";
 
-import { IAppModule } from "../webapp";
+import { IAppModule } from "../app";
 import { UserModule } from "./services/user/user.module";
 import { ProductModule } from "./services/product/product.module";
 import { PaymentModule } from "./services/payment/payment.module";
