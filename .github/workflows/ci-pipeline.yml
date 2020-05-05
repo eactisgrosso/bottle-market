@@ -31,16 +31,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd packages/api
           yarn install
 
       - name: Build
         run: |
-          cd packages/api
-          yarn build
-
-      - name: Zip
-        run: zip -r dist/bottlehub.zip dist/ node_modules
+          yarn build:api
 
       - name: sam build
         uses: youyo/aws-sam-action/python3.8@master

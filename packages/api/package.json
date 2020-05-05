@@ -5,6 +5,7 @@
     "shop-dev": "ts-node-dev --inspect --respawn server.shop.ts",
     "admin": "ts-node-dev --respawn server.admin.ts",
     "build": "rm -rf dist && mkdir dist && tsc -b && copyfiles *.gql dist/",
+    "postbuild": "cp package.json dist/package.json && cd dist && npm install --only=production",
     "shop-serve": "NODE_ENV=production node dist/server.shop.js"
   },
   "dependencies": {

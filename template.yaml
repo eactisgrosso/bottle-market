@@ -28,7 +28,7 @@ Resources:
   GraphQL:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: bottlehub.zip
+      CodeUri: ./packages/api/dist/
       Handler: dist/lambda-entry-point.handler
       Runtime: nodejs10.x
       Environment:
