@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 import { GraphQLModule } from "@nestjs/graphql";
+import { ConfigModule } from "@nestjs/config";
 import { KnexModule } from "@nestjsplus/knex";
 
 import { IAppModule } from "../webapp";
@@ -18,6 +19,7 @@ import { CategoryModule } from "./services/category/category.module";
     OrderModule,
     CouponModule,
     CategoryModule,
+    ConfigModule.forRoot(),
     GraphQLModule.forRoot({
       path: "/shop/graphql",
       installSubscriptionHandlers: true,
@@ -26,10 +28,10 @@ import { CategoryModule } from "./services/category/category.module";
     KnexModule.register({
       client: "mysql",
       connection: {
-        host: "localhost",
+        host: process.env.DATABASE_HOST,
         port: 3306,
-        user: "root",
-        password: "Malbec2829!",
+        user: process.env.DATABASE_USER,
+        password: process.env.DATABASE_PASSWORD,
         database: "bottlehub",
       },
     }),

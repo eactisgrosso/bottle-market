@@ -1,9 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { KNEX_CONNECTION } from "@nestjsplus/knex";
 import { Args, Int, Query, Resolver } from "@nestjs/graphql";
-import { createProductSamples } from "./product.sample";
 import ProductDTO, { ProductResponse } from "./product.dto";
-import { filterItems, getRelatedItems } from "../../helpers/filter";
 import { ProductType } from "./product.enum";
 import Category from "../category/category.type";
 import Gallery from "./gallery.type";

@@ -11,11 +11,13 @@
     "clean:build": "lerna exec -- rimraf \"{.next,dist,build}\"",
     "dev:shop": "lerna run --parallel shop-dev",
     "build:shop": "yarn workspace @bottle-market/shop build",
-    "serve:shop": "lerna run --parallel start",
+    "serve:shop": "yarn  workspace @bottle-market/shop serve",
     "dev:admin": "concurrently \"yarn workspace @bottle-market/admin start\" \"yarn workspace @bottle-market/api admin\"",
     "build:admin": "yarn workspace @bottle-market/admin build",
-    "serve:admin": "lerna run --parallel serve",
+    "serve:admin": "yarn  workspace @bottle-market/admin serve",
+    "build:api": "yarn workspace @bottle-market/api build",
     "dev:api-shop": "yarn workspace @bottle-market/api shop-dev",
+    "serve:api-shop": "yarn workspace @bottle-market/api shop-serve",
     "dev:api-admin": "yarn workspace @bottle-market/api admin"
   },
   "devDependencies": {
@@ -36,5 +38,9 @@
     "*.{js,md,css}": [
       "prettier --trailing-comma es5 --single-quote --write"
     ]
+  },
+  "dependencies": {
+    "rxjs": "^6.5.5",
+    "rxjs-compat": "^6.5.5"
   }
 }

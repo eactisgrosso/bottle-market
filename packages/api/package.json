@@ -4,17 +4,19 @@
   "scripts": {
     "shop-dev": "ts-node-dev --inspect --respawn server.shop.ts",
     "admin": "ts-node-dev --respawn server.admin.ts",
-    "build": "rm -rf dist && mkdir dist && tsc -b && copyfiles -u 1 src/**/*.graphql dist/",
-    "serve": "NODE_ENV=production node dist/index.js"
+    "build": "rm -rf dist && mkdir dist && tsc -b && copyfiles *.gql dist/",
+    "shop-serve": "NODE_ENV=production node dist/server.shop.js"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.9",
+    "@nestjs/config": "^0.4.0",
     "@nestjs/core": "^7.0.9",
     "@nestjs/cqrs": "^6.1.0",
     "@nestjs/graphql": "^7.3.4",
     "@nestjs/platform-fastify": "^7.0.9",
     "@nestjsplus/knex": "^1.0.0",
     "apollo-server-fastify": "^2.12.0",
+    "apollo-server-lambda": "^2.13.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
     "express": "^4.17.1",

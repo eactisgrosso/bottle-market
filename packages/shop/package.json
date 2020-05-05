@@ -6,6 +6,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
+    "export": "next export",
+    "serve": "serve ./out",
     "shop-dev": "next"
   },
   "dependencies": {
@@ -80,6 +82,7 @@
     "imagemin-mozjpeg": "^8.0.0",
     "imagemin-optipng": "^7.1.0",
     "imagemin-svgo": "^7.1.0",
+    "serve": "^11.3.0",
     "typescript": "^3.8.3"
   }
 }

@@ -8,7 +8,10 @@ import {
 export interface IAppModule {}
 
 export class WebApp {
-  constructor(private readonly module: IAppModule) {}
+  constructor(
+    private readonly module: IAppModule,
+    private readonly port: number
+  ) {}
 
   async start() {
     const app = await NestFactory.create<NestFastifyApplication>(
@@ -18,7 +21,7 @@ export class WebApp {
     );
     app.useGlobalPipes(new ValidationPipe());
 
-    await app.listen(4000);
+    await app.listen(this.port, "0.0.0.0");
     console.log(`🚀 Application is running on: ${await app.getUrl()}`);
   }
 }
