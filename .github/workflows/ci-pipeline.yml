@@ -27,7 +27,7 @@ jobs:
         with:
           node_version: "12.x"
           stack_name: "bottlehub-api"
-          parameter_overrides: "StageName=\'Production\'"
+          parameter_overrides: StageName=\'Production\'
           no_fail_on_empty_changeset: true
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

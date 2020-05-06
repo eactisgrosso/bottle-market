@@ -11,6 +11,9 @@ inputs:
   stack_name:
     description: "Name of the Cloud Formation stack to create"
     required: true
+  capabilities:
+    description: "Stack capability"
+    default: CAPABILITY_IAM
   parameter_overrides:
     description: "Passes arguments to the template.yaml"
     default: ""

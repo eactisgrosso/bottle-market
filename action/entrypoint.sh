@@ -2,8 +2,12 @@
 
 set -e
 
-if [ "$INPUT_NODE_VERSION" != "" ]
-then
+if [[ -z "$INPUT_STACK_NAME" ]]; then
+    echo Stack name invalid
+    exit 1
+fi
+
+if [[ ! -z "$INPUT_NODE_VERSION" ]]; then
 	echo "Installing Nodejs $INPUT_NODE_VERSION"
 	curl -sL https://deb.nodesource.com/setup_$INPUT_NODE_VERSION > setup_$INPUT_NODE_VERSION && \
 		chmod +x setup_$INPUT_NODE_VERSION && \
@@ -15,19 +19,18 @@ echo "SAM Build"
 samdev build
 
 echo "SAM Deploy"
-CMD_STRING="yes | samdev deploy --stack-name ${INPUT_STACK_NAME}"
-if [ "$INPUT_PARAMETER_OVERRIDES" != "" ]
-then
-	CMD_STRING+= " --parameter-overrides $INPUT_PARAMETER_OVERRIDES";
+if [[ -z "$INPUT_CAPABILITIES" ]]; then
+    INPUT_CAPABILITIES="--capabilities CAPABILITY_IAM"
+else
+    INPUT_CAPABILITIES="--capabilities $INPUT_CAPABILITIES"
 fi
 
-if [ "$INPUT_NO_FAIL_ON_EMPTY_CHANGESET" != "" && "$INPUT_NO_FAIL_ON_EMPTY_CHANGESET" != "false"]
-then
-	CMD_STRING+= " --no-fail-on-empty-changeset";
+if [[ ! -z "$INPUT_PARAMETER_OVERRIDES" ]]; then
+    INPUT_PARAMETER_OVERRIDES="--parameter-overrides $INPUT_PARAMETER_OVERRIDES"
 fi
 
-RESULT=$($CMD_STRING)
-echo $RESULT
+yes | samdev deploy --stack-name $INPUT_STACK_NAME $INPUT_CAPABILITIES $INPUT_PARAMETER_OVERRIDES
+
 
 
 
