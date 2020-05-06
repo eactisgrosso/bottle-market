@@ -30,7 +30,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./packages/api/dist/
-      Handler: dist/lambda-entry-point.handler
+      Handler: dist/lambda-entrypoint.handler
       Runtime: nodejs12.x
       Environment:
         Variables:
