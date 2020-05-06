@@ -9,15 +9,6 @@ Parameters:
   Suffix:
     Type: String
     Default: ""
-  DATABASE_HOST:
-    Type: AWS::SSM::Parameter::Value<String>
-    Default: 'staging/DATABASE_HOST\'
-  DATABASE_USER:
-    Type: AWS::SSM::Parameter::Value<String>
-    Default: 'staging/DATABASE_USER\'
-  DATABASE_PASSWORD:
-    Type: AWS::SSM::Parameter::Value<String>
-    Default: 'staging/DATABASE_PASSWORD\'
 
 Globals:
   Api:
@@ -43,15 +34,16 @@ Resources:
       Environment:
         Variables:
           NODE_ENV: production
-          DATABASE_HOST: !Ref DATABASE_HOST
-          DATABASE_USER: !Ref DATABASE_USER
-          DATABASE_PASSWORD: !Ref DATABASE_PASSWORD
+          DATABASE_HOST: "{{resolve:ssm:DATABASE_HOST:1}}"
+          DATABASE_USER: "{{resolve:ssm:DATABASE_USER:1}}"
+          DATABASE_PASSWORD: "{{resolve:ssm-secure:DATABASE_PASSWORD:1}}"
       Policies:
-        - Effect: Allow
-          Action:
-            - ssm:GetParameters
-            - ssm:GetParameter
-          Resource: "arn:aws:ssm:us-east-1:435084048873:parameter/your/app/*"
+        - SSMParameterReadPolicy:
+          ParameterName: DATABASE_HOST
+        - SSMParameterReadPolicy:
+          ParameterName: DATABASE_USER
+        - SSMParameterReadPolicy:
+          ParameterName: DATABASE_PASSWORD
       Events:
         Shop:
           Type: Api
