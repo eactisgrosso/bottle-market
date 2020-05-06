@@ -4,10 +4,10 @@ set -e
 
 printenv
 
-echo "Installing Nodejs ${INPUT_NODE_VERSION}"
-curl -sL https://deb.nodesource.com/setup_${INPUT_NODE_VERSION} > setup_${INPUT_NODE_VERSION} && \
-	chmod +x setup_${INPUT_NODE_VERSION} && \
-	./setup_${INPUT_NODE_VERSION} && \
+echo "Installing Nodejs $INPUT_NODE-VERSION"
+curl -sL https://deb.nodesource.com/setup_$INPUT_NODE-VERSION > setup_$INPUT_NODE-VERSION && \
+	chmod +x setup_$INPUT_NODE-VERSION && \
+	./setup_$INPUT_NODE-VERSION && \
 	apt install nodejs -y
 
 output=$(samdev build & samdev deploy --stack-name ${INPUT_STACK-NAME} 2>&1)
