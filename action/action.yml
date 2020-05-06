@@ -1,0 +1,22 @@
+name: "AWS SAM for Node.js apps"
+description: "Github action for building and deploying Node.js apps with aws sam"
+author: "eactisgrosso <eactisgrosso@gmail.com>"
+branding:
+  icon: "terminal"
+  color: "yellow"
+inputs:
+  node-version:
+    description: "Node version to install."
+    default: "12"
+  stack-name:
+    description: "Name of the Cloud Formation stack to create"
+    required: true
+  parameter-overrides:
+    description: "Passes arguments to the template.yaml"
+    default: ""
+  no-fail-on-empty-changeset:
+    description: "Avoids raising an exception when there's no changes to deploy"
+    default: true
+runs:
+  using: "docker"
+  image: "./Dockerfile"

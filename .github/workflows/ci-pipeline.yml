@@ -24,7 +24,7 @@ jobs:
         run: yarn build:api
 
       - name: sam build
-        uses: ./aws-sam-action
+        uses: ./action
         with:
           node-version: 12
           stack-name: bottlehub-api
