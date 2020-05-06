@@ -8,7 +8,7 @@ curl -sL https://deb.nodesource.com/setup_$1 > setup_$1 && \
 	./setup_$1 && \
 	apt install nodejs -y
 
-output=$(samdev build & samdev deploy --stack-name $2  2>&1)
+output=$(samdev build & samdev deploy $2  2>&1)
 exitCode=${?}
 echo "${output}"
 

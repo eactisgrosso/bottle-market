@@ -21,4 +21,4 @@ runs:
   using: "docker"
   image: "./Dockerfile"
   args:
-    - ${{ inputs.node-version, inputs.stack-name }}
+    - ${{ inputs.node-version }}
