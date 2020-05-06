@@ -40,11 +40,11 @@ Resources:
           DATABASE_PASSWORD: "{{resolve:ssm-secure:DATABASE_PASSWORD:1}}"
       Policies:
         - SSMParameterReadPolicy:
-          ParameterName: DATABASE_HOST
+            ParameterName: DATABASE_HOST
         - SSMParameterReadPolicy:
-          ParameterName: DATABASE_USER
+            ParameterName: DATABASE_USER
         - SSMParameterReadPolicy:
-          ParameterName: DATABASE_PASSWORD
+            ParameterName: DATABASE_PASSWORD
       Events:
         Shop:
           Type: Api

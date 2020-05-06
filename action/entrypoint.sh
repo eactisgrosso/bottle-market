@@ -15,6 +15,19 @@ echo "SAM Build"
 samdev build
 
 echo "SAM Deploy"
-yes | samdev deploy --stack-name ${INPUT_STACK_NAME}
+CMD_STRING="yes | samdev deploy --stack-name ${INPUT_STACK_NAME}"
+if [ "$INPUT_PARAMETER_OVERRIDES" != "" ]
+then
+	CMD_STRING+= " --parameter-overrides $INPUT_PARAMETER_OVERRIDES";
+fi
+
+if [ "$INPUT_NO_FAIL_ON_EMPTY_CHANGESET" != "" && "$INPUT_NO_FAIL_ON_EMPTY_CHANGESET" != "false"]
+then
+	CMD_STRING+= " --no-fail-on-empty-changeset";
+fi
+
+RESULT=$($CMD_STRING)
+echo $RESULT
+
 
 
