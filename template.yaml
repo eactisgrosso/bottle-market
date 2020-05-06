@@ -9,6 +9,15 @@ Parameters:
   Suffix:
     Type: String
     Default: ""
+  DATABASE_HOST:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: 'staging/DATABASE_HOST\'
+  DATABASE_USER:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: 'staging/DATABASE_USER\'
+  DATABASE_PASSWORD:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: 'staging/DATABASE_PASSWORD\'
 
 Globals:
   Api:
@@ -33,7 +42,16 @@ Resources:
       Runtime: nodejs10.x
       Environment:
         Variables:
-          BUCKET: !Ref IdentityVerificationBucket
+          NODE_ENV: production
+          DATABASE_HOST: !Ref DATABASE_HOST
+          DATABASE_USER: !Ref DATABASE_USER
+          DATABASE_PASSWORD: !Ref DATABASE_PASSWORD
+      Policies:
+        - Effect: Allow
+          Action:
+            - ssm:GetParameters
+            - ssm:GetParameter
+          Resource: "arn:aws:ssm:us-east-1:435084048873:parameter/your/app/*"
       Events:
         Shop:
           Type: Api
