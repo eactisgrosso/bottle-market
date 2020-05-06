@@ -35,6 +35,13 @@ Resources:
       Environment:
         Variables:
           NODE_ENV: production
+      Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: DATABASE_HOST
+        - SSMParameterReadPolicy:
+            ParameterName: DATABASE_USER
+        - SSMParameterReadPolicy:
+            ParameterName: DATABASE_PASSWORD
       Events:
         Shop:
           Type: Api

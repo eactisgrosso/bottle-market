@@ -11,6 +11,32 @@ import { OrderModule } from "./services/order/order.module";
 import { CouponModule } from "./services/coupon/coupon.module";
 import { CategoryModule } from "./services/category/category.module";
 
+const AWS = require("aws-sdk");
+const ssm = new AWS.SSM({ region: "us-east-1" });
+
+let DATABASE_HOST;
+let DATABASE_USER;
+let DATABASE_PASSWORD;
+
+async function getSystemParam(name: string, withDecryption: boolean) {
+  var params = {
+    Name: `/staging/${name}`,
+    WithDecryption: withDecryption,
+  };
+
+  var request = await ssm.getParameter(params).promise();
+
+  return request.Parameter.Value;
+}
+
+async function loadDBparams() {
+  DATABASE_HOST = await getSystemParam("DATABASE_HOST", false);
+  DATABASE_USER = await getSystemParam("DATABASE_USER", true);
+  DATABASE_PASSWORD = await getSystemParam("DATABASE_PASSWORD", true);
+}
+
+loadDBparams();
+
 @Module({
   imports: [
     UserModule,
@@ -28,10 +54,10 @@ import { CategoryModule } from "./services/category/category.module";
     KnexModule.register({
       client: "mysql",
       connection: {
-        host: process.env.DATABASE_HOST,
+        host: DATABASE_HOST,
         port: 3306,
-        user: process.env.DATABASE_USER,
-        password: process.env.DATABASE_PASSWORD,
+        user: DATABASE_USER,
+        password: DATABASE_PASSWORD,
         database: "bottlehub",
       },
     }),
