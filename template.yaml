@@ -30,7 +30,7 @@ Resources:
     Properties:
       CodeUri: ./packages/api/dist/
       Handler: dist/lambda-entry-point.handler
-      Runtime: nodejs12.x
+      Runtime: nodejs10.x
       Environment:
         Variables:
           NODE_ENV: production
