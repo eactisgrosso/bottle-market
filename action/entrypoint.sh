@@ -1,37 +1,22 @@
 #!/bin/bash
 
-set -u
+set -e
 
-function parseInputs(){
-	# Required inputs
-	if [ "${INPUT-NODE-VERSION}" == "" ]; then
-		echo "Input node-version cannot be empty"
-		exit 1
-	fi
-}
+NODE_VERSION=$1
+STACK_NAME=$2
 
-function installNode() {
-	echo "Installing Nodejs ${INPUT-NODE-VERSION}"
+echo "Installing Nodejs $NODE_VERSION"
+curl -sL https://deb.nodesource.com/setup_$NODE_VERSION > setup_$NODE_VERSION.x && \
+	chmod +x setup_$NODE_VERSION.x && \
+	./setup_$NODE_VERSION.x && \
+	apt install nodejs -y
 
-    curl -sL https://deb.nodesource.com/setup_${INPUT-NODE-VERSION}.x > setup_${INPUT-NODE-VERSION}.x && \
-        chmod +x setup_${INPUT-NODE-VERSION}.x && \
-        ./setup_10${INPUT-NODE-VERSION}.x && \
-        apt install nodejs -y
-}
+output=$(samdev build & samdev deploy --stack-name $2  2>&1)
+exitCode=${?}
+echo "${output}"
 
-function runSam(){
-	output=$(samdev build & samdev deploy 2>&1)
-	exitCode=${?}
-	echo "${output}"
+commentStatus="Failed"
+if [ "${exitCode}" == "0" ]; then
+	commentStatus="Success"
+fi
 
-	commentStatus="Failed"
-	if [ "${exitCode}" == "0" ]; then
-		commentStatus="Success"
-	fi
-}
-
-function main(){
-	runSam
-}
-
-main

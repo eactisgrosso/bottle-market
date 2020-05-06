@@ -7,7 +7,7 @@ branding:
 inputs:
   node-version:
     description: "Node version to install."
-    default: "12"
+    default: "12x"
   stack-name:
     description: "Name of the Cloud Formation stack to create"
     required: true
