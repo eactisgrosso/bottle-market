@@ -20,7 +20,7 @@ function installNode() {
 }
 
 function runSam(){
-	output=$(sam build & sam deploy 2>&1)
+	output=$(samdev build & samdev deploy 2>&1)
 	exitCode=${?}
 	echo "${output}"
 
@@ -31,8 +31,6 @@ function runSam(){
 }
 
 function main(){
-	parseInputs
-	installNode
 	runSam
 }
 
