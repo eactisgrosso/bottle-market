@@ -35,16 +35,6 @@ Resources:
       Environment:
         Variables:
           NODE_ENV: production
-          DATABASE_HOST: "{{resolve:ssm:/staging/DATABASE_HOST:1}}"
-          DATABASE_USER: "{{resolve:ssm:/staging/DATABASE_USER:1}}"
-          DATABASE_PASSWORD: "{{resolve:ssm-secure:/staging/DATABASE_PASSWORD:1}}"
-      Policies:
-        - SSMParameterReadPolicy:
-            ParameterName: DATABASE_HOST
-        - SSMParameterReadPolicy:
-            ParameterName: DATABASE_USER
-        - SSMParameterReadPolicy:
-            ParameterName: DATABASE_PASSWORD
       Events:
         Shop:
           Type: Api
