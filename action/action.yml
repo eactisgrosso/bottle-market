@@ -5,16 +5,16 @@ branding:
   icon: "terminal"
   color: "yellow"
 inputs:
-  node-version:
+  node_version:
     description: "Node version to install."
     default: "12x"
-  stack-name:
+  stack_name:
     description: "Name of the Cloud Formation stack to create"
     required: true
-  parameter-overrides:
+  parameter_overrides:
     description: "Passes arguments to the template.yaml"
     default: ""
-  no-fail-on-empty-changeset:
+  no_fail_on_empty_changeset:
     description: "Avoids raising an exception when there's no changes to deploy"
     default: true
 runs:
