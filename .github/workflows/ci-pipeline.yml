@@ -25,7 +25,7 @@ jobs:
       - name: sam build
         uses: ./action
         with:
-          node-version: "12x"
+          node-version: "12.x"
           stack-name: "bottlehub-api"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

@@ -2,13 +2,10 @@
 
 set -e
 
-NODE_VERSION=$1
-STACK_NAME=$2
-
-echo "Installing Nodejs $NODE_VERSION"
-curl -sL https://deb.nodesource.com/setup_$NODE_VERSION > setup_$NODE_VERSION.x && \
-	chmod +x setup_$NODE_VERSION.x && \
-	./setup_$NODE_VERSION.x && \
+echo "Installing Nodejs $1"
+curl -sL https://deb.nodesource.com/setup_$1 > setup_$1 && \
+	chmod +x setup_$1 && \
+	./setup_$1 && \
 	apt install nodejs -y
 
 output=$(samdev build & samdev deploy --stack-name $2  2>&1)
