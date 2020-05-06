@@ -2,7 +2,7 @@ version = 0.1
 [default]
 [default.deploy]
 [default.deploy.parameters]
-s3_bucket = "bottlehub.code.artifacts"
+s3_bucket = "code.artifacts"
 region = "us-east-1"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
