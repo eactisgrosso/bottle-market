@@ -34,7 +34,7 @@ Resources:
       Environment:
         Variables:
           NODE_ENV: production
-          SECURITY_GROUP_ID: SecurityGroupId
+          SECURITY_GROUP_ID: !Ref SecurityGroupId
       Policies:
         - SSMParameterReadPolicy:
             ParameterName: !Sub ${StageName}/DATABASE_HOST
