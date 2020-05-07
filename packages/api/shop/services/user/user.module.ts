@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
-import { EventStore } from "../../../common/eventstore";
+import { EventStore } from "../../../common/event.store";
 import { UserRepository } from "../../repositories/user.repository";
 import { EventHandlers } from "../../handlers/user";
 import { UserResolver } from "./user.resolver";

@@ -7,12 +7,8 @@ Parameters:
   StageName:
     Type: String
     Default: "staging"
-  SecurityGroupIds:
-    Type: List<AWS::EC2::SecurityGroup::Id>
-    Description: Security Group IDs that Lambda will use
-  VpcSubnetIds:
-    Type: List<AWS::EC2::Subnet::Id>
-    Description: VPC Subnet IDs that Lambda will use (min 2 for HA)
+  SecurityGroupId:
+    Type: String
 
 Globals:
   Api:
@@ -33,11 +29,12 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./packages/api/dist/
-      Handler: dist/lambda-entrypoint.handler
+      Handler: dist/lambda.entrypoint.handler
       Runtime: nodejs12.x
       Environment:
         Variables:
           NODE_ENV: production
+          SECURITY_GROUP_ID: SecurityGroupId
       Policies:
         - SSMParameterReadPolicy:
             ParameterName: !Sub ${StageName}/DATABASE_HOST
@@ -45,11 +42,6 @@ Resources:
             ParameterName: !Sub ${StageName}/DATABASE_USER
         - SSMParameterReadPolicy:
             ParameterName: !Sub ${StageName}/DATABASE_PASSWORD
-        - VPCAccessPolicy: {}
-      VpcConfig:
-        SecurityGroupIds: !Ref SecurityGroupIds
-        SubnetIds: !Ref VpcSubnetIds
-
       Events:
         Shop:
           Type: Api

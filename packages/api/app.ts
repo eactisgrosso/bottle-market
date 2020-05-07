@@ -4,7 +4,6 @@ import {
   NestFastifyApplication,
 } from "@nestjs/platform-fastify";
 import fastify from "fastify";
-
 export interface IAppModule {}
 
 export class App {

@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { EventStore } from "../../common/eventstore";
+import { EventStore } from "../../common/event.store";
 import { User } from "../domain/user";
 
 @Injectable()
