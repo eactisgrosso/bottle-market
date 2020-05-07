@@ -7,9 +7,12 @@ Parameters:
   StageName:
     Type: String
     Default: "staging"
-  Suffix:
-    Type: String
-    Default: ""
+  SecurityGroupIds:
+    Type: List<AWS::EC2::SecurityGroup::Id>
+    Description: Security Group IDs that Lambda will use
+  VpcSubnetIds:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: VPC Subnet IDs that Lambda will use (min 2 for HA)
 
 Globals:
   Api:
@@ -34,7 +37,7 @@ Resources:
       Runtime: nodejs12.x
       Environment:
         Variables:
-          NODE_ENV: production
+          NODE_ENV: !Ref StageName
       Policies:
         - SSMParameterReadPolicy:
             ParameterName: !Sub /${StageName}/DATABASE_HOST
@@ -42,6 +45,11 @@ Resources:
             ParameterName: !Sub /${StageName}/DATABASE_USER
         - SSMParameterReadPolicy:
             ParameterName: !Sub /${StageName}/DATABASE_PASSWORD
+        - VPCAccessPolicy: {}
+      VpcConfig:
+        SecurityGroupIds: !Ref SecurityGroupIds
+        SubnetIds: !Ref VpcSubnetIds
+
       Events:
         Shop:
           Type: Api

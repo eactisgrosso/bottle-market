@@ -27,7 +27,7 @@ jobs:
         with:
           node_version: 12.x
           stack_name: bottlehub-api-staging
-          parameter_overrides: StageName=staging
+          parameter_overrides: StageName=staging SecurityGroupIds="sg-017c3a02bc63554fb" VpcSubnetIds="subnet-2553ad43,subnet-2ad32975"
           no_fail_on_empty_changeset: true
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
