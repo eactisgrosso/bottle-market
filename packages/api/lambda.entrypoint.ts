@@ -16,8 +16,10 @@ export const handler = async (
   context: Context
 ): Promise<APIGatewayProxyResult> => {
   if (!fastifyServer) {
-    const sg = new SecurityGroup(process.env.SECURITY_GROUP_ID);
-    await sg.addIpToInbound(3306);
+    if (process.env.SECURITY_GROUP_ID) {
+      const sg = new SecurityGroup(process.env.SECURITY_GROUP_ID);
+      await sg.addIpToInbound(3306);
+    }
 
     const app = new App(AppModule);
     fastifyServer = await app.bootstrap();

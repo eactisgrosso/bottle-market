@@ -42,9 +42,62 @@ Resources:
             ParameterName: !Sub ${StageName}/DATABASE_USER
         - SSMParameterReadPolicy:
             ParameterName: !Sub ${StageName}/DATABASE_PASSWORD
+        - Statement:
+            - Effect: Allow
+              Action:
+                - ec2:DescribeSecurityGroups
+              Resource: "*"
+            - Effect: Allow
+              Action:
+                - ec2:AuthorizeSecurityGroupIngress
+              Resource: "*"
       Events:
         Shop:
           Type: Api
           Properties:
             Method: any
             Path: /shop/graphql
+
+  SecurityGroupPruner:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./packages/_pruner/
+      Handler: app.lambda_handler
+      Runtime: nodejs12.x
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - ec2:DescribeSecurityGroups
+              Resource: "*"
+            - Effect: Allow
+              Action:
+                - ec2:RevokeSecurityGroupIngress
+              Resource: "*"
+
+  SecurityGroupPrunerEvent:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: Daily prune of Security Groups
+      Name: SecurityGroupPrunerEvent
+      ScheduleExpression: "cron(15 6 * * ? *"
+      State: ENABLED
+      Targets:
+        - Arn:
+            Fn::GetAtt:
+              - "SecurityGroupPruner"
+              - "Arn"
+          Id: "SecurityGroupPrunerEvent"
+          Input: !Sub '{"groupId": "${SecurityGroupId}","port":3306,"query": "[APP]"}'
+
+  SecurityGroupPrunerEventPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        Ref: "SecurityGroupPruner"
+      Action: "lambda:InvokeFunction"
+      Principal: "events.amazonaws.com"
+      SourceArn:
+        Fn::GetAtt:
+          - "SecurityGroupPrunerEvent"
+          - "Arn"

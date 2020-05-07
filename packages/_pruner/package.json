@@ -1,0 +1,10 @@
+{
+  "name": "pruner",
+  "version": "1.0.0",
+  "description": "Security groups pruner",
+  "main": "app.js",
+  "author": "Bottle Hub",
+  "license": "MIT",
+  "dependencies": {},
+  "scripts": {}
+}
