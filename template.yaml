@@ -80,7 +80,7 @@ Resources:
     Properties:
       Description: Daily prune of Security Groups
       Name: SecurityGroupPrunerEvent
-      ScheduleExpression: "cron(15 6 * * ? *"
+      ScheduleExpression: "cron(15 6 * * ? *)"
       State: ENABLED
       Targets:
         - Arn:
