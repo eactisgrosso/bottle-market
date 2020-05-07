@@ -40,11 +40,11 @@ Resources:
           NODE_ENV: !Ref StageName
       Policies:
         - SSMParameterReadPolicy:
-            ParameterName: !Sub /${StageName}/DATABASE_HOST
+            ParameterName: !Sub ${StageName}/DATABASE_HOST
         - SSMParameterReadPolicy:
-            ParameterName: !Sub /${StageName}/DATABASE_USER
+            ParameterName: !Sub ${StageName}/DATABASE_USER
         - SSMParameterReadPolicy:
-            ParameterName: !Sub /${StageName}/DATABASE_PASSWORD
+            ParameterName: !Sub ${StageName}/DATABASE_PASSWORD
         - VPCAccessPolicy: {}
       VpcConfig:
         SecurityGroupIds: !Ref SecurityGroupIds
