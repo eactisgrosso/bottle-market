@@ -6,7 +6,7 @@ Description: >
 Parameters:
   StageName:
     Type: String
-    Default: "Staging"
+    Default: "staging"
   Suffix:
     Type: String
     Default: ""
@@ -37,11 +37,11 @@ Resources:
           NODE_ENV: production
       Policies:
         - SSMParameterReadPolicy:
-            ParameterName: DATABASE_HOST
+            ParameterName: !Sub /${StageName}/DATABASE_HOST
         - SSMParameterReadPolicy:
-            ParameterName: DATABASE_USER
+            ParameterName: !Sub /${StageName}/DATABASE_USER
         - SSMParameterReadPolicy:
-            ParameterName: DATABASE_PASSWORD
+            ParameterName: !Sub /${StageName}/DATABASE_PASSWORD
       Events:
         Shop:
           Type: Api

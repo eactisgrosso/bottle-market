@@ -32,14 +32,17 @@ const ssm = new AWS.SSM({ region: "us-east-1" });
       useFactory: async () => {
         const host = await ssm
           .getParameter({
-            Name: "/staging/DATABASE_HOST",
+            Name: `/${process.env.NODE_ENV}/DATABASE_HOST`,
             WithDecryption: false,
           })
           .promise();
 
         const userdata = await ssm
           .getParameters({
-            Names: ["/staging/DATABASE_USER", "/staging/DATABASE_PASSWORD"],
+            Names: [
+              `/${process.env.NODE_ENV}/DATABASE_USER`,
+              `/${process.env.NODE_ENV}/DATABASE_PASSWORD`,
+            ],
             WithDecryption: true,
           })
           .promise();
