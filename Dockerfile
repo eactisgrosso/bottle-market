@@ -21,7 +21,7 @@ COPY yarn.lock .
 COPY --from=build /app/packages/api/package.json /app/packages/api/package.json
 COPY --from=build /app/packages/api/dist /app/packages/api/dist
 
-ENV NODE_ENV production
+ENV NODE_ENV staging
 
 RUN yarn install --pure-lockfile --non-interactive --production
 
