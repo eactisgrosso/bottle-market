@@ -14,29 +14,6 @@ import { CategoryModule } from "./services/category/category.module";
 const AWS = require("aws-sdk");
 const ssm = new AWS.SSM({ region: "us-east-1" });
 
-let DATABASE_HOST;
-let DATABASE_USER;
-let DATABASE_PASSWORD;
-
-async function getSystemParam(name: string, withDecryption: boolean) {
-  var params = {
-    Name: `/staging/${name}`,
-    WithDecryption: withDecryption,
-  };
-
-  var request = await ssm.getParameter(params).promise();
-
-  return request.Parameter.Value;
-}
-
-async function loadDBparams() {
-  DATABASE_HOST = await getSystemParam("DATABASE_HOST", false);
-  DATABASE_USER = await getSystemParam("DATABASE_USER", true);
-  DATABASE_PASSWORD = await getSystemParam("DATABASE_PASSWORD", true);
-}
-
-loadDBparams();
-
 @Module({
   imports: [
     UserModule,
@@ -49,16 +26,34 @@ loadDBparams();
     GraphQLModule.forRoot({
       path: "/shop/graphql",
       installSubscriptionHandlers: true,
-      autoSchemaFile: "schema.gql",
+      autoSchemaFile: true,
     }),
-    KnexModule.register({
-      client: "mysql",
-      connection: {
-        host: DATABASE_HOST,
-        port: 3306,
-        user: DATABASE_USER,
-        password: DATABASE_PASSWORD,
-        database: "bottlehub",
+    KnexModule.registerAsync({
+      useFactory: async () => {
+        const host = await ssm
+          .getParameter({
+            Name: "/staging/DATABASE_HOST",
+            WithDecryption: false,
+          })
+          .promise();
+
+        const userdata = await ssm
+          .getParameters({
+            Names: ["/staging/DATABASE_USER", "/staging/DATABASE_PASSWORD"],
+            WithDecryption: true,
+          })
+          .promise();
+
+        return {
+          client: "mysql",
+          connection: {
+            host: host.Parameter.Value,
+            port: 3306,
+            user: userdata.Parameters[1].Value,
+            password: userdata.Parameters[0].Value,
+            database: "bottlehub",
+          },
+        };
       },
     }),
   ],
