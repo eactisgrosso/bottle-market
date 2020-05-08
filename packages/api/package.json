@@ -2,7 +2,7 @@
   "name": "@bottle-market/api",
   "version": "2.0.2",
   "scripts": {
-    "shop-dev": "AWS_PROFILE=bottlehub NODE_ENV=staging ts-node-dev --inspect --respawn server.shop.ts",
+    "shop-dev": "AWS_PROFILE=bottlehub ts-node-dev --respawn server.shop.ts",
     "admin": "ts-node-dev --respawn server.admin.ts",
     "build": "rm -rf dist && mkdir dist && tsc -b && copyfiles *.gql dist/",
     "postbuild": "cp package.json dist/package.json && cd dist && npm install --only=production",

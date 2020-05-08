@@ -30,12 +30,15 @@ const ssm = new AWS.SSM({ region: "us-east-1" });
     }),
     KnexModule.registerAsync({
       useFactory: async () => {
-        const host = await ssm
-          .getParameter({
-            Name: "/staging/DATABASE_HOST",
-            WithDecryption: false,
-          })
-          .promise();
+        const host =
+          process.env.NODE_ENV == "development"
+            ? "localhost"
+            : await ssm
+                .getParameter({
+                  Name: "/staging/DATABASE_HOST",
+                  WithDecryption: false,
+                })
+                .promise().Parameter.Value;
 
         const userdata = await ssm
           .getParameters({
@@ -47,7 +50,7 @@ const ssm = new AWS.SSM({ region: "us-east-1" });
         return {
           client: "mysql",
           connection: {
-            host: host.Parameter.Value,
+            host: host,
             port: 3306,
             user: userdata.Parameters[1].Value,
             password: userdata.Parameters[0].Value,

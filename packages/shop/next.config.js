@@ -5,13 +5,11 @@ const withOptimizedImages = require("next-optimized-images");
 const nextConfig = {
   env: {
     STRIPE_PUBLIC_KEY: "your_stripe_public_key",
-    API_URL: "http://localhost:4000/shop/graphql",
+    API_URL: process.env.REACT_APP_API_URL,
   },
-  webpack: (config) => {
+  webpack: (config, options) => {
     config.devtool = "eval-source-map";
-
     config.resolve.modules.push(__dirname);
-
     config.resolve.alias = {
       ...config.resolve.alias,
     };

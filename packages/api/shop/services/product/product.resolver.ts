@@ -60,7 +60,7 @@ export class ProductResolver {
       const images = dbProduct.images.split(",");
       for (let image of images) {
         const gallery = new Gallery();
-        gallery.url = `https://bottlemarket.s3.amazonaws.com/${image}`;
+        gallery.url = `https://s3.amazonaws.com/bottlemarket.images/${image}`;
         product.gallery.push(gallery);
       }
       product.image = product.gallery[0].url;
