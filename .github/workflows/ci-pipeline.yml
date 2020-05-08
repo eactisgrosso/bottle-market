@@ -15,37 +15,42 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "12.x"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
         run: yarn install
 
       - name: Build Shop Web
         run: |
+          npx next telemetry disable
           yarn build:shop
-          mv out/_next .
-          mv out _out
-          mkdir -p out/builds/$GITHUB_SHA
-          mv _out/* out/builds/$GITHUB_SHA
+          mv packages/shop/out/_next .
+          mv packages/shop/out _out
+          mkdir -p packages/shop/out/builds/$GITHUB_SHA
+          mv _out/* packages/shop/out/builds/$GITHUB_SHA
           rm -rf _out
-          mv _next out/
+          mv _next packages/shop/out/
 
       - name: Upload Shop Web
         run: |
           export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws s3 cp ./out/_next s3://app.bottlemarket.com.ar/$GITHUB_REF/_next \
+          aws s3 cp ./packages/shop/out/_next s3://app.bottlemarket.com.ar/$GITHUB_REF/_next \
             --cache-control immutable,max-age=100000000,public \
             --acl public-read \
             --recursive
-          aws s3 cp ./static/ s3://app.bottlemarket.com.ar/$GITHUB_REF/static/ \
+          aws s3 cp ./packages/shop/static/ s3://app.bottlemarket.com.ar/$GITHUB_REF/static/ \
             --cache-control immutable,max-age=100000000,public \
             --acl public-read \
             --recursive
-          aws s3 cp ./out/builds s3://app.bottlemarket.com.ar/$GITHUB_REF/builds \
+          aws s3 cp ./packages/shop/out/builds s3://app.bottlemarket.com.ar/$GITHUB_REF/builds \
             --cache-control max-age=0,no-cache \
             --acl public-read \
             --recursive
-          (cd out/builds &&
+          (cd packages/shop/out/builds &&
           find . -type f -name '*.html' | while read HTMLFILE; do
             HTMLFILESHORT=${HTMLFILE:2}
             HTMLFILE_WITHOUT_INDEX=${HTMLFILESHORT::${#HTMLFILESHORT}-11}

@@ -64,9 +64,8 @@ export default function ExtendedApp({
 }
 
 ExtendedApp.getInitialProps = async (appContext) => {
-  const appProps = await App.getInitialProps(appContext);
   const { req, query } = appContext.ctx;
   const userAgent = req ? req.headers["user-agent"] : navigator.userAgent;
   const { locale } = parseCookies(req);
-  return { ...appProps, userAgent, query, locale };
+  return { userAgent, query, locale };
 };
