@@ -1,16 +1,16 @@
-import React from 'react';
-import Router, { useRouter } from 'next/router';
-import { openModal } from '@redq/reuse-modal';
-import SearchBox from 'components/SearchBox/SearchBox';
-import { SearchContext } from 'contexts/search/search.context';
-import { AuthContext } from 'contexts/auth/auth.context';
-import AuthenticationForm from '../../SignInOutForm/Form';
-import { RightMenu } from './Menu/RightMenu/RightMenu';
-import { LeftMenu } from './Menu/LeftMenu/LeftMenu';
-import HeaderWrapper from './Header.style';
-import LogoImage from 'image/logo.svg';
-import UserImage from 'image/user.jpg';
-import { isCategoryPage } from '../is-home-page';
+import React from "react";
+import Router, { useRouter } from "next/router";
+import { openModal } from "@redq/reuse-modal";
+import SearchBox from "components/SearchBox/SearchBox";
+import { SearchContext } from "contexts/search/search.context";
+import { AuthContext } from "contexts/auth/auth.context";
+import AuthenticationForm from "../../SignInOutForm/Form";
+import { RightMenu } from "./Menu/RightMenu/RightMenu";
+import { LeftMenu } from "./Menu/LeftMenu/LeftMenu";
+import HeaderWrapper from "./Header.style";
+import LogoImage from "image/logo.svg";
+import UserImage from "image/user.jpg";
+import { isCategoryPage } from "../is-home-page";
 
 type Props = {
   className?: string;
@@ -26,36 +26,36 @@ const Header: React.FC<Props> = ({ className }) => {
   const { state, dispatch } = React.useContext(SearchContext);
   const { pathname, query } = useRouter();
   const handleLogout = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('access_token');
-      authDispatch({ type: 'SIGN_OUT' });
-      Router.push('/');
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("access_token");
+      authDispatch({ type: "SIGN_OUT" });
+      Router.push("/");
     }
   };
 
   const handleJoin = () => {
     authDispatch({
-      type: 'SIGNIN',
+      type: "SIGNIN",
     });
 
     openModal({
       show: true,
-      overlayClassName: 'quick-view-overlay',
+      overlayClassName: "quick-view-overlay",
       closeOnClickOutside: true,
       component: AuthenticationForm,
-      closeComponent: '',
+      closeComponent: "",
       config: {
         enableResizing: false,
         disableDragging: true,
-        className: 'quick-view-modal',
+        className: "quick-view-modal",
         width: 458,
-        height: 'auto',
+        height: "auto",
       },
     });
   };
   const onSearch = (text: any) => {
     dispatch({
-      type: 'UPDATE',
+      type: "UPDATE",
       payload: {
         ...state,
         text,
@@ -86,8 +86,8 @@ const Header: React.FC<Props> = ({ className }) => {
           hideType={true}
           minimal={true}
           showSvg={true}
-          style={{ width: '100%' }}
-          value={text || ''}
+          style={{ width: "100%" }}
+          value={text || ""}
         />
       )}
       <RightMenu
