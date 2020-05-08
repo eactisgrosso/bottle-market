@@ -1,8 +1,8 @@
-import React, { useState, useContext } from 'react';
-import { useRouter } from 'next/router';
-import { openModal, closeModal } from '@redq/reuse-modal';
-import { DrawerProvider } from 'contexts/drawer/drawer.provider';
-import MobileDrawer from './MobileDrawer';
+import React, { useState, useContext } from "react";
+import { useRouter } from "next/router";
+import { openModal, closeModal } from "@redq/reuse-modal";
+import { DrawerProvider } from "contexts/drawer/drawer.provider";
+import MobileDrawer from "./MobileDrawer";
 import {
   MobileHeaderWrapper,
   MobileHeaderInnerWrapper,
@@ -11,17 +11,17 @@ import {
   SearchWrapper,
   SearchModalWrapper,
   SearchModalClose,
-} from './Header.style';
-import SearchBox from 'components/SearchBox/SearchBox';
-import { SearchContext } from 'contexts/search/search.context';
-import { HeaderContext } from 'contexts/header/header.context';
-import LogoImage from 'image/logo.svg';
+} from "./Header.style";
+import SearchBox from "components/SearchBox/SearchBox";
+import { SearchContext } from "contexts/search/search.context";
+import { HeaderContext } from "contexts/header/header.context";
+import LogoImage from "image/Logo.svg";
 
-import { SearchIcon, LongArrowLeft } from 'components/AllSvgIcon';
-import Logo from 'components/Logo/Logo';
-import LanguageSwitcher from './Menu/LanguageSwitcher/LanguageSwitcher';
-import { isCategoryPage } from '../is-home-page';
-import useDimensions from 'helper/useComponentSize';
+import { SearchIcon, LongArrowLeft } from "components/AllSvgIcon";
+import Logo from "components/Logo/Logo";
+import LanguageSwitcher from "./Menu/LanguageSwitcher/LanguageSwitcher";
+import { isCategoryPage } from "../is-home-page";
+import useDimensions from "helper/useComponentSize";
 
 type MobileHeaderProps = {
   className?: string;
@@ -40,7 +40,7 @@ const SearchModal: React.FC<SearchModalProps> = ({
   handleSearch,
 }) => {
   const router = useRouter();
-  const [text, setText] = useState(state.text || '');
+  const [text, setText] = useState(state.text || "");
   const handleSearchInput = (text: string) => {
     setText(text);
   };
@@ -59,15 +59,15 @@ const SearchModal: React.FC<SearchModalProps> = ({
   };
   return (
     <SearchModalWrapper>
-      <SearchModalClose type='submit' onClick={() => closeModal()}>
+      <SearchModalClose type="submit" onClick={() => closeModal()}>
         <LongArrowLeft />
       </SearchModalClose>
       <SearchBox
-        className='header-modal-search'
+        className="header-modal-search"
         bordered={false}
         inputStyle={{ height: 35 }}
-        buttonText=''
-        placeholder='Search'
+        buttonText=""
+        placeholder="Search"
         handleSearch={handleSearchInput}
         value={text}
         onClick={handleClickSearchButton}
@@ -87,7 +87,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ className, pathname }) => {
 
   React.useEffect(() => {
     headerDispatch({
-      type: 'GET_MOBILE_HEIGHT',
+      type: "GET_MOBILE_HEIGHT",
       payload: {
         ...state,
         mobileHeight: headerHeight,
@@ -97,7 +97,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ className, pathname }) => {
 
   const handleSearch = (text: string) => {
     dispatch({
-      type: 'UPDATE',
+      type: "UPDATE",
       payload: {
         ...state,
         text,
@@ -110,9 +110,9 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ className, pathname }) => {
       config: {
         enableResizing: false,
         disableDragging: true,
-        className: 'search-modal-mobile',
-        width: '100%',
-        height: '100%',
+        className: "search-modal-mobile",
+        width: "100%",
+        height: "100%",
       },
       closeOnClickOutside: false,
       component: SearchModal,
@@ -132,7 +132,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ className, pathname }) => {
           </DrawerWrapper>
 
           <LogoWrapper>
-            <Logo imageUrl={LogoImage} alt='shop logo' />
+            <Logo imageUrl={LogoImage} alt="shop logo" />
           </LogoWrapper>
 
           <LanguageSwitcher />
@@ -140,7 +140,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ className, pathname }) => {
           {isHomePage ? (
             <SearchWrapper
               onClick={handleSearchModal}
-              className='searchIconWrapper'
+              className="searchIconWrapper"
             >
               <SearchIcon />
             </SearchWrapper>

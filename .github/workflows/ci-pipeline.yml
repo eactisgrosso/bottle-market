@@ -22,7 +22,7 @@ jobs:
       - name: Build Shop Web
         run: |
           yarn build:shop
-          mv out/_next . # out/ contains only html files
+          mv out/_next .
           mv out _out
           mkdir -p out/builds/$GITHUB_SHA
           mv _out/* out/builds/$GITHUB_SHA
