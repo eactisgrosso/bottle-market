@@ -36,35 +36,20 @@ jobs:
 
       - name: Upload Shop Web
         run: |
-          export BRANCH_NAME=$GITHUB_REF#refs/heads/
           export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws s3 cp ./packages/shop/out/_next s3://app.bottlemarket.com.ar/$GITHUB_REF/_next \
+          aws s3 cp ./packages/shop/out/_next s3://app.bottlemarket.com.ar/staging/_next \
             --cache-control immutable,max-age=100000000,public \
             --acl public-read \
             --recursive
-          aws s3 cp ./packages/shop/out/builds s3://app.bottlemarket.com.ar/$GITHUB_REF/builds \
+          aws s3 cp ./packages/shop/out/builds s3://app.bottlemarket.com.ar/staging/builds \
             --cache-control max-age=0,no-cache \
             --acl public-read \
             --recursive
-          (cd packages/shop/out/builds &&
-          find . -type f -name '*.html' | while read HTMLFILE; do
-            HTMLFILESHORT=${HTMLFILE:2}
-            HTMLFILE_WITHOUT_INDEX=${HTMLFILESHORT::${#HTMLFILESHORT}-11}
-
-            # cp /about/index.html to /about
-            aws s3 cp s3://app.bottlemarket.com.ar/$GITHUB_REF/builds/${HTMLFILESHORT} \
-              s3://app.bottlemarket.com.ar/$GITHUB_REF/builds/$HTMLFILE_WITHOUT_INDEX
-
-            if [ $? -ne 0 ]; then
-              echo "***** Failed renaming build to app.bottlemarket.com.ar/$GITHUB_REF (html)"
-              exit 1
-            fi
-          done)
 
       - name: Deploy Shop Web
         run: |
-          aws s3 sync s3://app.bottlemarket.com.ar/$GITHUB_REF/builds/$GITHUB_SHA s3://app.bottlemarket.com.ar/$GITHUB_REF/current \
+          aws s3 sync s3://app.bottlemarket.com.ar/staging/builds/$GITHUB_SHA s3://app.bottlemarket.com.ar/staging/current \
           --delete \
           --cache-control max-age=0,no-cache \
           --acl public-read
