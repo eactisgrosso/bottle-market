@@ -13,6 +13,7 @@ export class SecurityGroup {
   public async addIpToInbound(port: number) {
     const response = await axios.get("http://icanhazip.com/");
     const ip = response.data.trim();
+    console.log(`Add IP to Inbound: ${ip}`);
 
     var paramsIngress = {
       GroupId: this.groupId,
