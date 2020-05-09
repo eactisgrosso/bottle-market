@@ -27,29 +27,13 @@ jobs:
         run: |
           npx next telemetry disable
           yarn build:shop
-          mv packages/shop/out/_next .
-          mv packages/shop/out _out
-          mkdir -p packages/shop/out/builds/$GITHUB_SHA
-          mv _out/* packages/shop/out/builds/$GITHUB_SHA
-          rm -rf _out
-          mv _next packages/shop/out/
 
       - name: Deploy Shop Web
         run: |
           export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws s3 cp ./packages/shop/out/_next s3://app.bottlemarket.com.ar/staging/_next \
-            --cache-control immutable,max-age=100000000,public \
-            --acl public-read \
-            --recursive
-          aws s3 cp ./packages/shop/out/builds s3://app.bottlemarket.com.ar/staging/builds \
-            --cache-control max-age=0,no-cache \
-            --acl public-read \
-            --recursive
-          aws s3 sync s3://app.bottlemarket.com.ar/staging/builds/$GITHUB_SHA s3://app.bottlemarket.com.ar/staging/current \
-          --delete \
-          --cache-control max-age=0,no-cache \
-          --acl public-read
+          aws s3 sync packages/shop/out s3://app.bottlemarket.com.ar/ --exclude index.html --region us-east-1
+          aws s3 cp packages/shop/out/index.html s3://app.bottlemarket.com.ar/ --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type text/html --region us-east-1
 
       - name: Build API
         run: yarn build:api

@@ -16,10 +16,9 @@ export class App {
     const instance: fastify.FastifyInstance = fastify(serverOptions);
     const nestApp = await NestFactory.create<NestFastifyApplication>(
       this.appModule,
-      new FastifyAdapter(instance)
+      new FastifyAdapter(instance),
+      { cors: true }
     );
-    nestApp.setGlobalPrefix("api");
-    nestApp.enableCors();
     await nestApp.init();
     return instance;
   }
