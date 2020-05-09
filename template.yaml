@@ -63,7 +63,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./packages/-secgroup-pruner/
-      Handler: app.lambda_handler
+      Handler: app.handler
       Runtime: nodejs12.x
       Policies:
         - Statement:
