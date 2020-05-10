@@ -21,7 +21,7 @@ import { StuffModule } from "./services/stuff/stuff.module";
     GraphQLModule.forRoot({
       path: "/admin/graphql",
       installSubscriptionHandlers: true,
-      autoSchemaFile: "schema.gql",
+      autoSchemaFile: true,
     }),
   ],
 })
