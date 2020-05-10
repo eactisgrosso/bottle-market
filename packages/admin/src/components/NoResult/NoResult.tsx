@@ -19,7 +19,7 @@ const NoResult: React.FC<NoResultProps> = ({
 }) => {
   return (
     <NoResultWrapper id={id} style={style}>
-      <h3>Lo sentimos, no hay resultados para esta búsqueda</h3>
+      <h3>Lo sentimos, aun no tenemos estos productos en tu zona</h3>
 
       <ImageWrapper>
         <img src={NoResultSvg} alt="No Result" />

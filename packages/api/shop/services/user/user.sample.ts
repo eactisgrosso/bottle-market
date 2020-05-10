@@ -10,54 +10,54 @@ const loadUsers = (): UserDTO[] => {
       address: [
         {
           id: "12312",
-          type: "primary",
-          name: "Home",
+          type: "primaria",
+          name: "Casa",
           info: "27 Street, 2569 Heritage Road Visalia, CA 93291",
         },
         {
           id: "23423",
-          type: "secondary",
-          name: "Office",
+          type: "secundaria",
+          name: "Oficina",
           info: "33 Baker Street, Crescent Road, CA 65746",
         },
       ],
       contact: [
         {
           id: "88234",
-          type: "primary",
+          type: "primario",
           number: "202-555-0191",
         },
         {
           id: "23439",
-          type: "secondary",
+          type: "secundario",
           number: "202-555-0701",
         },
       ],
       card: [
         {
           id: "179012",
-          type: "primary",
+          type: "primaria",
           cardType: "paypal",
           name: "Jhon Doe Smith",
           lastFourDigit: 2349,
         },
         {
           id: "987234",
-          type: "secondary",
+          type: "secundaria",
           cardType: "master",
           name: "Jhon Doe Smith",
           lastFourDigit: 8724,
         },
         {
           id: "424987",
-          type: "secondary",
+          type: "secundaria",
           cardType: "visa",
           name: "Jhon Doe Smith",
           lastFourDigit: 4535,
         },
         {
           id: "455599",
-          type: "secondary",
+          type: "secundaria",
           cardType: "visa",
           name: "Jhon Doe Smith",
           lastFourDigit: 4585,
@@ -71,26 +71,26 @@ const loadUsers = (): UserDTO[] => {
       address: [
         {
           id: "28764",
-          type: "primary",
-          name: "Home",
+          type: "primaria",
+          name: "Casa",
           info: "43 Street, 2341 Road Visalia, Ny 24252",
         },
         {
           id: "98242",
-          type: "secondary",
-          name: "Office",
+          type: "secundaria",
+          name: "Oficina",
           info: "29 Eve Street, 543 Evenue Road, Ny 87876",
         },
       ],
       contact: [
         {
           id: "12491",
-          type: "primary",
+          type: "primario",
           number: "202-555-0191",
         },
         {
           id: "12462",
-          type: "secondary",
+          type: "secundario",
           number: "202-555-0191",
         },
       ],
