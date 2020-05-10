@@ -40,7 +40,7 @@ function prune(groupId, port, query) {
 
 exports.handler = (event, context, callback) => {
   console.log("Event:", JSON.stringify(event));
-  return prune(event.groupId, event.query)
+  return prune(event.groupId, event.port, event.query)
     .then((data) => callback(null, data))
     .catch(callback);
 };
