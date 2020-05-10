@@ -18,7 +18,7 @@ import {
 } from "styled/pages.style";
 // Static Data Import Here
 import OFFERS from "data/offers";
-import BannerImg from "image/Cloths.png";
+import BannerImg from "image/Spirits.png";
 import storeType from "constants/storeType";
 
 const PAGE_TYPE = "spirits";
