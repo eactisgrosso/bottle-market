@@ -1,0 +1,220 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Category {
+  id: ID!
+  name: String!
+  type: String
+  icon: String!
+  slug: String!
+  number_of_product: Float
+  creation_date: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Product {
+  id: ID!
+  name: String!
+  image: String!
+  type: String!
+  unit: String!
+  categories: [Category!]!
+  price: Float!
+  salePrice: Float!
+  discountInPercent: Int!
+  per_unit: Int
+  quantity: Int!
+  views: Int
+  sales: Int
+  description: String
+  creation_date: DateTime!
+  slug: String!
+}
+
+type ProductsConnection {
+  items: [Product!]!
+  totalCount: Int!
+  hasMore: Boolean!
+}
+
+type Contact {
+  id: ID!
+  type: String!
+  number: String!
+}
+
+type Address {
+  id: ID!
+  type: String!
+  title: String!
+  location: String!
+}
+
+type Card {
+  id: ID!
+  type: String!
+  title: String!
+  cardType: String!
+  lastFourDigit: Float!
+}
+
+type Customer {
+  id: ID!
+  name: String!
+  image: String!
+  email: String!
+  addresses: [Address!]!
+  contacts: [Contact!]!
+  card: [Card!]!
+  creation_date: DateTime!
+  has_blocked: Boolean
+  total_order: Int
+  total_order_amount: Int
+  rank: String
+}
+
+type Coupon {
+  id: ID!
+  title: String!
+  number_of_coupon: Int!
+  number_of_used_coupon: Int
+  discount_in_percent: Int!
+  category: String!
+  products: [Product!]
+  code: String!
+  minimum_amount: Int
+  status: String
+  expiration_date: DateTime
+  description: String
+  creation_date: DateTime!
+}
+
+type OrderedProduct {
+  id: ID!
+  title: String!
+  category: String!
+  quantity: Int!
+}
+
+type Order {
+  id: ID!
+  customer_id: ID!
+  amount: Float!
+  payment_method: String!
+  contact_number: String!
+  delivery_address: String!
+  status: String!
+  products: [OrderedProduct!]!
+  description: String
+  discount: Int
+  delivery_fee: Int!
+  creation_date: DateTime!
+}
+
+type Stuff {
+  id: ID!
+  first_name: String!
+  last_name: String!
+  contact_number: String!
+  email: String!
+  role: String!
+  name: String
+  creation_date: DateTime!
+}
+
+type Query {
+  """Get all the products"""
+  products(limit: Int = 12, offset: Int = 0, sortByPrice: String, type: String, searchText: String, category: String): ProductsConnection!
+  product(slug: String!): Product!
+
+  """Get all the categories"""
+  categories(searchBy: String = "", type: String): [Category!]!
+  category(id: ID!): Category!
+  customers(limit: Int = 7, sortBy: String = null, searchBy: String): [Customer!]!
+  customer(id: ID!): Customer!
+
+  """Get All Coupons"""
+  coupons(searchBy: String, status: String): [Coupon!]!
+
+  """Get all the Orders"""
+  orders(searchText: String = "", limit: Int = 50, status: String): [Order!]!
+
+  """Get single order"""
+  order(id: ID!): Order!
+  stuffs(searchBy: String, role: String): [Stuff!]!
+  stuff(id: ID!): Stuff!
+}
+
+type Mutation {
+  """Create Category"""
+  createProduct(product: AddProductInput!): Product!
+
+  """Create Category"""
+  createCategory(category: AddCategoryInput!): Category!
+  createCoupon(coupon: AddCouponInput!): Coupon!
+
+  """Create Stuff"""
+  createStuff(stuff: AddStuffInput!): Stuff!
+}
+
+"""New recipe data"""
+input AddProductInput {
+  id: ID!
+  name: String!
+  slug: String!
+  image: String!
+  type: String!
+  unit: String = "1"
+  categories: [AddCategoryInput!]
+  price: Int!
+  salePrice: Float
+  discountInPercent: Int = 0
+  per_unit: Int = 1
+  quantity: Int!
+  description: String
+  creation_date: DateTime!
+}
+
+"""New Category Data"""
+input AddCategoryInput {
+  id: ID!
+  name: String!
+  value: String = null
+  type: String = null
+  icon: String
+  slug: String
+  creation_date: DateTime
+}
+
+"""New coupon data"""
+input AddCouponInput {
+  id: ID!
+  title: String!
+  number_of_coupon: Int!
+  discount_in_percent: Int!
+  category: String!
+  products: [AddProductInput!]
+  code: String!
+  minimum_amount: Int = 0
+  status: String = "active"
+  expiration_date: DateTime
+  description: String
+  creation_date: DateTime!
+}
+
+"""New stuff data"""
+input AddStuffInput {
+  id: ID!
+  first_name: String!
+  last_name: String!
+  contact_number: String!
+  email: String!
+  role: String!
+  name: String
+  creation_date: DateTime!
+}
