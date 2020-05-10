@@ -118,7 +118,6 @@ export class ProductResolver {
         product.type = (<any>ProductType)[
           type != null ? type : ProductType.vino
         ];
-
         let dbCategoryIds = dbProduct.categories.split(",");
         for (let categoryId of dbCategoryIds) {
           let category = new Category();
@@ -137,10 +136,12 @@ export class ProductResolver {
         let dbCategory = categories[category.id];
         category.title = dbCategory.title;
         category.slug = dbCategory.slug;
-        category.icon = "FruitsVegetable";
         category.type = (<any>ProductType)[
           type != null ? type : ProductType.vino
         ];
+        category.icon = type
+          ? type.charAt(0).toUpperCase() + type.slice(1)
+          : "Vinos";
         category.children = [];
       }
 
@@ -188,7 +189,7 @@ export class ProductResolver {
       category.title = dbCategory.title;
       category.slug = dbCategory.slug;
       category.type = type;
-      category.icon = "FruitsVegetable";
+      category.icon = "Wines";
       category.children = [];
     }
 

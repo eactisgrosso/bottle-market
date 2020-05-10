@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 export const Accessories = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -32,9 +32,9 @@ export const Accessories = ({
 };
 
 export const BathOil = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -102,9 +102,9 @@ export const BathOil = ({
 };
 
 export const BeautyHealth = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -142,9 +142,9 @@ export const BeautyHealth = ({
 };
 
 export const Beverage = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -165,9 +165,9 @@ export const Beverage = ({
 };
 
 export const Breakfast = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -195,9 +195,9 @@ export const Breakfast = ({
 };
 
 export const Cooking = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -233,9 +233,9 @@ export const Cooking = ({
 };
 
 export const Dairy = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -264,9 +264,9 @@ export const Dairy = ({
 };
 
 export const Deodorent = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -294,9 +294,9 @@ export const Deodorent = ({
 };
 
 export const Eyes = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -324,9 +324,9 @@ export const Eyes = ({
 };
 
 export const Face = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -374,9 +374,9 @@ export const Face = ({
 };
 
 export const FacialCare = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -404,9 +404,9 @@ export const FacialCare = ({
 };
 
 export const FruitsVegetable = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -536,9 +536,9 @@ export const FruitsVegetable = ({
 };
 
 export const HandBags = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -571,9 +571,9 @@ export const HandBags = ({
 };
 
 export const HomeCleaning = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -639,9 +639,9 @@ export const HomeCleaning = ({
 };
 
 export const LaptopBags = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -698,9 +698,9 @@ export const LaptopBags = ({
 };
 
 export const Lips = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -721,9 +721,9 @@ export const Lips = ({
 };
 
 export const MeatFish = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -747,9 +747,9 @@ export const MeatFish = ({
 };
 
 export const OralCare = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -773,9 +773,9 @@ export const OralCare = ({
 };
 
 export const OuterWear = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -803,9 +803,9 @@ export const OuterWear = ({
 };
 
 export const Pants = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -829,9 +829,9 @@ export const Pants = ({
 };
 
 export const PetCare = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -871,9 +871,9 @@ export const PetCare = ({
 };
 
 export const Purse = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -939,9 +939,9 @@ export const Purse = ({
 };
 
 export const ShavingNeeds = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -1000,9 +1000,9 @@ export const ShavingNeeds = ({
 };
 
 export const Shirts = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -1034,9 +1034,9 @@ export const Shirts = ({
 };
 
 export const ShoulderBags = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -1123,9 +1123,9 @@ export const ShoulderBags = ({
 };
 
 export const Skirts = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -1150,9 +1150,9 @@ export const Skirts = ({
 };
 
 export const Snacks = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -1188,9 +1188,9 @@ export const Snacks = ({
 };
 
 export const Tops = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -1218,9 +1218,9 @@ export const Tops = ({
 };
 
 export const Wallet = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -1253,9 +1253,9 @@ export const Wallet = ({
 };
 
 export const WomenDress = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '18px',
+  color = "currentColor",
+  width = "18px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -1447,7 +1447,7 @@ export const CloseSquareO = ({ color, ...props }) => (
 );
 
 // SVG plus icon
-export const Plus = ({ color = 'currentColor', width = 12, height = 12 }) => {
+export const Plus = ({ color = "currentColor", width = 12, height = 12 }) => {
   return (
     <span>
       <svg
@@ -1469,7 +1469,7 @@ export const Plus = ({ color = 'currentColor', width = 12, height = 12 }) => {
 };
 
 // SVG minus icon
-export const Minus = ({ color = 'currentColor', width = 12, height = 1.5 }) => {
+export const Minus = ({ color = "currentColor", width = 12, height = 1.5 }) => {
   return (
     <span>
       <svg
@@ -1492,7 +1492,7 @@ export const Minus = ({ color = 'currentColor', width = 12, height = 1.5 }) => {
 
 // SVG Cart icon
 export const CartIcon = ({
-  color = 'currentColor',
+  color = "currentColor",
   width = 14,
   height = 12,
 }) => {
@@ -1521,7 +1521,7 @@ export const CartIcon = ({
 
 // SVG Grocery icon
 export const GroceryIcon = ({
-  color = 'currentColor',
+  color = "currentColor",
   width = 14,
   height = 16,
 }) => {
@@ -1569,7 +1569,7 @@ export const GroceryIcon = ({
 };
 
 export const MakeupIcon = ({
-  color = 'currentColor',
+  color = "currentColor",
   width = 12,
   height = 16,
 }) => {
@@ -1622,7 +1622,7 @@ export const MakeupIcon = ({
 };
 
 export const MedicineIcon = ({
-  color = 'currentColor',
+  color = "currentColor",
   width = 16,
   height = 16,
 }) => {
@@ -1657,7 +1657,7 @@ export const MedicineIcon = ({
 };
 
 export const DressIcon = ({
-  color = 'currentColor',
+  color = "currentColor",
   width = 8,
   height = 16,
 }) => {
@@ -1816,7 +1816,7 @@ export const DressIcon = ({
   );
 };
 
-export const Handbag = ({ color = 'currentColor', width = 8 }) => {
+export const Handbag = ({ color = "currentColor", width = 8 }) => {
   return (
     <svg
       version="1.1"
@@ -1866,7 +1866,7 @@ export const Handbag = ({ color = 'currentColor', width = 8 }) => {
 
 // SVG EllipsisIcon icon
 export const EllipsisIcon = ({
-  color = 'currentColor',
+  color = "currentColor",
   width = 26,
   height = 6,
 }) => {
@@ -1915,7 +1915,7 @@ export const EllipsisIcon = ({
 
 // SVG ArrowNext icon
 export const GiftBox = ({
-  color = 'currentColor',
+  color = "currentColor",
   width = 15,
   height = 16,
 }) => {
@@ -1948,7 +1948,7 @@ export const GiftBox = ({
 };
 
 // SVG ArrowNext icon
-export const ArrowNext = ({ color = 'currentColor', width = 20 }) => {
+export const ArrowNext = ({ color = "currentColor", width = 20 }) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width={width}>
       <path
@@ -1961,7 +1961,7 @@ export const ArrowNext = ({ color = 'currentColor', width = 20 }) => {
 };
 
 // SVG ArrowPrev icon
-export const ArrowPrev = ({ color = 'currentColor', width = 20 }) => {
+export const ArrowPrev = ({ color = "currentColor", width = 20 }) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width={width}>
       <path
@@ -1974,7 +1974,7 @@ export const ArrowPrev = ({ color = 'currentColor', width = 20 }) => {
 };
 
 // SVG Lock icon
-export const LockIcon = ({ color = 'currentColor', width = 15 }) => {
+export const LockIcon = ({ color = "currentColor", width = 15 }) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width={width}>
       <path d="M376 192h-24v-46.7c0-52.7-42-96.5-94.7-97.3-53.4-.7-97.3 42.8-97.3 96v48h-24c-22 0-40 18-40 40v192c0 22 18 40 40 40h240c22 0 40-18 40-40V232c0-22-18-40-40-40zM270 316.8v68.8c0 7.5-5.8 14-13.3 14.4-8 .4-14.7-6-14.7-14v-69.2c-11.5-5.6-19.1-17.8-17.9-31.7 1.4-15.5 14.1-27.9 29.6-29 18.7-1.3 34.3 13.5 34.3 31.9 0 12.7-7.3 23.6-18 28.8zM324 192H188v-48c0-18.1 7.1-35.1 20-48s29.9-20 48-20 35.1 7.1 48 20 20 29.9 20 48v48z" />
@@ -1984,7 +1984,7 @@ export const LockIcon = ({ color = 'currentColor', width = 15 }) => {
 
 // SVG SearchIcon icon
 export const SearchIcon = ({
-  color = 'currentColor',
+  color = "currentColor",
   width = 17,
   height = 17,
 }) => {
@@ -2010,7 +2010,7 @@ export const SearchIcon = ({
 
 // SVG SearchIcon icon
 export const SearchIconSmall = ({
-  color = 'currentColor',
+  color = "currentColor",
   width = 14,
   height = 14,
 }) => {
@@ -2034,7 +2034,7 @@ export const SearchIconSmall = ({
 
 // SVG SmartPhone icon
 export const SmartPhone = ({
-  color = 'currentColor',
+  color = "currentColor",
   width = 16,
   height = 24,
 }) => {
@@ -2067,9 +2067,9 @@ export const SmartPhone = ({
 
 // SVG CloseIcon icon
 export const CloseIcon = ({
-  color = 'currentColor',
-  width = '10px',
-  height = '10px',
+  color = "currentColor",
+  width = "10px",
+  height = "10px",
 }) => {
   return (
     <svg
@@ -2091,9 +2091,9 @@ export const CloseIcon = ({
 
 // SVG CategoryIcon icon
 export const CategoryIcon = ({
-  color = 'currentColor',
-  width = '14px',
-  height = '14px',
+  color = "currentColor",
+  width = "14px",
+  height = "14px",
 }) => {
   return (
     <svg
@@ -2114,9 +2114,9 @@ export const CategoryIcon = ({
 };
 
 export const ArrowDropDown = ({
-  color = 'currentColor',
-  width = '10px',
-  height = '5px',
+  color = "currentColor",
+  width = "10px",
+  height = "5px",
 }) => {
   return (
     <svg
@@ -2137,9 +2137,9 @@ export const ArrowDropDown = ({
 };
 
 export const ShoppingBag = ({
-  color = 'currentColor',
-  width = '13px',
-  height = '16px',
+  color = "currentColor",
+  width = "13px",
+  height = "16px",
 }) => {
   return (
     <span>
@@ -2187,9 +2187,9 @@ export const ShoppingBag = ({
 };
 
 export const ShoppingBagLarge = ({
-  color = 'currentColor',
-  width = '24px',
-  height = '30px',
+  color = "currentColor",
+  width = "24px",
+  height = "30px",
 }) => {
   return (
     <span>
@@ -2239,9 +2239,9 @@ export const ShoppingBagLarge = ({
 };
 
 export const PencilIcon = ({
-  color = 'currentColor',
-  width = '7.2px',
-  height = '7.2px',
+  color = "currentColor",
+  width = "7.2px",
+  height = "7.2px",
 }) => {
   return (
     <svg
@@ -2261,9 +2261,9 @@ export const PencilIcon = ({
 };
 
 export const LongArrowLeft = ({
-  color = 'currentColor',
-  width = '12px',
-  height = '8px',
+  color = "currentColor",
+  width = "12px",
+  height = "8px",
 }) => {
   return (
     <svg
@@ -2284,9 +2284,9 @@ export const LongArrowLeft = ({
 };
 
 export const CheckMark = ({
-  color = 'currentColor',
-  width = '20px',
-  height = '16px',
+  color = "currentColor",
+  width = "20px",
+  height = "16px",
 }) => {
   return (
     <svg
@@ -2308,9 +2308,9 @@ export const CheckMark = ({
 
 // SVG SearchIcon icon
 export const NotificationIcon = ({
-  color = 'currentColor',
-  width = '16px',
-  height = '18px',
+  color = "currentColor",
+  width = "16px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -2332,9 +2332,9 @@ export const NotificationIcon = ({
 
 // SVG Notification dot icon
 export const AlertDotIcon = ({
-  color = 'currentColor',
-  width = '10px',
-  height = '10px',
+  color = "currentColor",
+  width = "10px",
+  height = "10px",
 }) => {
   return (
     <svg
@@ -2373,9 +2373,9 @@ export const AlertDotIcon = ({
 
 // Dashboard
 export const DashboardIcon = ({
-  color = 'currentColor',
-  width = '15px',
-  height = '15px',
+  color = "currentColor",
+  width = "15px",
+  height = "15px",
 }) => {
   return (
     <svg
@@ -2420,9 +2420,9 @@ export const DashboardIcon = ({
 
 // Product
 export const ProductIcon = ({
-  color = 'currentColor',
-  width = '16px',
-  height = '13px',
+  color = "currentColor",
+  width = "16px",
+  height = "13px",
 }) => {
   return (
     <svg
@@ -2444,9 +2444,9 @@ export const ProductIcon = ({
 
 // Category
 export const SidebarCategoryIcon = ({
-  color = 'currentColor',
-  width = '13px',
-  height = '13px',
+  color = "currentColor",
+  width = "13px",
+  height = "13px",
 }) => {
   return (
     <svg
@@ -2468,9 +2468,9 @@ export const SidebarCategoryIcon = ({
 
 // Orders
 export const OrderIcon = ({
-  color = 'currentColor',
-  width = '11px',
-  height = '13px',
+  color = "currentColor",
+  width = "11px",
+  height = "13px",
 }) => {
   return (
     <svg
@@ -2510,9 +2510,9 @@ export const OrderIcon = ({
 
 // Customers
 export const CustomerIcon = ({
-  color = 'currentColor',
-  width = '12.5px',
-  height = '13px',
+  color = "currentColor",
+  width = "12.5px",
+  height = "13px",
 }) => {
   return (
     <svg
@@ -2585,9 +2585,9 @@ export const CustomerIcon = ({
 
 // Inbox
 export const InboxIcon = ({
-  color = 'currentColor',
-  width = '14px',
-  height = '12px',
+  color = "currentColor",
+  width = "14px",
+  height = "12px",
 }) => {
   return (
     <svg
@@ -2618,9 +2618,9 @@ export const InboxIcon = ({
 
 // Refund
 export const RefundIcon = ({
-  color = 'currentColor',
-  width = '15px',
-  height = '13px',
+  color = "currentColor",
+  width = "15px",
+  height = "13px",
 }) => {
   return (
     <svg
@@ -2660,9 +2660,9 @@ export const RefundIcon = ({
 
 // Coupons
 export const CouponIcon = ({
-  color = 'currentColor',
-  width = '11px',
-  height = '13px',
+  color = "currentColor",
+  width = "11px",
+  height = "13px",
 }) => {
   return (
     <svg
@@ -2695,9 +2695,9 @@ export const CouponIcon = ({
 
 // Settings
 export const SettingIcon = ({
-  color = 'currentColor',
-  width = '13px',
-  height = '13px',
+  color = "currentColor",
+  width = "13px",
+  height = "13px",
 }) => {
   return (
     <svg
@@ -2719,9 +2719,9 @@ export const SettingIcon = ({
 
 // Logout
 export const LogoutIcon = ({
-  color = 'currentColor',
-  width = '16px',
-  height = '13px',
+  color = "currentColor",
+  width = "16px",
+  height = "13px",
 }) => {
   return (
     <svg
@@ -2773,9 +2773,9 @@ export const LogoutIcon = ({
 };
 
 export const CarretDownIcon = ({
-  color = 'currentColor',
-  width = '10px',
-  height = '5px',
+  color = "currentColor",
+  width = "10px",
+  height = "5px",
 }) => {
   return (
     <svg
@@ -2796,9 +2796,9 @@ export const CarretDownIcon = ({
 };
 
 export const CarretUpIcon = ({
-  color = 'currentColor',
-  width = '10px',
-  height = '5px',
+  color = "currentColor",
+  width = "10px",
+  height = "5px",
 }) => {
   return (
     <svg
@@ -2819,9 +2819,9 @@ export const CarretUpIcon = ({
 };
 
 export const OptionIcon = ({
-  color = 'currentColor',
-  width = '3.5px',
-  height = '14px',
+  color = "currentColor",
+  width = "3.5px",
+  height = "14px",
 }) => {
   return (
     <svg
@@ -2842,9 +2842,9 @@ export const OptionIcon = ({
 };
 
 export const Revenue = ({
-  color = 'currentColor',
-  width = '56px',
-  height = '56px',
+  color = "currentColor",
+  width = "56px",
+  height = "56px",
 }) => {
   return (
     <svg
@@ -2934,9 +2934,9 @@ export const Revenue = ({
 };
 
 export const Refund = ({
-  color = 'currentColor',
-  width = '56px',
-  height = '56px',
+  color = "currentColor",
+  width = "56px",
+  height = "56px",
 }) => {
   return (
     <svg
@@ -3292,9 +3292,9 @@ export const Refund = ({
 };
 
 export const ArrowUp = ({
-  color = 'currentColor',
-  width = '12px',
-  height = '12px',
+  color = "currentColor",
+  width = "12px",
+  height = "12px",
 }) => {
   return (
     <svg
@@ -3315,9 +3315,9 @@ export const ArrowUp = ({
 };
 
 export const ArrowDown = ({
-  color = 'currentColor',
-  width = '12px',
-  height = '12px',
+  color = "currentColor",
+  width = "12px",
+  height = "12px",
 }) => {
   return (
     <svg
@@ -3338,9 +3338,9 @@ export const ArrowDown = ({
 };
 
 export const UploadIcon = ({
-  color = 'currentColor',
-  width = '41px',
-  height = '30px',
+  color = "currentColor",
+  width = "41px",
+  height = "30px",
 }) => {
   return (
     <svg
@@ -3363,9 +3363,9 @@ export const UploadIcon = ({
 };
 
 export const SiteSettings = ({
-  color = 'currentColor',
-  width = '56px',
-  height = '56px',
+  color = "currentColor",
+  width = "56px",
+  height = "56px",
 }) => {
   return (
     <svg
@@ -3632,9 +3632,9 @@ export const SiteSettings = ({
 };
 
 export const Members = ({
-  color = 'currentColor',
-  width = '56px',
-  height = '56px',
+  color = "currentColor",
+  width = "56px",
+  height = "56px",
 }) => {
   return (
     <svg
@@ -3655,9 +3655,9 @@ export const Members = ({
 };
 
 export const MenuIcon = ({
-  color = 'currentColor',
-  width = '26px',
-  height = '18px',
+  color = "currentColor",
+  width = "26px",
+  height = "18px",
 }) => {
   return (
     <svg
@@ -3693,9 +3693,9 @@ export const MenuIcon = ({
 };
 
 export const ArrowLeftRound = ({
-  color = 'currentColor',
-  width = '18px',
-  height = '14px',
+  color = "currentColor",
+  width = "18px",
+  height = "14px",
 }) => {
   return (
     <svg
@@ -3715,7 +3715,7 @@ export const ArrowLeftRound = ({
   );
 };
 
-export const CoinIcon = ({ width = '48px', height = '48px' }) => {
+export const CoinIcon = ({ width = "48px", height = "48px" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -3768,7 +3768,7 @@ export const CoinIcon = ({ width = '48px', height = '48px' }) => {
   );
 };
 
-export const CartIconBig = ({ width = '48px', height = '48px' }) => {
+export const CartIconBig = ({ width = "48px", height = "48px" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -3810,7 +3810,7 @@ export const CartIconBig = ({ width = '48px', height = '48px' }) => {
   );
 };
 
-export const UserIcon = ({ width = '48px', height = '48px' }) => {
+export const UserIcon = ({ width = "48px", height = "48px" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -3842,7 +3842,7 @@ export const UserIcon = ({ width = '48px', height = '48px' }) => {
   );
 };
 
-export const DeliveryIcon = ({ width = '48px', height = '48px' }) => {
+export const DeliveryIcon = ({ width = "48px", height = "48px" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -3877,9 +3877,9 @@ export const DeliveryIcon = ({ width = '48px', height = '48px' }) => {
 };
 
 export const IosArrowUp = ({
-  color = 'currentColor',
-  width = '7px',
-  height = '10px',
+  color = "currentColor",
+  width = "7px",
+  height = "10px",
 }) => {
   return (
     <svg
@@ -3899,9 +3899,9 @@ export const IosArrowUp = ({
 };
 
 export const IosArrowDown = ({
-  color = 'currentColor',
-  width = '7px',
-  height = '10px',
+  color = "currentColor",
+  width = "7px",
+  height = "10px",
 }) => {
   return (
     <svg

@@ -9,13 +9,10 @@ import {
 import Popover from "components/Popover/Popover";
 import {
   MenuDown,
-  FruitsVegetable,
-  FacialCare,
-  Handbag,
-  DressIcon,
-  FurnitureIcon,
-  BookIcon,
-  MedicineIcon,
+  Vino,
+  Spirits,
+  Oporto,
+  Vermouth,
 } from "components/AllSvgIcon";
 import NavLink from "components/NavLink/NavLink";
 import {
@@ -31,26 +28,26 @@ import Logo from "components/Logo/Logo";
 const MENU_ITEMS = [
   {
     link: WINE_PAGE,
-    icon: <FruitsVegetable />,
+    icon: <Vino />,
     label: "Vinos",
     intlId: "navWineMenu",
   },
   {
     link: OPORTO_PAGE,
     label: "Oporto",
-    icon: <FacialCare />,
+    icon: <Oporto />,
     intlId: "navPortWineMenu",
   },
   {
     link: VERMOUTH_PAGE,
     label: "Vermouth",
-    icon: <Handbag />,
+    icon: <Vermouth />,
     intlId: "navVermouthMenu",
   },
   {
     link: SPIRITS_PAGE,
     label: "Spirits",
-    icon: <DressIcon />,
+    icon: <Spirits />,
     intlId: "navSpiritsMenu",
   },
 ];

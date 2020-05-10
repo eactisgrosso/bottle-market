@@ -8,12 +8,12 @@ export default [
   {
     link: WINE_PAGE,
     icon: "",
-    label: "Wine",
+    label: "Vinos",
   },
   {
     link: OPORTO_PAGE,
     icon: "",
-    label: "PortWine",
+    label: "Oporto",
   },
   {
     link: VERMOUTH_PAGE,

@@ -72,6 +72,7 @@ const SearchModal: React.FC<SearchModalProps> = ({
         value={text}
         onClick={handleClickSearchButton}
         pathname={pathname}
+        intlMenuId={"navWineMenu"}
       />
     </SearchModalWrapper>
   );

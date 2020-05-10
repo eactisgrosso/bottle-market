@@ -88,6 +88,7 @@ const Header: React.FC<Props> = ({ className }) => {
           showSvg={true}
           style={{ width: "100%" }}
           value={text || ""}
+          intlMenuId={"navWineMenu"}
         />
       )}
       <RightMenu

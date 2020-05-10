@@ -37,11 +37,12 @@ function WomenClothsPage({ deviceType }) {
 
   return (
     <>
-      <SEO title="Clothing - BottleMarket" description="Clothing Details" />
+      <SEO title="Spirits - BottleMarket" description="Spirits Details" />
       <Modal>
         <Banner
-          intlTitleId="womenClothsTitle"
-          intlDescriptionId="womenClothsSubTitle"
+          intlTitleId="spiritsTitle"
+          intlDescriptionId="spiritsSubTitle"
+          intlMenuId="navSpiritsMenu"
           imageUrl={BannerImg}
         />
 

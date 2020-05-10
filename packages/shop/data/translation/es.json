@@ -6,21 +6,12 @@
 
   "wineTitle": "Vinos entregados en {minute} minutos",
   "wineSubTitle": "Te entregamos vino a tu puerta, todos los días",
-  "makeupTitle": "Maquillajes de marca e importados",
-  "makeupSubTitle": "La forma más fácil y económica de obtener sus maquillajes de marca e importados",
-  "bagsTitle": "Bolsos exclusivos de marca",
-  "bagsSubTitle": "Obtenga sus bolsos exclusivos y de marca entregados en poco tiempo",
-  "womenClothsTitle": "Compra tus vestidos de diseñador",
-  "womenClothsSubTitle": "Listo para usar vestidos a medida para usted en línea. Date prisa mientras duren las existencias.",
-
-  "furnitureTitle": "Muebles exclusivos a precio económico",
-  "furnitureSubTitle": "Haga de su casa un hogar con nuestra amplia colección de hermosos muebles.",
-
-  "booksTitle": "Tu propia tienda de libros",
-  "booksSubTitle": "Obtenga sus libros favoritos de nuestra amplia gama de libros.",
-
-  "medicineTitle": "Su medicamento, entregado",
-  "medicineSubTitle": "Diga adiós a todas sus preocupaciones de atención médica con nosotros.",
+  "oportoTitle": "Oporto importado",
+  "oportoSubTitle": "La forma más fácil y económica de obtener tu Oporto importado",
+  "vermouthTitle": "Vermouths exclusivos",
+  "vermouthSubTitle": "Obtené vermouth exclusivos entregados en el menor tiempo",
+  "spiritsTitle": "Spirits, desde la comodidad de tu casa",
+  "spiritsSubTitle": "Date prisa mientras duren las existencias.",
 
   "alternativeCheckout": "Alternativa de pago",
   "termAndConditionHelper": "Al realizar esta compra, usted acepta nuestro",

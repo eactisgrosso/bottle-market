@@ -26,6 +26,7 @@ type SearchBoxProps = {
   onClick?: Function;
   value?: any;
   pathname?: string;
+  intlMenuId: string;
 };
 
 const Search: React.FC<SearchBoxProps> = ({
@@ -45,6 +46,7 @@ const Search: React.FC<SearchBoxProps> = ({
   expand,
   minimal,
   pathname,
+  intlMenuId,
 }) => {
   const [searchValue, setSearchValue] = useState("");
   const [toggleSuggestion, setToggleSuggestion] = useState(false);
@@ -97,7 +99,7 @@ const Search: React.FC<SearchBoxProps> = ({
       >
         <CurrentType>
           {" "}
-          <FormattedMessage id={"navWineMenu"} defaultMessage={"Vinos"} />
+          <FormattedMessage id={intlMenuId} defaultMessage={"Vinos"} />
         </CurrentType>
         <InputSearch
           type="text"

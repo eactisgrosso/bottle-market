@@ -27,8 +27,8 @@ import { parseCookies } from "helper/parse-cookies";
 
 // Language translation Config
 const messages = {
-  en: localEn,
   es: localEs,
+  en: localEn,
 };
 // need to provide types
 export default function ExtendedApp({

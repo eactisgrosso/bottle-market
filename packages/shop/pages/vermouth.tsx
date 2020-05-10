@@ -37,12 +37,12 @@ function BagsPage({ deviceType }) {
 
   return (
     <>
-      <SEO title="Bags - BottleMarket" description="Bags Details" />
-
+      <SEO title="Vermouth - BottleMarket" description="Vermouth Details" />
       <Modal>
         <Banner
-          intlTitleId="bagsTitle"
-          intlDescriptionId="bagsSubTitle"
+          intlTitleId="vermouthTitle"
+          intlDescriptionId="vermouthSubTitle"
+          intlMenuId="navVermouthMenu"
           imageUrl={BannerImg}
         />
 

@@ -6,8 +6,8 @@ import { USFlag, ESFlag } from "components/AllSvgIcon";
 import { useLocale } from "contexts/language/language.provider";
 
 const LANGUAGES = [
-  { id: "en", label: "English", intlLangName: "intlEnglish", icon: <USFlag /> },
   { id: "es", label: "Spanish", intlLangName: "intlSpanish", icon: <ESFlag /> },
+  { id: "en", label: "English", intlLangName: "intlEnglish", icon: <USFlag /> },
 ];
 
 const LanguageMenu = ({ onClick }) => {

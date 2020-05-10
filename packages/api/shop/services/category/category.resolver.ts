@@ -23,7 +23,9 @@ export class CategoryResolver {
       Object.keys(dbCategory).forEach(
         (key) => ((category as any)[key] = dbCategory[key])
       );
-      category.icon = "FruitsVegetable";
+      category.icon = type
+        ? type.charAt(0).toUpperCase() + type.slice(1)
+        : "Vinos";
       category.type = type;
       category.children = [];
 

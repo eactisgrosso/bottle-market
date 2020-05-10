@@ -80,7 +80,7 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({
             <PopoverHandler>
               <div>
                 <CategoryIcon />
-                Select your Category
+                Elegí la categoría
               </div>
               <div>
                 <ArrowDropDown />

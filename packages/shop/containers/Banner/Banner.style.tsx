@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { themeGet } from '@styled-system/theme-get';
+import styled from "styled-components";
+import { themeGet } from "@styled-system/theme-get";
 
 const BannerWrapper = styled.div`
   width: 100%;
@@ -36,11 +36,15 @@ const BannerWrapper = styled.div`
   }
 `;
 
-const BannerComponent = styled('div')`
+const BannerComponent = styled("div")`
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (min-width: 1200px) {
+    margin-bottom: 10%;
+  }
 
   .banner-search {
     @media (max-width: 990px) {
@@ -49,35 +53,37 @@ const BannerComponent = styled('div')`
   }
 `;
 
-const BannerHeading = styled('h1')`
-  font-family: ${themeGet('fontFamily.1', 'sans-serif')};
-  font-size: ${themeGet('fontSizes.6', '45')}px;
+const BannerHeading = styled("h1")`
+  font-family: ${themeGet("fontFamily.1", "sans-serif")};
+  font-size: ${themeGet("fontSizes.6", "45")}px;
   font-weight: 700;
-  color: ${themeGet('colors.darkBold', '#0D1136')};
+  color: ${themeGet("colors.darkBold", "#0D1136")};
   margin-bottom: 15px;
   text-align: center;
 
   @media (max-width: 1400px) {
-    font-size: ${themeGet('fontSizes.6', '45')}px;
+    font-size: ${themeGet("fontSizes.6", "45")}px;
   }
   @media (max-width: 990px) {
-    font-size: ${themeGet('fontSizes.5', '30')}px;
+    font-size: ${themeGet("fontSizes.5", "30")}px;
   }
   @media (max-width: 767px) {
     font-size: 17px;
+    padding-left: 20%;
+    padding-right: 20%;
   }
 `;
 
-const BannerSubHeading = styled('span')`
-  font-family: ${themeGet('fontFamily.0', 'sans-serif')};
-  font-size: ${themeGet('fontSizes.3', '19')}px;
+const BannerSubHeading = styled("span")`
+  font-family: ${themeGet("fontFamily.0", "sans-serif")};
+  font-size: ${themeGet("fontSizes.3", "19")}px;
   font-weight: 400;
-  color: ${themeGet('colors.darkRegular', '#77798C')};
+  color: ${themeGet("colors.darkRegular", "#77798C")};
   margin-bottom: 60px;
   text-align: center;
 
   @media (max-width: 1400px) {
-    font-size: ${themeGet('fontSizes.2', '15')}px;
+    font-size: ${themeGet("fontSizes.2", "15")}px;
   }
   @media (max-width: 990px) {
     display: none;

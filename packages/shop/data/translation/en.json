@@ -1,26 +1,17 @@
 {
-  "navWineMenu": "Wines",
-  "navPortWineMenu": "Port Wine",
+  "navWineMenu": "Vinos",
+  "navPortWineMenu": "Oporto",
   "navVermouthMenu": "Vermouth",
-  "navClothingMenu": "Clothing",
+  "navSpiritsMenu": "Spirits",
 
   "wineTitle": "Wine delivered in {minute} minutes",
   "wineSubTitle": "Get wine at your doorstep, everyday",
-  "makeupTitle": "Branded & imported makeups",
-  "makeupSubTitle": "Easiest and cheapest way to get your branded & imported makeups",
-  "bagsTitle": "Exclusive Branded bags",
-  "bagsSubTitle": "Get your exclusive & branded bags delivered to you in no time",
-  "womenClothsTitle": "Shop your designer dresses",
-  "womenClothsSubTitle": "Ready to wear dresses tailored for you from online. Hurry up while stock lasts.",
-
-  "furnitureTitle": "Exclusive furniture on cheap price",
-  "furnitureSubTitle": "Make your house a home with our wide collection of beautiful furniture",
-
-  "booksTitle": "Your own books store",
-  "booksSubTitle": "Get your favorite books from our wide range of books.",
-
-  "medicineTitle": "Your medication, delivered",
-  "medicineSubTitle": "Say goodbye to all your healthcare worries with  us",
+  "oportoTitle": "Imported oporto",
+  "oportoSubTitle": "Easiest and cheapest way to get your imported oporto",
+  "vermouthTitle": "Exclusive Branded Vermouths",
+  "vermouthSubTitle": "Get your exclusive & branded vermouth delivered to you in no time",
+  "spiritsTitle": "Shop spirits from the comfort of your home",
+  "spiritsSubTitle": "Hurry up while stock lasts.",
 
   "alternativeCheckout": "Checkout Alternative",
   "termAndConditionHelper": "By making this purchase you agree to our",

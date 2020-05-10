@@ -16,11 +16,13 @@ type BannerProps = {
   imageUrl: string;
   intlTitleId: string;
   intlDescriptionId: string;
+  intlMenuId: string;
 };
 
 const Banner: React.FC<BannerProps> = ({
   imageUrl,
   intlTitleId,
+  intlMenuId,
   intlDescriptionId,
 }) => {
   const { state, dispatch } = useContext(SearchContext);
@@ -102,6 +104,7 @@ const Banner: React.FC<BannerProps> = ({
           onClick={handleClickSearchButton}
           className="banner-search"
           pathname={pathname}
+          intlMenuId={intlMenuId}
         />
         <Waypoint
           onEnter={removeSticky}

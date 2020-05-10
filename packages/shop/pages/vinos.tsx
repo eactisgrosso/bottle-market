@@ -18,7 +18,7 @@ import {
 } from "styled/pages.style";
 // Static Data Import Here
 import OFFERS from "data/offers";
-import BannerImg from "image/grocery.png";
+import BannerImg from "image/vinos.png";
 import storeType from "constants/storeType";
 
 const PAGE_TYPE = "vino";
@@ -42,6 +42,7 @@ function HomePage({ deviceType }) {
         <Banner
           intlTitleId="wineTitle"
           intlDescriptionId="wineSubTitle"
+          intlMenuId="navWineMenu"
           imageUrl={BannerImg}
         />
 

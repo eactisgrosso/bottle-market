@@ -37,11 +37,12 @@ function MakeupPage({ deviceType }) {
 
   return (
     <>
-      <SEO title="Makeup - BottleMarket" description="Makeup Details" />
+      <SEO title="Oporto - BottleMarket" description="Oporto Details" />
       <Modal>
         <Banner
-          intlTitleId="makeupTitle"
-          intlDescriptionId="makeupSubTitle"
+          intlTitleId="oportoTitle"
+          intlDescriptionId="oportoSubTitle"
+          intlMenuId="navPortWineMenu"
           imageUrl={BannerImg}
         />
 
