@@ -59,22 +59,22 @@ Resources:
             Method: any
             Path: /shop/graphql
 
-    AdminAPI:
-      Type: AWS::Serverless::Function
-      Properties:
-        CodeUri: ./packages/api/dist/
-        Handler: dist/entrypoint-admin.handler
-        Runtime: nodejs12.x
-        MemorySize: 512
-        Environment:
-          Variables:
-            NODE_ENV: production
-        Events:
-          Shop:
-            Type: Api
-            Properties:
-              Method: any
-              Path: /admin/graphql
+  AdminAPI:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./packages/api/dist/
+      Handler: dist/entrypoint-admin.handler
+      Runtime: nodejs12.x
+      MemorySize: 512
+      Environment:
+        Variables:
+          NODE_ENV: production
+      Events:
+        Shop:
+          Type: Api
+          Properties:
+            Method: any
+            Path: /admin/graphql
 
   SecurityGroupPruner:
     Type: AWS::Serverless::Function
