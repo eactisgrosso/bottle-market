@@ -23,69 +23,17 @@ import {
 
 import {
   Plus,
-  Accessories,
-  BathOil,
-  BeautyHealth,
-  Beverage,
-  Breakfast,
-  Cooking,
-  Dairy,
-  Deodorent,
-  Eyes,
-  Face,
-  FacialCare,
-  FruitsVegetable,
-  HandBags,
-  HomeCleaning,
-  LaptopBags,
-  Lips,
-  MeatFish,
-  OralCare,
-  OuterWear,
-  Pants,
-  PetCare,
-  Purse,
-  ShavingNeeds,
-  Shirts,
-  ShoulderBags,
-  Skirts,
-  Snacks,
-  Tops,
-  Wallet,
-  WomenDress,
+  Vino,
+  Oporto,
+  Vermouth,
+  Spirits,
 } from "../../components/AllSvgIcon";
 import NoResult from "../../components/NoResult/NoResult";
 let icons = {
-  Accessories: Accessories,
-  BathOil: BathOil,
-  BeautyHealth: BeautyHealth,
-  Beverage: Beverage,
-  Breakfast: Breakfast,
-  Cooking: Cooking,
-  Dairy: Dairy,
-  Deodorent: Deodorent,
-  Eyes: Eyes,
-  Face: Face,
-  FacialCare: FacialCare,
-  FruitsVegetable: FruitsVegetable,
-  HandBags: HandBags,
-  HomeCleaning: HomeCleaning,
-  LaptopBags: LaptopBags,
-  Lips: Lips,
-  MeatFish: MeatFish,
-  OralCare: OralCare,
-  OuterWear: OuterWear,
-  Pants: Pants,
-  PetCare: PetCare,
-  Purse: Purse,
-  ShavingNeeds: ShavingNeeds,
-  Shirts: Shirts,
-  ShoulderBags: ShoulderBags,
-  Skirts: Skirts,
-  Snacks: Snacks,
-  Tops: Tops,
-  Wallet: Wallet,
-  WomenDress: WomenDress,
+  Vino: Vino,
+  Oporto: Oporto,
+  Vermouth: Vermouth,
+  Spirits: Spirits,
 };
 const GET_CATEGORIES = gql`
   query getCategories($type: String, $searchBy: String) {
@@ -116,10 +64,10 @@ const Row = withStyle(Rows, () => ({
 }));
 
 const categorySelectOptions = [
-  { value: "wine", label: "Wine" },
-  { value: "women-cloths", label: "Women Cloth" },
-  { value: "bags", label: "Bags" },
-  { value: "makeup", label: "Makeup" },
+  { value: "vino", label: "Vinos" },
+  { value: "oporto", label: "Oporto" },
+  { value: "vermouth", label: "Vermouth" },
+  { value: "spirits", label: "Spirits" },
 ];
 
 export default function Category() {
@@ -192,7 +140,7 @@ export default function Category() {
             }}
           >
             <Col md={2}>
-              <Heading>Category</Heading>
+              <Heading>Categoría</Heading>
             </Col>
 
             <Col md={10}>
@@ -212,7 +160,7 @@ export default function Category() {
                 <Col md={5} lg={6}>
                   <Input
                     value={search}
-                    placeholder="Ex: Search By Name"
+                    placeholder="Ex: Buscar por nombre"
                     onChange={handleSearch}
                     clearable
                   />
@@ -234,7 +182,7 @@ export default function Category() {
                       },
                     }}
                   >
-                    Add Category
+                    Agregar Categoría
                   </Button>
                 </Col>
               </Row>
@@ -261,10 +209,10 @@ export default function Category() {
                   />
                 </StyledHeadCell>
                 <StyledHeadCell>Id</StyledHeadCell>
-                <StyledHeadCell>Image</StyledHeadCell>
-                <StyledHeadCell>Name</StyledHeadCell>
+                <StyledHeadCell>Imagen</StyledHeadCell>
+                <StyledHeadCell>Nombre</StyledHeadCell>
                 <StyledHeadCell>Slug</StyledHeadCell>
-                <StyledHeadCell>Type</StyledHeadCell>
+                <StyledHeadCell>Tipo</StyledHeadCell>
 
                 {data ? (
                   data.categories.length ? (

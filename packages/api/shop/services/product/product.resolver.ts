@@ -56,10 +56,8 @@ export class ProductResolver {
   ) {
     let categoryIds = new Set<number>();
 
-    const query = this.knex("marketplace_product_view as p").select("*");
-    const queryCount = this.knex("marketplace_product_view as p").count(
-      "id as count"
-    );
+    const query = this.productQuery.create();
+    const queryCount = this.productQuery.createCount();
 
     if (category) {
       await this.productQuery.byCategorySlug(query, category);
@@ -123,10 +121,10 @@ export class ProductResolver {
   async product(@Args("slug", { type: () => String }) slug: string) {
     let categoryIds = new Set<number>();
 
-    const dbProduct = await this.knex("marketplace_product_view as p")
-      .first("*")
-      .where("slug", slug);
+    const query = this.productQuery.create();
+    this.productQuery.bySlug(query, slug);
 
+    const dbProduct = await query;
     const product = new ProductDTO();
     this.mapProduct(dbProduct, product);
 

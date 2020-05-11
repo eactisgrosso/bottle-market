@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from "react";
+import { useQuery } from "@apollo/client";
+import gql from "graphql-tag";
 import { useForm } from "react-hook-form";
 import { Scrollbars } from "react-custom-scrollbars";
 import { useDrawerDispatch, useDrawerState } from "../../context/DrawerContext";
@@ -19,40 +21,56 @@ import {
   ButtonGroup,
 } from "../DrawerItems/DrawerItems.style";
 
-const options = [
-  { value: "Tintos", name: "Tintos", id: "1" },
-  { value: "Blancos", name: "Blancos", id: "2" },
-  { value: "Purse", name: "Purse", id: "3" },
-  { value: "Hand bags", name: "Hand bags", id: "4" },
-  { value: "Shoulder bags", name: "Shoulder bags", id: "5" },
-  { value: "Wallet", name: "Wallet", id: "6" },
-  { value: "Laptop bags", name: "Laptop bags", id: "7" },
-  { value: "Women Dress", name: "Women Dress", id: "8" },
-  { value: "Outer Wear", name: "Outer Wear", id: "9" },
-  { value: "Pants", name: "Pants", id: "10" },
-];
+const GET_CATEGORIES = gql`
+  query getCategories($type: String) {
+    categories(type: $type) {
+      id
+      slug
+      name
+    }
+  }
+`;
 
 const typeOptions = [
-  { value: "wine", name: "wine", id: "1" },
-  { value: "women-cloths", name: "Women Cloths", id: "2" },
-  { value: "bags", name: "Bags", id: "3" },
-  { value: "makeup", name: "Makeup", id: "4" },
+  { value: "vino", name: "Vinos", id: "1" },
+  { value: "oporto", name: "Oporto", id: "2" },
+  { value: "vermouth", name: "Vermouth", id: "3" },
+  { value: "spirits", name: "Spirits", id: "4" },
 ];
 
 type Props = any;
 
 const AddProduct: React.FC<Props> = () => {
   const dispatch = useDrawerDispatch();
-  const data = useDrawerState("data");
+  const contextItem = useDrawerState("data");
+
   const closeDrawer = useCallback(() => dispatch({ type: "CLOSE_DRAWER" }), [
     dispatch,
   ]);
   const { register, handleSubmit, setValue } = useForm({
-    defaultValues: data,
+    defaultValues: contextItem,
   });
-  const [type, setType] = useState([{ value: data.type }]);
+  const [type, setType] = useState([{ value: contextItem.type }]);
   const [tag, setTag] = useState([]);
-  const [description, setDescription] = useState(data.description);
+  const [description, setDescription] = useState(contextItem.description);
+
+  const { data, error, loading, fetchMore } = useQuery(GET_CATEGORIES, {
+    variables: {
+      type: "vino",
+    },
+  });
+
+  let options = [];
+  if (data) {
+    options = data.categories.map((c) => {
+      return {
+        id: c.id,
+        name: c.name,
+        value: c.slug,
+      };
+    });
+  }
+
   React.useEffect(() => {
     register({ name: "type" });
     register({ name: "categories" });
@@ -99,7 +117,7 @@ const AddProduct: React.FC<Props> = () => {
   return (
     <>
       <DrawerTitleWrapper>
-        <DrawerTitle>Update Product</DrawerTitle>
+        <DrawerTitle>Actualizar Producto</DrawerTitle>
       </DrawerTitleWrapper>
 
       <Form
@@ -122,11 +140,14 @@ const AddProduct: React.FC<Props> = () => {
         >
           <Row>
             <Col lg={4}>
-              <FieldDetails>Upload your Product image here</FieldDetails>
+              <FieldDetails>Subí las imagenes del producto</FieldDetails>
             </Col>
             <Col lg={8}>
               <DrawerBox>
-                <Uploader onChange={handleUploader} imageURL={data.image} />
+                <Uploader
+                  onChange={handleUploader}
+                  imageURL={contextItem.image}
+                />
               </DrawerBox>
             </Col>
           </Row>
@@ -134,14 +155,14 @@ const AddProduct: React.FC<Props> = () => {
           <Row>
             <Col lg={4}>
               <FieldDetails>
-                Add your Product description and necessary information from here
+                Completá sus datos e información adicional
               </FieldDetails>
             </Col>
 
             <Col lg={8}>
               <DrawerBox>
                 <FormFields>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Nombre</FormLabel>
                   <Input
                     inputRef={register({ required: true, maxLength: 20 })}
                     name="name"
@@ -149,7 +170,7 @@ const AddProduct: React.FC<Props> = () => {
                 </FormFields>
 
                 <FormFields>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Descripción</FormLabel>
                   <Textarea
                     value={description}
                     onChange={handleDescriptionChange}
@@ -157,12 +178,12 @@ const AddProduct: React.FC<Props> = () => {
                 </FormFields>
 
                 <FormFields>
-                  <FormLabel>Unit</FormLabel>
+                  <FormLabel>Unidad</FormLabel>
                   <Input type="text" inputRef={register} name="unit" />
                 </FormFields>
 
                 <FormFields>
-                  <FormLabel>Price</FormLabel>
+                  <FormLabel>Precio</FormLabel>
                   <Input
                     type="number"
                     inputRef={register({ required: true })}
@@ -171,12 +192,12 @@ const AddProduct: React.FC<Props> = () => {
                 </FormFields>
 
                 <FormFields>
-                  <FormLabel>Sale Price</FormLabel>
+                  <FormLabel>Precio de Venta</FormLabel>
                   <Input type="number" inputRef={register} name="salePrice" />
                 </FormFields>
 
                 <FormFields>
-                  <FormLabel>Discount In Percent</FormLabel>
+                  <FormLabel>Descuento en %</FormLabel>
                   <Input
                     type="number"
                     inputRef={register}
@@ -185,12 +206,12 @@ const AddProduct: React.FC<Props> = () => {
                 </FormFields>
 
                 <FormFields>
-                  <FormLabel>Product Quantity</FormLabel>
+                  <FormLabel>Cantidad</FormLabel>
                   <Input type="number" inputRef={register} name="quantity" />
                 </FormFields>
 
                 <FormFields>
-                  <FormLabel>Type</FormLabel>
+                  <FormLabel>Tipo</FormLabel>
                   <Select
                     options={typeOptions}
                     labelKey="name"
@@ -248,7 +269,7 @@ const AddProduct: React.FC<Props> = () => {
                 </FormFields>
 
                 <FormFields>
-                  <FormLabel>Categories</FormLabel>
+                  <FormLabel>Categoría</FormLabel>
                   <Select
                     options={options}
                     labelKey="name"
@@ -309,7 +330,7 @@ const AddProduct: React.FC<Props> = () => {
               },
             }}
           >
-            Cancel
+            Cancelar
           </Button>
 
           <Button
@@ -326,7 +347,7 @@ const AddProduct: React.FC<Props> = () => {
               },
             }}
           >
-            Update Product
+            Actualizar
           </Button>
         </ButtonGroup>
       </Form>

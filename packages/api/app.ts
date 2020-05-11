@@ -11,7 +11,7 @@ export class App {
 
   async bootstrap(): Promise<fastify.FastifyInstance> {
     const serverOptions: fastify.ServerOptionsAsHttp = {
-      logger: true,
+      logger: false,
     };
     const instance: fastify.FastifyInstance = fastify(serverOptions);
     const nestApp = await NestFactory.create<NestFastifyApplication>(

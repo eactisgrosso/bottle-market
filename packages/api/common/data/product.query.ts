@@ -1,6 +1,18 @@
 export default class ProductQuery {
   constructor(private readonly knex: any) {}
 
+  create = () => {
+    return this.knex("marketplace_product_view as p").select("*");
+  };
+
+  createCount = () => {
+    return this.knex("marketplace_product_view as p").count("id as count");
+  };
+
+  bySlug = (query: any, slug: string) => {
+    query.first("*").where("slug", slug);
+  };
+
   byCategorySlug = async (query: any, category: string) => {
     if (!category) return;
 
@@ -22,7 +34,7 @@ export default class ProductQuery {
     }
   };
 
-  byText = async (query: any, text: string) => {
+  byText = (query: any, text: string) => {
     if (!text) return;
 
     const terms = text.split(" ");
@@ -39,7 +51,7 @@ export default class ProductQuery {
     });
   };
 
-  sortByPrice = async (query: any, criteria: string) => {
+  sortByPrice = (query: any, criteria: string) => {
     if (!criteria) return;
 
     if (criteria === "highestToLowest") {

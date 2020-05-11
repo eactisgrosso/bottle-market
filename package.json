@@ -16,7 +16,7 @@
     "build:admin": "yarn workspace @bottle-market/admin build",
     "serve:admin": "yarn  workspace @bottle-market/admin serve",
     "build:api": "yarn workspace @bottle-market/api build",
-    "dev:api-shop": "yarn workspace @bottle-market/api shop-dev",
+    "dev:api-shop": "yarn workspace @bottle-market/api shop",
     "serve:api-shop": "yarn workspace @bottle-market/api shop-serve",
     "dev:api-admin": "yarn workspace @bottle-market/api admin"
   },

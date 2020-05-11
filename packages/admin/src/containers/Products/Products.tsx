@@ -203,7 +203,7 @@ export default function Products() {
                 <Col md={6} xs={12}>
                   <Input
                     value={search}
-                    placeholder="Ex: Buscar por Nombre"
+                    placeholder="Ex: Buscar por Etiqueta, Bodega, Región, etc"
                     onChange={handleSearch}
                     clearable
                   />

@@ -37,7 +37,7 @@ function HomePage({ deviceType }) {
 
   return (
     <>
-      <SEO title="Vinos - BottleMarket" description="Wine Details" />
+      <SEO title="Vinos - Bottle Market" description="Wine Details" />
       <Modal>
         <Banner
           intlTitleId="wineTitle"

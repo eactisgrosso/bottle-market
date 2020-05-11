@@ -1,10 +1,15 @@
+import { Inject, Injectable } from "@nestjs/common";
+import { KNEX_CONNECTION } from "@nestjsplus/knex";
 import { Resolver, Query, Args, ID, Mutation } from "@nestjs/graphql";
 import loadCategories from "../../data/category.data";
 import Category from "./category.type";
 import AddCategoryInput from "./category.input_type";
-import search from "../../helpers/search";
+
+@Injectable()
 @Resolver()
 export default class CategoryResolver {
+  constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {}
+
   private readonly categoriesCollection: Category[] = loadCategories();
 
   @Query((returns) => [Category], { description: "Get all the categories" })
@@ -12,14 +17,28 @@ export default class CategoryResolver {
     @Args("type", { nullable: true }) type?: string,
     @Args("searchBy", { defaultValue: "" }) searchBy?: string
   ): Promise<Category[]> {
-    let categories = this.categoriesCollection;
+    if (!type) type = "catalogo-publico";
 
-    if (type) {
-      categories = await categories.filter(
-        (category) => category.type === type
-      );
-    }
-    return await search(categories, ["name"], searchBy);
+    const query = this.knex("marketplace_category_tree_view")
+      .where("path", "like", `%[${type}]%`)
+      .andWhereNot("slug", type);
+
+    const dbCategories = await query.map(function (dbCategory: any) {
+      let category = new Category();
+      category.id = dbCategory.id;
+      category.slug = dbCategory.slug;
+      category.name = dbCategory.title;
+
+      const path = dbCategory.path.split(" > ");
+      const parent = path[2].replace(/[[\]]/g, "");
+      category.type = parent;
+      category.icon =
+        parent.charAt(0).toUpperCase() + parent.slice(1, parent.length);
+
+      return category;
+    });
+
+    return dbCategories;
   }
 
   @Query((returns) => Category)
