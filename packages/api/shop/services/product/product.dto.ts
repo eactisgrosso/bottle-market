@@ -1,5 +1,5 @@
 import { ObjectType, Field, ID } from "@nestjs/graphql";
-import { ProductType } from "./product.enum";
+import { ProductType } from "../../../common/data/product.enum";
 import Category from "../category/category.type";
 import Gallery from "./gallery.type";
 import PaginatedResponse from "../../helpers/paginated-response";

@@ -153,7 +153,7 @@ export const Products: React.FC<ProductsProps> = ({
         <ButtonWrapper>
           <Button
             onClick={handleLoadMore}
-            title="Load More"
+            title="Ver más"
             size="small"
             isLoading={loadingMore}
             intlButtonId="loadMoreBtn"

@@ -202,7 +202,7 @@ export default function Category() {
                     options={categorySelectOptions}
                     labelKey="label"
                     valueKey="value"
-                    placeholder="Category Type"
+                    placeholder="Categoría"
                     value={category}
                     searchable={false}
                     onChange={handleCategory}

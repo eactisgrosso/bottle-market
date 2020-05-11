@@ -96,14 +96,14 @@ const GET_PRODUCTS = gql`
 `;
 
 const typeSelectOptions = [
-  { value: "wine", label: "Wine" },
-  { value: "women-cloths", label: "Women Cloths" },
-  { value: "bags", label: "Bags" },
-  { value: "makeup", label: "Makeup" },
+  { value: "vino", label: "Vinos" },
+  { value: "oporto", label: "Oporto" },
+  { value: "vermouth", label: "Vermouth" },
+  { value: "spirits", label: "Spirits" },
 ];
 const priceSelectOptions = [
-  { value: "highestToLowest", label: "Highest To Lowest" },
-  { value: "lowestToHighest", label: "Lowest To Highest" },
+  { value: "highestToLowest", label: "Mayor a Menor" },
+  { value: "lowestToHighest", label: "Menor a Mayor" },
 ];
 
 export default function Products() {
@@ -181,7 +181,7 @@ export default function Products() {
                     options={typeSelectOptions}
                     labelKey="label"
                     valueKey="value"
-                    placeholder="Category Type"
+                    placeholder="Categoría"
                     value={type}
                     searchable={false}
                     onChange={handleCategoryType}
@@ -194,7 +194,7 @@ export default function Products() {
                     labelKey="label"
                     valueKey="value"
                     value={priceOrder}
-                    placeholder="Price"
+                    placeholder="Precio"
                     searchable={false}
                     onChange={handlePriceSort}
                   />
@@ -203,7 +203,7 @@ export default function Products() {
                 <Col md={6} xs={12}>
                   <Input
                     value={search}
-                    placeholder="Ex: Search By Name"
+                    placeholder="Ex: Buscar por Nombre"
                     onChange={handleSearch}
                     clearable
                   />
@@ -265,7 +265,7 @@ export default function Products() {
                 style={{ display: "flex", justifyContent: "center" }}
               >
                 <Button onClick={loadMore} isLoading={loadingMore}>
-                  Load More
+                  Ver más
                 </Button>
               </Col>
             </Row>

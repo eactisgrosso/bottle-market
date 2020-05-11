@@ -2,7 +2,7 @@ import { Field, ID, Int, Float, ObjectType } from "@nestjs/graphql";
 import Category from "../category/category.type";
 
 @ObjectType()
-export default class Product {
+export default class ProductDTO {
   @Field((type) => ID)
   id: string;
 

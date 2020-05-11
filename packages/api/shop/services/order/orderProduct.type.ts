@@ -1,5 +1,5 @@
 import { ObjectType, Field } from "@nestjs/graphql";
-import { ProductType } from "../../services/product/product.enum";
+import { ProductType } from "../../../common/data/product.enum";
 import Category from "../../services/category/category.type";
 
 @ObjectType()

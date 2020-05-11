@@ -2,54 +2,20 @@ import { Inject, Injectable } from "@nestjs/common";
 import { KNEX_CONNECTION } from "@nestjsplus/knex";
 import { Args, Int, Query, Resolver } from "@nestjs/graphql";
 import ProductDTO, { ProductResponse } from "./product.dto";
-import { ProductType } from "./product.enum";
+import { ProductType } from "../../../common/data/product.enum";
 import Category from "../category/category.type";
 import Gallery from "./gallery.type";
-
+import ProductQuery from "../../../common/data/product.query";
 @Injectable()
 @Resolver()
 export class ProductResolver {
-  constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {}
+  private productQuery: ProductQuery;
 
-  private queryByCategorySlug = async (query: any, category: string) => {
-    if (!category) return;
+  constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {
+    this.productQuery = new ProductQuery(knex);
+  }
 
-    const childrenCategories = await this.knex("marketplace_category_tree_view")
-      .select("slug")
-      .where("path", "like", `%[catalogo-publico]%`)
-      .andWhere("path", "like", `%[${category}]%`);
-
-    if (childrenCategories && childrenCategories.length > 0) {
-      query.andWhere((builder: any) => {
-        for (let childrenCategory of childrenCategories) {
-          builder.orWhere(
-            "categoriesSlugs",
-            "like",
-            `%[${childrenCategory.slug}]%`
-          );
-        }
-      });
-    }
-  };
-
-  private queryByText = async (query: any, text: string) => {
-    if (!text) return;
-
-    const terms = text.split(" ");
-    query.andWhere((builder: any) => {
-      for (let term of terms) {
-        builder.andWhere((innerBuilder: any) => {
-          innerBuilder
-            .where("title", "like", `%${term}%`)
-            .orWhere("producer", "like", `%${term}%`)
-            .orWhere("region", "like", `%${term}%`)
-            .orWhere("description", "like", `%${term}%`);
-        });
-      }
-    });
-  };
-
-  private mapProduct = async (dbProduct: any, product: ProductDTO) => {
+  private async mapProduct(dbProduct: any, product: ProductDTO) {
     Object.keys(dbProduct).forEach(
       (key) => ((product as any)[key] = dbProduct[key])
     );
@@ -70,7 +36,7 @@ export class ProductResolver {
     product.categories = [];
 
     return product;
-  };
+  }
 
   private buildCategoryMap = async (categoryIds: Set<number>) => {
     const dbCategories = await this.knex(
@@ -91,21 +57,21 @@ export class ProductResolver {
     let categoryIds = new Set<number>();
 
     const query = this.knex("marketplace_product_view as p").select("*");
-    let queryCount = this.knex("marketplace_product_view as p").count(
+    const queryCount = this.knex("marketplace_product_view as p").count(
       "id as count"
     );
 
     if (category) {
-      await this.queryByCategorySlug(query, category);
-      await this.queryByCategorySlug(queryCount, category);
+      await this.productQuery.byCategorySlug(query, category);
+      await this.productQuery.byCategorySlug(queryCount, category);
     } else if (type) {
-      await this.queryByCategorySlug(query, type);
-      await this.queryByCategorySlug(queryCount, type);
+      await this.productQuery.byCategorySlug(query, type);
+      await this.productQuery.byCategorySlug(queryCount, type);
     }
 
     if (text) {
-      await this.queryByText(query, text);
-      await this.queryByText(queryCount, text);
+      await this.productQuery.byText(query, text);
+      await this.productQuery.byText(queryCount, text);
     }
 
     const dbProducts = await query
