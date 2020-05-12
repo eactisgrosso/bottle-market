@@ -18,6 +18,9 @@ export default class ProductDTO {
   @Field()
   unit: string;
 
+  @Field()
+  size: string;
+
   @Field((type) => [Category])
   categories: Category[];
 

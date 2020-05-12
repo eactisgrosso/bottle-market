@@ -41,7 +41,7 @@ const GET_PRODUCTS = gql`
         id
         title
         slug
-        unit
+        size
         price
         salePrice
         description
@@ -190,7 +190,7 @@ export const Products: React.FC<ProductsProps> = ({
                   title={item.title}
                   description={item.description}
                   image={item.image}
-                  weight={item.unit}
+                  weight={item.size}
                   currency={CURRENCY}
                   price={item.price}
                   salePrice={item.salePrice}

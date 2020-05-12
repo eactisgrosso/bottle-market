@@ -9,7 +9,7 @@
   "scripts": {
     "clean": "lerna clean --yes && rimraf node_modules",
     "clean:build": "lerna exec -- rimraf \"{.next,dist,build}\"",
-    "dev:shop": "lerna run --parallel shop-dev",
+    "dev:shop": "concurrently \"yarn workspace @bottle-market/shop dev\" \"yarn workspace @bottle-market/api shop\"",
     "build:shop": "yarn workspace @bottle-market/shop build",
     "serve:shop": "yarn  workspace @bottle-market/shop serve",
     "dev:admin": "concurrently \"yarn workspace @bottle-market/admin start\" \"yarn workspace @bottle-market/api admin\"",

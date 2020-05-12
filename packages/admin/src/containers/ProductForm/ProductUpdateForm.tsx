@@ -54,9 +54,9 @@ const AddProduct: React.FC<Props> = () => {
   const [tag, setTag] = useState([]);
   const [description, setDescription] = useState(contextItem.description);
 
-  const { data, error, loading, fetchMore } = useQuery(GET_CATEGORIES, {
+  const { data } = useQuery(GET_CATEGORIES, {
     variables: {
-      type: "vino",
+      type: type,
     },
   });
 

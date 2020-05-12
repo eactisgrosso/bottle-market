@@ -22,7 +22,7 @@ type Product {
   name: String!
   image: String!
   type: String!
-  unit: String!
+  size: String!
   categories: [Category!]!
   price: Float!
   salePrice: Float!
@@ -128,41 +128,70 @@ type Stuff {
 }
 
 type Query {
-  """Get all the products"""
-  products(limit: Int = 12, offset: Int = 0, sortByPrice: String, type: String, searchText: String, category: String): ProductsConnection!
+  """
+  Get all the products
+  """
+  products(
+    limit: Int = 12
+    offset: Int = 0
+    sortByPrice: String
+    type: String
+    searchText: String
+    category: String
+  ): ProductsConnection!
   product(slug: String!): Product!
 
-  """Get all the categories"""
+  """
+  Get all the categories
+  """
   categories(searchBy: String = "", type: String): [Category!]!
   category(id: ID!): Category!
-  customers(limit: Int = 7, sortBy: String = null, searchBy: String): [Customer!]!
+  customers(
+    limit: Int = 7
+    sortBy: String = null
+    searchBy: String
+  ): [Customer!]!
   customer(id: ID!): Customer!
 
-  """Get All Coupons"""
+  """
+  Get All Coupons
+  """
   coupons(searchBy: String, status: String): [Coupon!]!
 
-  """Get all the Orders"""
+  """
+  Get all the Orders
+  """
   orders(searchText: String = "", limit: Int = 50, status: String): [Order!]!
 
-  """Get single order"""
+  """
+  Get single order
+  """
   order(id: ID!): Order!
   stuffs(searchBy: String, role: String): [Stuff!]!
   stuff(id: ID!): Stuff!
 }
 
 type Mutation {
-  """Create Category"""
+  """
+  Create Category
+  """
   createProduct(product: AddProductInput!): Product!
 
-  """Create Category"""
+  """
+  Create Category
+  """
   createCategory(category: AddCategoryInput!): Category!
   createCoupon(coupon: AddCouponInput!): Coupon!
 
-  """Create Stuff"""
+  """
+  Create Stuff
+  """
   createStuff(stuff: AddStuffInput!): Stuff!
 }
 
-"""New recipe data"""
+"""
+New recipe data
+"""
 input AddProductInput {
   id: ID!
   name: String!
@@ -180,7 +209,9 @@ input AddProductInput {
   creation_date: DateTime!
 }
 
-"""New Category Data"""
+"""
+New Category Data
+"""
 input AddCategoryInput {
   id: ID!
   name: String!
@@ -191,7 +222,9 @@ input AddCategoryInput {
   creation_date: DateTime
 }
 
-"""New coupon data"""
+"""
+New coupon data
+"""
 input AddCouponInput {
   id: ID!
   title: String!
@@ -207,7 +240,9 @@ input AddCouponInput {
   creation_date: DateTime!
 }
 
-"""New stuff data"""
+"""
+New stuff data
+"""
 input AddStuffInput {
   id: ID!
   first_name: String!

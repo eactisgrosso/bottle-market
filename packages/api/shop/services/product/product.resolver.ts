@@ -31,7 +31,8 @@ export class ProductResolver {
       }
       product.image = product.gallery[0].url;
     }
-    product.unit = `${dbProduct.units} unidad(es)`;
+
+    product.size = dbProduct.size;
     product.salePrice = 0;
     product.categories = [];
 

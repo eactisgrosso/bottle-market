@@ -85,7 +85,7 @@ export default class ProductDTO {
   categories: Category[];
 
   @Field()
-  unit: string;
+  size: string;
 
   @Field()
   image: string;

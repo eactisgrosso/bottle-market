@@ -57,6 +57,7 @@ export default class ProductResolver {
             product.image = `https://s3.amazonaws.com/bottlemarket.images/${images[0]}`;
         }
         product.unit = `${dbProduct.units} unidad(es)`;
+        product.size = dbProduct.size;
         product.salePrice = 0;
         product.categories = [];
         product.type = (<any>ProductType)[
