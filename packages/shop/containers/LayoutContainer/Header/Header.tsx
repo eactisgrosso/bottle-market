@@ -3,14 +3,13 @@ import Router, { useRouter } from "next/router";
 import { openModal } from "@redq/reuse-modal";
 import SearchBox from "components/SearchBox/SearchBox";
 import { SearchContext } from "contexts/search/search.context";
-import { AuthContext } from "contexts/auth/auth.context";
-import AuthenticationForm from "../../SignInOutForm/Form";
+import { useAuth } from "contexts/auth/useAuth";
 import { RightMenu } from "./Menu/RightMenu/RightMenu";
 import { LeftMenu } from "./Menu/LeftMenu/LeftMenu";
 import HeaderWrapper from "./Header.style";
 import LogoImage from "image/Logo.svg";
-import UserImage from "image/user.jpg";
 import { isCategoryPage } from "../is-home-page";
+import SignInForm from "../../SignInOutForm/SignIn";
 
 type Props = {
   className?: string;
@@ -19,30 +18,23 @@ type Props = {
 };
 
 const Header: React.FC<Props> = ({ className }) => {
-  const {
-    authState: { isAuthenticated },
-    authDispatch,
-  } = React.useContext<any>(AuthContext);
+  const { signIn, logout, isAuthenticated, user } = useAuth();
   const { state, dispatch } = React.useContext(SearchContext);
   const { pathname, query } = useRouter();
+
   const handleLogout = () => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("access_token");
-      authDispatch({ type: "SIGN_OUT" });
-      Router.push("/");
-    }
+    logout();
+    Router.push("/");
   };
 
   const handleJoin = () => {
-    authDispatch({
-      type: "SIGNIN",
-    });
+    signIn();
 
     openModal({
       show: true,
       overlayClassName: "quick-view-overlay",
       closeOnClickOutside: true,
-      component: AuthenticationForm,
+      component: SignInForm,
       closeComponent: "",
       config: {
         enableResizing: false,
@@ -95,7 +87,7 @@ const Header: React.FC<Props> = ({ className }) => {
         isAuthenticated={isAuthenticated}
         onJoin={handleJoin}
         onLogout={handleLogout}
-        avatar={UserImage}
+        avatar={user ? user.picture : ""}
       />
     </HeaderWrapper>
   );

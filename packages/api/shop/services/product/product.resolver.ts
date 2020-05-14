@@ -1,6 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { KNEX_CONNECTION } from "@nestjsplus/knex";
 import { Args, Int, Query, Resolver } from "@nestjs/graphql";
+
 import ProductDTO, { ProductResponse } from "./product.dto";
 import { ProductType } from "../../../common/data/product.enum";
 import Category from "../category/category.type";

@@ -1,50 +1,55 @@
-import React, { useReducer } from 'react';
-import { AuthContext } from './auth.context';
-const isBrowser = typeof window !== 'undefined';
+import { useReducer } from "react";
+import { AuthContext } from "./auth.context";
+import { WebAuth } from "auth0-js";
+
+const isBrowser = typeof window !== "undefined";
 const INITIAL_STATE = {
-  isAuthenticated: isBrowser && !!localStorage.getItem('access_token'),
-  currentForm: 'signIn',
+  isAuthenticated: isBrowser && !!localStorage.getItem("access_token"),
+  user: null,
 };
 
 function reducer(state: any, action: any) {
-  console.log(state, 'auth');
+  console.log(state, "auth");
 
   switch (action.type) {
-    case 'SIGNIN':
-      return {
-        ...state,
-        currentForm: 'signIn',
-      };
-    case 'SIGNIN_SUCCESS':
+    case "SIGNIN_SUCCESS":
       return {
         ...state,
         isAuthenticated: true,
+        user: action.payload,
       };
-    case 'SIGN_OUT':
+    case "SIGN_OUT":
       return {
         ...state,
         isAuthenticated: false,
-      };
-    case 'SIGNUP':
-      return {
-        ...state,
-        currentForm: 'signUp',
-      };
-    case 'FORGOTPASS':
-      return {
-        ...state,
-        currentForm: 'forgotPass',
       };
     default:
       return state;
   }
 }
 
-export const AuthProvider: React.FunctionComponent = ({ children }) => {
+const generateAuth = () =>
+  new WebAuth({
+    domain: process.env.AUTH0_DOMAIN,
+    clientID: process.env.AUTH0_CLIENTID,
+    redirectUri: process.env.AUTH0_CALLBACK,
+    responseType: "token id_token",
+    scope: "openid profile email offline_access",
+    audience: `http://localhost:4000/api`,
+    prompt: "login",
+  });
+
+const useContextValue = () => {
   const [authState, authDispatch] = useReducer(reducer, INITIAL_STATE);
-  return (
-    <AuthContext.Provider value={{ authState, authDispatch }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return {
+    auth0: generateAuth(),
+    authState,
+    authDispatch,
+  };
+};
+
+export const AuthProvider = ({ children }) => {
+  const value = useContextValue();
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

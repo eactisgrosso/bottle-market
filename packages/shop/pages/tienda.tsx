@@ -1,0 +1,34 @@
+import React from "react";
+import { NextPage } from "next";
+import { useQuery } from "@apollo/client";
+import { Modal } from "@redq/reuse-modal";
+import { withApollo } from "helper/apollo";
+import { SEO } from "components/seo";
+import Checkout from "containers/Checkout/Checkout";
+import { GET_LOGGED_IN_CUSTOMER } from "graphql/query/customer.query";
+
+import { ProfileProvider } from "contexts/profile/profile.provider";
+
+type Props = {
+  deviceType: {
+    mobile: boolean;
+    tablet: boolean;
+    desktop: boolean;
+  };
+};
+const TiendaPage: NextPage<Props> = ({ deviceType }) => {
+  const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER);
+  if (loading) {
+    return <div>loading...</div>;
+  }
+  if (error) return <div>{error.message}</div>;
+  const token = "true";
+
+  return (
+    <>
+      <SEO title="Tienda - BottleMarket" description="Detalles de la Tienda" />
+    </>
+  );
+};
+
+export default withApollo(TiendaPage);

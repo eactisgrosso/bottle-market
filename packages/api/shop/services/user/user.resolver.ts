@@ -1,4 +1,6 @@
 import { Resolver, Query, Args, Int, Mutation } from "@nestjs/graphql";
+import { UseGuards } from "@nestjs/common";
+import { GraphqlAuthGuard } from "../../../common/auth/graphql.auth.guard";
 
 import { UserRepository } from "../../repositories/user.repository";
 import UserDTO from "./user.dto";
@@ -10,6 +12,7 @@ export class UserResolver {
 
   private readonly items: UserDTO[] = loadUsers();
 
+  @UseGuards(GraphqlAuthGuard)
   @Query(() => UserDTO)
   async me(@Args("id") id: string): Promise<UserDTO> {
     console.log(id, "user_id");

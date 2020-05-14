@@ -5,9 +5,9 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Shop Web",
       "type": "chrome",
       "request": "launch",
-      "name": "Shop Web",
       "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}/packages/shop"
     },
@@ -25,7 +25,7 @@
   "compounds": [
     {
       "name": "Shop All",
-      "configurations": ["Shop API", "Shop Web"]
+      "configurations": ["API", "Shop Web"]
     }
   ]
 }

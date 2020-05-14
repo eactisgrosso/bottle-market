@@ -6,6 +6,9 @@ const nextConfig = {
   env: {
     STRIPE_PUBLIC_KEY: "your_stripe_public_key",
     API_URL: process.env.REACT_APP_API_URL,
+    AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
+    AUTH0_CLIENTID: process.env.AUTH0_CLIENTID,
+    AUTH0_CALLBACK: process.env.AUTH0_CALLBACK,
   },
   webpack: (config, options) => {
     config.devtool = "eval-source-map";

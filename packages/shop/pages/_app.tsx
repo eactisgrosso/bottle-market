@@ -1,5 +1,6 @@
 import React from "react";
 import App from "next/app";
+
 import { ThemeProvider } from "styled-components";
 import { theme } from "theme";
 import { AuthProvider } from "contexts/auth/auth.provider";
@@ -39,6 +40,7 @@ export default function ExtendedApp({
   query,
 }) {
   const deviceType = useDeviceType(userAgent);
+
   return (
     <ThemeProvider theme={theme}>
       <LanguageProvider messages={messages} initLocale={locale}>

@@ -4,6 +4,7 @@ import { ConfigModule } from "@nestjs/config";
 import { KnexModule } from "@nestjsplus/knex";
 
 import { IAppModule } from "../app";
+import { AuthzModule } from "../common/auth/authz.module";
 import { UserModule } from "./services/user/user.module";
 import { ProductModule } from "./services/product/product.module";
 import { PaymentModule } from "./services/payment/payment.module";
@@ -15,6 +16,7 @@ import dbConfig from "../common/data/dbfactory";
 
 @Module({
   imports: [
+    AuthzModule,
     UserModule,
     ProductModule,
     PaymentModule,
@@ -26,6 +28,7 @@ import dbConfig from "../common/data/dbfactory";
       path: "/shop/graphql",
       installSubscriptionHandlers: true,
       autoSchemaFile: true,
+      context: ({ req }) => ({ req }),
     }),
     KnexModule.registerAsync({
       useFactory: dbConfig,

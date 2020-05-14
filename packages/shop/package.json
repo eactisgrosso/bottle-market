@@ -3,20 +3,18 @@
   "version": "2.0.2",
   "private": true,
   "scripts": {
-    "dev": "next",
+    "dev": "NODE_OPTIONS='--inspect' next",
     "build": "next build && next export",
     "start": "next start",
     "serve": "serve ./out"
   },
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.44",
-    "@apollo/react-ssr": "3.1.4",
+    "@apollo/react-ssr": "4.0.0-beta.1",
     "@redq/reuse-modal": "1.2.4-beta.0.63",
     "@styled-system/theme-get": "^5.1.2",
     "@zeit/next-css": "^1.0.1",
-    "apollo-cache-inmemory": "1.6.5",
-    "apollo-client": "^2.6.8",
-    "apollo-link-http": "1.5.16",
+    "auth0-js": "^9.13.2",
     "cookie": "^0.4.0",
     "currency.js": "^1.2.2",
     "formik": "^2.1.4",
@@ -26,7 +24,7 @@
     "js-cookie": "^2.2.1",
     "localforage": "^1.7.3",
     "mobile-detect": "^1.4.4",
-    "next": "^9.3.4",
+    "next": "9.4.0",
     "next-compose-plugins": "^2.2.0",
     "next-cookies": "^2.0.3",
     "next-fonts": "^1.0.3",
@@ -63,7 +61,7 @@
     "yup": "^0.28.3"
   },
   "resolutions": {
-    "@apollo/react-ssr": "3.0.0"
+    "@apollo/react-ssr": "4.0.0-beta.1"
   },
   "devDependencies": {
     "@types/cookie": "^0.3.3",

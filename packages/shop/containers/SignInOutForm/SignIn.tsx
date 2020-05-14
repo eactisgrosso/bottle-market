@@ -1,56 +1,31 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
-  LinkButton,
   Button,
   Wrapper,
   Container,
-  LogoWrapper,
   Heading,
   SubHeading,
-  OfferSection,
-  Offer,
-  Input,
   Divider,
 } from "./SignInOutForm.style";
 import { Facebook, Google } from "components/AllSvgIcon";
-import { AuthContext } from "contexts/auth/auth.context";
+import { useAuth } from "contexts/auth/useAuth";
+
 import { FormattedMessage } from "react-intl";
-import { closeModal } from "@redq/reuse-modal";
-import Image from "components/Image/Image";
-import BottleMarket from "../../image/BottleMarket.png";
 
 export default function SignInModal() {
-  const { authDispatch } = useContext<any>(AuthContext);
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const { loginSocial } = useAuth();
 
-  const toggleSignUpForm = () => {
-    authDispatch({
-      type: "SIGNUP",
-    });
+  const loginWithGoogle = () => {
+    loginSocial("google-oauth2");
   };
 
-  const toggleForgotPassForm = () => {
-    authDispatch({
-      type: "FORGOTPASS",
-    });
-  };
-
-  const loginCallback = () => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("access_token", `${email}.${password}`);
-      authDispatch({ type: "SIGNIN_SUCCESS" });
-      closeModal();
-    }
+  const loginWithFacebook = () => {
+    loginSocial("facebook");
   };
 
   return (
     <Wrapper>
       <Container>
-        {/* <LogoWrapper>
-          <Image url={BottleMarket} />
-        </LogoWrapper> */}
-
         <Heading>
           <FormattedMessage id="welcomeBack" defaultMessage="Welcome Back" />
         </Heading>
@@ -61,51 +36,6 @@ export default function SignInModal() {
             defaultMessage="Login with your email &amp; password"
           />
         </SubHeading>
-        <form onSubmit={loginCallback}>
-          <FormattedMessage
-            id="emailAddressPlaceholder"
-            defaultMessage="Email Address."
-          >
-            {(placeholder) => (
-              <Input
-                type="email"
-                placeholder={placeholder}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            )}
-          </FormattedMessage>
-
-          <FormattedMessage
-            id="passwordPlaceholder"
-            defaultMessage="Password (min 6 characters)"
-            values={{ minCharacter: 6 }}
-          >
-            {(placeholder) => (
-              <Input
-                type="password"
-                placeholder={placeholder}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            )}
-          </FormattedMessage>
-
-          <Button
-            fullwidth
-            title={"Continue"}
-            intlButtonId="continueBtn"
-            type="submit"
-            style={{ color: "#fff" }}
-          />
-        </form>
-        <Divider>
-          <span>
-            <FormattedMessage id="orText" defaultMessage="or" />
-          </span>
-        </Divider>
 
         <Button
           fullwidth
@@ -115,7 +45,7 @@ export default function SignInModal() {
           iconPosition="left"
           iconStyle={{ color: "#ffffff", marginRight: 5 }}
           intlButtonId="continueFacebookBtn"
-          onClick={loginCallback}
+          onClick={loginWithFacebook}
           style={{ color: "#fff" }}
         />
 
@@ -127,32 +57,14 @@ export default function SignInModal() {
           iconPosition="left"
           iconStyle={{ color: "#ffffff", marginRight: 5 }}
           intlButtonId="continueGoogleBtn"
-          onClick={loginCallback}
+          onClick={loginWithGoogle}
           style={{ color: "#fff" }}
         />
 
-        <Offer style={{ padding: "20px 0" }}>
-          <FormattedMessage
-            id="dontHaveAccount"
-            defaultMessage="Don't have any account?"
-          />{" "}
-          <LinkButton onClick={toggleSignUpForm}>
-            <FormattedMessage id="signUpBtnText" defaultMessage="Sign Up" />
-          </LinkButton>
-        </Offer>
+        <Divider>
+          <span></span>
+        </Divider>
       </Container>
-
-      <OfferSection>
-        <Offer>
-          <FormattedMessage
-            id="forgotPasswordText"
-            defaultMessage="Forgot your password?"
-          />{" "}
-          <LinkButton onClick={toggleForgotPassForm}>
-            <FormattedMessage id="resetText" defaultMessage="Reset It" />
-          </LinkButton>
-        </Offer>
-      </OfferSection>
     </Wrapper>
   );
 }

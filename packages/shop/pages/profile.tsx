@@ -16,6 +16,7 @@ import { SEO } from "components/seo";
 import SiteFooter from "components/SiteFooter/SiteFooter";
 import { FormattedMessage } from "react-intl";
 import { withApollo } from "helper/apollo";
+import { useAuth } from "use-auth0-hooks";
 
 type Props = {
   deviceType?: {
@@ -29,6 +30,7 @@ const ProfilePage: NextPage<Props> = ({ deviceType }) => {
   if (!data || loading) {
     return <div>loading...</div>;
   }
+
   if (error) return <div>{error.message}</div>;
   return (
     <>
@@ -46,9 +48,9 @@ const ProfilePage: NextPage<Props> = ({ deviceType }) => {
             <SiteFooter style={{ marginTop: 50 }}>
               <FormattedMessage
                 id="siteFooter"
-                defaultMessage="Pickbazar is a product of"
+                defaultMessage="BottleMarket is a product of"
               />
-              &nbsp; <Link href="#">Redq, Inc.</Link>
+              &nbsp; <Link href="#">BottleHub, SA.</Link>
             </SiteFooter>
           </PageWrapper>
         </Modal>

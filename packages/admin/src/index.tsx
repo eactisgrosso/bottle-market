@@ -4,15 +4,36 @@ import { BrowserRouter } from "react-router-dom";
 import { Client as Styletron } from "styletron-engine-atomic";
 import { Provider as StyletronProvider } from "styletron-react";
 import { BaseProvider } from "baseui";
-import { ApolloProvider } from "@apollo/client";
+import {
+  ApolloProvider,
+  ApolloClient,
+  from,
+  HttpLink,
+  InMemoryCache,
+} from "@apollo/client";
+import { onError } from "@apollo/link-error";
 import { theme } from "./theme";
 import Routes from "./routes";
-import ApolloClient from "apollo-boost";
 import * as serviceWorker from "./serviceWorker";
 import "./theme/global.css";
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_API_URL,
+  link: from([
+    onError(({ graphQLErrors, networkError }) => {
+      if (graphQLErrors)
+        graphQLErrors.forEach(({ message, locations, path }) =>
+          console.log(
+            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+          )
+        );
+      if (networkError) console.log(`[Network error]: ${networkError}`);
+    }),
+    new HttpLink({
+      uri: process.env.REACT_APP_API_URL,
+      credentials: "same-origin",
+    }),
+  ]),
+  cache: new InMemoryCache(),
 });
 
 function App() {

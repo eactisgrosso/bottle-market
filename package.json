@@ -21,13 +21,13 @@
     "dev:api-admin": "yarn workspace @bottle-market/api admin"
   },
   "devDependencies": {
+    "concurrently": "^5.1.0",
     "cross-env": "^7.0.2",
     "husky": "^4.2.3",
     "lerna": "^3.20.2",
     "lint-staged": "^10.1.2",
     "prettier": "^2.0.4",
-    "rimraf": "^3.0.2",
-    "concurrently": "^5.1.0"
+    "rimraf": "^3.0.2"
   },
   "husky": {
     "hooks": {

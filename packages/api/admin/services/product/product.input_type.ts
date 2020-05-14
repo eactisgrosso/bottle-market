@@ -21,6 +21,9 @@ export default class AddProductInput implements Partial<Product> {
   @Field({ defaultValue: "1" })
   unit: string;
 
+  @Field({ defaultValue: "750ml" })
+  size: string;
+
   @Field((type) => [CategoryInput], { nullable: true })
   categories: CategoryInput[];
 

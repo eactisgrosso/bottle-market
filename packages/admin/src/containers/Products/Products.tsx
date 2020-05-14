@@ -85,7 +85,7 @@ const GET_PRODUCTS = gql`
         image
         type
         price
-        unit
+        size
         salePrice
         discountInPercent
       }
@@ -227,7 +227,7 @@ export default function Products() {
                     <Fade bottom duration={800} delay={index * 10}>
                       <ProductCard
                         title={item.name}
-                        weight={item.unit}
+                        weight={item.size}
                         image={item.image}
                         currency={CURRENCY}
                         price={item.price}

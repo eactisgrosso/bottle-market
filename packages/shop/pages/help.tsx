@@ -86,7 +86,7 @@ export default function () {
             id="siteFooter"
             defaultMessage="Pickbazar is a product of"
           />
-          &nbsp; <a href="#">Redq, Inc.</a>
+          &nbsp; <a href="#">BottleHub, SA.</a>
         </SiteFooter>
       </HelpPageWrapper>
     </Modal>

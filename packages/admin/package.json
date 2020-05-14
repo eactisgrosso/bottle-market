@@ -11,8 +11,8 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.44",
+    "@apollo/link-error": "^2.0.0-beta.3",
     "apexcharts": "3.17.0",
-    "apollo-boost": "^0.4.7",
     "baseui": "^9.65.0",
     "formik": "^2.1.4",
     "graphql": "^14.6.0",
