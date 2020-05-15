@@ -2,7 +2,7 @@
   "name": "@bottle-market/api",
   "version": "2.0.2",
   "scripts": {
-    "shop": "AWS_PROFILE=bottlehub ts-node-dev --inspect --respawn server.shop.ts",
+    "shop": "AWS_PROFILE=bottlehub ts-node-dev --respawn server.shop.ts",
     "admin": "AWS_PROFILE=bottlehub ts-node-dev --inspect --respawn server.admin.ts",
     "build": "rm -rf dist && mkdir dist && tsc -b && copyfiles *.gql dist/",
     "postbuild": "cp package.json dist/package.json && cd dist && npm install --only=production",
@@ -35,7 +35,8 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.5",
     "typedi": "^0.8.0",
-    "typeorm": "^0.2.24"
+    "typeorm": "^0.2.24",
+    "uuid": "^8.0.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.51",

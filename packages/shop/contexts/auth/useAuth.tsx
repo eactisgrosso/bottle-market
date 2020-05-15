@@ -53,6 +53,14 @@ export const useAuth = () => {
         localStorage.setItem("access_token", authResult.accessToken);
 
         const user = authResult.idTokenPayload;
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            picture: user.picture,
+            fullname: user.name,
+          })
+        );
+
         const userInfo = jwt_decode(authResult.accessToken);
         const metadata = userInfo["https://app.bottlemarket.com.ar/userinfo"];
 

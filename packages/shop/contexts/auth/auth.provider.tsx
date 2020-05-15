@@ -5,7 +5,10 @@ import { WebAuth } from "auth0-js";
 const isBrowser = typeof window !== "undefined";
 const INITIAL_STATE = {
   isAuthenticated: isBrowser && !!localStorage.getItem("access_token"),
-  user: null,
+  user:
+    isBrowser && !!localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user"))
+      : null,
 };
 
 function reducer(state: any, action: any) {
