@@ -5,10 +5,11 @@ import { UseGuards } from "@nestjs/common";
 import { GraphqlAuthGuard } from "../../../common/auth/graphql.auth.guard";
 
 import { UserRepository } from "../../repositories/user.repository";
-import uuidV4 from "uuid/v4";
 import CreateUserInput from "./user.input_type";
 import UserDTO from "./user.type";
 import loadUsers from "./user.sample";
+
+const { v4: uuidv4 } = require("uuid");
 
 @Injectable()
 @Resolver()
@@ -26,7 +27,7 @@ export class UserResolver {
   async signMeUp(
     @Args("signUpInput") signUpInput: CreateUserInput
   ): Promise<UserDTO> {
-    const bottleId = uuidV4();
+    const bottleId = uuidv4();
     const user = await this.repository.load(bottleId);
     user.create(
       signUpInput.sub,
