@@ -1,4 +1,4 @@
-import { Event } from "../../../common/event";
+import { Event } from "../../../common/domain/event";
 
 export class OrderAddedEvent extends Event {
   constructor(

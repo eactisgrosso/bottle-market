@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useAuthContext } from "./auth.context";
+import jwt_decode from "jwt-decode";
 
 export const useAuth = () => {
   const { auth0, authState, authDispatch } = useAuthContext();
@@ -34,33 +35,38 @@ export const useAuth = () => {
     [auth0]
   );
 
-  //   const renewSession = useCallback(() => {
-  //     auth0.checkSession({}, (err, authResult) => {
-  //       if (authResult && authResult.accessToken && authResult.idToken) {
-  //         setSession(authResult);
-  //       } else if (err) {
-  //         logout();
-  //         console.error(
-  //           `Could not get a new token (${err.error}: ${err.error_description}).`
-  //         );
-  //         sendMessage("Hubo un problema, volvé a iniciar sesión.", "warning");
-  //       }
-  //     });
-  //   }, []);
+  // const renewSession = useCallback(() => {
+  //   auth0.checkSession({}, (err, authResult) => {
+  //     if (authResult && authResult.accessToken && authResult.idToken) {
+  //     } else if (err) {
+  //       logout();
+  //       console.error(
+  //         `Could not get a new token (${err.error}: ${err.error_description}).`
+  //       );
+  //     }
+  //   });
+  // }, []);
 
   const handleAuthentication = useCallback(() => {
-    auth0.parseHash((err, authResult) => {
+    auth0.parseHash(async (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         localStorage.setItem("access_token", authResult.accessToken);
+
+        const user = authResult.idTokenPayload;
+        const userInfo = jwt_decode(authResult.accessToken);
+        const metadata = userInfo["https://app.bottlemarket.com.ar/userinfo"];
+
         authDispatch({
           type: "SIGNIN_SUCCESS",
           payload: {
-            email: authResult.idTokenPayload.email,
-            sub: authResult.idTokenPayload.sub,
-            username: authResult.idTokenPayload.preferred_username,
-            fullname: authResult.idTokenPayload.name,
-            firstname: authResult.idTokenPayload.given_name,
-            picture: authResult.idTokenPayload.picture,
+            id: metadata ? metadata.bottleId : "",
+            email: user.email,
+            sub: user.sub,
+            username: user.preferred_username,
+            fullname: user.name,
+            firstname: user.given_name,
+            lastname: user.family_name,
+            picture: user.picture,
           },
         });
       } else if (err) {

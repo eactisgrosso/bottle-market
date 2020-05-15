@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from "@nestjs/graphql";
+import { ObjectType, Field, Int, InputType } from "@nestjs/graphql";
 import Address from "./address.type";
 import Contact from "./contact.type";
 import Card from "./card.type";

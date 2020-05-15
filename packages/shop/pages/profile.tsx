@@ -16,7 +16,6 @@ import { SEO } from "components/seo";
 import SiteFooter from "components/SiteFooter/SiteFooter";
 import { FormattedMessage } from "react-intl";
 import { withApollo } from "helper/apollo";
-import { useAuth } from "use-auth0-hooks";
 
 type Props = {
   deviceType?: {

@@ -1,7 +1,13 @@
 import React from "react";
 import Head from "next/head";
-import { ApolloProvider } from "@apollo/client";
-import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import {
+  ApolloProvider,
+  ApolloClient,
+  HttpLink,
+  InMemoryCache,
+} from "@apollo/client";
+import { setContext } from "@apollo/link-context";
+
 import fetch from "isomorphic-unfetch";
 
 let apolloClient = null;
@@ -117,6 +123,18 @@ function initApolloClient(initialState) {
   return apolloClient;
 }
 
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = localStorage.getItem("access_token");
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
+});
+
 /**
  * Creates and configures the ApolloClient
  * @param  {Object} [initialState={}]
@@ -125,11 +143,13 @@ function createApolloClient(initialState = {}) {
   // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient
   return new ApolloClient({
     ssrMode: typeof window === "undefined", // Disables forceFetch on the server (so queries are only run once)
-    link: new HttpLink({
-      uri: process.env.API_URL, // Server URL (must be absolute)
-      credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
-      fetch,
-    }),
+    link: authLink.concat(
+      new HttpLink({
+        uri: process.env.API_URL, // Server URL (must be absolute)
+        credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
+        fetch,
+      })
+    ),
     cache: new InMemoryCache().restore(initialState),
   });
 }

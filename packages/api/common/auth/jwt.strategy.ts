@@ -15,6 +15,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         rateLimit: true,
         jwksRequestsPerMinute: 5,
         jwksUri: `${process.env.AUTH0_DOMAIN}.well-known/jwks.json`,
+        handleSigningKeyError: (err, cb) => {
+          console.log(">>>>>>>>>>>>>", err);
+          return cb(new Error("Authentication Error"));
+        },
       }),
 
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

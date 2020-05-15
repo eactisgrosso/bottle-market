@@ -1,4 +1,4 @@
-import { Aggregate } from "../../common/aggregate";
+import { Aggregate } from "../../common/domain/aggregate";
 import { OrderAddedEvent } from "../events/order/order-added.event";
 
 export class Order extends Aggregate {

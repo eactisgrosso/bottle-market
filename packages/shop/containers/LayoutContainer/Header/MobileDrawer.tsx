@@ -8,7 +8,7 @@ import NavLink from "components/NavLink/NavLink";
 import { CloseIcon } from "components/AllSvgIcon";
 import { DrawerContext } from "contexts/drawer/drawer.context";
 import SignInForm from "../../SignInOutForm/SignIn";
-import { AuthContext } from "contexts/auth/auth.context";
+import { useAuth } from "contexts/auth/useAuth";
 
 import { FormattedMessage } from "react-intl";
 import {
@@ -89,10 +89,7 @@ const DrawerMenuItems = [
 
 const MobileDrawer: React.FunctionComponent = () => {
   const { state, dispatch } = useContext<any>(DrawerContext);
-  const {
-    authState: { isAuthenticated },
-    authDispatch,
-  } = useContext<any>(AuthContext);
+  const { signIn, logout, isAuthenticated, user } = useAuth();
 
   // Toggle drawer
   const toggleHandler = React.useCallback(() => {
@@ -102,11 +99,7 @@ const MobileDrawer: React.FunctionComponent = () => {
   }, [dispatch]);
 
   const handleLogout = () => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("access_token");
-      authDispatch({ type: "SIGN_OUT" });
-      Router.push("/");
-    }
+    logout();
   };
   const resetSearch = () => {
     dispatch({
@@ -119,9 +112,7 @@ const MobileDrawer: React.FunctionComponent = () => {
       type: "TOGGLE",
     });
 
-    authDispatch({
-      type: "SIGNIN",
-    });
+    signIn();
 
     openModal({
       show: true,

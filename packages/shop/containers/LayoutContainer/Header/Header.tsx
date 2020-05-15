@@ -24,7 +24,6 @@ const Header: React.FC<Props> = ({ className }) => {
 
   const handleLogout = () => {
     logout();
-    Router.push("/");
   };
 
   const handleJoin = () => {

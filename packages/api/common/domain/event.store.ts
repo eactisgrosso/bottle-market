@@ -3,6 +3,7 @@ import { KNEX_CONNECTION } from "@nestjsplus/knex";
 import { EventBus } from "@nestjs/cqrs";
 import { Event } from "./event";
 import { Aggregate } from "./aggregate";
+import "../helpers/date.extensions";
 
 export interface Constructor<T> {
   new (...args: any[]): T;
@@ -16,7 +17,12 @@ export class EventStore {
   ) {}
 
   async context<T extends Aggregate>(object: T): Promise<T> {
-    const dbEvents = await this.knex("events").where("aggregateid", object.id);
+    const aggregateId = this.knex.raw("UUID_TO_BIN(?)", object.id);
+
+    const dbEvents = await this.knex("events").where(
+      "aggregateid",
+      aggregateId
+    );
     const events = dbEvents.map((event: any) => JSON.parse(event.eventData));
 
     object.loadFromHistory(events);
@@ -26,13 +32,13 @@ export class EventStore {
       event.sequence = ++object.sequence;
 
       await this.knex("events").insert({
-        aggregateId: object.id,
+        aggregateId: aggregateId,
         aggregateType: object.constructor.name,
         eventType: event.constructor.name,
         eventData: JSON.stringify(event),
         userId: event.userId,
         sequence: event.sequence,
-        timestamp: new Date().toISOString().slice(0, 19).replace("T", " "),
+        timestamp: new Date().toMySQLString(),
       });
 
       eventBus.publish(event);
