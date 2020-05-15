@@ -30,6 +30,7 @@ const Auth0CallbackPage: NextPage<Props> = () => {
               },
             },
           });
+        Router.push("/");
       })();
     }
   }, [isAuthenticated]);
