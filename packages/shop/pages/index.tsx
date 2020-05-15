@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 const Index: React.FC = () => {
   const router = useRouter();
   React.useEffect(() => {
-    console.log("REDIRECT /vinos");
     router.replace("/vinos");
   });
   return (
