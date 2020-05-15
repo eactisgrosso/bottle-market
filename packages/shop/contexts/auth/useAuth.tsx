@@ -49,6 +49,7 @@ export const useAuth = () => {
 
   const handleAuthentication = useCallback(() => {
     auth0.parseHash(async (err, authResult) => {
+      console.log(`authResult:${JSON.stringify(authResult)}`);
       if (authResult && authResult.accessToken && authResult.idToken) {
         localStorage.setItem("access_token", authResult.accessToken);
 
