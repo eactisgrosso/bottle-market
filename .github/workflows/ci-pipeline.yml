@@ -12,26 +12,26 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
-      - uses: actions/cache@v1
-        with:
-          path: ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
-      - name: Install dependencies
-        run: yarn install
-      - name: Build Shop Web
-        run: |
-          npx next telemetry disable
-          yarn build:shop
-      - name: Deploy Shop Web
-        run: |
-          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws s3 sync packages/shop/out s3://app.bottlemarket.com.ar/ --exclude index.html --region us-east-1
-          aws s3 cp packages/shop/out/index.html s3://app.bottlemarket.com.ar/ --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type text/html --region us-east-1
-          aws s3 cp s3://app.bottlemarket.com.ar/callback.html s3://app.bottlemarket.com.ar/callback --cache-control max-age=0,no-cache --acl public-read --content-type text/html
+      # - uses: actions/setup-node@v1
+      #   with:
+      #     node-version: "12.x"
+      # - uses: actions/cache@v1
+      #   with:
+      #     path: ${{ github.workspace }}/.next/cache
+      #     key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
+      # - name: Install dependencies
+      #   run: yarn install
+      # - name: Build Shop Web
+      #   run: |
+      #     npx next telemetry disable
+      #     yarn build:shop
+      # - name: Deploy Shop Web
+      #   run: |
+      #     export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws s3 sync packages/shop/out s3://app.bottlemarket.com.ar/ --exclude index.html --region us-east-1
+      #     aws s3 cp packages/shop/out/index.html s3://app.bottlemarket.com.ar/ --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type text/html --region us-east-1
+      #     aws s3 cp s3://app.bottlemarket.com.ar/callback.html s3://app.bottlemarket.com.ar/callback --cache-control max-age=0,no-cache --acl public-read --content-type text/html
       # - name: Build Admin Web
       #   run: yarn build:admin
       # - name: Deploy Admin Web

@@ -12,3 +12,4 @@ export const YOUR_ORDER = "/order";
 export const ORDER_RECEIVED = "/order-received";
 export const OFFER_PAGE = "/offer";
 export const HELP_PAGE = "/help";
+export const RETAILER_PAGE = "/tienda";

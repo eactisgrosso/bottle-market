@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { openModal } from "@redq/reuse-modal";
-import Router from "next/router";
 import { Scrollbars } from "react-custom-scrollbars";
 import Drawer from "components/Drawer/Drawer";
 import Button from "components/Button/Button";
@@ -9,6 +8,7 @@ import { CloseIcon } from "components/AllSvgIcon";
 import { DrawerContext } from "contexts/drawer/drawer.context";
 import SignInForm from "../../SignInOutForm/SignIn";
 import { useAuth } from "contexts/auth/useAuth";
+import { setCookie } from "helper/session";
 
 import { FormattedMessage } from "react-intl";
 import {
@@ -34,6 +34,7 @@ import {
   ORDER_RECEIVED,
   HELP_PAGE,
   OFFER_PAGE,
+  RETAILER_PAGE,
 } from "constants/navigation";
 
 const DrawerMenuItems = [
@@ -75,9 +76,9 @@ const DrawerMenuItems = [
   },
   {
     id: 7,
-    intlLabelId: "navlinkHelp",
-    label: "Help",
-    href: HELP_PAGE,
+    intlLabelId: "navlinkRetailer",
+    label: "Retailer",
+    href: RETAILER_PAGE,
   },
   {
     id: 8,
@@ -112,8 +113,8 @@ const MobileDrawer: React.FunctionComponent = () => {
       type: "TOGGLE",
     });
 
+    setCookie("returnUrl", "/");
     signIn();
-
     openModal({
       show: true,
       overlayClassName: "quick-view-overlay",

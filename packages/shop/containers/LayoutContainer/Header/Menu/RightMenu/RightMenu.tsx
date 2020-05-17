@@ -1,12 +1,12 @@
-import React from 'react';
-import NavLink from 'components/NavLink/NavLink';
-import Button from 'components/Button/Button';
-import Popover from 'components/Popover/Popover';
-import { OFFER_PAGE, HELP_PAGE } from 'constants/navigation';
-import { AuthorizedMenu } from '../AuthorizedMenu';
-import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
-import { HelpIcon } from 'components/AllSvgIcon';
-import { RightMenuBox } from './RightMenu.style';
+import React from "react";
+import NavLink from "components/NavLink/NavLink";
+import Button from "components/Button/Button";
+import Popover from "components/Popover/Popover";
+import { OFFER_PAGE, RETAILER_PAGE } from "constants/navigation";
+import { AuthorizedMenu } from "../AuthorizedMenu";
+import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
+import { HelpIcon, Vino } from "components/AllSvgIcon";
+import { RightMenuBox } from "./RightMenu.style";
 
 type Props = {
   onLogout: () => void;
@@ -19,7 +19,7 @@ export const RightMenu: React.FC<Props> = ({
   onLogout,
   avatar,
   isAuthenticated,
-  onJoin
+  onJoin,
 }) => {
   return (
     <RightMenuBox>
@@ -31,12 +31,13 @@ export const RightMenu: React.FC<Props> = ({
       />
       <NavLink
         className="menu-item"
-        href={HELP_PAGE}
-        label="Need Help"
-        intlId="navlinkHelp"
+        href={RETAILER_PAGE}
+        label="I'm a Retailer"
+        intlId="navlinkRetailer"
         iconClass="menu-icon"
-        icon={<HelpIcon />}
+        icon={<Vino />}
       />
+
       <LanguageSwitcher />
 
       {!isAuthenticated ? (
@@ -44,7 +45,7 @@ export const RightMenu: React.FC<Props> = ({
           onClick={onJoin}
           size="small"
           title="Join"
-          style={{ fontSize: 15, color: '#fff' }}
+          style={{ fontSize: 15, color: "#fff" }}
           intlButtonId="joinButton"
         />
       ) : (

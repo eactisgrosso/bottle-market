@@ -24,11 +24,9 @@ export const useAuth = () => {
   const user = authState.user;
 
   const logout = useCallback(
-    (returnUrl = "") => {
+    async (returnUrl = "") => {
       localStorage.removeItem("access_token");
-      authDispatch({ type: "SIGN_OUT" });
-
-      auth0.logout({
+      await auth0.logout({
         returnTo: window.location.origin + returnUrl,
       });
     },

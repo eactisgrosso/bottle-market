@@ -10,6 +10,7 @@ import HeaderWrapper from "./Header.style";
 import LogoImage from "image/Logo.svg";
 import { isCategoryPage } from "../is-home-page";
 import SignInForm from "../../SignInOutForm/SignIn";
+import { setCookie } from "helper/session";
 
 type Props = {
   className?: string;
@@ -27,8 +28,8 @@ const Header: React.FC<Props> = ({ className }) => {
   };
 
   const handleJoin = () => {
+    setCookie("returnUrl", "/");
     signIn();
-
     openModal({
       show: true,
       overlayClassName: "quick-view-overlay",

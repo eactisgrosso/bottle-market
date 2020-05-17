@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { themeGet } from '@styled-system/theme-get';
+import styled from "styled-components";
+import { themeGet } from "@styled-system/theme-get";
 export const RightMenuBox = styled.div`
   display: flex;
   align-items: center;
@@ -12,10 +12,10 @@ export const RightMenuBox = styled.div`
 
   .menu-item {
     a {
-      font-family: 'Lato', sans-serif;
-      font-size: ${themeGet('fontSizes.2', '15')}px;
-      font-weight: ${themeGet('fontWeights.6', '700')};
-      color: ${themeGet('colors.darkBold', '#0D1136')};
+      font-family: "Lato", sans-serif;
+      font-size: ${themeGet("fontSizes.2", "15")}px;
+      font-weight: ${themeGet("fontWeights.6", "700")};
+      color: ${themeGet("colors.darkBold", "#0D1136")};
       line-height: 1.2em;
       display: block;
       transition: 0.15s ease-in-out;
@@ -28,10 +28,10 @@ export const RightMenuBox = styled.div`
         font-size: 15px;
       }
       &:hover {
-        color: ${themeGet('colors.primary', '#009E7F')};
+        color: ${themeGet("colors.primary", "#009E7F")};
       }
       &.current-page {
-        color: ${themeGet('colors.primary', '#009E7F')};
+        color: ${themeGet("colors.primary", "#009E7F")};
       }
     }
   }

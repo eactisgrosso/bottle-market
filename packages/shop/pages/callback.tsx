@@ -5,6 +5,7 @@ import Router from "next/router";
 import { withApollo } from "helper/apollo";
 import { useMutation } from "@apollo/client";
 import { SIGN_ME_UP } from "graphql/mutation/me";
+import { getCookie } from "helper/session";
 
 interface Props {}
 
@@ -30,7 +31,8 @@ const Auth0CallbackPage: NextPage<Props> = () => {
               },
             },
           });
-        Router.push("/");
+        const returnUrl = getCookie("returnUrl");
+        Router.push(returnUrl ? returnUrl : "/");
       })();
     }
   }, [isAuthenticated]);
