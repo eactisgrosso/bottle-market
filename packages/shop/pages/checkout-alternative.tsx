@@ -20,7 +20,7 @@ type Props = {
 const CheckoutPage: NextPage<Props> = ({ deviceType }) => {
   const { user } = useAuth();
   const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER, {
-    variables: { id: user.id },
+    variables: { id: user ? user.id : "" },
   });
   if (loading) {
     return <div>loading...</div>;
