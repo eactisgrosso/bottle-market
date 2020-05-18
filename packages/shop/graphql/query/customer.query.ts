@@ -1,7 +1,7 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export const GET_LOGGED_IN_CUSTOMER = gql`
-  query getUser($id: String = "1") {
+  query getUser($id: String!) {
     me(id: $id) {
       id
       name

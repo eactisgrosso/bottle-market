@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { themeGet } from '@styled-system/theme-get';
-import Inputs from 'components/Input/Input';
-import { Row as Rows } from 'react-styled-flexboxgrid';
+import styled from "styled-components";
+import { themeGet } from "@styled-system/theme-get";
+import Inputs from "components/Input/Input";
+import { Row as Rows } from "react-styled-flexboxgrid";
 
 const SettingsForm = styled.div`
   width: 100%;
@@ -18,10 +18,10 @@ const HeadingSection = styled.div`
 `;
 
 const Title = styled.h3`
-  font-family: 'Poppins', sans-serif;
-  font-size: ${themeGet('fontSizes.4', '21')}px;
-  font-weight: ${themeGet('fontWeights.6', '700')};
-  color: ${themeGet('colors.darkBold', '#0D1136')};
+  font-family: "Poppins", sans-serif;
+  font-size: ${themeGet("fontSizes.4", "21")}px;
+  font-weight: ${themeGet("fontWeights.6", "700")};
+  color: ${themeGet("colors.darkBold", "#0D1136")};
 `;
 
 const SettingsFormContent = styled.div`
@@ -99,12 +99,12 @@ const ButtonGroup = styled.div`
     flex-shrink: 0;
     height: auto;
     min-height: 77px;
-    border: 1px dashed ${themeGet('colors.borderColor', '#f1f1f1')};
+    border: 1px dashed ${themeGet("colors.borderColor", "#f1f1f1")};
     margin-bottom: 15px;
     margin-left: 0;
     margin-right: auto;
     &:hover {
-      border-color: ${themeGet('colors.primary', '#009E7F')};
+      border-color: ${themeGet("colors.primary", "#009E7F")};
     }
 
     @media (max-width: 700px) {

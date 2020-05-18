@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useAuth } from "contexts/auth/useAuth";
 import { useMutation } from "@apollo/client";
 import { Col } from "react-styled-flexboxgrid";
 import { openModal } from "@redq/reuse-modal";
@@ -34,6 +35,7 @@ type SettingsContentProps = {
 };
 
 const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
+  const { user } = useAuth();
   const { state, dispatch } = useContext(ProfileContext);
   const [updateMeMutation] = useMutation(UPDATE_ME);
   const [deleteContactMutation] = useMutation(DELETE_CONTACT);
@@ -98,9 +100,9 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
   };
 
   const handleSave = async () => {
-    const { name, email } = state;
+    const { name } = state;
     await updateMeMutation({
-      variables: { meInput: JSON.stringify({ name, email }) },
+      variables: { meInput: { id: user.id, name } },
     });
   };
 
@@ -132,9 +134,9 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
               type="email"
               label="Email Address"
               value={state.email}
-              onUpdate={(value: string) => handleChange(value, "email")}
               style={{ backgroundColor: "#F7F7F7" }}
               intlInputLabelId="profileEmailField"
+              disabled
             />
           </Col>
 

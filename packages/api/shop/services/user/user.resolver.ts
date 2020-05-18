@@ -5,7 +5,7 @@ import { UseGuards } from "@nestjs/common";
 import { GraphqlAuthGuard } from "../../../common/auth/graphql.auth.guard";
 
 import { UserRepository } from "../../repositories/user.repository";
-import CreateUserInput from "./user.input_type";
+import { CreateUserInput, UpdateUserInput } from "./user.input_type";
 import UserDTO from "./user.type";
 import loadUsers from "./user.sample";
 
@@ -62,21 +62,33 @@ export class UserResolver {
 
   @Query(() => UserDTO)
   async me(@Args("id") id: string): Promise<UserDTO> {
-    console.log(id, "user_id");
-    return await this.items[0];
+    let user = new UserDTO();
+    const aggregateId = this.knex.raw("UUID_TO_BIN(?)", id);
+
+    const dbUser = await this.knex("marketplace_user")
+      .select("email", "firstname", "lastname")
+      .where("aggregateId", aggregateId)
+      .first();
+    if (dbUser) {
+      user.id = id;
+      user.email = dbUser.email;
+      user.name = `${dbUser.firstname} ${dbUser.lastname}`;
+      user.contact = [];
+      user.address = [];
+      user.card = [];
+    }
+
+    return user;
   }
 
   @UseGuards(GraphqlAuthGuard)
   @Mutation(() => UserDTO, { description: "Update User" })
-  async updateMe(@Args("meInput") meInput: string): Promise<UserDTO> {
-    console.log(meInput, "meInput");
-
-    const user = await this.repository.load("1");
-    user.changeName("Eze");
-
+  async updateMe(@Args("meInput") meInput: UpdateUserInput): Promise<UserDTO> {
+    const user = await this.repository.load(meInput.id);
+    user.changeName(meInput.name);
     user.commit();
 
-    return await this.items[0];
+    return this.me(meInput.id);
   }
 
   @Mutation(() => UserDTO, { description: "Add or Edit Address" })

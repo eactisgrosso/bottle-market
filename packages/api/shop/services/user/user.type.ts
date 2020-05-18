@@ -5,8 +5,8 @@ import Card from "./card.type";
 
 @ObjectType()
 export default class UserDTO {
-  @Field((type) => Int)
-  id: number;
+  @Field((type) => String)
+  id: string;
 
   @Field()
   name: string;

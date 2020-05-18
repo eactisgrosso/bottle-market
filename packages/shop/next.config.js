@@ -9,6 +9,7 @@ const nextConfig = {
     AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
     AUTH0_CLIENTID: process.env.AUTH0_CLIENTID,
     AUTH0_CALLBACK: process.env.AUTH0_CALLBACK,
+    MAPS_API_KEY: process.env.MAPS_API_KEY,
   },
   webpack: (config, options) => {
     config.devtool = "eval-source-map";

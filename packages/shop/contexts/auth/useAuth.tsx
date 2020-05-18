@@ -52,17 +52,17 @@ export const useAuth = () => {
         localStorage.setItem("access_token", authResult.accessToken);
 
         const user = authResult.idTokenPayload;
+        const userInfo = jwt_decode(authResult.accessToken);
+        const metadata = userInfo["https://app.bottlemarket.com.ar/userinfo"];
+
         localStorage.setItem(
           "user",
           JSON.stringify({
+            id: metadata ? metadata.bottleId : "",
             picture: user.picture,
             fullname: user.name,
           })
         );
-
-        const userInfo = jwt_decode(authResult.accessToken);
-        const metadata = userInfo["https://app.bottlemarket.com.ar/userinfo"];
-
         authDispatch({
           type: "SIGNIN_SUCCESS",
           payload: {

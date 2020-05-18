@@ -46,7 +46,20 @@ export class UserCreatedEventHandler
 @EventsHandler(UserNameChangedEvent)
 export class UserNameChangedEventHandler
   implements IEventHandler<UserNameChangedEvent> {
-  handle(event: UserNameChangedEvent) {}
+  constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {}
+
+  async handle(event: UserNameChangedEvent) {
+    const aggregateId = this.knex.raw("UUID_TO_BIN(?)", event.aggregateId);
+    const names = event.name.split(" ");
+
+    await this.knex("marketplace_user")
+      .where("aggregateId", aggregateId)
+      .update({
+        firstname: names[0],
+        lastname: names.slice(1).join(" "),
+        date_last_modified: new Date().toMySQLString(),
+      });
+  }
 }
 
 export const EventHandlers = [

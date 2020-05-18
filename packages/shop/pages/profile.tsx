@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
 import { Modal } from "@redq/reuse-modal";
+import { useAuth } from "contexts/auth/useAuth";
 import { GET_LOGGED_IN_CUSTOMER } from "graphql/query/customer.query";
 import { ProfileProvider } from "contexts/profile/profile.provider";
 import SettingsContent from "containers/Profile/Settings/Settings";
@@ -25,7 +26,10 @@ type Props = {
   };
 };
 const ProfilePage: NextPage<Props> = ({ deviceType }) => {
-  const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER);
+  const { user } = useAuth();
+  const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER, {
+    variables: { id: "eebac3e4-5de0-43b7-a45a-cf3b3837d43e" },
+  });
   if (!data || loading) {
     return <div>loading...</div>;
   }

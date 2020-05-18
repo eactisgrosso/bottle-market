@@ -3,7 +3,7 @@
   "version": "2.0.2",
   "private": true,
   "scripts": {
-    "dev": "NODE_OPTIONS='--inspect' next",
+    "dev": "next",
     "build": "next build && next export",
     "start": "next start",
     "serve": "serve ./out"
@@ -12,6 +12,7 @@
     "@apollo/client": "^3.0.0-beta.44",
     "@apollo/link-context": "^2.0.0-beta.3",
     "@apollo/react-ssr": "4.0.0-beta.1",
+    "@react-google-maps/api": "^1.9.0",
     "@redq/reuse-modal": "1.2.4-beta.0.63",
     "@styled-system/theme-get": "^5.1.2",
     "@zeit/next-css": "^1.0.1",
@@ -42,6 +43,7 @@
     "react-dom": "^16.13.1",
     "react-dropzone": "^10.2.2",
     "react-fast-compare": "^3.0.1",
+    "react-geolocated": "^3.0.1",
     "react-image": "^2.4.0",
     "react-intl": "^4.3.1",
     "react-multi-carousel": "^2.5.5",
