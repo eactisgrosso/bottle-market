@@ -60,6 +60,7 @@ export class UserResolver {
     return await this.items[0];
   }
 
+  @UseGuards(GraphqlAuthGuard)
   @Query(() => UserDTO)
   async me(@Args("id") id: string): Promise<UserDTO> {
     let user = new UserDTO();
