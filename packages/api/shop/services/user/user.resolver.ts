@@ -22,7 +22,7 @@ export class UserResolver {
 
   private readonly items: UserDTO[] = loadUsers();
 
-  @UseGuards(GraphqlAuthGuard)
+  // @UseGuards(GraphqlAuthGuard)
   @Mutation(() => UserDTO, { description: "Log In User" })
   async signMeUp(
     @Args("signUpInput") signUpInput: CreateUserInput
@@ -60,7 +60,7 @@ export class UserResolver {
     return await this.items[0];
   }
 
-  @UseGuards(GraphqlAuthGuard)
+  // @UseGuards(GraphqlAuthGuard)
   @Query(() => UserDTO)
   async me(@Args("id") id: string): Promise<UserDTO> {
     let user = new UserDTO();
@@ -90,7 +90,7 @@ export class UserResolver {
     return user;
   }
 
-  @UseGuards(GraphqlAuthGuard)
+  // @UseGuards(GraphqlAuthGuard)
   @Mutation(() => UserDTO, { description: "Update User" })
   async updateMe(@Args("meInput") meInput: UpdateUserInput): Promise<UserDTO> {
     const user = await this.repository.load(meInput.id);
