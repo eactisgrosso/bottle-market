@@ -5,6 +5,7 @@ import { Modal } from "@redq/reuse-modal";
 import { withApollo } from "helper/apollo";
 import { SEO } from "components/seo";
 import Checkout from "containers/Checkout/Checkout";
+import { useAuth } from "contexts/auth/useAuth";
 import { GET_LOGGED_IN_CUSTOMER } from "graphql/query/customer.query";
 
 import { ProfileProvider } from "contexts/profile/profile.provider";
@@ -17,7 +18,10 @@ type Props = {
   };
 };
 const CheckoutPage: NextPage<Props> = ({ deviceType }) => {
-  const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER);
+  const { user } = useAuth();
+  const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER, {
+    variables: { id: user.id },
+  });
   if (loading) {
     return <div>loading...</div>;
   }

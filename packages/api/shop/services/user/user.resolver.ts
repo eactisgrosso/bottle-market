@@ -76,6 +76,14 @@ export class UserResolver {
       user.contact = [];
       user.address = [];
       user.card = [];
+
+      //TEST DATA
+      const test = this.items.find((u) => u.id == "1");
+      if (test) {
+        user.contact = test.contact;
+        user.address = test.address;
+        user.card = test.card;
+      }
     }
 
     return user;

@@ -28,7 +28,7 @@ type Props = {
 const ProfilePage: NextPage<Props> = ({ deviceType }) => {
   const { user } = useAuth();
   const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER, {
-    variables: { id: "eebac3e4-5de0-43b7-a45a-cf3b3837d43e" },
+    variables: { id: user.id },
   });
   if (!data || loading) {
     return <div>loading...</div>;

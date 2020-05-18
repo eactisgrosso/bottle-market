@@ -155,11 +155,11 @@ const MobileDrawer: React.FunctionComponent = () => {
             {isAuthenticated ? (
               <LoginView>
                 <UserAvatar>
-                  <img src={UserImage} alt="user_avatar" />
+                  <img src={user ? user.picture : ""} alt="user_avatar" />
                 </UserAvatar>
                 <UserDetails>
-                  <h3>David Kinderson</h3>
-                  <span>+990 374 987</span>
+                  <h3>{user ? user.fullname : ""}</h3>
+                  <span>{user ? user.email : ""}</span>
                 </UserDetails>
               </LoginView>
             ) : (
