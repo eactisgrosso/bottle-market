@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NextPage } from "next";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
 import { Modal } from "@redq/reuse-modal";
-import { useAuth } from "contexts/auth/useAuth";
-import { GET_LOGGED_IN_CUSTOMER } from "graphql/query/customer.query";
+import { AuthContext } from "contexts/auth/auth.context";
 import { ProfileProvider } from "contexts/profile/profile.provider";
+import { GET_LOGGED_IN_CUSTOMER } from "graphql/query/customer.query";
 import SettingsContent from "containers/Profile/Settings/Settings";
 import {
   PageWrapper,
@@ -26,7 +26,9 @@ type Props = {
   };
 };
 const ProfilePage: NextPage<Props> = ({ deviceType }) => {
-  const { user } = useAuth();
+  const {
+    authState: { user },
+  } = useContext<any>(AuthContext);
   const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER, {
     variables: { id: user ? user.id : "" },
   });

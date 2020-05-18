@@ -69,13 +69,6 @@ const TiendaPage: NextPage<Props> = ({
   isGeolocationEnabled,
   coords,
 }) => {
-  const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER);
-
-  if (loading) {
-    return <div>loading...</div>;
-  }
-  if (error) return <div>{error.message}</div>;
-
   return (
     <Modal>
       <SEO

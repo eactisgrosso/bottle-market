@@ -9,6 +9,15 @@ const INITIAL_STATE = {
     isBrowser && !!localStorage.getItem("user")
       ? JSON.parse(localStorage.getItem("user"))
       : null,
+  auth0: new WebAuth({
+    domain: process.env.AUTH0_DOMAIN,
+    clientID: process.env.AUTH0_CLIENTID,
+    redirectUri: process.env.AUTH0_CALLBACK,
+    responseType: "token id_token",
+    scope: "openid profile email offline_access",
+    audience: `http://localhost:4000/api`,
+    prompt: "login",
+  }),
 };
 
 function reducer(state: any, action: any) {
@@ -31,28 +40,12 @@ function reducer(state: any, action: any) {
   }
 }
 
-const generateAuth = () =>
-  new WebAuth({
-    domain: process.env.AUTH0_DOMAIN,
-    clientID: process.env.AUTH0_CLIENTID,
-    redirectUri: process.env.AUTH0_CALLBACK,
-    responseType: "token id_token",
-    scope: "openid profile email offline_access",
-    audience: `http://localhost:4000/api`,
-    prompt: "login",
-  });
-
-const useContextValue = () => {
-  const [authState, authDispatch] = useReducer(reducer, INITIAL_STATE);
-  return {
-    auth0: generateAuth(),
-    authState,
-    authDispatch,
-  };
-};
-
 export const AuthProvider = ({ children }) => {
-  const value = useContextValue();
+  const [authState, authDispatch] = useReducer(reducer, INITIAL_STATE);
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ authState, authDispatch }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };

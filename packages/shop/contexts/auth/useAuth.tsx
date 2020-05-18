@@ -3,7 +3,8 @@ import { useAuthContext } from "./auth.context";
 import jwt_decode from "jwt-decode";
 
 export const useAuth = () => {
-  const { auth0, authState, authDispatch } = useAuthContext();
+  const { authState, authDispatch } = useAuthContext();
+  const { auth0, isAuthenticated, user } = authState;
 
   const signIn = useCallback(() => {
     authDispatch({
@@ -19,9 +20,6 @@ export const useAuth = () => {
     },
     [auth0]
   );
-
-  const isAuthenticated = authState.isAuthenticated;
-  const user = authState.user;
 
   const logout = useCallback(
     async (returnUrl = "") => {
