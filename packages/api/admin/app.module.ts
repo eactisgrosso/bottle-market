@@ -11,7 +11,7 @@ import { CouponModule } from "./services/coupon/coupon.module";
 import { OrderModule } from "./services/order/order.module";
 import { StuffModule } from "./services/stuff/stuff.module";
 
-import dbConfig from "../common/data/dbfactory";
+import { ParameterStore } from "../common/data/parameterStore";
 
 @Module({
   imports: [
@@ -27,7 +27,7 @@ import dbConfig from "../common/data/dbfactory";
       autoSchemaFile: true,
     }),
     KnexModule.registerAsync({
-      useFactory: dbConfig,
+      useFactory: async () => (await ParameterStore.getInstance()).dbConfig,
     }),
   ],
 })

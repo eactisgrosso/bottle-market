@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, Param } from "@nestjs/common";
 import { GraphQLModule } from "@nestjs/graphql";
 import { ConfigModule } from "@nestjs/config";
 import { KnexModule } from "@nestjsplus/knex";
@@ -12,7 +12,7 @@ import { OrderModule } from "./services/order/order.module";
 import { CouponModule } from "./services/coupon/coupon.module";
 import { CategoryModule } from "./services/category/category.module";
 
-import dbConfig from "../common/data/dbfactory";
+import { ParameterStore } from "../common/data/parameterStore";
 
 @Module({
   imports: [
@@ -23,7 +23,10 @@ import dbConfig from "../common/data/dbfactory";
     OrderModule,
     CouponModule,
     CategoryModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      load: [async () => (await ParameterStore.getInstance()).authConfig],
+      isGlobal: true,
+    }),
     GraphQLModule.forRoot({
       path: "/shop/graphql",
       installSubscriptionHandlers: true,
@@ -31,7 +34,7 @@ import dbConfig from "../common/data/dbfactory";
       context: ({ req }) => ({ req }),
     }),
     KnexModule.registerAsync({
-      useFactory: dbConfig,
+      useFactory: async () => (await ParameterStore.getInstance()).dbConfig,
     }),
   ],
 })

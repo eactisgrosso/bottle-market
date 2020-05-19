@@ -7,8 +7,6 @@ Parameters:
   StageName:
     Type: String
     Default: "staging"
-  SecurityGroupId:
-    Type: String
 
 Globals:
   Api:
@@ -35,7 +33,6 @@ Resources:
       Environment:
         Variables:
           NODE_ENV: production
-          SECURITY_GROUP_ID: !Ref SecurityGroupId
       Policies:
         - SSMParameterReadPolicy:
             ParameterName: !Sub ${StageName}/DATABASE_HOST
@@ -43,15 +40,12 @@ Resources:
             ParameterName: !Sub ${StageName}/DATABASE_USER
         - SSMParameterReadPolicy:
             ParameterName: !Sub ${StageName}/DATABASE_PASSWORD
-        - Statement:
-            - Effect: Allow
-              Action:
-                - ec2:DescribeSecurityGroups
-              Resource: "*"
-            - Effect: Allow
-              Action:
-                - ec2:AuthorizeSecurityGroupIngress
-              Resource: "*"
+        - SSMParameterReadPolicy:
+          ParameterName: !Sub ${StageName}/AUTH0_DOMAIN
+        - SSMParameterReadPolicy:
+          ParameterName: !Sub ${StageName}/AUTH0_AUDIENCE
+        - SSMParameterReadPolicy:
+          ParameterName: !Sub ${StageName}/AUTH0_TOKEN
       Events:
         Shop:
           Type: Api
@@ -82,47 +76,3 @@ Resources:
           Properties:
             Method: any
             Path: /admin/graphql
-
-  SecurityGroupPruner:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./packages/-secgroup-pruner/
-      Handler: app.handler
-      Runtime: nodejs12.x
-      Policies:
-        - Statement:
-            - Effect: Allow
-              Action:
-                - ec2:DescribeSecurityGroups
-              Resource: "*"
-            - Effect: Allow
-              Action:
-                - ec2:RevokeSecurityGroupIngress
-              Resource: "*"
-
-  SecurityGroupPrunerEvent:
-    Type: AWS::Events::Rule
-    Properties:
-      Description: Daily prune of Security Groups
-      Name: SecurityGroupPrunerEvent
-      ScheduleExpression: "cron(15 6 * * ? *)"
-      State: ENABLED
-      Targets:
-        - Arn:
-            Fn::GetAtt:
-              - "SecurityGroupPruner"
-              - "Arn"
-          Id: "SecurityGroupPrunerEvent"
-          Input: !Sub '{"groupId": "${SecurityGroupId}","port":3306,"query": "[APP]"}'
-
-  SecurityGroupPrunerEventPermission:
-    Type: AWS::Lambda::Permission
-    Properties:
-      FunctionName:
-        Ref: "SecurityGroupPruner"
-      Action: "lambda:InvokeFunction"
-      Principal: "events.amazonaws.com"
-      SourceArn:
-        Fn::GetAtt:
-          - "SecurityGroupPrunerEvent"
-          - "Arn"
