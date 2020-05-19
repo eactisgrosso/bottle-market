@@ -4,7 +4,10 @@ import { WebAuth } from "auth0-js";
 
 const isBrowser = typeof window !== "undefined";
 const INITIAL_STATE = {
-  isAuthenticated: isBrowser && !!localStorage.getItem("access_token"),
+  expiresAt:
+    isBrowser && !!localStorage.getItem("expiresAt")
+      ? parseInt(JSON.parse(localStorage.getItem("expiresAt")))
+      : null,
   user:
     isBrowser && !!localStorage.getItem("user")
       ? JSON.parse(localStorage.getItem("user"))
@@ -27,13 +30,14 @@ function reducer(state: any, action: any) {
     case "SIGNIN_SUCCESS":
       return {
         ...state,
-        isAuthenticated: true,
-        user: action.payload,
+        expiresAt: action.payload.expiresAt,
+        user: action.payload.user,
       };
     case "SIGN_OUT":
       return {
         ...state,
-        isAuthenticated: false,
+        expiresAt: 0,
+        user: null,
       };
     default:
       return state;

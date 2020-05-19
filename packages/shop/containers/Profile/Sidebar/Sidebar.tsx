@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Router from "next/router";
-import { AuthContext } from "contexts/auth/auth.context";
+import { useAuth } from "contexts/auth/useAuth";
 import {
   SidebarWrapper,
   SidebarTop,
@@ -11,10 +11,7 @@ import {
 import { FormattedMessage } from "react-intl";
 
 const SidebarCategory: React.FC<{}> = () => {
-  const {
-    authState: { isAuthenticated },
-    authDispatch,
-  } = useContext<any>(AuthContext);
+  const { logout } = useAuth();
 
   const sidebarTopMenu = [
     { link: "/order", intlId: "sidebarYourOrder" },
@@ -29,9 +26,7 @@ const SidebarCategory: React.FC<{}> = () => {
   ];
   const handleLogout = () => {
     if (typeof window !== "undefined") {
-      localStorage.removeItem("access_token");
-      authDispatch({ type: "SIGN_OUT" });
-      Router.push("/");
+      logout();
     }
   };
   return (

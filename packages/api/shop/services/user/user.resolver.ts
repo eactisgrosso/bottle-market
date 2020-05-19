@@ -90,7 +90,7 @@ export class UserResolver {
     return user;
   }
 
-  // @UseGuards(GraphqlAuthGuard)
+  @UseGuards(GraphqlAuthGuard)
   @Mutation(() => UserDTO, { description: "Update User" })
   async updateMe(@Args("meInput") meInput: UpdateUserInput): Promise<UserDTO> {
     const user = await this.repository.load(meInput.id);
