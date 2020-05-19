@@ -9,7 +9,7 @@
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "declaration": true,
+    "declaration": false,
     "composite": false,
     "removeComments": true,
     "strictNullChecks": true,
