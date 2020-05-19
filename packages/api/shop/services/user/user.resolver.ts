@@ -4,7 +4,7 @@ import { KNEX_CONNECTION } from "@nestjsplus/knex";
 import { UseGuards } from "@nestjs/common";
 import { GraphqlAuthGuard } from "../../../common/auth/graphql.auth.guard";
 
-import { UserRepository } from "../../repositories/user.repository";
+import { UserRepository } from "../../domain/repositories/user.repository";
 import { CreateUserInput, UpdateUserInput } from "./user.input_type";
 import UserDTO from "./user.type";
 import loadUsers from "./user.sample";
@@ -29,7 +29,7 @@ export class UserResolver {
   ): Promise<UserDTO> {
     const bottleId = uuidv4();
     const user = await this.repository.load(bottleId);
-    user.create(
+    user.signUp(
       signUpInput.sub,
       signUpInput.email,
       signUpInput.firstname,
@@ -94,10 +94,17 @@ export class UserResolver {
   @Mutation(() => UserDTO, { description: "Update User" })
   async updateMe(@Args("meInput") meInput: UpdateUserInput): Promise<UserDTO> {
     const user = await this.repository.load(meInput.id);
+    if (!user) throw Error("User not found");
+
+    const me = new UserDTO();
     user.changeName(meInput.name);
     user.commit();
 
-    return this.me(meInput.id);
+    me.id = meInput.id;
+    me.email = user.email;
+    me.name = `${user.firstname} ${user.lastname}`;
+
+    return me;
   }
 
   @Mutation(() => UserDTO, { description: "Add or Edit Address" })

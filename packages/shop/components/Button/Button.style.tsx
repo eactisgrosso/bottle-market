@@ -1,55 +1,56 @@
-import styled from 'styled-components';
-import { alignItems, boxShadow } from 'styled-system';
-import { themeGet } from '@styled-system/theme-get';
-import { buttonStyle, colorStyle, buttonSize } from '../helpers/customVariant';
+import styled from "styled-components";
+import { alignItems, boxShadow } from "styled-system";
+import { themeGet } from "@styled-system/theme-get";
+import { buttonStyle, colorStyle, buttonSize } from "../helpers/customVariant";
+import { animated } from "react-spring";
 
 type ButtonStyleProps = {
   fullwidth?: boolean;
-  colors?: 'primary' | 'secondary';
+  colors?: "primary" | "secondary";
   variant?:
-    | 'textButton'
-    | 'outlined'
-    | 'outlinedDash'
-    | 'outlinedFab'
-    | 'extendedOutlinedFab'
-    | 'fab'
-    | 'extendedFab';
+    | "textButton"
+    | "outlined"
+    | "outlinedDash"
+    | "outlinedFab"
+    | "extendedOutlinedFab"
+    | "fab"
+    | "extendedFab";
 };
 
-const ButtonStyle = styled('button')<ButtonStyleProps>`
+const ButtonStyle = styled(animated.button)<ButtonStyleProps>`
   /* button default style */
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: ${themeGet('colors.primary', '#009E7F')};
-  height: ${themeGet('heights.3', '48')}px;
-  width: ${props => (props.fullwidth ? '100%' : 'auto')};
-  color: ${props =>
-    props.variant === 'textButton' ||
-    props.variant === 'outlined' ||
-    props.variant === 'outlinedDash' ||
-    props.variant === 'outlinedFab' ||
-    props.variant === 'extendedOutlinedFab'
-      ? '#222222'
-      : '#ffffff'};
-  border-radius: ${props =>
-    props.radius ? props.radius : themeGet('radius.3', '6')}px;
+  background-color: ${themeGet("colors.primary", "#009E7F")};
+  height: ${themeGet("heights.3", "48")}px;
+  width: ${(props) => (props.fullwidth ? "100%" : "auto")};
+  color: ${(props) =>
+    props.variant === "textButton" ||
+    props.variant === "outlined" ||
+    props.variant === "outlinedDash" ||
+    props.variant === "outlinedFab" ||
+    props.variant === "extendedOutlinedFab"
+      ? "#222222"
+      : "#ffffff"};
+  border-radius: ${(props) =>
+    props.radius ? props.radius : themeGet("radius.3", "6")}px;
   font-family: 'Lato', sans-serif;
-  font-size: ${themeGet('fontSizes.2', '15')}px;
-  font-weight: ${themeGet('fontWeights.6', '700')};
+  font-size: ${themeGet("fontSizes.2", "15")}px;
+  font-weight: ${themeGet("fontWeights.6", "700")};
   text-decoration: none;
   padding-top: 0;
   padding-bottom: 0;
-  padding-left: ${themeGet('space.7', '30')}px;
-  padding-right: ${themeGet('space.7', '30')}px;
+  padding-left: ${themeGet("space.7", "30")}px;
+  padding-right: ${themeGet("space.7", "30")}px;
   border: 0;
   transition: all 0.3s ease;
   box-sizing: border-box;
 
   span.btn-text {
-    padding-left: ${themeGet('space.1', '4')}px;
-    padding-right: ${themeGet('space.1', '4')}px;
+    padding-left: ${themeGet("space.1", "4")}px;
+    padding-right: ${themeGet("space.1", "4")}px;
     white-space: nowrap;
   }
   span.btn-icon {
@@ -64,14 +65,14 @@ const ButtonStyle = styled('button')<ButtonStyleProps>`
   }
 
   &.disabled{
-    color: ${themeGet('colors.labelColor', '#767676')};
-    background-color: ${themeGet('colors.borderColor', '#E6E6E6')};
-    border-color: ${themeGet('colors.borderColor', '#E6E6E6')};
+    color: ${themeGet("colors.labelColor", "#767676")};
+    background-color: ${themeGet("colors.borderColor", "#E6E6E6")};
+    border-color: ${themeGet("colors.borderColor", "#E6E6E6")};
 
     &:hover{
-      color: ${themeGet('colors.labelColor', '#767676')};
-      background-color: ${themeGet('colors.borderColor', '#E6E6E6')};
-      border-color: ${themeGet('colors.borderColor', '#E6E6E6')};
+      color: ${themeGet("colors.labelColor", "#767676")};
+      background-color: ${themeGet("colors.borderColor", "#E6E6E6")};
+      border-color: ${themeGet("colors.borderColor", "#E6E6E6")};
     }
   }
 
@@ -83,8 +84,8 @@ const ButtonStyle = styled('button')<ButtonStyleProps>`
   /* When button on loading stage */
   &.is-loading {
     .btn-text {
-      padding-left: ${themeGet('space.2', '8')}px;
-      padding-right: ${themeGet('space.2', '8')}px;
+      padding-left: ${themeGet("space.2", "8")}px;
+      padding-right: ${themeGet("space.2", "8")}px;
     }
   }
 
@@ -96,6 +97,6 @@ const ButtonStyle = styled('button')<ButtonStyleProps>`
   ${buttonSize}
 `;
 
-ButtonStyle.displayName = 'ButtonStyle';
+ButtonStyle.displayName = "ButtonStyle";
 
 export default ButtonStyle;

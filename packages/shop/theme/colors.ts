@@ -20,7 +20,7 @@ const colors = {
   blue: "#2e70fa", // 13
   lightBg: "#f4f4f4", // 14
   switch: "#028489", // 15
-  sliderBg: "#d1e8e4", // 15
+  sliderBg: "#d1e8e4", // 16
 };
 
 export default colors;

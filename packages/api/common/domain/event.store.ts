@@ -2,6 +2,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { KNEX_CONNECTION } from "@nestjsplus/knex";
 import { EventBus } from "@nestjs/cqrs";
 import { Event } from "./event";
+import { StorageEvent } from "./storage.event";
 import { Aggregate } from "./aggregate";
 import "../helpers/date.extensions";
 
@@ -10,11 +11,13 @@ export interface Constructor<T> {
 }
 
 @Injectable()
-export class EventStore {
+export abstract class EventStore {
   constructor(
     private readonly eventBus: EventBus,
     @Inject(KNEX_CONNECTION) private readonly knex: any
   ) {}
+
+  protected abstract recreateEventFromStorage(event: StorageEvent): Event;
 
   async context<T extends Aggregate>(object: T): Promise<T> {
     const aggregateId = this.knex.raw("UUID_TO_BIN(?)", object.id);
@@ -23,7 +26,9 @@ export class EventStore {
       "aggregateid",
       aggregateId
     );
-    const events = dbEvents.map((event: any) => JSON.parse(event.eventData));
+    const events = dbEvents.map((event: StorageEvent) =>
+      this.recreateEventFromStorage(event)
+    );
 
     object.loadFromHistory(events);
 

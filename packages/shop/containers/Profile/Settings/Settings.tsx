@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useAuth } from "contexts/auth/useAuth";
 import { useMutation } from "@apollo/client";
 import { Col } from "react-styled-flexboxgrid";
@@ -25,6 +25,8 @@ import UpdateContact from "../../Checkout/Update/UpdateContact";
 import Button from "components/Button/Button";
 import { UPDATE_ME } from "graphql/mutation/me";
 import { FormattedMessage } from "react-intl";
+import { useSpring } from "react-spring";
+import { useMeasure } from "helper/hooks";
 
 type SettingsContentProps = {
   deviceType?: {
@@ -41,8 +43,8 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
   const [deleteContactMutation] = useMutation(DELETE_CONTACT);
   const [deleteAddressMutation] = useMutation(DELETE_ADDRESS);
   const [deletePaymentCardMutation] = useMutation(DELETE_CARD);
-
   const { address, contact, card } = state;
+  const [animate, setAnimate] = useState(false);
 
   const handleChange = (value: string, field: string) => {
     dispatch({ type: "HANDLE_ON_INPUT_CHANGE", payload: { value, field } });
@@ -100,11 +102,35 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
   };
 
   const handleSave = async () => {
+    setAnimate(true);
     const { name } = state;
     await updateMeMutation({
       variables: { meInput: { id: user.id, name } },
     });
+    setTimeout(() => {
+      setAnimate(false);
+    }, 1500);
   };
+
+  const inputProps = useSpring(
+    animate
+      ? {
+          color: "#aaaaaa",
+          backgroundColor: "#F7F7F7",
+          from: { color: "black" },
+        }
+      : {
+          color: "black",
+          backgroundColor: "#F7F7F7",
+          from: { color: "black" },
+        }
+  );
+
+  const { x } = useSpring({
+    from: { x: 1 },
+    x: animate ? 0 : 1,
+    config: { duration: 500 },
+  });
 
   return (
     <SettingsForm>
@@ -124,7 +150,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
               label="Name"
               value={state.name}
               onUpdate={(value: string) => handleChange(value, "name")}
-              style={{ backgroundColor: "#F7F7F7" }}
+              style={inputProps}
               intlInputLabelId="profileNameField"
             />
           </Col>
@@ -144,7 +170,9 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ deviceType }) => {
             <Button
               title="Save"
               onClick={handleSave}
-              style={{ width: "100%" }}
+              style={{
+                opacity: x.interpolate({ range: [0, 1], output: [0.3, 1] }),
+              }}
               intlButtonId="profileSaveBtn"
             />
           </Col>

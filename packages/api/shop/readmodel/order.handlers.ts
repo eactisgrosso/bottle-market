@@ -1,5 +1,5 @@
 import { EventsHandler, IEventHandler } from "@nestjs/cqrs";
-import { OrderAddedEvent } from "../../events/order/order-added.event";
+import { OrderAddedEvent } from "../domain/events/order.events";
 
 @EventsHandler(OrderAddedEvent)
 export class OrderAddedEventHandler implements IEventHandler<OrderAddedEvent> {

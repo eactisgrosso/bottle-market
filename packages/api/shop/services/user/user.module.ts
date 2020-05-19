@@ -1,8 +1,7 @@
 import { Module, HttpModule } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
-import { EventStore } from "../../../common/domain/event.store";
-import { UserRepository } from "../../repositories/user.repository";
-import { EventHandlers } from "../../handlers/user.handlers";
+import { UserRepository } from "../../domain/repositories/user.repository";
+import { EventHandlers } from "../../readmodel/user.handlers";
 import { UserResolver } from "./user.resolver";
 
 @Module({
@@ -13,6 +12,6 @@ import { UserResolver } from "./user.resolver";
       maxRedirects: 5,
     }),
   ],
-  providers: [EventStore, UserRepository, UserResolver, ...EventHandlers],
+  providers: [UserRepository, UserResolver, ...EventHandlers],
 })
 export class UserModule {}
