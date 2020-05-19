@@ -58,6 +58,8 @@ export const useAuth = () => {
   const logout = useCallback(
     async (returnUrl = "") => {
       localStorage.removeItem("access_token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("expiresAt");
       await auth0.logout({
         returnTo: window.location.origin + returnUrl,
       });
