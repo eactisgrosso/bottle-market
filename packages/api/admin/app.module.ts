@@ -11,7 +11,7 @@ import { CouponModule } from "./services/coupon/coupon.module";
 import { OrderModule } from "./services/order/order.module";
 import { StuffModule } from "./services/stuff/stuff.module";
 
-import { ParameterStore } from "../common/data/parameterStore";
+import { ParameterStore } from "../common/config/parameterStore";
 
 @Module({
   imports: [

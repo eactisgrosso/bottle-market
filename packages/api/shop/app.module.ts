@@ -12,7 +12,7 @@ import { OrderModule } from "./services/order/order.module";
 import { CouponModule } from "./services/coupon/coupon.module";
 import { CategoryModule } from "./services/category/category.module";
 
-import { ParameterStore } from "../common/data/parameterStore";
+import { ParameterStore } from "../common/config/parameterStore";
 
 @Module({
   imports: [
