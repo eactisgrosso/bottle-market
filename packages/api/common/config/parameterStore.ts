@@ -30,7 +30,7 @@ export class ParameterStore {
 
       const host =
         process.env.NODE_ENV != "development"
-          ? response.Parameters[2].value
+          ? response.Parameters[2].Value
           : "localhost";
       const auth0Domain = response.Parameters[1].Value;
       const auth0Audience = response.Parameters[0].Value;
