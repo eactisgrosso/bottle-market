@@ -34,7 +34,6 @@ jobs:
 
       - name: Build Shop Web
         run: |
-          npx next telemetry disable
           yarn build:shop
       - name: Deploy Shop Web
         run: |
