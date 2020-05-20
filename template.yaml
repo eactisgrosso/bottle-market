@@ -70,6 +70,12 @@ Resources:
             ParameterName: !Sub ${StageName}/DATABASE_USER
         - SSMParameterReadPolicy:
             ParameterName: !Sub ${StageName}/DATABASE_PASSWORD
+        - SSMParameterReadPolicy:
+            ParameterName: !Sub ${StageName}/AUTH0_DOMAIN
+        - SSMParameterReadPolicy:
+            ParameterName: !Sub ${StageName}/AUTH0_AUDIENCE
+        - SSMParameterReadPolicy:
+            ParameterName: !Sub ${StageName}/AUTH0_TOKEN
       Events:
         Shop:
           Type: Api
