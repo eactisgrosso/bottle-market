@@ -4,7 +4,7 @@
 
 Wine ecommerce built with React, NextJS, TypeScript, GraphQL, NestJS & Styled-Components. We used graphql and NestJS in order to build the schema very easily. GraphQL playground makes it’s own documentation.
 
-# Tech We Have Used
+# Tech Used
 
 We have used monorepo folder structure with Yarn Workspace. We have three different part Admin Dashboard, Shop and API. Tech specification for specific part is given below
 
