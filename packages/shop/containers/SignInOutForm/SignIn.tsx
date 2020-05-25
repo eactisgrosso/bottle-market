@@ -8,7 +8,7 @@ import {
   Divider,
 } from "./SignInOutForm.style";
 import { Facebook, Google } from "components/AllSvgIcon";
-import { useAuth } from "contexts/auth/useAuth";
+import { useAuth } from "@bottle-market/common";
 
 import { FormattedMessage } from "react-intl";
 

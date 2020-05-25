@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Router from "next/router";
-import { useAuth } from "contexts/auth/useAuth";
+import { useAuth } from "@bottle-market/common";
 import {
   SidebarWrapper,
   SidebarTop,
@@ -13,10 +13,7 @@ import { FormattedMessage } from "react-intl";
 const SidebarCategory: React.FC<{}> = () => {
   const { logout } = useAuth();
 
-  const sidebarTopMenu = [
-    { link: "/order", intlId: "sidebarYourOrder" },
-    { link: "/tienda", intlId: "navlinkRetailer" },
-  ];
+  const sidebarTopMenu = [{ link: "/order", intlId: "sidebarYourOrder" }];
 
   const sidebarBottomMenu = [
     {

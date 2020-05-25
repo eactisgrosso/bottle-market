@@ -2,10 +2,15 @@
   "name": "bottle-market",
   "version": "2.0.2",
   "private": true,
-  "author": "RedQ, Inc.",
-  "workspaces": [
-    "packages/*"
-  ],
+  "author": "BottleHub S.A.",
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/babel-loader"
+    ]
+  },
   "scripts": {
     "clean": "lerna clean --yes && rimraf node_modules",
     "clean:build": "lerna exec -- rimraf \"{.next,dist,build}\"",
@@ -15,6 +20,8 @@
     "dev:admin": "concurrently \"yarn workspace @bottle-market/admin start\" \"yarn workspace @bottle-market/api admin\"",
     "build:admin": "yarn workspace @bottle-market/admin build",
     "serve:admin": "yarn  workspace @bottle-market/admin serve",
+    "dev:retailer": "concurrently \"yarn workspace @bottle-market/retailer start\" \"yarn workspace @bottle-market/api retailer\"",
+    "build:retailer": "yarn workspace @bottle-market/retailer build",
     "build:api": "yarn workspace @bottle-market/api build",
     "dev:api-shop": "yarn workspace @bottle-market/api shop",
     "serve:api-shop": "yarn workspace @bottle-market/api shop-serve",

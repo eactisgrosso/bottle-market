@@ -12,6 +12,7 @@
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.44",
     "@apollo/link-error": "^2.0.0-beta.3",
+    "@bottle-market/common": "^1.0.0",
     "apexcharts": "3.17.0",
     "baseui": "^9.65.0",
     "formik": "^2.1.4",

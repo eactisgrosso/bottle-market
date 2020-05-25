@@ -2,15 +2,20 @@ import React, { Component, useState, useEffect } from "react";
 import styled from "styled-components";
 import { Modal } from "@redq/reuse-modal";
 import { SEO } from "components/seo";
-import SiteFooter from "components/SiteFooter/SiteFooter";
-import { FormattedMessage } from "react-intl";
 import { NextPage } from "next";
 import { useQuery } from "@apollo/client";
 import { withApollo } from "helper/apollo";
 import { geolocated } from "react-geolocated";
-import { GET_LOGGED_IN_CUSTOMER } from "graphql/query/customer.query";
 import { withPrivatePage } from "containers/helpers/withPrivatePage";
 import DeliveryArea from "containers/DeliveryArea/DeliveryArea";
+import StoreProducts from "containers/Products/StoreProducts";
+import { useAuth } from "@bottle-market/common";
+import { GET_LOGGED_IN_CUSTOMER } from "graphql/query/customer.query";
+import {
+  PageWrapper,
+  SidebarSection,
+  ContentBox,
+} from "containers/Store/Store.style";
 
 const Heading = styled.h3`
   font-size: 21px;
@@ -69,28 +74,32 @@ const TiendaPage: NextPage<Props> = ({
   isGeolocationEnabled,
   coords,
 }) => {
+  const { user } = useAuth();
+  const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER, {
+    variables: { id: user ? user.id : "" },
+  });
+  if (!data || loading) {
+    return <div>loading...</div>;
+  }
+
   return (
     <Modal>
       <SEO
         title="Tienda de Vinos - BottleMarket"
         description="Tienda de Vinos Details"
       />
-      <TiendaPageWrapper>
-        <TiendaPageContainer>
-          <Heading>Tienda de Vinos</Heading>
-          <DeliveryArea
-            isGeolocationEnabled={isGeolocationEnabled}
-            coords={coords}
+      <PageWrapper>
+        <ContentBox>
+          <StoreProducts
+            storeId={data.me.store[0].id}
+            deviceType={deviceType}
           />
-        </TiendaPageContainer>
-        <SiteFooter style={{ marginTop: 50 }}>
-          <FormattedMessage
-            id="siteFooter"
-            defaultMessage="BottleMarket is a product of"
-          />
-          &nbsp; <a href="#">BottleHub, SA.</a>
-        </SiteFooter>
-      </TiendaPageWrapper>
+          {/* <DeliveryArea
+          isGeolocationEnabled={isGeolocationEnabled}
+          coords={coords}
+        /> */}
+        </ContentBox>
+      </PageWrapper>
     </Modal>
   );
 };

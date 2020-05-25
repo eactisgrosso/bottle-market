@@ -162,11 +162,11 @@ export class ProductResolver {
     return product;
   }
 
-  @Query(() => [ProductDTO], { description: "Get the Related products" })
-  async relatedProducts(
-    @Args("slug", { type: () => String }) slug: string,
-    @Args("type", { nullable: true }) type?: string
-  ): Promise<any> {
-    return null;
-  }
+  // @Query(() => [ProductDTO], { description: "Get the Related products" })
+  // async relatedProducts(
+  //   @Args("slug", { type: () => String }) slug: string,
+  //   @Args("type", { nullable: true }) type?: string
+  // ): Promise<any> {
+  //   return null;
+  // }
 }

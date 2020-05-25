@@ -1,0 +1,79 @@
+import React, { useContext } from "react";
+import { withRouter } from "react-router-dom";
+import {
+  SidebarWrapper,
+  NavLink,
+  MenuWrapper,
+  Svg,
+  LogoutBtn,
+} from "./Sidebar.style";
+import { DASHBOARD, PRODUCTS, CATEGORY } from "../../../settings/constants";
+import { useAuth } from "@bottle-market/common";
+import {
+  DashboardIcon,
+  ProductIcon,
+  SidebarCategoryIcon,
+  LogoutIcon,
+} from "../../../components/AllSvgIcon";
+
+const sidebarMenus = [
+  {
+    name: "Dashboard",
+    path: DASHBOARD,
+    exact: true,
+    icon: <DashboardIcon />,
+  },
+  {
+    name: "Productos",
+    path: PRODUCTS,
+    exact: false,
+    icon: <ProductIcon />,
+  },
+  {
+    name: "Categorías",
+    path: CATEGORY,
+    exact: false,
+    icon: <SidebarCategoryIcon />,
+  },
+];
+
+export default withRouter(function Sidebar({
+  refs,
+  style,
+  onMenuItemClick,
+}: any) {
+  const { logout } = useAuth();
+  return (
+    <SidebarWrapper ref={refs} style={style}>
+      <MenuWrapper>
+        {sidebarMenus.map((menu: any, index: number) => (
+          <NavLink
+            to={menu.path}
+            key={index}
+            exact={menu.exact}
+            activeStyle={{
+              color: "#00C58D",
+              backgroundColor: "#f7f7f7",
+              borderRadius: "50px 0 0 50px",
+            }}
+            onClick={onMenuItemClick}
+          >
+            {menu.icon ? <Svg>{menu.icon}</Svg> : ""}
+            {menu.name}
+          </NavLink>
+        ))}
+      </MenuWrapper>
+
+      <LogoutBtn
+        onClick={() => {
+          logout();
+        }}
+      >
+        <Svg>
+          <LogoutIcon />
+        </Svg>
+        Cerrar sesión
+      </LogoutBtn>
+    </SidebarWrapper>
+  );
+});

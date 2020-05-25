@@ -2,7 +2,7 @@ import React from "react";
 
 import { ThemeProvider } from "styled-components";
 import { theme } from "theme";
-import { AuthProvider } from "contexts/auth/auth.provider";
+import { AuthProvider } from "@bottle-market/common";
 import { StickyProvider } from "contexts/app/app.provider";
 import { SearchProvider } from "contexts/search/search.provider";
 import { HeaderProvider } from "contexts/header/header.provider";
@@ -47,7 +47,11 @@ export default function ExtendedApp({
           <SearchProvider query={query}>
             <HeaderProvider>
               <StickyProvider>
-                <AuthProvider>
+                <AuthProvider
+                  domain={process.env.AUTH0_DOMAIN}
+                  clientId={process.env.AUTH0_CLIENTID}
+                  callback={process.env.AUTH0_CALLBACK}
+                >
                   <>
                     <AppLayout deviceType={deviceType}>
                       <Component {...pageProps} deviceType={deviceType} />

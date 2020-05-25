@@ -20,6 +20,16 @@
       "restart": true,
       "localRoot": "${workspaceFolder}",
       "remoteRoot": "."
+    },
+    {
+      "name": "Any Web",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceRoot}/src",
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/*"
+      }
     }
   ],
   "compounds": [

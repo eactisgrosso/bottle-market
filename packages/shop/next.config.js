@@ -1,5 +1,6 @@
 const { withPlugins } = require("next-compose-plugins");
 const withOptimizedImages = require("next-optimized-images");
+const withTM = require("next-transpile-modules")(["@bottle-market/common"]);
 
 // next.js configuration
 const nextConfig = {
@@ -21,4 +22,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withPlugins([withOptimizedImages], nextConfig);
+module.exports = withPlugins([withTM, withOptimizedImages], nextConfig);

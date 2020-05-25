@@ -70,7 +70,7 @@ export class Author {
 @ObjectType()
 export default class ProductDTO {
   @Field()
-  id: number;
+  id: string;
 
   @Field()
   slug: string;

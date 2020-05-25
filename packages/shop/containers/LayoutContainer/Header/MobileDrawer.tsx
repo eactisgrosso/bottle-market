@@ -7,7 +7,7 @@ import NavLink from "components/NavLink/NavLink";
 import { CloseIcon } from "components/AllSvgIcon";
 import { DrawerContext } from "contexts/drawer/drawer.context";
 import SignInForm from "../../SignInOutForm/SignIn";
-import { useAuth } from "contexts/auth/useAuth";
+import { useAuth } from "@bottle-market/common";
 import { setCookie } from "helper/session";
 
 import { FormattedMessage } from "react-intl";
@@ -73,12 +73,6 @@ const DrawerMenuItems = [
     intlLabelId: "navlinkOrderReceived",
     label: "Received",
     href: ORDER_RECEIVED,
-  },
-  {
-    id: 7,
-    intlLabelId: "navlinkRetailer",
-    label: "Retailer",
-    href: RETAILER_PAGE,
   },
   {
     id: 8,

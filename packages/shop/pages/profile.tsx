@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
 import { Modal } from "@redq/reuse-modal";
-import { AuthContext } from "contexts/auth/auth.context";
+import { useAuth } from "@bottle-market/common";
 import { ProfileProvider } from "contexts/profile/profile.provider";
 import { GET_LOGGED_IN_CUSTOMER } from "graphql/query/customer.query";
 import SettingsContent from "containers/Profile/Settings/Settings";
@@ -26,9 +26,7 @@ type Props = {
   };
 };
 const ProfilePage: NextPage<Props> = ({ deviceType }) => {
-  const {
-    authState: { user },
-  } = useContext<any>(AuthContext);
+  const { user } = useAuth();
   const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER, {
     variables: { id: user ? user.id : "" },
   });

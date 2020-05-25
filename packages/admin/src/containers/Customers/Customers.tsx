@@ -159,18 +159,18 @@ export default function Customers() {
                       .map((item) => Object.values(item))
                       .map((row, index) => (
                         <React.Fragment key={index}>
-                          <StyledBodyCell>{row[0]}</StyledBodyCell>
+                          <StyledBodyCell>{row[1]}</StyledBodyCell>
                           <StyledBodyCell>
                             <ImageWrapper>
-                              <Image src={row[1]} alt={row[2]} />
+                              <Image src={row[2]} alt={row[3]} />
                             </ImageWrapper>
                           </StyledBodyCell>
-                          <StyledBodyCell>{row[2]}</StyledBodyCell>
-                          <StyledBodyCell>{row[3][0].number}</StyledBodyCell>
-                          <StyledBodyCell>{row[4]}</StyledBodyCell>
-                          <StyledBodyCell>${row[5]}</StyledBodyCell>
+                          <StyledBodyCell>{row[3]}</StyledBodyCell>
+                          <StyledBodyCell>{row[4][0].number}</StyledBodyCell>
+                          <StyledBodyCell>{row[5]}</StyledBodyCell>
+                          <StyledBodyCell>${row[6]}</StyledBodyCell>
                           <StyledBodyCell>
-                            <Moment format="Do MMM YYYY">{row[6]}</Moment>
+                            <Moment format="Do MMM YYYY">{row[7]}</Moment>
                           </StyledBodyCell>
                         </React.Fragment>
                       ))

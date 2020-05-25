@@ -4,7 +4,6 @@ import { SEO } from "components/seo";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 import ProductDetails from "containers/ProductDetails/ProductDetails";
-import ProductDetailsBook from "containers/ProductDetailsBook/ProductDetailsBook";
 import { Modal } from "@redq/reuse-modal";
 import ProductSingleWrapper, {
   ProductSingleContainer,
@@ -36,21 +35,6 @@ const ProductPage: NextPage<Props> = ({ deviceType }) => {
 
   if (error) return <div>Error: {error.message}</div>;
 
-  let content;
-  switch (data.product.type) {
-    case "BOOK": {
-      content = (
-        <ProductDetailsBook product={data.product} deviceType={deviceType} />
-      );
-      break;
-    }
-    default: {
-      content = (
-        <ProductDetails product={data.product} deviceType={deviceType} />
-      );
-    }
-  }
-
   return (
     <>
       <SEO
@@ -61,7 +45,7 @@ const ProductPage: NextPage<Props> = ({ deviceType }) => {
       <Modal>
         <ProductSingleWrapper>
           <ProductSingleContainer>
-            {content}
+            <ProductDetails product={data.product} deviceType={deviceType} />
             <CartPopUp deviceType={deviceType} />
           </ProductSingleContainer>
         </ProductSingleWrapper>
