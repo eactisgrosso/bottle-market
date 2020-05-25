@@ -2,7 +2,7 @@
 // General Page Section
 export const DASHBOARD = "/";
 export const PRODUCTS = "/products";
-export const CATEGORY = "/category";
+export const DELIVERY = "/delivery";
 export const LOGIN = "/login";
 export const LOGOUT = "/logout";
 export const CALLBACK = "/callback";

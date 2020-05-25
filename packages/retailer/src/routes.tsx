@@ -4,16 +4,16 @@ import {
   LOGIN,
   CALLBACK,
   PRODUCTS,
-  CATEGORY,
+  DELIVERY,
   DASHBOARD,
 } from "./settings/constants";
 import { useAuth, useRefreshToken } from "@bottle-market/common";
 
 import { InLineLoader } from "./components/InlineLoader/InlineLoader";
 const Products = lazy(() => import("./containers/Products/Products"));
-const AdminLayout = lazy(() => import("./containers/Layout/Layout"));
+const RetailerLayout = lazy(() => import("./containers/Layout/Layout"));
 const Dashboard = lazy(() => import("./containers/Dashboard/Dashboard"));
-const Category = lazy(() => import("./containers/Category/Category"));
+const Delivery = lazy(() => import("./containers/Delivery/Delivery"));
 const Login = lazy(() => import("./containers/Login/Login"));
 const Callback = lazy(() => import("./containers/Login/Callback"));
 const NotFound = lazy(() => import("./containers/NotFound/NotFound"));
@@ -54,25 +54,25 @@ const Routes = () => {
     <Suspense fallback={<InLineLoader />}>
       <Switch>
         <PrivateRoute exact={true} path={DASHBOARD}>
-          <AdminLayout>
+          <RetailerLayout>
             <Suspense fallback={<InLineLoader />}>
               <Dashboard />
             </Suspense>
-          </AdminLayout>
+          </RetailerLayout>
         </PrivateRoute>
         <PrivateRoute path={PRODUCTS}>
-          <AdminLayout>
+          <RetailerLayout>
             <Suspense fallback={<InLineLoader />}>
               <Products />
             </Suspense>
-          </AdminLayout>
+          </RetailerLayout>
         </PrivateRoute>
-        <PrivateRoute path={CATEGORY}>
-          <AdminLayout>
+        <PrivateRoute path={DELIVERY}>
+          <RetailerLayout>
             <Suspense fallback={<InLineLoader />}>
-              <Category />
+              <Delivery />
             </Suspense>
-          </AdminLayout>
+          </RetailerLayout>
         </PrivateRoute>
         <Route path={LOGIN}>
           <Login />

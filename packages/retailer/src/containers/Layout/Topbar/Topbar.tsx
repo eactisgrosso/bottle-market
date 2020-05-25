@@ -100,7 +100,7 @@ const Topbar = ({ refs }: any) => {
       </DrawerWrapper>
 
       <TopbarRightSide>
-        <Button onClick={openDrawer}>Agregar Producto</Button>
+        <Button onClick={openDrawer}>Agregar Productos</Button>
 
         <Popover
           content={({ close }) => <Notification data={data} onClear={close} />}

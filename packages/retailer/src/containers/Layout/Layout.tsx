@@ -1,24 +1,24 @@
-import React from 'react';
-import useComponentSize from '../../settings/useComponentSize';
-import Sidebar from './Sidebar/Sidebar';
-import Topbar from './Topbar/Topbar';
-import DrawerItems from '../DrawerItems/DrawerItems';
-import { DrawerProvider } from '../../context/DrawerContext';
+import React from "react";
+import useComponentSize from "../../settings/useComponentSize";
+import Sidebar from "./Sidebar/Sidebar";
+import Topbar from "./Topbar/Topbar";
+import DrawerItems from "../DrawerItems/DrawerItems";
+import { DrawerProvider } from "../../context/DrawerContext";
 import {
   LayoutWrapper,
   ContentWrapper,
   ContentInnerWrapper,
-} from './Layout.style';
-import { useDeviceType } from '../../settings/useDeviceType';
-import { styled } from 'baseui';
+} from "./Layout.style";
+import { useDeviceType } from "../../settings/useDeviceType";
+import { styled } from "baseui";
 
-const SidedbarDesktop = styled('div', () => ({
-  '@media only screen and (max-width: 1199px)': {
-    display: 'none',
+const SidedbarDesktop = styled("div", () => ({
+  "@media only screen and (max-width: 1199px)": {
+    display: "none",
   },
 }));
 
-const AdminLayout = ({ children }: any) => {
+const RetailerLayout = ({ children }: any) => {
   let [topbarRef, { height }] = useComponentSize();
   let [sidebarRef, { width }] = useComponentSize();
   const { desktop } = useDeviceType();
@@ -52,7 +52,7 @@ const AdminLayout = ({ children }: any) => {
         ) : (
           <ContentWrapper
             style={{
-              width: '100%',
+              width: "100%",
             }}
           >
             <h3>
@@ -67,4 +67,4 @@ const AdminLayout = ({ children }: any) => {
   );
 };
 
-export default AdminLayout;
+export default RetailerLayout;

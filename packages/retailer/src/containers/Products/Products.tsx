@@ -65,14 +65,16 @@ export const LoaderItem = styled("div", () => ({
   marginBottom: "30px",
 }));
 
-const GET_PRODUCTS = gql`
-  query getProducts(
+const GET_STORE_PRODUCTS = gql`
+  query getStoreProducts(
+    $storeId: String
     $type: String
     $sortByPrice: String
     $searchText: String
     $offset: Int
   ) {
-    products(
+    storeProducts(
+      storeId: $storeId
       type: $type
       sortByPrice: $sortByPrice
       searchText: $searchText
@@ -80,7 +82,7 @@ const GET_PRODUCTS = gql`
     ) {
       items {
         id
-        name
+        title
         description
         image
         type
@@ -107,7 +109,7 @@ const priceSelectOptions = [
 ];
 
 export default function Products() {
-  const { data, error, refetch, fetchMore } = useQuery(GET_PRODUCTS);
+  const { data, error, refetch, fetchMore } = useQuery(GET_STORE_PRODUCTS);
   const [loadingMore, toggleLoading] = useState(false);
   const [type, setType] = useState([]);
   const [priceOrder, setPriceOrder] = useState([]);
@@ -162,7 +164,7 @@ export default function Products() {
   function handleSearch(event) {
     const value = event.currentTarget.value;
     setSearch(value);
-    refetch({ searchText: value });
+    // refetch({ searchText: value });
   }
 
   return (
@@ -214,8 +216,8 @@ export default function Products() {
 
           <Row>
             {data ? (
-              data.products && data.products.items.length !== 0 ? (
-                data.products.items.map((item: any, index: number) => (
+              data.storeProducts && data.storeProducts.items.length !== 0 ? (
+                data.storeProducts.items.map((item: any, index: number) => (
                   <Col
                     md={4}
                     lg={3}
@@ -226,7 +228,7 @@ export default function Products() {
                   >
                     <Fade bottom duration={800} delay={index * 10}>
                       <ProductCard
-                        title={item.name}
+                        title={item.title}
                         weight={item.size}
                         image={item.image}
                         currency={CURRENCY}

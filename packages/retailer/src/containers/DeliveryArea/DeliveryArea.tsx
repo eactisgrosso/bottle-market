@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Wrapper } from "./DeliveryArea.style";
-import Slider from "components/Slider/Slider";
+import Slider from "../../components/Slider/Slider";
 import { GoogleMap, Marker, Circle, LoadScript } from "@react-google-maps/api";
 
 type Props = {
+  disabled?: boolean;
   isGeolocationEnabled: boolean;
   coords: any;
+  km?: number;
 };
 
 const libraries = ["places"];
 
-const DeliveryArea: React.FC<Props> = ({ isGeolocationEnabled, coords }) => {
+const DeliveryArea: React.FC<Props> = ({
+  disabled = false,
+  isGeolocationEnabled,
+  coords,
+  km,
+}) => {
   const [radius, setRadius] = useState(1);
   const [zoom, setZoom] = useState(14);
   const [position, setPosition] = useState({
@@ -36,7 +43,7 @@ const DeliveryArea: React.FC<Props> = ({ isGeolocationEnabled, coords }) => {
   return (
     <Wrapper>
       <LoadScript
-        googleMapsApiKey={process.env.MAPS_API_KEY}
+        googleMapsApiKey={process.env.REACT_APP_MAPS_API_KEY}
         libraries={libraries}
       >
         <GoogleMap
@@ -45,10 +52,11 @@ const DeliveryArea: React.FC<Props> = ({ isGeolocationEnabled, coords }) => {
           mapContainerStyle={{
             height: "50vh",
           }}
+          options={{ draggable: !disabled }}
         >
           <Marker
             position={position}
-            draggable={true}
+            draggable={!disabled}
             onDragEnd={(e) => {
               console.log(`drag end`);
               setPosition({
@@ -71,14 +79,16 @@ const DeliveryArea: React.FC<Props> = ({ isGeolocationEnabled, coords }) => {
           </Marker>
         </GoogleMap>
       </LoadScript>
-      <Slider
-        max={100}
-        min={1}
-        unit={"km"}
-        onChange={(value) => {
-          setRadius(value);
-        }}
-      />
+      {!disabled && (
+        <Slider
+          max={100}
+          min={1}
+          unit={"km"}
+          onChange={(value) => {
+            setRadius(value);
+          }}
+        />
+      )}
     </Wrapper>
   );
 };

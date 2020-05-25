@@ -7,7 +7,7 @@ import {
   Color,
   Content,
   Title,
-  Text
+  Text,
 } from "./RadialBarChart.style";
 
 const RadialBarChart = ({
@@ -15,7 +15,7 @@ const RadialBarChart = ({
   series,
   colors,
   label,
-  helperText
+  helperText,
 }: any) => {
   const options = {
     options: {
@@ -25,7 +25,7 @@ const RadialBarChart = ({
           hollow: {
             margin: 0,
             size: "20%",
-            background: "transparent"
+            background: "transparent",
           },
 
           track: {
@@ -39,29 +39,29 @@ const RadialBarChart = ({
               top: 0,
               left: 0,
               blur: 3,
-              opacity: 0.5
-            }
+              opacity: 0.5,
+            },
           },
 
           dataLabels: {
-            show: false
-          }
-        }
+            show: false,
+          },
+        },
       },
       states: {
         hover: {
           filter: {
             type: "darken",
-            value: 0.8
-          }
-        }
+            value: 0.8,
+          },
+        },
       },
       stroke: {
-        lineCap: "round"
+        lineCap: "round",
       },
-      labels: label
+      labels: label,
     },
-    series: series
+    series: series,
   };
 
   return (

@@ -24,10 +24,6 @@ export const GET_LOGGED_IN_CUSTOMER = gql`
         name
         lastFourDigit
       }
-      store {
-        id
-        name
-      }
     }
   }
 `;

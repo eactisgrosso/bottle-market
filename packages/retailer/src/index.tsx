@@ -12,11 +12,24 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 import { onError } from "@apollo/link-error";
+import { setContext } from "@apollo/link-context";
 import { theme } from "./theme";
 import Routes from "./routes";
 import * as serviceWorker from "./serviceWorker";
 import "./theme/global.css";
 import { AuthProvider } from "@bottle-market/common";
+
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = localStorage.getItem("access_token");
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
+});
 
 const client = new ApolloClient({
   link: from([
@@ -29,10 +42,12 @@ const client = new ApolloClient({
         );
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
-    new HttpLink({
-      uri: process.env.REACT_APP_API_URL,
-      credentials: "same-origin",
-    }),
+    authLink.concat(
+      new HttpLink({
+        uri: process.env.REACT_APP_API_URL,
+        credentials: "same-origin",
+      })
+    ),
   ]),
   cache: new InMemoryCache(),
 });

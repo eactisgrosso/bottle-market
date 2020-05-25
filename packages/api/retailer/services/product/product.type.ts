@@ -7,7 +7,7 @@ export default class ProductDTO {
   id: string;
 
   @Field()
-  name: string;
+  title: string;
 
   @Field()
   image: string;

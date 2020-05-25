@@ -7,14 +7,12 @@ import { useDrawerState, useDrawerDispatch } from "../../context/DrawerContext";
 /** Drawer Components */
 import ProductForm from "../ProductForm/ProductForm";
 import ProductUpdateForm from "../ProductForm/ProductUpdateForm";
-import CategoryForm from "../CategoryForm/CategoryForm";
 import Sidebar from "../Layout/Sidebar/Sidebar";
 
 /** Components Name Constants */
 const DRAWER_COMPONENTS = {
   PRODUCT_FORM: ProductForm,
   PRODUCT_UPDATE_FORM: ProductUpdateForm,
-  CATEGORY_FORM: CategoryForm,
   SIDEBAR: Sidebar,
 };
 

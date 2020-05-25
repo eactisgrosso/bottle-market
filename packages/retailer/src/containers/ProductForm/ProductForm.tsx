@@ -5,14 +5,9 @@ import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
 import { Scrollbars } from "react-custom-scrollbars";
 import { useDrawerDispatch } from "../../context/DrawerContext";
-import Uploader from "../../components/Uploader/Uploader";
 import Button, { KIND } from "../../components/Button/Button";
 import DrawerBox from "../../components/DrawerBox/DrawerBox";
 import { Row, Col } from "../../components/FlexBox/FlexBox";
-import Input from "../../components/Input/Input";
-import { Textarea } from "../../components/Textarea/Textarea";
-import Select from "../../components/Select/Select";
-import { FormFields, FormLabel } from "../../components/FormFields/FormFields";
 
 import {
   Form,
@@ -22,25 +17,6 @@ import {
   ButtonGroup,
 } from "../DrawerItems/DrawerItems.style";
 
-const options = [
-  { value: "Tintos", name: "Tintos", id: "1" },
-  { value: "Blancos", name: "Blancos", id: "2" },
-  { value: "Purse", name: "Purse", id: "3" },
-  { value: "Hand bags", name: "Hand bags", id: "4" },
-  { value: "Shoulder bags", name: "Shoulder bags", id: "5" },
-  { value: "Wallet", name: "Wallet", id: "6" },
-  { value: "Laptop bags", name: "Laptop bags", id: "7" },
-  { value: "Women Dress", name: "Women Dress", id: "8" },
-  { value: "Outer Wear", name: "Outer Wear", id: "9" },
-  { value: "Pants", name: "Pants", id: "10" },
-];
-
-const typeOptions = [
-  { value: "wine", name: "Wine", id: "1" },
-  { value: "women-cloths", name: "Women Cloths", id: "2" },
-  { value: "bags", name: "Bags", id: "3" },
-  { value: "makeup", name: "Makeup", id: "4" },
-];
 const GET_PRODUCTS = gql`
   query getProducts(
     $type: String
@@ -169,7 +145,7 @@ const AddProduct: React.FC<Props> = (props) => {
   return (
     <>
       <DrawerTitleWrapper>
-        <DrawerTitle>Add Product</DrawerTitle>
+        <DrawerTitle>Agregar Productos</DrawerTitle>
       </DrawerTitleWrapper>
 
       <Form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
@@ -185,196 +161,7 @@ const AddProduct: React.FC<Props> = (props) => {
               className="track-horizontal"
             />
           )}
-        >
-          <Row>
-            <Col lg={4}>
-              <FieldDetails>Upload your Product image here</FieldDetails>
-            </Col>
-            <Col lg={8}>
-              <DrawerBox
-                overrides={{
-                  Block: {
-                    style: {
-                      width: "100%",
-                      height: "auto",
-                      padding: "30px",
-                      borderRadius: "3px",
-                      backgroundColor: "#ffffff",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    },
-                  },
-                }}
-              >
-                <Uploader onChange={handleUploader} />
-              </DrawerBox>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col lg={4}>
-              <FieldDetails>
-                Add your Product description and necessary information from here
-              </FieldDetails>
-            </Col>
-
-            <Col lg={8}>
-              <DrawerBox>
-                <FormFields>
-                  <FormLabel>Name</FormLabel>
-                  <Input
-                    inputRef={register({ required: true, maxLength: 20 })}
-                    name="name"
-                  />
-                </FormFields>
-
-                <FormFields>
-                  <FormLabel>Description</FormLabel>
-                  <Textarea
-                    value={description}
-                    onChange={handleDescriptionChange}
-                  />
-                </FormFields>
-
-                <FormFields>
-                  <FormLabel>Unit</FormLabel>
-                  <Input type="text" inputRef={register} name="unit" />
-                </FormFields>
-
-                <FormFields>
-                  <FormLabel>Price</FormLabel>
-                  <Input
-                    type="number"
-                    inputRef={register({ required: true })}
-                    name="price"
-                  />
-                </FormFields>
-
-                <FormFields>
-                  <FormLabel>Sale Price</FormLabel>
-                  <Input type="number" inputRef={register} name="salePrice" />
-                </FormFields>
-
-                <FormFields>
-                  <FormLabel>Discount In Percent</FormLabel>
-                  <Input
-                    type="number"
-                    inputRef={register}
-                    name="discountInPercent"
-                  />
-                </FormFields>
-
-                <FormFields>
-                  <FormLabel>Product Quantity</FormLabel>
-                  <Input
-                    type="number"
-                    inputRef={register({ required: true })}
-                    name="quantity"
-                  />
-                </FormFields>
-
-                <FormFields>
-                  <FormLabel>Type</FormLabel>
-                  <Select
-                    options={typeOptions}
-                    labelKey="name"
-                    valueKey="value"
-                    placeholder="Product Type"
-                    value={type}
-                    searchable={false}
-                    onChange={handleTypeChange}
-                    overrides={{
-                      Placeholder: {
-                        style: ({ $theme }) => {
-                          return {
-                            ...$theme.typography.fontBold14,
-                            color: $theme.colors.textNormal,
-                          };
-                        },
-                      },
-                      DropdownListItem: {
-                        style: ({ $theme }) => {
-                          return {
-                            ...$theme.typography.fontBold14,
-                            color: $theme.colors.textNormal,
-                          };
-                        },
-                      },
-                      OptionContent: {
-                        style: ({ $theme, $selected }) => {
-                          return {
-                            ...$theme.typography.fontBold14,
-                            color: $selected
-                              ? $theme.colors.textDark
-                              : $theme.colors.textNormal,
-                          };
-                        },
-                      },
-                      SingleValue: {
-                        style: ({ $theme }) => {
-                          return {
-                            ...$theme.typography.fontBold14,
-                            color: $theme.colors.textNormal,
-                          };
-                        },
-                      },
-                      Popover: {
-                        props: {
-                          overrides: {
-                            Body: {
-                              style: { zIndex: 5 },
-                            },
-                          },
-                        },
-                      },
-                    }}
-                  />
-                </FormFields>
-
-                <FormFields>
-                  <FormLabel>Categories</FormLabel>
-                  <Select
-                    options={options}
-                    labelKey="name"
-                    valueKey="value"
-                    placeholder="Product Tag"
-                    value={tag}
-                    onChange={handleMultiChange}
-                    overrides={{
-                      Placeholder: {
-                        style: ({ $theme }) => {
-                          return {
-                            ...$theme.typography.fontBold14,
-                            color: $theme.colors.textNormal,
-                          };
-                        },
-                      },
-                      DropdownListItem: {
-                        style: ({ $theme }) => {
-                          return {
-                            ...$theme.typography.fontBold14,
-                            color: $theme.colors.textNormal,
-                          };
-                        },
-                      },
-                      Popover: {
-                        props: {
-                          overrides: {
-                            Body: {
-                              style: { zIndex: 5 },
-                            },
-                          },
-                        },
-                      },
-                    }}
-                    multi
-                  />
-                </FormFields>
-              </DrawerBox>
-            </Col>
-          </Row>
-        </Scrollbars>
+        ></Scrollbars>
 
         <ButtonGroup>
           <Button
@@ -394,7 +181,7 @@ const AddProduct: React.FC<Props> = (props) => {
               },
             }}
           >
-            Cancel
+            Cancelar
           </Button>
 
           <Button
@@ -411,7 +198,7 @@ const AddProduct: React.FC<Props> = (props) => {
               },
             }}
           >
-            Create Product
+            Confirmar
           </Button>
         </ButtonGroup>
       </Form>

@@ -7,7 +7,7 @@ import {
   Svg,
   LogoutBtn,
 } from "./Sidebar.style";
-import { DASHBOARD, PRODUCTS, CATEGORY } from "../../../settings/constants";
+import { DASHBOARD, PRODUCTS, DELIVERY } from "../../../settings/constants";
 import { useAuth } from "@bottle-market/common";
 import {
   DashboardIcon,
@@ -30,8 +30,8 @@ const sidebarMenus = [
     icon: <ProductIcon />,
   },
   {
-    name: "Categorías",
-    path: CATEGORY,
+    name: "Delivery",
+    path: DELIVERY,
     exact: false,
     icon: <SidebarCategoryIcon />,
   },
