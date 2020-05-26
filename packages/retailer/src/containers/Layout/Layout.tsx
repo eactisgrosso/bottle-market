@@ -12,7 +12,7 @@ import {
 import { useDeviceType } from "../../settings/useDeviceType";
 import { styled } from "baseui";
 
-const SidedbarDesktop = styled("div", () => ({
+const SidebarDesktop = styled("div", () => ({
   "@media only screen and (max-width: 1199px)": {
     display: "none",
   },
@@ -33,14 +33,14 @@ const RetailerLayout = ({ children }: any) => {
       >
         {desktop ? (
           <>
-            <SidedbarDesktop>
+            <SidebarDesktop>
               <Sidebar
                 refs={sidebarRef}
                 style={{
                   height: `calc(100vh - ${height}px)`,
                 }}
               />
-            </SidedbarDesktop>
+            </SidebarDesktop>
             <ContentWrapper
               style={{
                 width: `calc(100% - ${width}px)`,

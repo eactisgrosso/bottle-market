@@ -3,7 +3,7 @@ import { styled } from "baseui";
 export const Form = styled("form", ({ $theme }) => ({
   // minHeight: '100vh',
   backgroundColor: $theme.colors.backgroundF7,
-  paddingBottom: "100px"
+  paddingBottom: "100px",
 }));
 
 export const DrawerTitleWrapper = styled("div", ({ $theme }) => ({
@@ -11,13 +11,13 @@ export const DrawerTitleWrapper = styled("div", ({ $theme }) => ({
   alignItems: "center",
   justifyContent: "space-between",
   margin: "-55px 0 30px",
-  position: "fixed"
+  position: "fixed",
 }));
 
 export const DrawerTitle = styled("h3", ({ $theme }) => ({
   ...$theme.typography.fontBold18,
   margin: 0,
-  color: $theme.colors.textDark
+  color: $theme.colors.textDark,
 }));
 
 export const FieldDetails = styled("span", ({ $theme }) => ({
@@ -27,12 +27,12 @@ export const FieldDetails = styled("span", ({ $theme }) => ({
   display: "block",
 
   "@media only screen and (max-width: 991px)": {
-    padding: "30px 0"
-  }
+    padding: "30px 0",
+  },
 }));
 
 export const ButtonGroup = styled("div", ({ $theme }) => ({
-  padding: "30px 60px",
+  padding: "20px 60px",
   display: "flex",
   alignItems: "center",
   position: "fixed",
@@ -43,6 +43,6 @@ export const ButtonGroup = styled("div", ({ $theme }) => ({
   boxShadow: "0 0 3px rgba(0, 0, 0, 0.1)",
 
   "@media only screen and (max-width: 767px)": {
-    padding: "20px 30px"
-  }
+    padding: "20px 30px",
+  },
 }));

@@ -6,9 +6,7 @@ import {
   Row as Rows,
   Col as Column,
 } from "../../components/FlexBox/FlexBox";
-import { Header, Heading } from "../../components/WrapperStyle";
-import DeliveryArea from "../../containers/DeliveryArea/DeliveryArea";
-import { DeliveryIcon } from "../../components/AllSvgIcon";
+import { DeliveryIcon, GpsIcon } from "../../components/AllSvgIcon";
 import {
   Card,
   TopInfo,
@@ -16,14 +14,16 @@ import {
   Title,
   SubTitle,
   IconBox,
-  Address,
+  Detail,
   Color,
   Text,
   PrimaryText,
   Content,
-  ButtonGroup,
+  ButtonContainer,
 } from "./Delivery.style";
-import Button, { KIND } from "../../components/Button/Button";
+import Button, { KIND, SHAPE } from "../../components/Button/Button";
+import { ButtonGroup } from "baseui/button-group";
+import { Tag, VARIANT } from "baseui/tag";
 
 export const Col = styled(Column, () => ({
   "@media only screen and (max-width: 767px)": {
@@ -41,6 +41,8 @@ const Row = styled(Rows, () => ({
   },
 }));
 
+const daysOfWeek = ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"];
+
 type Props = any;
 
 const Delivery: React.FC<Props> = (props) => {
@@ -53,30 +55,45 @@ const Delivery: React.FC<Props> = (props) => {
               <TopInfo>
                 <TitleWrapper>
                   <Title>Eze's Wines</Title>
-                  <SubTitle>Lunes a Viernes de 9 a 18hs</SubTitle>
+                  <SubTitle>Zona de Entrega 1</SubTitle>
                 </TitleWrapper>
                 <IconBox>{<DeliveryIcon />}</IconBox>
               </TopInfo>
-              <DeliveryArea
-                disabled
-                isGeolocationEnabled={props.isGeolocationEnabled}
-                coords={props.coords}
-              />
-              <Address>
-                <Color style={{ backgroundColor: "#03D3B5" }} />
+              <Detail>
                 <Content>
-                  <Text>Barracas 352, Lobos</Text>
+                  <GpsIcon />
                   <PrimaryText>+2km</PrimaryText>
                 </Content>
-              </Address>
-              <ButtonGroup>
+                <Content>
+                  <Text>Barracas 352, Lobos, Buenos Aires </Text>
+                </Content>
+              </Detail>
+              <Detail>
+                {daysOfWeek.map((day, index) => (
+                  <React.Fragment key={index}>
+                    <Tag
+                      closeable={false}
+                      variant={VARIANT.outlined}
+                      kind="primary"
+                    >
+                      {day}
+                    </Tag>
+                  </React.Fragment>
+                ))}
+                <Content>
+                  <Tag closeable={false} variant={VARIANT.light} kind="neutral">
+                    9 a 18 hs
+                  </Tag>
+                </Content>
+              </Detail>
+              <ButtonContainer>
                 <Button
                   kind={KIND.minimal}
                   overrides={{
                     BaseButton: {
                       style: ({ $theme }) => ({
                         display: "inline-block",
-                        width: "45%",
+                        width: "47%",
                         borderTopLeftRadius: "3px",
                         borderTopRightRadius: "3px",
                         borderBottomRightRadius: "3px",
@@ -95,7 +112,7 @@ const Delivery: React.FC<Props> = (props) => {
                     BaseButton: {
                       style: ({ $theme }) => ({
                         display: "inline-block",
-                        width: "45%",
+                        width: "47%",
                         borderTopLeftRadius: "3px",
                         borderTopRightRadius: "3px",
                         borderBottomRightRadius: "3px",
@@ -104,9 +121,9 @@ const Delivery: React.FC<Props> = (props) => {
                     },
                   }}
                 >
-                  Actualizar
+                  Editar
                 </Button>
-              </ButtonGroup>
+              </ButtonContainer>
             </Card>
           </Row>
         </Col>

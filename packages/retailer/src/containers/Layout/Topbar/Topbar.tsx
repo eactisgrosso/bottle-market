@@ -1,5 +1,6 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import Button from "../../../components/Button/Button";
 import Popover, { PLACEMENT } from "../../../components/Popover/Popover";
 import Notification from "../../../components/Notification/Notification";
@@ -30,6 +31,7 @@ import { useDrawerDispatch } from "../../../context/DrawerContext";
 import { MenuIcon } from "../../../components/AllSvgIcon";
 import Drawer, { ANCHOR } from "../../../components/Drawer/Drawer";
 import Sidebar from "../Sidebar/Sidebar";
+import { DASHBOARD, PRODUCTS, DELIVERY } from "../../../settings/constants";
 
 const data = [
   {
@@ -38,14 +40,12 @@ const data = [
     message: "Order #34567 had been placed",
   },
 ];
-const Topbar = ({ refs }: any) => {
+
+const Topbar = ({ refs, ...props }: any) => {
+  const { location } = props;
   const dispatch = useDrawerDispatch();
   const { logout, user } = useAuth();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const openDrawer = useCallback(
-    () => dispatch({ type: "OPEN_DRAWER", drawerComponent: "PRODUCT_FORM" }),
-    [dispatch]
-  );
 
   return (
     <TopbarWrapper ref={refs}>
@@ -100,7 +100,21 @@ const Topbar = ({ refs }: any) => {
       </DrawerWrapper>
 
       <TopbarRightSide>
-        <Button onClick={openDrawer}>Agregar Productos</Button>
+        <Button
+          onClick={() => {
+            dispatch({
+              type: "OPEN_DRAWER",
+              drawerComponent:
+                location.pathname == DELIVERY
+                  ? "DELIVERY_FORM"
+                  : "PRODUCT_FORM",
+            });
+          }}
+        >
+          {location.pathname == DELIVERY
+            ? "Agregar Delivery"
+            : "Agregar Productos"}
+        </Button>
 
         <Popover
           content={({ close }) => <Notification data={data} onClear={close} />}
@@ -166,4 +180,4 @@ const Topbar = ({ refs }: any) => {
   );
 };
 
-export default Topbar;
+export default withRouter(Topbar);

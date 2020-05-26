@@ -15,7 +15,7 @@ export const TopInfo = styled("div", () => ({
   width: "100%",
   display: "flex",
   justifyContent: "space-between",
-  marginBottom: "20px",
+  marginBottom: "10px",
 }));
 
 export const TitleWrapper = styled("div", () => ({
@@ -48,23 +48,37 @@ export const IconBox = styled("div", ({ $theme }) => ({
   alignItems: "center",
 }));
 
-export const Address = styled("div", () => ({
+export const Detail = styled("div", () => ({
   width: "100%",
   padding: "15px 10px 0px",
   display: "flex",
   justifyContent: "center",
   alignItems: "flex-start",
+  flexWrap: "wrap",
+}));
+
+export const Content = styled("div", () => ({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "baseline",
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  margin: "5px",
 }));
 
 export const Text = styled("span", ({ $theme }) => ({
-  ...$theme.typography.font14,
+  ...$theme.typography.font16,
   fontFamily: $theme.typography.primaryFontFamily,
   lineHeight: "1.2",
   color: $theme.colors.textNormal,
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
 }));
 
 export const PrimaryText = styled("span", ({ $theme }) => ({
-  ...$theme.typography.fontBold16,
+  ...$theme.typography.fontBold18,
   fontFamily: $theme.typography.primaryFontFamily,
   lineHeight: "1.2",
   color: $theme.colors.textNormal,
@@ -82,15 +96,8 @@ export const Color = styled("span", () => ({
   alignItems: "flex-start",
 }));
 
-export const Content = styled("div", () => ({
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "baseline",
-  marginBottom: "10px",
-}));
-
-export const ButtonGroup = styled("div", ({ $theme }) => ({
+export const ButtonContainer = styled("div", ({ $theme }) => ({
   display: "block",
-  marginTop: "30px",
+  marginTop: "20px",
   marginBottom: "-10px",
 }));

@@ -18,6 +18,7 @@ import Routes from "./routes";
 import * as serviceWorker from "./serviceWorker";
 import "./theme/global.css";
 import { AuthProvider } from "@bottle-market/common";
+import { LoadScript } from "@react-google-maps/api";
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
@@ -52,6 +53,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+const mapsLibraries = ["places"];
+
 function App() {
   const engine = new Styletron();
 
@@ -65,7 +68,12 @@ function App() {
               clientId={process.env.REACT_APP_AUTH0_CLIENTID}
               callback={process.env.REACT_APP_AUTH0_CALLBACK}
             >
-              <Routes />
+              <LoadScript
+                googleMapsApiKey={process.env.REACT_APP_MAPS_API_KEY}
+                libraries={mapsLibraries}
+              >
+                <Routes />
+              </LoadScript>
             </AuthProvider>
           </BrowserRouter>
         </BaseProvider>

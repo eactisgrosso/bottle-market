@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { themeGet } from "@styled-system/theme-get";
+import { styled } from "baseui";
 
-export const Wrapper = styled.div`
-  text-align: center;
-`;
+export const Wrapper = styled("div", () => ({
+  width: "100%",
+  textAlign: "center",
+}));
