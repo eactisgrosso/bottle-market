@@ -4,6 +4,6 @@ declare global {
   }
 }
 String.prototype.toTitleCase = function (): string {
-  return this[0].toUpperCase() + this.slice(1);
+  return this[0].toUpperCase() + this.slice(1).toLowerCase();
 };
 export {};

@@ -44,7 +44,9 @@ const StoreCard: React.FC<StoreCardProps> = ({
       </TopInfo>
       <Content>
         <Text>{street}</Text>
-        <Text>{city}</Text>
+        <Text>
+          {city.toTitleCase()}, {postalcode}
+        </Text>
         <Text>{state}</Text>
       </Content>
       <ButtonContainer>

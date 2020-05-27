@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useReducer } from "react";
 import { Wrapper } from "./DeliveryArea.style";
+import Radio from "../Radio/Radio";
 import Input from "../Input/Input";
 import Slider from "../Slider/Slider";
 import { GoogleMap, Marker, Circle } from "@react-google-maps/api";
 import { FormFields } from "../FormFields/FormFields";
+
 import axios from "axios";
 
 function fetchReducer(state, action) {
@@ -32,30 +34,30 @@ function fetchReducer(state, action) {
   }
 }
 
-const GOOGLE_API = "https://maps.google.com/maps/api/geocode/json";
+//const GOOGLE_API = "https://maps.google.com/maps/api/geocode/json";
+const GOB_AR_API = `https://apis.datos.gob.ar/georef/api/direcciones`;
 async function fetchCoordinates(search, dispatch, cancelToken) {
-  if (!search || search.split(",").length < 3) return;
-  console.log(`search:${search}`);
+  if (!search) return;
+  const address = search.split(",");
+  if (address.length < 3) return;
+
   dispatch({ type: "FETCH_START" });
   try {
     const result = await axios(
-      `${GOOGLE_API}?address=${encodeURIComponent(search)}&key=${
-        process.env.REACT_APP_MAPS_API_KEY
-      }&language=es&region=Argentina`,
+      `${GOB_AR_API}?provincia=${encodeURIComponent(
+        address[2]
+      )}&localidad=${encodeURIComponent(
+        address[1]
+      )}&direccion=${encodeURIComponent(address[0])}`,
       {
         cancelToken,
       }
     );
-    if (result.data.error_message) {
-      console.error(result.data.error_message);
-      axios.isCancel(result.data.error_message) ||
-        dispatch({ type: "FETCH_FAILURE" });
-    }
-
-    if (result.data.results.length > 0)
+    console.log(JSON.stringify(result));
+    if (result.data.direcciones.length > 0)
       dispatch({
         type: "FETCH_SUCCESS",
-        payload: result.data.results[0].geometry.location,
+        payload: result.data.direcciones[0].ubicacion,
       });
     else dispatch({ type: "FETCH_FAILURE" });
   } catch (err) {
@@ -64,25 +66,30 @@ async function fetchCoordinates(search, dispatch, cancelToken) {
   }
 }
 
+const ARG_POSITION = {
+  lat: -34.603722,
+  lng: -58.381592,
+};
+
 type Props = {
   isGeolocationEnabled: boolean;
   coords: any;
   searchHint?: string;
   km?: number;
+  address?: string;
 };
 const DeliveryArea: React.FC<Props> = ({
   isGeolocationEnabled,
   coords,
   searchHint = "Calle y número, ciudad, provincia",
   km,
+  address,
 }) => {
   const [radius, setRadius] = useState(1);
   const [zoom, setZoom] = useState(14);
-  const [position, setPosition] = useState({
-    lat: -34.603722,
-    lng: -58.381592,
-  });
+  const [position, setPosition] = useState(ARG_POSITION);
   const [search, setSearch] = useState("");
+  const [deliveryOption, setDeliveryOption] = useState("1");
   const [{ location, hasError, isLoading }, dispatch] = useReducer(
     fetchReducer,
     {
@@ -92,20 +99,36 @@ const DeliveryArea: React.FC<Props> = ({
     }
   );
 
+  const zoomFromRadius = (r) => {
+    return 14 - Math.log(r) / Math.log(2);
+  };
+
   useEffect(() => {
-    if (isGeolocationEnabled && (coords || location)) {
+    if (deliveryOption == "2") {
+      setPosition(ARG_POSITION);
+      setZoom(4);
+      return;
+    }
+    if (location || (!address && isGeolocationEnabled && coords)) {
       setPosition({
         lat: location ? location.lat : coords.latitude,
-        lng: location ? location.lng : coords.longitude,
+        lng: location ? location.lon : coords.longitude,
       });
+      setZoom(zoomFromRadius(radius));
     }
-  }, [isGeolocationEnabled, coords, location]);
+  }, [isGeolocationEnabled, coords, location, deliveryOption]);
 
   useEffect(() => {
     if (radius != null) {
-      setZoom(14 - Math.log(radius) / Math.log(2));
+      setZoom(zoomFromRadius(radius));
     }
   }, [radius]);
+
+  useEffect(() => {
+    if (address != null) {
+      setSearch(address);
+    }
+  }, [address]);
 
   useEffect(() => {
     const { cancel, token } = axios.CancelToken.source();
@@ -119,17 +142,30 @@ const DeliveryArea: React.FC<Props> = ({
     };
   }, [search]);
 
+  const handleChangeDeliveryOption = (event: any) => {
+    setDeliveryOption(event.target.value);
+  };
+
   return (
     <Wrapper>
       <FormFields>
-        <Input
-          value={search}
-          placeholder={searchHint}
-          onChange={(event) => setSearch(event.target.value)}
-          clearable
-        />
+        <Radio
+          options={[
+            { value: "1", name: "Envíos locales" },
+            { value: "2", name: "Envíos a todo el país" },
+          ]}
+          defaultValue="1"
+          onChange={handleChangeDeliveryOption}
+        ></Radio>
+        {deliveryOption == "1" && (
+          <Input
+            value={search}
+            placeholder={searchHint}
+            onChange={(event) => setSearch(event.target.value)}
+            clearable
+          />
+        )}
       </FormFields>
-
       <GoogleMap
         zoom={zoom}
         center={position}
@@ -139,6 +175,7 @@ const DeliveryArea: React.FC<Props> = ({
       >
         <Marker
           position={position}
+          draggable={true}
           onDragEnd={(e) => {
             console.log(`drag end`);
             setPosition({
@@ -160,14 +197,17 @@ const DeliveryArea: React.FC<Props> = ({
           />
         </Marker>
       </GoogleMap>
-      <Slider
-        max={100}
-        min={1}
-        unit={"km"}
-        onChange={(value) => {
-          setRadius(value);
-        }}
-      />
+      {deliveryOption == "1" && (
+        <Slider
+          max={100}
+          min={1}
+          initialValue={radius}
+          unit={"km"}
+          onChange={(value) => {
+            setRadius(value);
+          }}
+        />
+      )}
     </Wrapper>
   );
 };

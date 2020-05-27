@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import uuidv4 from "uuid/v4";
 import gql from "graphql-tag";
-import { useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { Scrollbars } from "react-custom-scrollbars";
 import { geolocated } from "react-geolocated";
 import { useDrawerDispatch } from "../../context/DrawerContext";
@@ -11,6 +11,7 @@ import DrawerBox from "../../components/DrawerBox/DrawerBox";
 import { Row, Col } from "../../components/FlexBox/FlexBox";
 import DeliveryArea from "../../components/DeliveryArea/DeliveryArea";
 import { FormFields, FormLabel } from "../../components/FormFields/FormFields";
+import Select from "../../components/Select/Select";
 import Input from "../../components/Input/Input";
 
 import {
@@ -21,108 +22,73 @@ import {
   ButtonGroup,
 } from "../DrawerItems/DrawerItems.style";
 
-const GET_PRODUCTS = gql`
-  query getProducts(
-    $type: String
-    $sortByPrice: String
-    $searchText: String
-    $offset: Int
-  ) {
-    products(
-      type: $type
-      sortByPrice: $sortByPrice
-      searchText: $searchText
-      offset: $offset
-    ) {
-      items {
-        id
-        name
-        image
-        type
-        price
-        unit
-        salePrice
-        discountInPercent
-      }
-      totalCount
-      hasMore
-    }
-  }
-`;
-const CREATE_PRODUCT = gql`
-  mutation createProduct($product: AddProductInput!) {
-    createProduct(product: $product) {
+const GET_STORES = gql`
+  query getStores {
+    stores {
       id
       name
-      image
-      slug
-      type
-      price
-      unit
-      description
-      salePrice
-      discountInPercent
-      # per_unit
-      quantity
-      # creation_date
+      street
+      city
+      state
     }
   }
 `;
+
 type Props = any;
 
 const AddDeliveryArea: React.FC<Props> = (props) => {
+  const { data, error, loading } = useQuery(GET_STORES);
+
   const dispatch = useDrawerDispatch();
   const closeDrawer = useCallback(() => dispatch({ type: "CLOSE_DRAWER" }), [
     dispatch,
   ]);
   const { register, handleSubmit, setValue } = useForm();
+  const [store, setStore] = useState([]);
+  const [address, setAddress] = useState("");
 
-  React.useEffect(() => {
-    register({ name: "type" });
-    register({ name: "categories" });
-    register({ name: "image", required: true });
-    register({ name: "description" });
-  }, [register]);
-
-  const [createProduct] = useMutation(CREATE_PRODUCT, {
-    update(cache, { data: { createProduct } }) {
-      const { products } = cache.readQuery({
-        query: GET_PRODUCTS,
+  useEffect(() => {
+    if (data && data.stores.length > 0 && store.length == 0) {
+      const initialValue = data.stores.map((s, i) => {
+        return {
+          id: i,
+          name: s.name,
+          value: s.id,
+        };
       });
+      setStore(initialValue);
+      const s = data.stores[0];
+      setAddress(`${s.street}, ${s.city.toTitleCase()}, ${s.state}`);
+    }
+  }, [data]);
 
-      cache.writeQuery({
-        query: GET_PRODUCTS,
-        data: {
-          products: {
-            __typename: products.__typename,
-            items: [createProduct, ...products.items],
-            hasMore: true,
-            totalCount: products.items.length + 1,
-          },
-        },
-      });
-    },
-  });
+  const handleStoreChange = ({ value }) => {
+    setValue("store", value);
+    setStore(value);
+
+    const s = data.stores[value[0].id];
+    setAddress(`${s.street}, ${s.city.toTitleCase()}, ${s.state}`);
+  };
 
   const onSubmit = (data) => {
-    const newProduct = {
-      id: uuidv4(),
-      name: data.name,
-      type: data.type[0].value,
-      description: data.description,
-      image: data.image && data.image.length !== 0 ? data.image : "",
-      price: Number(data.price),
-      unit: data.unit,
-      salePrice: Number(data.salePrice),
-      discountInPercent: Number(data.discountInPercent),
-      quantity: Number(data.quantity),
-      slug: data.name,
-      creation_date: new Date(),
-    };
-    console.log(newProduct, "newProduct data");
-    createProduct({
-      variables: { product: newProduct },
-    });
+    // const newProduct = {
+    //   id: uuidv4(),
+    //   name: data.name,
+    //   type: data.type[0].value,
+    //   description: data.description,
+    //   image: data.image && data.image.length !== 0 ? data.image : "",
+    //   price: Number(data.price),
+    //   unit: data.unit,
+    //   salePrice: Number(data.salePrice),
+    //   discountInPercent: Number(data.discountInPercent),
+    //   quantity: Number(data.quantity),
+    //   slug: data.name,
+    //   creation_date: new Date(),
+    // };
+    // console.log(newProduct, "newProduct data");
+    // createProduct({
+    //   variables: { product: newProduct },
+    // });
     closeDrawer();
   };
 
@@ -146,6 +112,82 @@ const AddDeliveryArea: React.FC<Props> = (props) => {
             />
           )}
         >
+          <Row>
+            <Col lg={4}>
+              <FieldDetails>Seleccioná la tienda</FieldDetails>
+            </Col>
+            <Col lg={8}>
+              <DrawerBox>
+                <FormFields>
+                  <FormLabel>Vinoteca / Tienda de Vinos</FormLabel>
+                  <Select
+                    options={
+                      data
+                        ? data.stores.map((s, i) => {
+                            return {
+                              id: i,
+                              name: s.name,
+                              value: s.id,
+                            };
+                          })
+                        : []
+                    }
+                    labelKey="name"
+                    valueKey="value"
+                    placeholder="Tienda"
+                    value={store}
+                    searchable={false}
+                    onChange={handleStoreChange}
+                    overrides={{
+                      Placeholder: {
+                        style: ({ $theme }) => {
+                          return {
+                            ...$theme.typography.fontBold14,
+                            color: $theme.colors.textNormal,
+                          };
+                        },
+                      },
+                      DropdownListItem: {
+                        style: ({ $theme }) => {
+                          return {
+                            ...$theme.typography.fontBold14,
+                            color: $theme.colors.textNormal,
+                          };
+                        },
+                      },
+                      OptionContent: {
+                        style: ({ $theme, $selected }) => {
+                          return {
+                            ...$theme.typography.fontBold14,
+                            color: $selected
+                              ? $theme.colors.textDark
+                              : $theme.colors.textNormal,
+                          };
+                        },
+                      },
+                      SingleValue: {
+                        style: ({ $theme }) => {
+                          return {
+                            ...$theme.typography.fontBold14,
+                            color: $theme.colors.textNormal,
+                          };
+                        },
+                      },
+                      Popover: {
+                        props: {
+                          overrides: {
+                            Body: {
+                              style: { zIndex: 5 },
+                            },
+                          },
+                        },
+                      },
+                    }}
+                  />
+                </FormFields>
+              </DrawerBox>
+            </Col>
+          </Row>
           <Row>
             <Col lg={4}>
               <FieldDetails>
@@ -178,9 +220,7 @@ const AddDeliveryArea: React.FC<Props> = (props) => {
           </Row>
           <Row>
             <Col lg={4}>
-              <FieldDetails>
-                Ingresá la dirección completa de la tienda y el radio de entrega
-              </FieldDetails>
+              <FieldDetails>Seleccioná el radio de entrega</FieldDetails>
             </Col>
             <Col lg={8}>
               <DrawerBox
@@ -202,6 +242,7 @@ const AddDeliveryArea: React.FC<Props> = (props) => {
                 <DeliveryArea
                   isGeolocationEnabled={props.isGeolocationEnabled}
                   coords={props.coords}
+                  address={address}
                 />
               </DrawerBox>
             </Col>
