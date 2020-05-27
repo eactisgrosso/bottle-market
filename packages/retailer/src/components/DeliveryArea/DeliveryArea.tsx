@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useReducer } from "react";
 import { Wrapper } from "./DeliveryArea.style";
-import Input from "../../components/Input/Input";
-import Slider from "../../components/Slider/Slider";
+import Input from "../Input/Input";
+import Slider from "../Slider/Slider";
 import { GoogleMap, Marker, Circle } from "@react-google-maps/api";
-import { FormFields } from "../../components/FormFields/FormFields";
+import { FormFields } from "../FormFields/FormFields";
 import axios from "axios";
 
 function fetchReducer(state, action) {
@@ -73,7 +73,7 @@ type Props = {
 const DeliveryArea: React.FC<Props> = ({
   isGeolocationEnabled,
   coords,
-  searchHint = "Con el formato: calle y número, ciudad, provincia",
+  searchHint = "Calle y número, ciudad, provincia",
   km,
 }) => {
   const [radius, setRadius] = useState(1);

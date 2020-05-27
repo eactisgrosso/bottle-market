@@ -31,7 +31,12 @@ import { useDrawerDispatch } from "../../../context/DrawerContext";
 import { MenuIcon } from "../../../components/AllSvgIcon";
 import Drawer, { ANCHOR } from "../../../components/Drawer/Drawer";
 import Sidebar from "../Sidebar/Sidebar";
-import { DASHBOARD, PRODUCTS, DELIVERY } from "../../../settings/constants";
+import {
+  DASHBOARD,
+  STORES,
+  PRODUCTS,
+  DELIVERY,
+} from "../../../settings/constants";
 
 const data = [
   {
@@ -40,6 +45,20 @@ const data = [
     message: "Order #34567 had been placed",
   },
 ];
+
+const FORMS = {
+  [DASHBOARD]: "PRODUCT_FORM",
+  [STORES]: "STORE_FORM",
+  [PRODUCTS]: "PRODUCT_FORM",
+  [DELIVERY]: "DELIVERY_FORM",
+};
+
+const BUTTON_TEXT = {
+  [DASHBOARD]: "Agregar Productos",
+  [STORES]: "Agregar Tienda",
+  [PRODUCTS]: "Agregar Productos",
+  [DELIVERY]: "Agregar Delivery",
+};
 
 const Topbar = ({ refs, ...props }: any) => {
   const { location } = props;
@@ -104,16 +123,11 @@ const Topbar = ({ refs, ...props }: any) => {
           onClick={() => {
             dispatch({
               type: "OPEN_DRAWER",
-              drawerComponent:
-                location.pathname == DELIVERY
-                  ? "DELIVERY_FORM"
-                  : "PRODUCT_FORM",
+              drawerComponent: FORMS[location.pathname],
             });
           }}
         >
-          {location.pathname == DELIVERY
-            ? "Agregar Delivery"
-            : "Agregar Productos"}
+          {BUTTON_TEXT[location.pathname]}
         </Button>
 
         <Popover

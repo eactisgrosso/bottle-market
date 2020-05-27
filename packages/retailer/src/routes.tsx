@@ -5,6 +5,7 @@ import {
   CALLBACK,
   PRODUCTS,
   DELIVERY,
+  STORES,
   DASHBOARD,
 } from "./settings/constants";
 import { useAuth, useRefreshToken } from "@bottle-market/common";
@@ -13,6 +14,7 @@ import { InLineLoader } from "./components/InlineLoader/InlineLoader";
 const Products = lazy(() => import("./containers/Products/Products"));
 const RetailerLayout = lazy(() => import("./containers/Layout/Layout"));
 const Dashboard = lazy(() => import("./containers/Dashboard/Dashboard"));
+const Stores = lazy(() => import("./containers/Stores/Stores"));
 const Delivery = lazy(() => import("./containers/Delivery/Delivery"));
 const Login = lazy(() => import("./containers/Login/Login"));
 const Callback = lazy(() => import("./containers/Login/Callback"));
@@ -57,6 +59,13 @@ const Routes = () => {
           <RetailerLayout>
             <Suspense fallback={<InLineLoader />}>
               <Dashboard />
+            </Suspense>
+          </RetailerLayout>
+        </PrivateRoute>
+        <PrivateRoute path={STORES}>
+          <RetailerLayout>
+            <Suspense fallback={<InLineLoader />}>
+              <Stores />
             </Suspense>
           </RetailerLayout>
         </PrivateRoute>

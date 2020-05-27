@@ -1,5 +1,5 @@
 import { ObjectType, Field } from "@nestjs/graphql";
-import Store from "./store.type";
+import StoreDTO from "../store/store.type";
 
 @ObjectType()
 export default class UserDTO {
@@ -12,6 +12,6 @@ export default class UserDTO {
   @Field()
   email: string;
 
-  @Field((type) => [Store])
-  store: Store[];
+  @Field((type) => [StoreDTO])
+  store: StoreDTO[];
 }

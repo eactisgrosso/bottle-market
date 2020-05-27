@@ -9,7 +9,7 @@ import { useDrawerDispatch } from "../../context/DrawerContext";
 import Button, { KIND } from "../../components/Button/Button";
 import DrawerBox from "../../components/DrawerBox/DrawerBox";
 import { Row, Col } from "../../components/FlexBox/FlexBox";
-import DeliveryArea from "../../containers/DeliveryArea/DeliveryArea";
+import DeliveryArea from "../../components/DeliveryArea/DeliveryArea";
 import { FormFields, FormLabel } from "../../components/FormFields/FormFields";
 import Input from "../../components/Input/Input";
 
@@ -179,7 +179,7 @@ const AddDeliveryArea: React.FC<Props> = (props) => {
           <Row>
             <Col lg={4}>
               <FieldDetails>
-                Ingresá la dirección de la tienda y el radio de entrega
+                Ingresá la dirección completa de la tienda y el radio de entrega
               </FieldDetails>
             </Col>
             <Col lg={8}>

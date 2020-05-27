@@ -25,7 +25,8 @@
     "build:api": "yarn workspace @bottle-market/api build",
     "dev:api-shop": "yarn workspace @bottle-market/api shop",
     "serve:api-shop": "yarn workspace @bottle-market/api shop-serve",
-    "dev:api-admin": "yarn workspace @bottle-market/api admin"
+    "dev:api-admin": "yarn workspace @bottle-market/api admin",
+    "build:common": "yarn workspace @bottle-market/common build"
   },
   "devDependencies": {
     "concurrently": "^5.1.0",

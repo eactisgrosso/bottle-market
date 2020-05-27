@@ -1,6 +1,7 @@
 // **************** ROUTE CONSTANT START **************************
 // General Page Section
 export const DASHBOARD = "/";
+export const STORES = "/stores";
 export const PRODUCTS = "/products";
 export const DELIVERY = "/delivery";
 export const LOGIN = "/login";

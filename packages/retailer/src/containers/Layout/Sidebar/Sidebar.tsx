@@ -7,13 +7,19 @@ import {
   Svg,
   LogoutBtn,
 } from "./Sidebar.style";
-import { DASHBOARD, PRODUCTS, DELIVERY } from "../../../settings/constants";
+import {
+  DASHBOARD,
+  STORES,
+  PRODUCTS,
+  DELIVERY,
+} from "../../../settings/constants";
 import { useAuth } from "@bottle-market/common";
 import {
   DashboardIcon,
   ProductIcon,
   SidebarCategoryIcon,
   LogoutIcon,
+  Vino,
 } from "../../../components/AllSvgIcon";
 
 const sidebarMenus = [
@@ -22,6 +28,12 @@ const sidebarMenus = [
     path: DASHBOARD,
     exact: true,
     icon: <DashboardIcon />,
+  },
+  {
+    name: "Tiendas",
+    path: STORES,
+    exact: false,
+    icon: <Vino />,
   },
   {
     name: "Productos",

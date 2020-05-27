@@ -4,7 +4,7 @@ import { KNEX_CONNECTION } from "@nestjsplus/knex";
 import { UseGuards } from "@nestjs/common";
 import { GraphqlAuthGuard } from "../../../common/auth/graphql.auth.guard";
 import UserDTO from "./user.type";
-import Store from "./store.type";
+import StoreDTO from "../store/store.type";
 
 @Injectable()
 @Resolver()
@@ -34,7 +34,7 @@ export class UserResolver {
         .select(storeId, "name")
         .where("user_id", aggregateId);
       if (dbStores.length > 0)
-        user.store = dbStores.map((s) => new Store(s.id, s.name));
+        user.store = dbStores.map((s) => new StoreDTO(s.id, s.name));
     }
 
     return user;

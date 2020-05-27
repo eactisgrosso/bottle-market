@@ -1,7 +1,7 @@
 import { ObjectType, Field } from "@nestjs/graphql";
 
 @ObjectType()
-export default class Store {
+export default class StoreDTO {
   constructor(id: string, name: string) {
     this.id = id;
     this.name = name;
@@ -12,4 +12,19 @@ export default class Store {
 
   @Field()
   name: string;
+
+  @Field()
+  type: string;
+
+  @Field()
+  postalcode: string;
+
+  @Field()
+  street: string;
+
+  @Field()
+  city: string;
+
+  @Field()
+  state: string;
 }

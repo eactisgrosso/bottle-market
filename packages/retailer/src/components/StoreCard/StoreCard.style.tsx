@@ -1,21 +1,36 @@
 import { styled } from "baseui";
 
 export const Card = styled("div", () => ({
-  width: "320px",
-  minWidth: "320px",
   height: "100%",
   display: "flex",
   flexDirection: "column",
-  padding: "30px",
   borderRadius: "6px",
   backgroundColor: "#ffffff",
+  marginLeft: "10px",
+  marginRight: "10px",
+  marginTop: "15px",
+  paddingLeft: "30px",
+  paddingRight: "30px",
+  paddingTop: "30px",
+  paddingBottom: "0px",
+  "@media only screen and (min-width: 400px)": {
+    width: "320px",
+  },
 }));
 
 export const TopInfo = styled("div", () => ({
   width: "100%",
   display: "flex",
   justifyContent: "space-between",
-  marginBottom: "10px",
+  marginBottom: "20px",
+}));
+
+export const IconBox = styled("div", ({ $theme }) => ({
+  width: "48px",
+  height: "48px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
 }));
 
 export const TitleWrapper = styled("div", () => ({
@@ -40,64 +55,31 @@ export const SubTitle = styled("span", ({ $theme }) => ({
   marginBottom: "0px",
 }));
 
-export const IconBox = styled("div", ({ $theme }) => ({
-  width: "48px",
-  height: "48px",
+export const Content = styled("div", () => ({
   display: "flex",
-  justifyContent: "center",
+  flexDirection: "column",
   alignItems: "center",
-}));
-
-export const Detail = styled("div", () => ({
-  width: "100%",
-  padding: "15px 10px 0px",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "flex-start",
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
   flexWrap: "wrap",
 }));
 
-export const Content = styled("div", () => ({
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "baseline",
-  whiteSpace: "nowrap",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  margin: "5px",
-}));
-
 export const Text = styled("span", ({ $theme }) => ({
-  ...$theme.typography.font16,
+  ...$theme.typography.font46,
   fontFamily: $theme.typography.primaryFontFamily,
   lineHeight: "1.2",
   color: $theme.colors.textNormal,
   whiteSpace: "nowrap",
   overflow: "hidden",
   textOverflow: "ellipsis",
-}));
-
-export const PrimaryText = styled("span", ({ $theme }) => ({
-  ...$theme.typography.fontBold18,
-  fontFamily: $theme.typography.primaryFontFamily,
-  lineHeight: "1.2",
-  color: $theme.colors.textNormal,
-  marginLeft: "10px",
-}));
-
-export const Color = styled("span", () => ({
-  width: "15px",
-  height: "15px",
-  borderRadius: "50%",
-  marginRight: "10px",
-  marginTop: "3px",
-  display: "flex",
-  flexShrink: "0",
-  alignItems: "flex-start",
+  flexBasis: "100%",
+  margin: "2px",
 }));
 
 export const ButtonContainer = styled("div", ({ $theme }) => ({
-  display: "block",
-  marginTop: "20px",
-  marginBottom: "-10px",
+  display: "flex",
+  marginTop: "40px",
+  marginBottom: "20px",
+  justifyContent: "space-evenly",
 }));

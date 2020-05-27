@@ -1,29 +1,17 @@
 import React, { useState } from "react";
 import { styled } from "baseui";
-import { geolocated } from "react-geolocated";
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/client";
 import {
   Grid,
   Row as Rows,
   Col as Column,
 } from "../../components/FlexBox/FlexBox";
-import { DeliveryIcon, GpsIcon } from "../../components/AllSvgIcon";
-import {
-  Card,
-  TopInfo,
-  TitleWrapper,
-  Title,
-  SubTitle,
-  IconBox,
-  Detail,
-  Color,
-  Text,
-  PrimaryText,
-  Content,
-  ButtonContainer,
-} from "./Delivery.style";
-import Button, { KIND, SHAPE } from "../../components/Button/Button";
-import { ButtonGroup } from "baseui/button-group";
-import { Tag, VARIANT } from "baseui/tag";
+import { Header, Heading } from "../../components/WrapperStyle";
+import NoResult from "../../components/NoResult/NoResult";
+import Placeholder from "../../components/Placeholder/Placeholder";
+import Fade from "react-reveal/Fade";
+import DeliveryCard from "../../components/DeliveryCard/DeliveryCard";
 
 export const Col = styled(Column, () => ({
   "@media only screen and (max-width: 767px)": {
@@ -40,91 +28,137 @@ const Row = styled(Rows, () => ({
     alignItems: "center",
   },
 }));
+export const LoaderWrapper = styled("div", () => ({
+  width: "100%",
+  height: "100vh",
+  display: "flex",
+  flexWrap: "wrap",
+}));
 
-const daysOfWeek = ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"];
+export const LoaderItem = styled("div", () => ({
+  width: "25%",
+  padding: "0 15px",
+  marginBottom: "30px",
+}));
+
+const GET_DELIVERY_AREAS = gql`
+  query getDeliveryAreas {
+    delivery_areas {
+      id
+      name
+      store
+      address
+      radius
+      eta
+      monday
+      monday_hours_from
+      monday_hours_to
+      tuesday
+      tuesday_hours_from
+      tuesday_hours_to
+      wednesday
+      wednesday_hours_from
+      wednesday_hours_to
+      thursday
+      thursday_hours_from
+      thursday_hours_to
+      friday
+      friday_hours_from
+      friday_hours_to
+      saturday
+      saturday_hours_from
+      saturday_hours_to
+      sunday
+      sunday_hours_from
+      sunday_hours_to
+    }
+  }
+`;
 
 type Props = any;
 
 const Delivery: React.FC<Props> = (props) => {
+  const { data, error, loading } = useQuery(GET_DELIVERY_AREAS);
+
+  if (error) {
+    return <div>Error! {error.message}</div>;
+  }
+
   return (
     <Grid fluid={true}>
       <Row>
         <Col md={12}>
+          <Header style={{ marginBottom: 15 }}>
+            <Col md={2} xs={12}>
+              <Heading>Zonas de Entrega</Heading>
+            </Col>
+          </Header>
+
           <Row>
-            <Card>
-              <TopInfo>
-                <TitleWrapper>
-                  <Title>Eze's Wines</Title>
-                  <SubTitle>Zona de Entrega 1</SubTitle>
-                </TitleWrapper>
-                <IconBox>{<DeliveryIcon />}</IconBox>
-              </TopInfo>
-              <Detail>
-                <Content>
-                  <GpsIcon />
-                  <PrimaryText>+2km</PrimaryText>
-                </Content>
-                <Content>
-                  <Text>Barracas 352, Lobos, Buenos Aires </Text>
-                </Content>
-              </Detail>
-              <Detail>
-                {daysOfWeek.map((day, index) => (
-                  <React.Fragment key={index}>
-                    <Tag
-                      closeable={false}
-                      variant={VARIANT.outlined}
-                      kind="primary"
-                    >
-                      {day}
-                    </Tag>
-                  </React.Fragment>
-                ))}
-                <Content>
-                  <Tag closeable={false} variant={VARIANT.light} kind="neutral">
-                    9 a 18 hs
-                  </Tag>
-                </Content>
-              </Detail>
-              <ButtonContainer>
-                <Button
-                  kind={KIND.minimal}
-                  overrides={{
-                    BaseButton: {
-                      style: ({ $theme }) => ({
-                        display: "inline-block",
-                        width: "47%",
-                        borderTopLeftRadius: "3px",
-                        borderTopRightRadius: "3px",
-                        borderBottomRightRadius: "3px",
-                        borderBottomLeftRadius: "3px",
-                        marginRight: "15px",
-                        color: $theme.colors.red400,
-                      }),
-                    },
-                  }}
-                >
-                  Eliminar
-                </Button>
-                <Button
-                  kind={KIND.secondary}
-                  overrides={{
-                    BaseButton: {
-                      style: ({ $theme }) => ({
-                        display: "inline-block",
-                        width: "47%",
-                        borderTopLeftRadius: "3px",
-                        borderTopRightRadius: "3px",
-                        borderBottomRightRadius: "3px",
-                        borderBottomLeftRadius: "3px",
-                      }),
-                    },
-                  }}
-                >
-                  Editar
-                </Button>
-              </ButtonContainer>
-            </Card>
+            {data ? (
+              data.delivery_areas && data.delivery_areas.length !== 0 ? (
+                data.delivery_areas.map((delivery_area: any, index: number) => (
+                  <Col
+                    md={4}
+                    lg={3}
+                    sm={6}
+                    xs={12}
+                    key={index}
+                    style={{ margin: "15px 0" }}
+                  >
+                    <Fade bottom duration={800} delay={index * 10}>
+                      <DeliveryCard
+                        store={delivery_area.store}
+                        area={delivery_area.name}
+                        address={delivery_area.address}
+                        radius={delivery_area.radius}
+                        eta={delivery_area.eta}
+                        monday={delivery_area.monday}
+                        monday_hours_from={delivery_area.monday_hours_from}
+                        monday_hours_to={delivery_area.monday_hours_to}
+                        tuesday={delivery_area.tuesday}
+                        tuesday_hours_from={delivery_area.tuesday_hours_from}
+                        tuesday_hours_to={delivery_area.tuesday_hours_to}
+                        wednesday={delivery_area.wednesday}
+                        wednesday_hours_from={
+                          delivery_area.wednesday_hours_from
+                        }
+                        wednesday_hours_to={delivery_area.wednesday_hours_to}
+                        thursday={delivery_area.thursday}
+                        thursday_hours_from={delivery_area.thursday_hours_from}
+                        thursday_hours_to={delivery_area.thursday_hours_to}
+                        friday={delivery_area.friday}
+                        friday_hours_from={delivery_area.friday_hours_from}
+                        friday_hours_to={delivery_area.friday_hours_to}
+                        saturday={delivery_area.saturday}
+                        saturday_hours_from={delivery_area.saturday_hours_from}
+                        saturday_hours_to={delivery_area.saturday_hours_to}
+                        sunday={delivery_area.sunday}
+                        sunday_hours_from={delivery_area.sunday_hours_from}
+                        sunday_hours_to={delivery_area.sunday_hours_to}
+                      ></DeliveryCard>
+                    </Fade>
+                  </Col>
+                ))
+              ) : (
+                <NoResult />
+              )
+            ) : (
+              <LoaderWrapper>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+                <LoaderItem>
+                  <Placeholder />
+                </LoaderItem>
+              </LoaderWrapper>
+            )}
           </Row>
         </Col>
       </Row>
@@ -132,9 +166,4 @@ const Delivery: React.FC<Props> = (props) => {
   );
 };
 
-export default geolocated({
-  positionOptions: {
-    enableHighAccuracy: false,
-  },
-  userDecisionTimeout: 5000,
-})(Delivery);
+export default Delivery;
