@@ -1,4 +1,4 @@
-CREATE VIEW `marketplace_product_view` AS 
+CREATE VIEW `product_view` AS 
 SELECT  p.id,
         p.title,
         p.slug,
@@ -14,21 +14,21 @@ SELECT  p.id,
 		GROUP_CONCAT(DISTINCT CONCAT("[",mk.slug,"]") SEPARATOR ',') as categoriesSlugs,
 		GROUP_CONCAT(DISTINCT pi.image SEPARATOR ',') as images
        
-FROM bottlehub.marketplace_product p
+FROM product p
 
-LEFT JOIN marketplace_product_categories as pc
+LEFT JOIN product_categories as pc
 ON p.id = pc.product_id
 
-LEFT JOIN marketplace_category mk
+LEFT JOIN category mk
 ON pc.category_id = mk.id
 
-LEFT JOIN marketplace_productimage as pi
+LEFT JOIN product_image as pi
 ON p.id = pi.product_id
 
-LEFT JOIN marketplace_producer pro
+LEFT JOIN producer pro
 ON p.producer_id = pro.id
 
-INNER JOIN marketplace_region_view re
+INNER JOIN region_view re
 ON p.region_id = re.id
  
 GROUP BY p.id, re.path

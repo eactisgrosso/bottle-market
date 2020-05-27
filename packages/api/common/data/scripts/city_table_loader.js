@@ -16,7 +16,7 @@ let cities = JSON.parse(rawdata);
 
 const insert = async (id, state_id, name, lat, lng) => {
   const point = knex.raw("POINT(:lat,:lat)", { lat: lat, lng: lng });
-  await knex("marketplace_city").insert({
+  await knex("city").insert({
     id: id,
     state_id,
     name: name,

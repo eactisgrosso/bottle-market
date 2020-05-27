@@ -1,4 +1,4 @@
-CREATE TABLE `marketplace_delivery_area` (
+CREATE TABLE `delivery_area` (
   `id` BINARY(16),
   `store_id` BINARY(16),
   `name` VARCHAR(50),

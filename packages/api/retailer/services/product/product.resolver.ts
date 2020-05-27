@@ -48,9 +48,9 @@ export class ProductResolver {
   ): Promise<Products> {
     const userId = this.knex.raw("UUID_TO_BIN(?)", user.id);
     const storeId = this.knex.raw("BIN_TO_UUID(ms.id)");
-    const query = this.knex("marketplace_store_product_size_view as msp")
+    const query = this.knex("store_product_size_view as msp")
       .select("msp.*")
-      .join("marketplace_store as ms", "msp.store_id", storeId)
+      .join("store as ms", "msp.store_id", storeId)
       .where("ms.user_id", userId);
 
     const dbProducts = await query.map((dbProduct: any) => {

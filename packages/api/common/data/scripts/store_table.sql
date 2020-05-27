@@ -1,4 +1,4 @@
-CREATE TABLE `marketplace_store` (
+CREATE TABLE `store` (
   `id` binary(16),
   `user_id` binary(16),
   `type` varchar(50),

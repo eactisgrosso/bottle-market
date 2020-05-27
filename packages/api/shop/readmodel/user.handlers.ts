@@ -11,14 +11,14 @@ export class UserCreatedEventHandler
   constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {}
 
   async handle(event: UserSignedUp) {
-    const exists = await this.knex("marketplace_user")
+    const exists = await this.knex("user")
       .whereNull("authSub")
       .andWhere("email", event.email)
       .first();
 
     const aggregateId = this.knex.raw("UUID_TO_BIN(?)", event.aggregateId);
     if (exists) {
-      await this.knex("marketplace_user").where({ email: event.email }).update({
+      await this.knex("user").where({ email: event.email }).update({
         aggregateId: aggregateId,
         authSub: event.sub,
         firstname: event.firstname,
@@ -29,7 +29,7 @@ export class UserCreatedEventHandler
       return;
     }
 
-    await this.knex("marketplace_user").insert({
+    await this.knex("user").insert({
       aggregateId: aggregateId,
       authSub: event.sub,
       email: event.email,
@@ -51,13 +51,11 @@ export class UserNameChangedEventHandler
   async handle(event: UserNameChanged) {
     const aggregateId = this.knex.raw("UUID_TO_BIN(?)", event.aggregateId);
 
-    await this.knex("marketplace_user")
-      .where("aggregateId", aggregateId)
-      .update({
-        firstname: event.firstname,
-        lastname: event.lastname,
-        date_last_modified: new Date().toMySQLString(),
-      });
+    await this.knex("user").where("aggregateId", aggregateId).update({
+      firstname: event.firstname,
+      lastname: event.lastname,
+      date_last_modified: new Date().toMySQLString(),
+    });
   }
 }
 

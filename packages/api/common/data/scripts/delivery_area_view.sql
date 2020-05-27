@@ -1,4 +1,4 @@
-CREATE VIEW `marketplace_delivery_area_view` AS 
+CREATE VIEW `delivery_area_view` AS 
 SELECT
 	 BIN_TO_UUID(user_id) as user_id,
 	 BIN_TO_UUID(da.id) as id,
@@ -32,7 +32,7 @@ SELECT
      sunday_hours_from, 
      sunday_hours_to     
      
-FROM marketplace_delivery_area da
+FROM delivery_area da
 
-LEFT JOIN marketplace_store st
+LEFT JOIN store st
 ON st.id = da.store_id

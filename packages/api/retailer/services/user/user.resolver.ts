@@ -20,7 +20,7 @@ export class UserResolver {
     let user = new UserDTO();
     const aggregateId = this.knex.raw("UUID_TO_BIN(?)", id);
 
-    const dbUser = await this.knex("marketplace_user")
+    const dbUser = await this.knex("user")
       .select("email", "firstname", "lastname")
       .where("aggregateId", aggregateId)
       .first();
@@ -30,7 +30,7 @@ export class UserResolver {
       user.name = `${dbUser.firstname} ${dbUser.lastname}`;
 
       const storeId = this.knex.raw("BIN_TO_UUID(id) as id");
-      const dbStores = await this.knex("marketplace_store")
+      const dbStores = await this.knex("store")
         .select(storeId, "name")
         .where("user_id", aggregateId);
       if (dbStores.length > 0)

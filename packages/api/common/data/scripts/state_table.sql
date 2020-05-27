@@ -1,4 +1,4 @@
-CREATE TABLE `marketplace_state` (
+CREATE TABLE `state` (
   `id` varchar(50),
   `name` varchar(255),
   `centroid` POINT,

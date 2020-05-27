@@ -18,7 +18,7 @@ export class StoreResolver {
   @UseGuards(GraphqlAuthGuard)
   @Query(() => [StoreDTO])
   async stores(@User() user: any): Promise<StoreDTO[]> {
-    const dbStores = await this.knex("marketplace_store_view")
+    const dbStores = await this.knex("store_view")
       .select("*")
       .where("user_id", user.id);
 
@@ -28,7 +28,7 @@ export class StoreResolver {
   @UseGuards(GraphqlAuthGuard)
   @Query(() => [DeliveryAreaDTO])
   async delivery_areas(@User() user: any): Promise<DeliveryAreaDTO[]> {
-    const dbStores = await this.knex("marketplace_delivery_area_view")
+    const dbStores = await this.knex("delivery_area_view")
       .select("*")
       .where("user_id", user.id);
 

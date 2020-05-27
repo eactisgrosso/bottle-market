@@ -1,3 +1,3 @@
 
-ALTER TABLE marketplace_product
+ALTER TABLE product
 ADD COLUMN aggregateId BINARY(16)

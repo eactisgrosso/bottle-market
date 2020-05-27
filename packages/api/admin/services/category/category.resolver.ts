@@ -19,7 +19,7 @@ export default class CategoryResolver {
   ): Promise<Category[]> {
     if (!type) type = "catalogo-publico";
 
-    const query = this.knex("marketplace_category_tree_view")
+    const query = this.knex("category_tree_view")
       .where("path", "like", `%[${type}]%`)
       .andWhereNot("slug", type);
 

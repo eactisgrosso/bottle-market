@@ -14,7 +14,7 @@ export class CategoryResolver {
   async categories(
     @Args("type", { type: () => String }) type: string
   ): Promise<Category[]> {
-    const query = this.knex("marketplace_category_tree_view")
+    const query = this.knex("category_tree_view")
       .where("path", "like", `%[catalogo-publico]%`)
       .andWhere("path", "like", `%[${type}]%`);
 

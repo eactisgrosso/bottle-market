@@ -1,4 +1,4 @@
-CREATE TABLE `marketplace_city` (
+CREATE TABLE `city` (
   `id` varchar(50),
   `state_id` varchar(50),
   `name` varchar(255),

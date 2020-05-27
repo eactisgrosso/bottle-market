@@ -1,4 +1,4 @@
-ALTER TABLE `marketplace_user` 
+ALTER TABLE `user` 
 ALTER `email_verified` SET DEFAULT 1,
 MODIFY `email_alternative` varchar(254),
 ALTER `email_alternative_verified` SET DEFAULT 0,

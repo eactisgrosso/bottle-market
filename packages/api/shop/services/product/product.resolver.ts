@@ -41,9 +41,9 @@ export class ProductResolver {
   }
 
   private buildCategoryMap = async (categoryIds: Set<number>) => {
-    const dbCategories = await this.knex(
-      "marketplace_category_tree_view"
-    ).whereIn("id", [...categoryIds]);
+    const dbCategories = await this.knex("category_tree_view").whereIn("id", [
+      ...categoryIds,
+    ]);
 
     return Object.assign({}, ...dbCategories.map((x: any) => ({ [x.id]: x })));
   };
@@ -138,13 +138,9 @@ export class ProductResolver {
       product.categories.push(category);
     }
 
-    const type = await this.knex("marketplace_category_parent as mkp")
+    const type = await this.knex("category_parent as mkp")
       .first("mct.slug")
-      .join(
-        "marketplace_category_tree_view as mct",
-        "mkp.to_category_id",
-        "mct.id"
-      )
+      .join("category_tree_view as mct", "mkp.to_category_id", "mct.id")
       .whereIn("from_category_id", [...categoryIds])
       .andWhere("mct.path", "like", "%[catalogo-publico]%");
     product.type = type;
