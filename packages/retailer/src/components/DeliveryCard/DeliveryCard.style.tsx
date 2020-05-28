@@ -66,6 +66,8 @@ export const Detail = styled("div", () => ({
 export const Content = styled("div", () => ({
   display: "flex",
   flexDirection: "row",
+  flexBasis: "100%",
+  justifyContent: "center",
   alignItems: "baseline",
   whiteSpace: "nowrap",
   overflow: "hidden",
@@ -80,7 +82,7 @@ export const Hours = styled("div", () => ({
   marginTop: "30px",
 }));
 
-export const Text = styled("span", ({ $theme }) => ({
+export const Address = styled("span", ({ $theme }) => ({
   ...$theme.typography.font14,
   fontFamily: $theme.typography.primaryFontFamily,
   lineHeight: "1.2",

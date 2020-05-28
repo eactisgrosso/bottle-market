@@ -55,11 +55,13 @@ const Delivery: React.FC<Props> = (props) => {
     <Grid fluid={true}>
       <Row>
         <Col md={12}>
-          <Header style={{ marginBottom: 15 }}>
-            <Col md={4} xs={12}>
-              <Heading>Zonas de Entrega</Heading>
-            </Col>
-          </Header>
+          {data && data.deliveryAreas && data.deliveryAreas.length > 0 && (
+            <Header style={{ marginBottom: 15 }}>
+              <Col md={4} xs={12}>
+                <Heading>Zonas de Entrega</Heading>
+              </Col>
+            </Header>
+          )}
 
           <Row>
             {data ? (
@@ -105,7 +107,7 @@ const Delivery: React.FC<Props> = (props) => {
                   </Col>
                 ))
               ) : (
-                <NoResult />
+                <NoResult text={"Aun no han sido definidas zonas de entrega"} />
               )
             ) : (
               <LoaderWrapper>

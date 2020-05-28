@@ -9,7 +9,7 @@ import {
   IconBox,
   Detail,
   Hours,
-  Text,
+  Address,
   PrimaryText,
   Content,
   ButtonContainer,
@@ -75,46 +75,64 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
 }) => {
   const [hours, setHours] = useState([]);
 
+  const getConsecutives = (arr, i, result) => {
+    const current = arr[i];
+    const next = arr[i + 1];
+    if (next && current.i + 1 == next.i) {
+      result.push(current);
+      return getConsecutives(arr, i + 1, result);
+    }
+    result.push(current);
+    return result;
+  };
+
   useEffect(() => {
     let businessHours = [];
     if (monday)
       businessHours.push({
+        i: 0,
         day: "Lunes",
         from: monday_hours_from,
         to: monday_hours_to,
       });
     if (tuesday)
       businessHours.push({
+        i: 1,
         day: "Martes",
         from: tuesday_hours_from,
         to: tuesday_hours_to,
       });
     if (wednesday)
       businessHours.push({
+        i: 2,
         day: "Miércoles",
         from: wednesday_hours_from,
         to: wednesday_hours_to,
       });
     if (thursday)
       businessHours.push({
+        i: 3,
         day: "Jueves",
         from: thursday_hours_from,
         to: thursday_hours_to,
       });
     if (friday)
       businessHours.push({
+        i: 4,
         day: "Viernes",
         from: friday_hours_from,
         to: friday_hours_to,
       });
     if (saturday)
       businessHours.push({
+        i: 5,
         day: "Sábados",
         from: saturday_hours_from,
         to: saturday_hours_to,
       });
     if (sunday)
       businessHours.push({
+        i: 6,
         day: "Domingos",
         from: sunday_hours_from,
         to: sunday_hours_to,
@@ -124,14 +142,30 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
       return `${hour.from.substring(0, 5)} a ${hour.to.substring(0, 5)}`;
     });
 
-    const h = [];
-    for (let key in grouped) {
-      const values = grouped[key];
-      if (values.length == 1) h.push(`${values[0].day} de ${key}`);
-      else
-        h.push(`${values[0].day} a ${values[values.length - 1].day} de ${key}`);
+    const hoursLabel = [];
+    for (let schedule in grouped) {
+      const values = grouped[schedule];
+      if (values.length == 1)
+        hoursLabel.push(`${values[0].day} de ${schedule}`);
+      else {
+        let start = 0;
+        do {
+          const consecutives = getConsecutives(values.slice(start), 0, []);
+          if (consecutives.length > 2)
+            hoursLabel.push(
+              `${consecutives[0].day} a ${
+                consecutives[consecutives.length - 1].day
+              } de ${schedule}`
+            );
+          else
+            hoursLabel.push(
+              `${consecutives.map((v) => v.day).join(" y ")} de ${schedule}`
+            );
+          start += consecutives.length;
+        } while (start < values.length);
+      }
     }
-    setHours(h);
+    setHours(hoursLabel);
   }, [
     monday,
     monday_hours_from,
@@ -165,15 +199,28 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
         </TitleWrapper>
         <IconBox>{<DeliveryIcon />}</IconBox>
       </TopInfo>
-      <Detail>
-        <Content>
-          <GpsIcon />
-          <PrimaryText>+{radius}km</PrimaryText>
-        </Content>
-        <Content>
-          <Text>{address}</Text>
-        </Content>
-      </Detail>
+      {address && (
+        <Detail>
+          <Content>
+            <GpsIcon />
+            <PrimaryText>+{radius}km</PrimaryText>
+          </Content>
+          <Content>
+            <Address>{address}</Address>
+          </Content>
+        </Detail>
+      )}
+      {!address && (
+        <Detail>
+          <Content>
+            <GpsIcon />
+            <PrimaryText>5000km</PrimaryText>
+          </Content>
+          <Content>
+            <Address>Envíos a todo el país</Address>
+          </Content>
+        </Detail>
+      )}
       <Hours>
         {hours.map((day, index) => (
           <React.Fragment key={index}>

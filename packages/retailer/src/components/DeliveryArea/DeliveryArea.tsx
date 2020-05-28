@@ -108,6 +108,7 @@ const DeliveryArea: React.FC<Props> = ({
   useEffect(() => {
     if (deliveryOption == "2") {
       setPosition(ARG_POSITION);
+      setZoom(4);
       if (onChange)
         onChange({
           lat: ARG_POSITION.lat,
@@ -115,7 +116,6 @@ const DeliveryArea: React.FC<Props> = ({
           address: "",
           radius: 0,
         });
-      setZoom(4);
       return;
     }
     if (location || (!address && isGeolocationEnabled && coords)) {
@@ -125,6 +125,7 @@ const DeliveryArea: React.FC<Props> = ({
         lat: lat,
         lng: lng,
       });
+      setZoom(zoomFromRadius(radius));
       if (onChange)
         onChange({
           lat: lat,
@@ -132,13 +133,19 @@ const DeliveryArea: React.FC<Props> = ({
           address: search,
           radius: radius,
         });
-      setZoom(zoomFromRadius(radius));
     }
   }, [isGeolocationEnabled, coords, location, deliveryOption]);
 
   useEffect(() => {
     if (radius != null) {
       setZoom(zoomFromRadius(radius));
+      if (onChange)
+        onChange({
+          lat: position.lat,
+          lng: position.lng,
+          address: search,
+          radius: radius,
+        });
     }
   }, [radius]);
 

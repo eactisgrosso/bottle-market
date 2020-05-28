@@ -9,6 +9,7 @@ type NoResultProps = {
   onClick?: () => void;
   hideButton?: boolean;
   style?: any;
+  text?: string;
 };
 
 const NoResult: React.FC<NoResultProps> = ({
@@ -16,10 +17,11 @@ const NoResult: React.FC<NoResultProps> = ({
   onClick,
   hideButton = true,
   style,
+  text = "No hay productos cargados que respondan al criterio de búsqueda",
 }) => {
   return (
     <NoResultWrapper id={id} style={style}>
-      <h3>No hay productos cargados que respondan al criterio de búsqueda</h3>
+      <h3>{text}</h3>
 
       <ImageWrapper>
         <img src={NoResultSvg} alt="No Result" />
