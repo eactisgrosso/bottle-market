@@ -5054,6 +5054,32 @@ base@^0.11.1:
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
 
+baseui@9.79:
+  version "9.79.0"
+  resolved "https://registry.yarnpkg.com/baseui/-/baseui-9.79.0.tgz#dd1ded2b1fded2f7eb1cd01d9cc0c710d72013ed"
+  integrity sha512-GNDOZx46cgtqFrwRjRN5shg5Qz7vr4hkIGvQwkUUq6idMLxHaXBMVx5AralBFSu6/aIxrhRJS+eztbCvOIOGdg==
+  dependencies:
+    "@date-io/date-fns" "^2.4.0"
+    card-validator "^6.2.0"
+    date-fns "^2.6.0"
+    glob "^7.1.6"
+    just-extend "^4.0.2"
+    memoize-one "^5.1.1"
+    polished "^3.2.0"
+    popper.js "^1.16.0"
+    react-dropzone "^9.0.0"
+    react-focus-lock "^2.2.1"
+    react-input-mask "^2.0.4"
+    react-is "^16.8.6"
+    react-movable "^2.4.0"
+    react-multi-ref "^1.0.0"
+    react-range "^1.6.3"
+    react-virtualized "^9.21.1"
+    react-virtualized-auto-sizer "^1.0.2"
+    react-window "^1.8.5"
+    resize-observer-polyfill "^1.5.1"
+    timezone-support "^2.0.2"
+
 baseui@^9.65.0:
   version "9.73.1"
   resolved "https://registry.yarnpkg.com/baseui/-/baseui-9.73.1.tgz#78d14e0e35ab473f412a753fb8bcaad9f4f437e7"
@@ -15652,6 +15678,11 @@ react-range@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/react-range/-/react-range-1.6.0.tgz#9f7435402fbcf221fb178f4bbdc6a36052c89da0"
   integrity sha512-OTaylp3wzDxWq1awwH+rOz7UHbKmimu4wmxyZ0XzWtuO19Frz2D8c79R4YTC2IHqX+6ly3YmTLKhICSXi8x/NQ==
+
+react-range@^1.6.3:
+  version "1.6.6"
+  resolved "https://registry.yarnpkg.com/react-range/-/react-range-1.6.6.tgz#dd92af04d30f80c79b7572756393896ffc9b7daf"
+  integrity sha512-4hxMwxx/TPYjxdKWrD8PYCvvO3vgbNqTcFI4qMEld1Ddp9gBJEZcS2BM634vUsSwGcrWTP67FxRhpbjI2Sbjfw==
 
 react-refresh@0.8.2:
   version "0.8.2"

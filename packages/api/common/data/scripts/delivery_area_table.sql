@@ -5,7 +5,6 @@ CREATE TABLE `delivery_area` (
   `address` VARCHAR(255),
   `centroid` POINT,
   `radius` INT,
-  `eta` INT,
   `monday` BOOL,
   `tuesday` BOOL,
   `wednesday` BOOL,

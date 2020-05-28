@@ -23,7 +23,6 @@ type DeliveryCardProps = {
   area: string;
   address: string;
   radius: number;
-  eta: number;
   monday: boolean;
   monday_hours_from: string;
   monday_hours_to: string;
@@ -51,7 +50,6 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
   area,
   address,
   radius,
-  eta,
   monday,
   monday_hours_from,
   monday_hours_to,
@@ -162,17 +160,15 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
     <Card>
       <TopInfo>
         <TitleWrapper>
-          <Title>{store}</Title>
-          <SubTitle>{area}</SubTitle>
+          <Title>{area}</Title>
+          <SubTitle>{store}</SubTitle>
         </TitleWrapper>
         <IconBox>{<DeliveryIcon />}</IconBox>
       </TopInfo>
       <Detail>
         <Content>
           <GpsIcon />
-          <PrimaryText>
-            +{radius}km ({eta} minutos)
-          </PrimaryText>
+          <PrimaryText>+{radius}km</PrimaryText>
         </Content>
         <Content>
           <Text>{address}</Text>

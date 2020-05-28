@@ -77,6 +77,7 @@ type Props = {
   searchHint?: string;
   km?: number;
   address?: string;
+  onChange: Function;
 };
 const DeliveryArea: React.FC<Props> = ({
   isGeolocationEnabled,
@@ -84,6 +85,7 @@ const DeliveryArea: React.FC<Props> = ({
   searchHint = "Calle y número, ciudad, provincia",
   km,
   address,
+  onChange,
 }) => {
   const [radius, setRadius] = useState(1);
   const [zoom, setZoom] = useState(14);
@@ -106,14 +108,30 @@ const DeliveryArea: React.FC<Props> = ({
   useEffect(() => {
     if (deliveryOption == "2") {
       setPosition(ARG_POSITION);
+      if (onChange)
+        onChange({
+          lat: ARG_POSITION.lat,
+          lng: ARG_POSITION.lng,
+          address: "",
+          radius: 0,
+        });
       setZoom(4);
       return;
     }
     if (location || (!address && isGeolocationEnabled && coords)) {
+      const lat = location ? location.lat : coords.latitude;
+      const lng = location ? location.lon : coords.longitude;
       setPosition({
-        lat: location ? location.lat : coords.latitude,
-        lng: location ? location.lon : coords.longitude,
+        lat: lat,
+        lng: lng,
       });
+      if (onChange)
+        onChange({
+          lat: lat,
+          lng: lng,
+          address: search,
+          radius: radius,
+        });
       setZoom(zoomFromRadius(radius));
     }
   }, [isGeolocationEnabled, coords, location, deliveryOption]);
@@ -162,7 +180,6 @@ const DeliveryArea: React.FC<Props> = ({
             value={search}
             placeholder={searchHint}
             onChange={(event) => setSearch(event.target.value)}
-            clearable
           />
         )}
       </FormFields>

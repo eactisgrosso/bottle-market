@@ -6,6 +6,7 @@ import { GraphqlAuthGuard } from "../../../common/auth/graphql.auth.guard";
 import { User } from "../../../common/auth/user.decorator";
 import StoreDTO from "./store.type";
 import DeliveryAreaDTO from "./delivery.type";
+import AddDeliveryAreaInput from "./delivery.input_type";
 
 @Injectable()
 @Resolver()
@@ -27,11 +28,20 @@ export class StoreResolver {
 
   @UseGuards(GraphqlAuthGuard)
   @Query(() => [DeliveryAreaDTO])
-  async delivery_areas(@User() user: any): Promise<DeliveryAreaDTO[]> {
+  async deliveryAreas(@User() user: any): Promise<DeliveryAreaDTO[]> {
     const dbStores = await this.knex("delivery_area_view")
       .select("*")
       .where("user_id", user.id);
 
     return dbStores;
+  }
+
+  @Mutation(() => DeliveryAreaDTO, { description: "Create Delivery Area" })
+  async createDeliveryArea(
+    @Args("deliveryArea") deliveryArea: AddDeliveryAreaInput
+  ): Promise<DeliveryAreaDTO> {
+    console.log(deliveryArea, "deliveryArea");
+
+    return await deliveryArea;
   }
 }

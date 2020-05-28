@@ -15,7 +15,7 @@
     "@react-google-maps/api": "^1.9.2",
     "apexcharts": "3.17.0",
     "axios": "^0.19.2",
-    "baseui": "^9.65.0",
+    "baseui": "9.79",
     "formik": "^2.1.4",
     "graphql": "^14.6.0",
     "mobile-detect": "^1.4.4",

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { styled } from "baseui";
 import gql from "graphql-tag";
+import { GET_DELIVERY_AREAS } from "../../graphql/query/delivery.query";
 import { useQuery } from "@apollo/client";
 import {
   Grid,
@@ -41,40 +42,6 @@ export const LoaderItem = styled("div", () => ({
   marginBottom: "30px",
 }));
 
-const GET_DELIVERY_AREAS = gql`
-  query getDeliveryAreas {
-    delivery_areas {
-      id
-      name
-      store
-      address
-      radius
-      eta
-      monday
-      monday_hours_from
-      monday_hours_to
-      tuesday
-      tuesday_hours_from
-      tuesday_hours_to
-      wednesday
-      wednesday_hours_from
-      wednesday_hours_to
-      thursday
-      thursday_hours_from
-      thursday_hours_to
-      friday
-      friday_hours_from
-      friday_hours_to
-      saturday
-      saturday_hours_from
-      saturday_hours_to
-      sunday
-      sunday_hours_from
-      sunday_hours_to
-    }
-  }
-`;
-
 type Props = any;
 
 const Delivery: React.FC<Props> = (props) => {
@@ -89,18 +56,18 @@ const Delivery: React.FC<Props> = (props) => {
       <Row>
         <Col md={12}>
           <Header style={{ marginBottom: 15 }}>
-            <Col md={2} xs={12}>
+            <Col md={4} xs={12}>
               <Heading>Zonas de Entrega</Heading>
             </Col>
           </Header>
 
           <Row>
             {data ? (
-              data.delivery_areas && data.delivery_areas.length !== 0 ? (
-                data.delivery_areas.map((delivery_area: any, index: number) => (
+              data.deliveryAreas && data.deliveryAreas.length !== 0 ? (
+                data.deliveryAreas.map((deliveryArea: any, index: number) => (
                   <Col
-                    md={4}
-                    lg={3}
+                    md={6}
+                    lg={4}
                     sm={6}
                     xs={12}
                     key={index}
@@ -108,34 +75,31 @@ const Delivery: React.FC<Props> = (props) => {
                   >
                     <Fade bottom duration={800} delay={index * 10}>
                       <DeliveryCard
-                        store={delivery_area.store}
-                        area={delivery_area.name}
-                        address={delivery_area.address}
-                        radius={delivery_area.radius}
-                        eta={delivery_area.eta}
-                        monday={delivery_area.monday}
-                        monday_hours_from={delivery_area.monday_hours_from}
-                        monday_hours_to={delivery_area.monday_hours_to}
-                        tuesday={delivery_area.tuesday}
-                        tuesday_hours_from={delivery_area.tuesday_hours_from}
-                        tuesday_hours_to={delivery_area.tuesday_hours_to}
-                        wednesday={delivery_area.wednesday}
-                        wednesday_hours_from={
-                          delivery_area.wednesday_hours_from
-                        }
-                        wednesday_hours_to={delivery_area.wednesday_hours_to}
-                        thursday={delivery_area.thursday}
-                        thursday_hours_from={delivery_area.thursday_hours_from}
-                        thursday_hours_to={delivery_area.thursday_hours_to}
-                        friday={delivery_area.friday}
-                        friday_hours_from={delivery_area.friday_hours_from}
-                        friday_hours_to={delivery_area.friday_hours_to}
-                        saturday={delivery_area.saturday}
-                        saturday_hours_from={delivery_area.saturday_hours_from}
-                        saturday_hours_to={delivery_area.saturday_hours_to}
-                        sunday={delivery_area.sunday}
-                        sunday_hours_from={delivery_area.sunday_hours_from}
-                        sunday_hours_to={delivery_area.sunday_hours_to}
+                        store={deliveryArea.store}
+                        area={deliveryArea.name}
+                        address={deliveryArea.address}
+                        radius={deliveryArea.radius}
+                        monday={deliveryArea.monday}
+                        monday_hours_from={deliveryArea.monday_hours_from}
+                        monday_hours_to={deliveryArea.monday_hours_to}
+                        tuesday={deliveryArea.tuesday}
+                        tuesday_hours_from={deliveryArea.tuesday_hours_from}
+                        tuesday_hours_to={deliveryArea.tuesday_hours_to}
+                        wednesday={deliveryArea.wednesday}
+                        wednesday_hours_from={deliveryArea.wednesday_hours_from}
+                        wednesday_hours_to={deliveryArea.wednesday_hours_to}
+                        thursday={deliveryArea.thursday}
+                        thursday_hours_from={deliveryArea.thursday_hours_from}
+                        thursday_hours_to={deliveryArea.thursday_hours_to}
+                        friday={deliveryArea.friday}
+                        friday_hours_from={deliveryArea.friday_hours_from}
+                        friday_hours_to={deliveryArea.friday_hours_to}
+                        saturday={deliveryArea.saturday}
+                        saturday_hours_from={deliveryArea.saturday_hours_from}
+                        saturday_hours_to={deliveryArea.saturday_hours_to}
+                        sunday={deliveryArea.sunday}
+                        sunday_hours_from={deliveryArea.sunday_hours_from}
+                        sunday_hours_to={deliveryArea.sunday_hours_to}
                       ></DeliveryCard>
                     </Fade>
                   </Col>

@@ -6,7 +6,6 @@ export const Card = styled("div", () => ({
   flexDirection: "column",
   borderRadius: "6px",
   backgroundColor: "#ffffff",
-  marginLeft: "10px",
   marginRight: "10px",
   marginTop: "15px",
   paddingLeft: "30px",
@@ -58,7 +57,7 @@ export const IconBox = styled("div", ({ $theme }) => ({
 export const Detail = styled("div", () => ({
   width: "100%",
   display: "flex",
-  justifyContent: "flex-start",
+  justifyContent: "center",
   alignItems: "flex-start",
   flexWrap: "wrap",
   marginTop: "20px",

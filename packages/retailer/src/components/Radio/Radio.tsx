@@ -32,6 +32,7 @@ const Radio: React.FC<Props> = ({ options, defaultValue, onChange }) => {
     >
       {options.map((option, index) => (
         <BaseRadio
+          key={option.value}
           value={option.value}
           overrides={{
             Root: {
