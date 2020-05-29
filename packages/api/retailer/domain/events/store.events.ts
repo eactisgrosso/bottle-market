@@ -2,7 +2,6 @@ import { Event } from "../../../common/domain/event";
 
 export class StoreOpened extends Event {
   constructor(
-    public readonly id: string,
     public readonly name: string,
     public readonly store_type: string,
     public readonly country_id: string,

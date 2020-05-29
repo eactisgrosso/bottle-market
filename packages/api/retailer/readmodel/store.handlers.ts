@@ -6,7 +6,7 @@ import "../../common/helpers/date.extensions";
 
 @Injectable()
 @EventsHandler(StoreOpened)
-export class UserCreatedEventHandler implements IEventHandler<StoreOpened> {
+export class StoreOpenedHandler implements IEventHandler<StoreOpened> {
   constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {}
 
   async handle(event: StoreOpened) {
@@ -27,4 +27,4 @@ export class UserCreatedEventHandler implements IEventHandler<StoreOpened> {
   }
 }
 
-export const EventHandlers = [UserCreatedEventHandler];
+export const EventHandlers = [StoreOpenedHandler];

@@ -15,7 +15,7 @@ let rawdata = fs.readFileSync("./state_table_data.json");
 let states = JSON.parse(rawdata);
 
 const insert = async (id, name, lat, lng) => {
-  const point = knex.raw("POINT(:lat,:lat)", { lat: lat, lng: lng });
+  const point = knex.raw("POINT(:lat,:lng)", { lat: lat, lng: lng });
   await knex("state").insert({
     id: id,
     name: name,

@@ -1,16 +1,15 @@
-import { InputType, Field, ID, Int, Float } from "@nestjs/graphql";
-import DeliveryAreaDTO from "./delivery.type";
+import { ObjectType, Field } from "@nestjs/graphql";
 
-@InputType({ description: "New delivery data" })
-export default class AddDeliveryAreaInput implements Partial<DeliveryAreaDTO> {
+@ObjectType()
+export default class DeliveryAreaDTO {
   @Field()
   id: string;
 
   @Field()
   name: string;
 
-  @Field({ nullable: true })
-  store!: string;
+  @Field()
+  store: string;
 
   @Field()
   address: string;
@@ -80,16 +79,4 @@ export default class AddDeliveryAreaInput implements Partial<DeliveryAreaDTO> {
 
   @Field({ nullable: true })
   sunday_hours_to?: string;
-
-  @Field()
-  store_id: string;
-
-  @Field()
-  lat: Number;
-
-  @Field()
-  lng: Number;
-
-  @Field()
-  creation_date: Date;
 }

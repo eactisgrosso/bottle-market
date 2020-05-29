@@ -26,5 +26,6 @@ CREATE TABLE `delivery_area` (
   `saturday_hours_to` TIME,
   `sunday_hours_from` TIME,
   `sunday_hours_to` TIME,  
+  `date_added` datetime(6)
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

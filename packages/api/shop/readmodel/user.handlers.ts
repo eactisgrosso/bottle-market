@@ -6,8 +6,7 @@ import "../../common/helpers/date.extensions";
 
 @Injectable()
 @EventsHandler(UserSignedUp)
-export class UserCreatedEventHandler
-  implements IEventHandler<UserSignedUp>, IEventHandler<UserNameChanged> {
+export class UserCreatedHandler implements IEventHandler<UserSignedUp> {
   constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {}
 
   async handle(event: UserSignedUp) {
@@ -44,8 +43,7 @@ export class UserCreatedEventHandler
 
 @Injectable()
 @EventsHandler(UserNameChanged)
-export class UserNameChangedEventHandler
-  implements IEventHandler<UserNameChanged> {
+export class UserNameChangedHandler implements IEventHandler<UserNameChanged> {
   constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {}
 
   async handle(event: UserNameChanged) {
@@ -59,7 +57,4 @@ export class UserNameChangedEventHandler
   }
 }
 
-export const EventHandlers = [
-  UserCreatedEventHandler,
-  UserNameChangedEventHandler,
-];
+export const EventHandlers = [UserCreatedHandler, UserNameChangedHandler];
