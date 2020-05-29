@@ -21,19 +21,10 @@ import {
   FieldDetails,
   ButtonGroup,
 } from "../DrawerItems/DrawerItems.style";
-import { GET_DELIVERY_AREAS } from "../../graphql/query/delivery.query";
-
-const GET_STORES = gql`
-  query getStores {
-    stores {
-      id
-      name
-      street
-      city
-      state
-    }
-  }
-`;
+import {
+  GET_STORES,
+  GET_DELIVERY_AREAS,
+} from "../../graphql/query/store.query";
 
 const CREATE_DELIVERY_AREA = gql`
   mutation createDeliveryArea($deliveryArea: AddDeliveryAreaInput!) {
@@ -83,20 +74,6 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
   const [deliveryArea, setDeliveryArea] = useState(null);
   const [businessHours, setBusinessHours] = useState(null);
 
-  useEffect(() => {
-    if (data && data.stores.length > 0 && store.length == 0) {
-      const initialValue = data.stores.map((s, i) => {
-        return {
-          id: s.id,
-          label: s.name,
-        };
-      });
-      setStore(initialValue);
-      const s = data.stores[0];
-      setAddress(`${s.street}, ${s.city.toTitleCase()}, ${s.state}`);
-    }
-  }, [data]);
-
   const [createDeliveryArea] = useMutation(CREATE_DELIVERY_AREA, {
     update(cache, { data: { createDeliveryArea } }) {
       const { deliveryAreas } = cache.readQuery({
@@ -112,12 +89,26 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
     },
   });
 
+  useEffect(() => {
+    if (data && data.stores.length > 0 && store.length == 0) {
+      const initialValue = data.stores.map((s, i) => {
+        return {
+          id: s.id,
+          label: s.name,
+        };
+      });
+      setStore(initialValue);
+      const s = data.stores[0];
+      setAddress(`${s.street}, ${s.city}, ${s.state}`);
+    }
+  }, [data]);
+
   const handleStoreChange = ({ value }) => {
     setValue("store", value);
     setStore(value);
 
     const s = data.stores[value[0].id];
-    setAddress(`${s.street}, ${s.city.toTitleCase()}, ${s.state}`);
+    setAddress(`${s.street}, ${s.city}, ${s.state}`);
   };
 
   const handleDeliveryAreaChange = (value) => {
@@ -131,8 +122,8 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
   const onSubmit = (data) => {
     const newDeliveryArea = {
       id: uuidv4(),
-      store_id: store[0].value,
-      store: store[0].name,
+      store_id: store[0].id,
+      store: store[0].label,
       name: data.name,
       address: deliveryArea.address,
       lat: deliveryArea.lat,

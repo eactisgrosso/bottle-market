@@ -38,14 +38,14 @@ const StoreCard: React.FC<StoreCardProps> = ({
       <TopInfo>
         <TitleWrapper>
           <Title>{name}</Title>
-          <SubTitle>{type.toTitleCase()}</SubTitle>
+          <SubTitle>{type}</SubTitle>
         </TitleWrapper>
         <IconBox>{<CartIconBig />}</IconBox>
       </TopInfo>
       <Content>
         <Text>{street}</Text>
         <Text>
-          {city.toTitleCase()}, {postalcode}
+          {city}, {postalcode}
         </Text>
         <Text>{state}</Text>
       </Content>

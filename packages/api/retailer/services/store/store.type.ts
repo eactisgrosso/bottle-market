@@ -12,14 +12,11 @@ export default class StoreDTO {
   type: string;
 
   @Field()
-  postalcode: string;
-
-  @Field()
-  street: string;
+  state: string;
 
   @Field()
   city: string;
 
   @Field()
-  state: string;
+  street: string;
 }

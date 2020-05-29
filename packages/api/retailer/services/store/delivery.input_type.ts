@@ -1,7 +1,7 @@
 import { InputType, Field, ID, Int, Float } from "@nestjs/graphql";
 import DeliveryAreaDTO from "./delivery.type";
 
-@InputType({ description: "New recipe data" })
+@InputType({ description: "New delivery data" })
 export default class AddDeliveryAreaInput implements Partial<DeliveryAreaDTO> {
   @Field()
   id: string;

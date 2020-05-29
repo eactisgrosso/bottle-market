@@ -5,7 +5,7 @@ import {
   Row as Rows,
   Col as Column,
 } from "../../components/FlexBox/FlexBox";
-import gql from "graphql-tag";
+import { GET_STORES } from "../../graphql/query/store.query";
 import { useQuery } from "@apollo/client";
 import { Header, Heading } from "../../components/WrapperStyle";
 import Fade from "react-reveal/Fade";
@@ -42,20 +42,6 @@ export const LoaderItem = styled("div", () => ({
   marginBottom: "30px",
 }));
 
-const GET_STORES = gql`
-  query getStores {
-    stores {
-      id
-      name
-      type
-      street
-      postalcode
-      state
-      city
-    }
-  }
-`;
-
 export default function Stores() {
   const { data, error, loading } = useQuery(GET_STORES);
 
@@ -78,8 +64,8 @@ export default function Stores() {
               data.stores && data.stores.length !== 0 ? (
                 data.stores.map((store: any, index: number) => (
                   <Col
-                    md={4}
-                    lg={3}
+                    md={6}
+                    lg={4}
                     sm={6}
                     xs={12}
                     key={index}

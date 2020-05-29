@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { styled } from "baseui";
 import gql from "graphql-tag";
-import { GET_DELIVERY_AREAS } from "../../graphql/query/delivery.query";
+import { GET_DELIVERY_AREAS } from "../../graphql/query/store.query";
 import { useQuery } from "@apollo/client";
 import {
   Grid,

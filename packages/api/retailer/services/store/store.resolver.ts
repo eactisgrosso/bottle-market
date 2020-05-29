@@ -7,6 +7,7 @@ import { User } from "../../../common/auth/user.decorator";
 import StoreDTO from "./store.type";
 import DeliveryAreaDTO from "./delivery.type";
 import AddDeliveryAreaInput from "./delivery.input_type";
+import AddStoreInput from "./store.input_type";
 
 @Injectable()
 @Resolver()
@@ -34,6 +35,13 @@ export class StoreResolver {
       .where("user_id", user.id);
 
     return dbStores;
+  }
+
+  @Mutation(() => StoreDTO, { description: "Create Store" })
+  async createStore(@Args("store") store: AddStoreInput): Promise<StoreDTO> {
+    console.log(store, "store");
+
+    return await store;
   }
 
   @Mutation(() => DeliveryAreaDTO, { description: "Create Delivery Area" })

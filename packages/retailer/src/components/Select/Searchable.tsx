@@ -6,7 +6,7 @@ import { FixedSizeList } from "react-window";
 
 const LIST_ITEM_HEIGHT = 36;
 const EMPTY_LIST_HEIGHT = 72;
-const MAX_LIST_HEIGHT = 500;
+const MAX_LIST_HEIGHT = 400;
 const ListItem = withStyle(StyledDropdownListItem, () => ({
   paddingTop: 0,
   paddingBottom: 0,
@@ -94,7 +94,7 @@ export default ({ ...props }) => {
             color: $theme.colors.textNormal,
           }),
         },
-        Dropdown: { component: VirtualDropdown, style: { maxHeight: "300px" } },
+        Dropdown: { component: VirtualDropdown },
         DropdownListItem: {
           style: ({ $theme }) => ({
             ...$theme.typography.fontBold14,

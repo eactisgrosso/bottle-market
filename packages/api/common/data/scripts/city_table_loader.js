@@ -26,10 +26,12 @@ const insert = async (id, state_id, name, lat, lng) => {
 
 for (const city of cities.localidades) {
   console.log(city);
+  if (city.id == "06497060004") continue;
+
   insert(
     city.id,
     city.provincia.id,
-    city.nombre,
+    `${city.nombre[0].toUpperCase()}${city.nombre.slice(1).toLowerCase()}`,
     city.centroide.lat,
     city.centroide.lon
   );

@@ -24,6 +24,7 @@ import {
   FieldDetails,
   ButtonGroup,
 } from "../DrawerItems/DrawerItems.style";
+import { GET_STORES } from "../../graphql/query/store.query";
 import { GET_STATES, GET_CITIES } from "../../graphql/query/location.query";
 import axios from "axios";
 
@@ -71,6 +72,19 @@ async function fetchAddress(lat, lng, dispatch) {
   }
 }
 
+const CREATE_STORE = gql`
+  mutation createStore($store: AddStoreInput!) {
+    createStore(store: $store) {
+      id
+      name
+      type
+      state
+      city
+      street
+    }
+  }
+`;
+
 const typeOptions = [
   { id: "winestore", label: "Vinoteca" },
   { id: "winebar", label: "Wine Bar" },
@@ -97,11 +111,25 @@ const AddStore: React.FC<Props & GeolocatedProps> = (props) => {
     hasError: false,
   });
   const { register, handleSubmit, setValue, errors } = useForm();
-  console.log(errors);
 
   const [type, setType] = useState([]);
   const [state, setState] = useState([]);
   const [city, setCity] = useState([]);
+
+  const [createStore] = useMutation(CREATE_STORE, {
+    update(cache, { data: { createStore } }) {
+      const { stores } = cache.readQuery({
+        query: GET_STORES,
+      });
+
+      cache.writeQuery({
+        query: GET_STORES,
+        data: {
+          stores: [createStore, ...stores],
+        },
+      });
+    },
+  });
 
   useEffect(() => {
     register({ name: "type" }, { required: true });
@@ -126,6 +154,7 @@ const AddStore: React.FC<Props & GeolocatedProps> = (props) => {
       const value = [
         {
           id: location.provincia.id,
+          label: location.provincia.nombre,
         },
       ];
       handleStateChange({ value });
@@ -158,15 +187,20 @@ const AddStore: React.FC<Props & GeolocatedProps> = (props) => {
   };
 
   const onSubmit = (data) => {
-    // const newDeliveryArea = {
-    //   id: uuidv4(),
-    //   store_id: store[0].value,
-    //   store: store[0].name,
-    //   creation_date: new Date(),
-    // };
-    // createDeliveryArea({
-    //   variables: { deliveryArea: newDeliveryArea },
-    // });
+    const newStore = {
+      id: uuidv4(),
+      name: data.name,
+      type: type[0].id,
+      state_id: state[0].id,
+      state: state[0].label,
+      city_id: city[0].id,
+      city: city[0].label,
+      street: data.street,
+      creation_date: new Date(),
+    };
+    createStore({
+      variables: { store: newStore },
+    });
     closeDrawer();
   };
 

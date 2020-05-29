@@ -1,5 +1,18 @@
 import gql from "graphql-tag";
 
+export const GET_STORES = gql`
+  query getStores {
+    stores {
+      id
+      name
+      type
+      street
+      state
+      city
+    }
+  }
+`;
+
 export const GET_DELIVERY_AREAS = gql`
   query getDeliveryAreas {
     deliveryAreas {
