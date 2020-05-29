@@ -1,5 +1,5 @@
 import { Aggregate } from "../../common/domain/aggregate";
-import { OrderAddedEvent } from "./events/order.events";
+import { OrderAdded } from "./events/order.events";
 
 export class Order extends Aggregate {
   constructor(readonly id: string) {
@@ -8,6 +8,6 @@ export class Order extends Aggregate {
 
   add(orderInput: string) {
     // logic
-    this.apply(new OrderAddedEvent(this.id, orderInput));
+    this.apply(new OrderAdded(this.id, orderInput));
   }
 }

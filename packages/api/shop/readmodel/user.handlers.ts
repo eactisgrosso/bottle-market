@@ -35,9 +35,9 @@ export class UserCreatedEventHandler
       email: event.email,
       firstname: event.firstname,
       lastname: event.lastname,
-      last_login: new Date().toMySQLString(),
-      date_added: new Date().toMySQLString(),
-      date_last_modified: new Date().toMySQLString(),
+      last_login: event.timestamp.toMySQLString(),
+      date_added: event.timestamp.toMySQLString(),
+      date_last_modified: event.timestamp.toMySQLString(),
     });
   }
 }

@@ -26,6 +26,7 @@ import {
 } from "../DrawerItems/DrawerItems.style";
 import { GET_STORES } from "../../graphql/query/store.query";
 import { GET_STATES, GET_CITIES } from "../../graphql/query/location.query";
+import { STORE_TYPES } from "../../settings/constants";
 import axios from "axios";
 
 function fetchReducer(state, action) {
@@ -73,11 +74,11 @@ async function fetchAddress(lat, lng, dispatch) {
 }
 
 const CREATE_STORE = gql`
-  mutation createStore($store: AddStoreInput!) {
-    createStore(store: $store) {
+  mutation createStore($storeInput: AddStoreInput!) {
+    createStore(storeInput: $storeInput) {
       id
       name
-      type
+      store_type
       state
       city
       street
@@ -85,37 +86,18 @@ const CREATE_STORE = gql`
   }
 `;
 
-const typeOptions = [
-  { id: "winestore", label: "Vinoteca" },
-  { id: "winebar", label: "Wine Bar" },
-  { id: "restaurant", label: "Restaurant" },
-  { id: "distributor", label: "Distribuidor" },
-];
+const STORE_OPTIONS = Object.entries(STORE_TYPES).map((keyPair) => {
+  return {
+    id: keyPair[0],
+    label: keyPair[1],
+  };
+});
 
 interface Props {}
 
 const AddStore: React.FC<Props & GeolocatedProps> = (props) => {
   const { data: state_data } = useQuery(GET_STATES);
   const [getCities, { loading, data: cities_data }] = useLazyQuery(GET_CITIES);
-
-  const dispatch = useDrawerDispatch();
-  const closeDrawer = useCallback(() => dispatch({ type: "CLOSE_DRAWER" }), [
-    dispatch,
-  ]);
-  const [
-    { location, hasError, isLoading },
-    fetchDispatch = dispatch,
-  ] = useReducer(fetchReducer, {
-    location: null,
-    isLoading: true,
-    hasError: false,
-  });
-  const { register, handleSubmit, setValue, errors } = useForm();
-
-  const [type, setType] = useState([]);
-  const [state, setState] = useState([]);
-  const [city, setCity] = useState([]);
-
   const [createStore] = useMutation(CREATE_STORE, {
     update(cache, { data: { createStore } }) {
       const { stores } = cache.readQuery({
@@ -131,11 +113,29 @@ const AddStore: React.FC<Props & GeolocatedProps> = (props) => {
     },
   });
 
+  const dispatch = useDrawerDispatch();
+  const closeDrawer = useCallback(() => dispatch({ type: "CLOSE_DRAWER" }), [
+    dispatch,
+  ]);
+  const [
+    { location, hasError, isLoading },
+    fetchDispatch = dispatch,
+  ] = useReducer(fetchReducer, {
+    location: null,
+    isLoading: true,
+    hasError: false,
+  });
+
+  const { register, handleSubmit, setValue, errors } = useForm();
+  const [type, setType] = useState([]);
+  const [state, setState] = useState([]);
+  const [city, setCity] = useState([]);
+
   useEffect(() => {
     register({ name: "type" }, { required: true });
     register({ name: "state" }, { required: true });
     register({ name: "city" }, { required: true });
-    const value = [typeOptions[0]];
+    const value = [STORE_OPTIONS[0]];
     handleTypeChange({ value });
   }, [register]);
 
@@ -190,16 +190,15 @@ const AddStore: React.FC<Props & GeolocatedProps> = (props) => {
     const newStore = {
       id: uuidv4(),
       name: data.name,
-      type: type[0].id,
+      store_type: type[0].id,
       state_id: state[0].id,
       state: state[0].label,
       city_id: city[0].id,
       city: city[0].label,
       street: data.street,
-      creation_date: new Date(),
     };
     createStore({
-      variables: { store: newStore },
+      variables: { storeInput: newStore },
     });
     closeDrawer();
   };
@@ -262,7 +261,7 @@ const AddStore: React.FC<Props & GeolocatedProps> = (props) => {
                   <FormLabel>Tipo</FormLabel>
                   <Select
                     clearable={false}
-                    options={typeOptions}
+                    options={STORE_OPTIONS}
                     placeholder="Tienda"
                     value={type}
                     searchable={false}

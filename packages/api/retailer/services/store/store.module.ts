@@ -1,5 +1,7 @@
 import { Module, HttpModule } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
+import { StoreRepository } from "../../domain/repositories/store.repository";
+import { EventHandlers } from "../../readmodel/store.handlers";
 import { StoreResolver } from "./store.resolver";
 
 @Module({
@@ -10,6 +12,6 @@ import { StoreResolver } from "./store.resolver";
       maxRedirects: 5,
     }),
   ],
-  providers: [StoreResolver],
+  providers: [StoreRepository, StoreResolver, ...EventHandlers],
 })
 export class StoreModule {}

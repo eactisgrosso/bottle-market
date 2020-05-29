@@ -4,15 +4,19 @@ import { KNEX_CONNECTION } from "@nestjsplus/knex";
 import { UseGuards } from "@nestjs/common";
 import { GraphqlAuthGuard } from "../../../common/auth/graphql.auth.guard";
 import { User } from "../../../common/auth/user.decorator";
+import { StoreRepository } from "../../domain/repositories/store.repository";
 import StoreDTO from "./store.type";
 import DeliveryAreaDTO from "./delivery.type";
 import AddDeliveryAreaInput from "./delivery.input_type";
 import AddStoreInput from "./store.input_type";
 
+const { v4: uuidv4 } = require("uuid");
+
 @Injectable()
 @Resolver()
 export class StoreResolver {
   constructor(
+    private repository: StoreRepository,
     @Inject(KNEX_CONNECTION) private readonly knex: any,
     private httpService: HttpService
   ) {}
@@ -38,10 +42,28 @@ export class StoreResolver {
   }
 
   @Mutation(() => StoreDTO, { description: "Create Store" })
-  async createStore(@Args("store") store: AddStoreInput): Promise<StoreDTO> {
-    console.log(store, "store");
+  async createStore(
+    @Args("storeInput") storeInput: AddStoreInput
+  ): Promise<StoreDTO> {
+    const store_id = uuidv4();
+    const store = await this.repository.load(store_id);
+    store.open(
+      storeInput.name,
+      storeInput.store_type,
+      storeInput.state_id,
+      storeInput.state,
+      storeInput.city_id,
+      storeInput.city,
+      storeInput.street
+    );
+    store.commit();
 
-    return await store;
+    let dto = new StoreDTO();
+    Object.keys(storeInput).forEach(
+      (key) => ((dto as StoreDTO)[key] = storeInput[key])
+    );
+
+    return dto;
   }
 
   @Mutation(() => DeliveryAreaDTO, { description: "Create Delivery Area" })

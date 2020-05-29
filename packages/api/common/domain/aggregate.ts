@@ -10,6 +10,7 @@ export class Aggregate extends AggregateRoot {
 
   apply(event: Event, isFromHistory = false) {
     event.aggregateId = this.id;
+    event.timestamp = new Date();
     super.apply(event, isFromHistory);
     if (isFromHistory) this.sequence = event.sequence;
   }

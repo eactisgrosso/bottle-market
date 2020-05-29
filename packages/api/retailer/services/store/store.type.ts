@@ -9,7 +9,7 @@ export default class StoreDTO {
   name: string;
 
   @Field()
-  type: string;
+  store_type: string;
 
   @Field()
   state: string;

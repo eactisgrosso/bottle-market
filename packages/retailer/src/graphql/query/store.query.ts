@@ -5,7 +5,7 @@ export const GET_STORES = gql`
     stores {
       id
       name
-      type
+      store_type
       street
       state
       city

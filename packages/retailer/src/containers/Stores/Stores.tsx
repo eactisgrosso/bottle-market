@@ -5,6 +5,7 @@ import {
   Row as Rows,
   Col as Column,
 } from "../../components/FlexBox/FlexBox";
+import { STORE_TYPES } from "../../settings/constants";
 import { GET_STORES } from "../../graphql/query/store.query";
 import { useQuery } from "@apollo/client";
 import { Header, Heading } from "../../components/WrapperStyle";
@@ -73,10 +74,9 @@ export default function Stores() {
                   >
                     <Fade bottom duration={800} delay={index * 10}>
                       <StoreCard
-                        type={store.type}
+                        store_type={STORE_TYPES[store.store_type]}
                         name={store.name}
                         street={store.street}
-                        postalcode={store.postalcode}
                         city={store.city}
                         state={store.state}
                       ></StoreCard>
@@ -84,7 +84,7 @@ export default function Stores() {
                   </Col>
                 ))
               ) : (
-                <NoResult />
+                <NoResult text={"Agregá una tienda y empezá a vender ya!"} />
               )
             ) : (
               <LoaderWrapper>

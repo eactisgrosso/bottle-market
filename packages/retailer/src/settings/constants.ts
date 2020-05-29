@@ -10,3 +10,10 @@ export const CALLBACK = "/callback";
 // **************** ROUTE CONSTANT END **************************
 
 export const CURRENCY = "$";
+
+export const STORE_TYPES = {
+  winestore: "Vinoteca",
+  winebar: "Wine Bar",
+  restaurant: "Restaurant",
+  distributor: "Distribuidor",
+};

@@ -1,9 +1,9 @@
 import { EventsHandler, IEventHandler } from "@nestjs/cqrs";
-import { OrderAddedEvent } from "../domain/events/order.events";
+import { OrderAdded } from "../domain/events/order.events";
 
-@EventsHandler(OrderAddedEvent)
-export class OrderAddedEventHandler implements IEventHandler<OrderAddedEvent> {
-  handle(event: OrderAddedEvent) {
+@EventsHandler(OrderAdded)
+export class OrderAddedEventHandler implements IEventHandler<OrderAdded> {
+  handle(event: OrderAdded) {
     console.log("Async OrderAddedEvent...");
   }
 }

@@ -1,5 +1,4 @@
 import { Event } from "../../../common/domain/event";
-import { User } from "../user";
 
 export class UserSignedUp extends Event {
   constructor(

@@ -16,19 +16,17 @@ import { Tag, VARIANT } from "baseui/tag";
 import "@bottle-market/common";
 
 type StoreCardProps = {
-  type: string;
+  store_type: string;
   name: string;
   street: string;
-  postalcode: string;
   state: string;
   city: string;
 };
 
 const StoreCard: React.FC<StoreCardProps> = ({
-  type,
+  store_type,
   name,
   street,
-  postalcode,
   state,
   city,
   ...props
@@ -38,15 +36,13 @@ const StoreCard: React.FC<StoreCardProps> = ({
       <TopInfo>
         <TitleWrapper>
           <Title>{name}</Title>
-          <SubTitle>{type}</SubTitle>
+          <SubTitle>{store_type}</SubTitle>
         </TitleWrapper>
         <IconBox>{<CartIconBig />}</IconBox>
       </TopInfo>
       <Content>
         <Text>{street}</Text>
-        <Text>
-          {city}, {postalcode}
-        </Text>
+        <Text>{city}</Text>
         <Text>{state}</Text>
       </Content>
       <ButtonContainer>

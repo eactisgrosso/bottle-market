@@ -107,7 +107,7 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
     setValue("store", value);
     setStore(value);
 
-    const s = data.stores[value[0].id];
+    const s = data.stores.find((s) => s.id == value[0].id);
     setAddress(`${s.street}, ${s.city}, ${s.state}`);
   };
 
