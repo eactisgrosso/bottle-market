@@ -1,45 +1,36 @@
 import * as React from "react";
-import { Select } from "baseui/select";
-import { CarretDownIcon } from "../AllSvgIcon";
-
-export const getContainerFontStyle = ({ $theme }) => {
-  return $theme.typography.fontBold14;
-};
+import Select from "./Select";
 
 export default ({ ...props }) => {
   return (
     <Select
       overrides={{
-        SelectArrow: () => {
-          return <CarretDownIcon />;
-        },
         Popover: {
           props: {
             overrides: {
               Body: {
-                style: { zIndex: 1 },
+                style: { zIndex: 5 },
               },
             },
           },
         },
         Placeholder: {
           style: ({ $theme }) => ({
-            color: $theme.colors.textDark,
-            ...getContainerFontStyle({ $theme }),
+            ...$theme.typography.fontBold14,
+            color: $theme.colors.textNormal,
           }),
         },
         SingleValue: {
           style: ({ $theme }) => ({
-            ...getContainerFontStyle({ $theme }),
-            color: $theme.colors.textDark,
-            lineHeight: "1.5",
+            ...$theme.typography.fontBold14,
+            color: $theme.colors.textNormal,
           }),
         },
+        Dropdown: { style: { maxHeight: "300px" } },
         DropdownListItem: {
           style: ({ $theme }) => ({
-            fontSize: "14px",
-            fontWeight: "700",
-            color: $theme.colors.textDark,
+            ...$theme.typography.fontBold14,
+            color: $theme.colors.textNormal,
           }),
         },
         OptionContent: {
@@ -51,13 +42,6 @@ export default ({ ...props }) => {
                 : $theme.colors.textNormal,
             };
           },
-        },
-        DropdownOption: {
-          style: ({ $theme }) => ({
-            fontSize: "14px",
-            fontWeight: "700",
-            color: $theme.colors.textDark,
-          }),
         },
       }}
       {...props}

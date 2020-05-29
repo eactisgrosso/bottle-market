@@ -32,7 +32,7 @@ export class ProductResolver {
         dbProduct.images.split(",")[0]
       }`;
 
-    product.size = dbProduct.size;
+    product.size = `${dbProduct.size} ml`;
     product.salePrice = 0;
     product.categories = [];
 

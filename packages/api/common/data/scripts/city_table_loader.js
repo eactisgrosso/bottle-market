@@ -25,6 +25,7 @@ const insert = async (id, state_id, name, lat, lng) => {
 };
 
 for (const city of cities.localidades) {
+  console.log(city);
   insert(
     city.id,
     city.provincia.id,
@@ -32,7 +33,6 @@ for (const city of cities.localidades) {
     city.centroide.lat,
     city.centroide.lon
   );
-  console.log(city);
 }
 
 console.log("\r\n DONE");

@@ -4,12 +4,14 @@ import Drawer from "../../components/Drawer/Drawer";
 import { CloseIcon } from "../../components/AllSvgIcon";
 import { useDrawerState, useDrawerDispatch } from "../../context/DrawerContext";
 
+import StoreForm from "../StoreForm/StoreForm";
 import ProductForm from "../ProductForm/ProductForm";
 import ProductUpdateForm from "../ProductForm/ProductUpdateForm";
 import DeliveryForm from "../DeliveryForm/DeliveryForm";
 import Sidebar from "../Layout/Sidebar/Sidebar";
 
 const DRAWER_COMPONENTS = {
+  STORE_FORM: StoreForm,
   PRODUCT_FORM: ProductForm,
   PRODUCT_UPDATE_FORM: ProductUpdateForm,
   DELIVERY_FORM: DeliveryForm,

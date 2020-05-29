@@ -4,13 +4,13 @@ import uuidv4 from "uuid/v4";
 import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/client";
 import { Scrollbars } from "react-custom-scrollbars";
-import { geolocated } from "react-geolocated";
+import { geolocated, GeolocatedProps } from "react-geolocated";
 import { useDrawerDispatch } from "../../context/DrawerContext";
 import Button, { KIND } from "../../components/Button/Button";
 import DrawerBox from "../../components/DrawerBox/DrawerBox";
 import { Row, Col } from "../../components/FlexBox/FlexBox";
 import { FormFields, FormLabel } from "../../components/FormFields/FormFields";
-import Select from "../../components/Select/Select";
+import Select from "../../components/Select/DrawerSelect";
 import Input from "../../components/Input/Input";
 import DeliveryArea from "../../components/DeliveryArea/DeliveryArea";
 import BusinessHours from "../../components/BusinessHours/BusinessHours";
@@ -68,9 +68,9 @@ const CREATE_DELIVERY_AREA = gql`
   }
 `;
 
-type Props = any;
+type Props = {};
 
-const AddDeliveryArea: React.FC<Props> = (props) => {
+const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
   const { data, error, loading } = useQuery(GET_STORES);
 
   const dispatch = useDrawerDispatch();
@@ -87,9 +87,8 @@ const AddDeliveryArea: React.FC<Props> = (props) => {
     if (data && data.stores.length > 0 && store.length == 0) {
       const initialValue = data.stores.map((s, i) => {
         return {
-          id: i,
-          name: s.name,
-          value: s.id,
+          id: s.id,
+          label: s.name,
         };
       });
       setStore(initialValue);
@@ -126,7 +125,6 @@ const AddDeliveryArea: React.FC<Props> = (props) => {
   };
 
   const handleBusinessHoursChange = (value) => {
-    console.log(JSON.stringify(value));
     setBusinessHours(value);
   };
 
@@ -233,64 +231,16 @@ const AddDeliveryArea: React.FC<Props> = (props) => {
                       data
                         ? data.stores.map((s, i) => {
                             return {
-                              id: i,
-                              name: s.name,
-                              value: s.id,
+                              id: s.id,
+                              label: s.name,
                             };
                           })
                         : []
                     }
-                    labelKey="name"
-                    valueKey="value"
                     placeholder="Tienda"
                     value={store}
                     searchable={false}
                     onChange={handleStoreChange}
-                    overrides={{
-                      Placeholder: {
-                        style: ({ $theme }) => {
-                          return {
-                            ...$theme.typography.fontBold14,
-                            color: $theme.colors.textNormal,
-                          };
-                        },
-                      },
-                      DropdownListItem: {
-                        style: ({ $theme }) => {
-                          return {
-                            ...$theme.typography.fontBold14,
-                            color: $theme.colors.textNormal,
-                          };
-                        },
-                      },
-                      OptionContent: {
-                        style: ({ $theme, $selected }) => {
-                          return {
-                            ...$theme.typography.fontBold14,
-                            color: $selected
-                              ? $theme.colors.textDark
-                              : $theme.colors.textNormal,
-                          };
-                        },
-                      },
-                      SingleValue: {
-                        style: ({ $theme }) => {
-                          return {
-                            ...$theme.typography.fontBold14,
-                            color: $theme.colors.textNormal,
-                          };
-                        },
-                      },
-                      Popover: {
-                        props: {
-                          overrides: {
-                            Body: {
-                              style: { zIndex: 5 },
-                            },
-                          },
-                        },
-                      },
-                    }}
                   />
                 </FormFields>
               </DrawerBox>

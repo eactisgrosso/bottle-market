@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import { NextPage } from "next";
 import Link from "next/link";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { Modal } from "@redq/reuse-modal";
 import { useAuth } from "@bottle-market/common";
 import { ProfileProvider } from "contexts/profile/profile.provider";
@@ -27,9 +27,20 @@ type Props = {
 };
 const ProfilePage: NextPage<Props> = ({ deviceType }) => {
   const { user } = useAuth();
-  const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER, {
-    variables: { id: user ? user.id : "" },
-  });
+  const [getUser, { loading, error, data }] = useLazyQuery(
+    GET_LOGGED_IN_CUSTOMER
+  );
+
+  useEffect(() => {
+    if (user) {
+      getUser({
+        variables: {
+          state_id: user.id,
+        },
+      });
+    }
+  }, [user]);
+
   if (!data || loading) {
     return <div>loading...</div>;
   }

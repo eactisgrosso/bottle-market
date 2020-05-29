@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import { NextPage } from "next";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { Modal } from "@redq/reuse-modal";
 import { withApollo } from "helper/apollo";
 import { SEO } from "components/seo";
@@ -19,9 +19,20 @@ type Props = {
 };
 const CheckoutPage: NextPage<Props> = ({ deviceType }) => {
   const { user } = useAuth();
-  const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER, {
-    variables: { id: user ? user.id : "" },
-  });
+  const [getUser, { loading, error, data }] = useLazyQuery(
+    GET_LOGGED_IN_CUSTOMER
+  );
+
+  useEffect(() => {
+    if (user) {
+      getUser({
+        variables: {
+          state_id: user.id,
+        },
+      });
+    }
+  }, [user]);
+
   if (loading) {
     return <div>loading...</div>;
   }

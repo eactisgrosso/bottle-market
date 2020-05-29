@@ -101,6 +101,23 @@ const DeliveryArea: React.FC<Props> = ({
     }
   );
 
+  useEffect(() => {
+    if (isGeolocationEnabled && coords && !location && !address) {
+      setPosition({
+        lat: coords.latitude,
+        lng: coords.longitude,
+      });
+      setZoom(zoomFromRadius(radius));
+      if (onChange)
+        onChange({
+          lat: coords.latitude,
+          lng: coords.longitude,
+          address: search,
+          radius: radius,
+        });
+    }
+  }, [isGeolocationEnabled, coords]);
+
   const zoomFromRadius = (r) => {
     return 14 - Math.log(r) / Math.log(2);
   };
@@ -118,23 +135,22 @@ const DeliveryArea: React.FC<Props> = ({
         });
       return;
     }
-    if (location || (!address && isGeolocationEnabled && coords)) {
-      const lat = location ? location.lat : coords.latitude;
-      const lng = location ? location.lon : coords.longitude;
+
+    if (location) {
       setPosition({
-        lat: lat,
-        lng: lng,
+        lat: location.lat,
+        lng: location.lon,
       });
       setZoom(zoomFromRadius(radius));
       if (onChange)
         onChange({
-          lat: lat,
-          lng: lng,
+          lat: location.lat,
+          lng: location.lon,
           address: search,
           radius: radius,
         });
     }
-  }, [isGeolocationEnabled, coords, location, deliveryOption]);
+  }, [location, deliveryOption]);
 
   useEffect(() => {
     if (radius != null) {

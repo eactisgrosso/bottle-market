@@ -7,6 +7,7 @@ import { IAppModule } from "../app";
 import { AuthzModule } from "../common/auth/authz.module";
 
 import { UserModule } from "./services/user/user.module";
+import { LocationModule } from "./services/location/location.module";
 import { StoreModule } from "./services/store/store.module";
 import { ProductModule } from "./services/product/product.module";
 import { ParameterStore } from "../common/config/parameterStore";
@@ -15,6 +16,7 @@ import { ParameterStore } from "../common/config/parameterStore";
   imports: [
     AuthzModule,
     UserModule,
+    LocationModule,
     StoreModule,
     ProductModule,
     ConfigModule.forRoot({
