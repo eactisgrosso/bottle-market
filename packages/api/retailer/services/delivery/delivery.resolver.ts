@@ -7,6 +7,7 @@ import { User } from "../../../common/auth/user.decorator";
 import { DeliveryAreaRepository } from "../../domain/repositories/delivery_area.repository";
 import DeliveryAreaDTO from "../delivery/delivery.type";
 import AddDeliveryAreaInput from "../delivery/delivery.input_type";
+import DeliveryAreaDeleteDTO from "./delivery.delete_type";
 
 const { v4: uuidv4 } = require("uuid");
 
@@ -45,59 +46,65 @@ export class DeliveryResolver {
 
   @Mutation(() => DeliveryAreaDTO, { description: "Create Delivery Area" })
   async createDeliveryArea(
-    @Args("deliveryArea") deliveryArea: AddDeliveryAreaInput
+    @Args("deliveryAreaInput") deliveryAreaInput: AddDeliveryAreaInput
   ): Promise<DeliveryAreaDTO> {
     const id = uuidv4();
-
     const delivery_area = await this.repository.load(id);
 
     delivery_area.setup(
-      deliveryArea.name,
-      deliveryArea.store_id,
-      deliveryArea.address,
-      deliveryArea.lat,
-      deliveryArea.lng,
-      deliveryArea.radius,
-      deliveryArea.monday,
-      deliveryArea.tuesday,
-      deliveryArea.wednesday,
-      deliveryArea.thursday,
-      deliveryArea.friday,
-      deliveryArea.saturday,
-      deliveryArea.sunday,
-      deliveryArea.monday_hours_from,
-      deliveryArea.monday_hours_to,
-      deliveryArea.tuesday_hours_from,
-      deliveryArea.tuesday_hours_to,
-      deliveryArea.wednesday_hours_from,
-      deliveryArea.wednesday_hours_to,
-      deliveryArea.thursday_hours_from,
-      deliveryArea.thursday_hours_to,
-      deliveryArea.friday_hours_from,
-      deliveryArea.friday_hours_to,
-      deliveryArea.saturday_hours_from,
-      deliveryArea.saturday_hours_to,
-      deliveryArea.sunday_hours_from,
-      deliveryArea.sunday_hours_to
+      deliveryAreaInput.name,
+      deliveryAreaInput.store_id,
+      deliveryAreaInput.store,
+      deliveryAreaInput.address,
+      deliveryAreaInput.lat,
+      deliveryAreaInput.lng,
+      deliveryAreaInput.radius,
+      deliveryAreaInput.monday,
+      deliveryAreaInput.tuesday,
+      deliveryAreaInput.wednesday,
+      deliveryAreaInput.thursday,
+      deliveryAreaInput.friday,
+      deliveryAreaInput.saturday,
+      deliveryAreaInput.sunday,
+      deliveryAreaInput.monday_hours_from,
+      deliveryAreaInput.monday_hours_to,
+      deliveryAreaInput.tuesday_hours_from,
+      deliveryAreaInput.tuesday_hours_to,
+      deliveryAreaInput.wednesday_hours_from,
+      deliveryAreaInput.wednesday_hours_to,
+      deliveryAreaInput.thursday_hours_from,
+      deliveryAreaInput.thursday_hours_to,
+      deliveryAreaInput.friday_hours_from,
+      deliveryAreaInput.friday_hours_to,
+      deliveryAreaInput.saturday_hours_from,
+      deliveryAreaInput.saturday_hours_to,
+      deliveryAreaInput.sunday_hours_from,
+      deliveryAreaInput.sunday_hours_to
     );
 
     delivery_area.commit();
 
     let dto = new DeliveryAreaDTO();
-    Object.keys(deliveryArea).forEach(
-      (key) => ((dto as DeliveryAreaDTO)[key] = deliveryArea[key])
+    Object.keys(delivery_area).forEach(
+      (key) => ((dto as DeliveryAreaDTO)[key] = delivery_area[key])
     );
 
     return dto;
   }
 
-  @Mutation(() => String)
-  async deleteDeliveryArea(@Args("id") id: string): Promise<string> {
-    const delivery = await this.repository.load(id);
+  @Mutation(() => DeliveryAreaDeleteDTO)
+  async deleteDeliveryArea(
+    @Args("id") id: string
+  ): Promise<DeliveryAreaDeleteDTO> {
+    const delivery_area = await this.repository.load(id);
 
-    delivery.close();
-    delivery.commit();
+    delivery_area.close();
+    delivery_area.commit();
 
-    return id;
+    const dto = new DeliveryAreaDeleteDTO();
+    dto.id = id;
+    dto.store_id = delivery_area.store_id;
+
+    return dto;
   }
 }

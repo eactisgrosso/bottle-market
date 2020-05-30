@@ -1,32 +1,31 @@
 import React, { useState, useCallback, useEffect, useReducer } from "react";
 import { useForm } from "react-hook-form";
-import uuidv4 from "uuid/v4";
 import gql from "graphql-tag";
 import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
 import { Scrollbars } from "react-custom-scrollbars";
 import { geolocated, GeolocatedProps } from "react-geolocated";
-import { useDrawerDispatch } from "../../context/DrawerContext";
-import Button, { KIND } from "../../components/Button/Button";
-import DrawerBox from "../../components/DrawerBox/DrawerBox";
-import { Row, Col } from "../../components/FlexBox/FlexBox";
+import { useDrawerDispatch } from "../../../context/DrawerContext";
+import Button, { KIND } from "../../../components/Button/Button";
+import DrawerBox from "../../../components/DrawerBox/DrawerBox";
+import { Row, Col } from "../../../components/FlexBox/FlexBox";
 import {
   FormFields,
   FormLabel,
   Error as ErrorField,
-} from "../../components/FormFields/FormFields";
-import Select from "../../components/Select/DrawerSelect";
-import Searchable from "../../components/Select/Searchable";
-import Input from "../../components/Input/Input";
+} from "../../../components/FormFields/FormFields";
+import Select from "../../../components/Select/DrawerSelect";
+import Searchable from "../../../components/Select/Searchable";
+import Input from "../../../components/Input/Input";
 import {
   Form,
   DrawerTitleWrapper,
   DrawerTitle,
   FieldDetails,
   ButtonGroup,
-} from "../DrawerItems/DrawerItems.style";
-import { GET_STORES } from "../../graphql/query/store.query";
-import { GET_STATES, GET_CITIES } from "../../graphql/query/location.query";
-import { STORE_TYPES } from "../../settings/constants";
+} from "../../DrawerItems/DrawerItems.style";
+import { GET_STORES } from "../../../graphql/query/store.query";
+import { GET_STATES, GET_CITIES } from "../../../graphql/query/location.query";
+import { STORE_TYPES } from "../../../settings/constants";
 import axios from "axios";
 
 function fetchReducer(state, action) {
@@ -82,6 +81,8 @@ const CREATE_STORE = gql`
       state
       city
       street
+      delivery_areas
+      products
     }
   }
 `;
@@ -188,7 +189,6 @@ const AddStore: React.FC<Props & GeolocatedProps> = (props) => {
 
   const onSubmit = (data) => {
     const newStore = {
-      id: uuidv4(),
       name: data.name,
       store_type: type[0].id,
       state_id: state[0].id,

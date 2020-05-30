@@ -4,10 +4,10 @@ import uuidv4 from "uuid/v4";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
 import { Scrollbars } from "react-custom-scrollbars";
-import { useDrawerDispatch } from "../../context/DrawerContext";
-import Button, { KIND } from "../../components/Button/Button";
-import DrawerBox from "../../components/DrawerBox/DrawerBox";
-import { Row, Col } from "../../components/FlexBox/FlexBox";
+import { useDrawerDispatch } from "../../../context/DrawerContext";
+import Button, { KIND } from "../../../components/Button/Button";
+import DrawerBox from "../../../components/DrawerBox/DrawerBox";
+import { Row, Col } from "../../../components/FlexBox/FlexBox";
 
 import {
   Form,
@@ -15,7 +15,7 @@ import {
   DrawerTitle,
   FieldDetails,
   ButtonGroup,
-} from "../DrawerItems/DrawerItems.style";
+} from "../../DrawerItems/DrawerItems.style";
 
 const GET_PRODUCTS = gql`
   query getProducts(

@@ -1,33 +1,36 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import uuidv4 from "uuid/v4";
 import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/client";
 import { Scrollbars } from "react-custom-scrollbars";
 import { geolocated, GeolocatedProps } from "react-geolocated";
-import { useDrawerDispatch } from "../../context/DrawerContext";
-import Button, { KIND } from "../../components/Button/Button";
-import DrawerBox from "../../components/DrawerBox/DrawerBox";
-import { Row, Col } from "../../components/FlexBox/FlexBox";
-import { FormFields, FormLabel } from "../../components/FormFields/FormFields";
-import Select from "../../components/Select/DrawerSelect";
-import Input from "../../components/Input/Input";
-import DeliveryArea from "../../components/DeliveryArea/DeliveryArea";
-import BusinessHours from "../../components/BusinessHours/BusinessHours";
+import { useDrawerDispatch } from "../../../context/DrawerContext";
+import Button, { KIND } from "../../../components/Button/Button";
+import DrawerBox from "../../../components/DrawerBox/DrawerBox";
+import { Row, Col } from "../../../components/FlexBox/FlexBox";
+import {
+  FormFields,
+  FormLabel,
+} from "../../../components/FormFields/FormFields";
+import Select from "../../../components/Select/DrawerSelect";
+import Input from "../../../components/Input/Input";
+import DeliveryArea from "../../../components/DeliveryArea/DeliveryArea";
+import BusinessHours from "../../../components/BusinessHours/BusinessHours";
 import {
   Form,
   DrawerTitleWrapper,
   DrawerTitle,
   FieldDetails,
   ButtonGroup,
-} from "../DrawerItems/DrawerItems.style";
-import { GET_STORES } from "../../graphql/query/store.query";
-import { GET_DELIVERY_AREAS } from "../../graphql/query/delivery.query";
+} from "../../DrawerItems/DrawerItems.style";
+import { GET_STORES } from "../../../graphql/query/store.query";
+import { GET_DELIVERY_AREAS } from "../../../graphql/query/delivery.query";
 
 const CREATE_DELIVERY_AREA = gql`
-  mutation createDeliveryArea($deliveryArea: AddDeliveryAreaInput!) {
-    createDeliveryArea(deliveryArea: $deliveryArea) {
+  mutation createDeliveryArea($deliveryAreaInput: AddDeliveryAreaInput!) {
+    createDeliveryArea(deliveryAreaInput: $deliveryAreaInput) {
       id
+      store_id
       store
       name
       address
@@ -84,6 +87,29 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
           deliveryAreas: [createDeliveryArea, ...deliveryAreas],
         },
       });
+
+      const { stores } = cache.readQuery({
+        query: GET_STORES,
+      });
+
+      cache.writeQuery({
+        query: GET_STORES,
+        data: {
+          stores: [
+            ...stores.map((store) => {
+              if (store.id == createDeliveryArea.store_id) {
+                const storeCopy = {
+                  delivery_areas: store.delivery_areas + 1,
+                };
+
+                return storeCopy;
+              }
+
+              return store;
+            }),
+          ],
+        },
+      });
     },
   });
 
@@ -119,7 +145,6 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
 
   const onSubmit = (data) => {
     const newDeliveryArea = {
-      id: uuidv4(),
       store_id: store[0].id,
       store: store[0].label,
       name: data.name,
@@ -151,7 +176,7 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
       creation_date: new Date(),
     };
     createDeliveryArea({
-      variables: { deliveryArea: newDeliveryArea },
+      variables: { deliveryAreaInput: newDeliveryArea },
     });
     closeDrawer();
   };

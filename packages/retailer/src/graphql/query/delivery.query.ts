@@ -5,6 +5,7 @@ export const GET_DELIVERY_AREAS = gql`
     deliveryAreas {
       id
       name
+      store_id
       store
       address
       radius

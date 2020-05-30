@@ -9,6 +9,9 @@ export default class DeliveryAreaDTO {
   name: string;
 
   @Field()
+  store_id: string;
+
+  @Field()
   store: string;
 
   @Field()

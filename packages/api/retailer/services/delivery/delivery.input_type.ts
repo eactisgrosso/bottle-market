@@ -4,13 +4,13 @@ import DeliveryAreaDTO from "./delivery.type";
 @InputType({ description: "New delivery data" })
 export default class AddDeliveryAreaInput implements Partial<DeliveryAreaDTO> {
   @Field()
-  id: string;
-
-  @Field()
   name: string;
 
   @Field({ nullable: true })
   store!: string;
+
+  @Field()
+  store_id: string;
 
   @Field()
   address: string;
@@ -80,9 +80,6 @@ export default class AddDeliveryAreaInput implements Partial<DeliveryAreaDTO> {
 
   @Field({ nullable: true })
   sunday_hours_to?: string;
-
-  @Field()
-  store_id: string;
 
   @Field()
   lat: number;

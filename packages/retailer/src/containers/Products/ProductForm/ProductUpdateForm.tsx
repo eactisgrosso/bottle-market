@@ -3,15 +3,21 @@ import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import { useForm } from "react-hook-form";
 import { Scrollbars } from "react-custom-scrollbars";
-import { useDrawerDispatch, useDrawerState } from "../../context/DrawerContext";
-import Uploader from "../../components/Uploader/Uploader";
-import Button, { KIND } from "../../components/Button/Button";
-import DrawerBox from "../../components/DrawerBox/DrawerBox";
-import { Row, Col } from "../../components/FlexBox/FlexBox";
-import Input from "../../components/Input/Input";
-import { Textarea } from "../../components/Textarea/Textarea";
-import Select from "../../components/Select/Select";
-import { FormFields, FormLabel } from "../../components/FormFields/FormFields";
+import {
+  useDrawerDispatch,
+  useDrawerState,
+} from "../../../context/DrawerContext";
+import Uploader from "../../../components/Uploader/Uploader";
+import Button, { KIND } from "../../../components/Button/Button";
+import DrawerBox from "../../../components/DrawerBox/DrawerBox";
+import { Row, Col } from "../../../components/FlexBox/FlexBox";
+import Input from "../../../components/Input/Input";
+import { Textarea } from "../../../components/Textarea/Textarea";
+import Select from "../../../components/Select/Select";
+import {
+  FormFields,
+  FormLabel,
+} from "../../../components/FormFields/FormFields";
 
 import {
   Form,
@@ -19,7 +25,7 @@ import {
   DrawerTitle,
   FieldDetails,
   ButtonGroup,
-} from "../DrawerItems/DrawerItems.style";
+} from "../../DrawerItems/DrawerItems.style";
 
 const GET_CATEGORIES = gql`
   query getCategories($type: String) {

@@ -7,6 +7,7 @@ import {
 export class DeliveryArea extends Aggregate {
   name: string;
   store_id: string;
+  store: string;
   address: string;
   lat: number;
   lng: number;
@@ -40,6 +41,7 @@ export class DeliveryArea extends Aggregate {
   setup(
     name: string,
     store_id: string,
+    store: string,
     address: string,
     lat: number,
     lng: number,
@@ -70,6 +72,7 @@ export class DeliveryArea extends Aggregate {
       new DeliveryAreaSetup(
         name,
         store_id,
+        store,
         address,
         lat,
         lng,
@@ -102,6 +105,7 @@ export class DeliveryArea extends Aggregate {
   onDeliveryAreaSetup(event: DeliveryAreaSetup) {
     this.name = event.name;
     this.store_id = event.store_id;
+    this.store = event.store;
     this.address = event.address;
     this.lat = event.lat;
     this.lng = event.lng;

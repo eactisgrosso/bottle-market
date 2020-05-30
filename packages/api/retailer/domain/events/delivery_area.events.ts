@@ -4,6 +4,7 @@ export class DeliveryAreaSetup extends Event {
   constructor(
     public readonly name: string,
     public readonly store_id: string,
+    public readonly store: string,
     public readonly address: string,
     public readonly lat: number,
     public readonly lng: number,

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
 import { GET_DELIVERY_AREAS } from "../../../graphql/query/delivery.query";
+import { GET_STORES } from "../../../graphql/query/store.query";
 import { DeliveryIcon, GpsIcon } from "../../../components/AllSvgIcon";
 import {
   Card,
@@ -24,7 +25,10 @@ import Confirm from "../../../components/Confirm/Confirm";
 
 const DELETE_DELIVERY_AREA = gql`
   mutation deleteDeliveryArea($id: String!) {
-    deleteDeliveryArea(id: $id)
+    deleteDeliveryArea(id: $id) {
+      id
+      store_id
+    }
   }
 `;
 
@@ -204,14 +208,39 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
 
   const [deleteDeliveryArea] = useMutation(DELETE_DELIVERY_AREA, {
     update(cache, { data: { deleteDeliveryArea } }) {
-      const { stores } = cache.readQuery({
+      const { deliveryAreas } = cache.readQuery({
         query: GET_DELIVERY_AREAS,
       });
 
       cache.writeQuery({
         query: GET_DELIVERY_AREAS,
         data: {
-          stores: [...stores.filter((s) => s.id !== deleteDeliveryArea)],
+          deliveryAreas: [
+            ...deliveryAreas.filter((s) => s.id !== deleteDeliveryArea.id),
+          ],
+        },
+      });
+
+      const { stores } = cache.readQuery({
+        query: GET_STORES,
+      });
+
+      cache.writeQuery({
+        query: GET_STORES,
+        data: {
+          stores: [
+            ...stores.map((store) => {
+              if (store.id == deleteDeliveryArea.store_id) {
+                const storeCopy = {
+                  delivery_areas: store.delivery_areas - 1,
+                };
+
+                return storeCopy;
+              }
+
+              return store;
+            }),
+          ],
         },
       });
     },

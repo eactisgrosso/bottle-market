@@ -47,9 +47,9 @@ export class StoreResolver {
     store.commit();
 
     let dto = new StoreDTO();
-    Object.keys(storeInput).forEach(
-      (key) => ((dto as StoreDTO)[key] = storeInput[key])
-    );
+    Object.keys(store).forEach((key) => ((dto as StoreDTO)[key] = store[key]));
+    dto.delivery_areas = 0;
+    dto.products = 0;
 
     return dto;
   }

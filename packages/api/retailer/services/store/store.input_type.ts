@@ -4,9 +4,6 @@ import StoreDTO from "./store.type";
 @InputType({ description: "New store data" })
 export default class AddStoreInput implements Partial<StoreDTO> {
   @Field()
-  id: string;
-
-  @Field()
   name: string;
 
   @Field()
