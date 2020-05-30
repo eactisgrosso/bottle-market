@@ -1,7 +1,10 @@
 import { Aggregate } from "../../common/domain/aggregate";
-import { DeliveryAreaAdded, BusinessHoursSet } from "./events/delivery.events";
+import {
+  DeliveryAreaSetup,
+  DeliveryAreaClosed,
+} from "./events/delivery_area.events";
 
-export class Delivery extends Aggregate {
+export class DeliveryArea extends Aggregate {
   name: string;
   store_id: string;
   address: string;
@@ -34,29 +37,13 @@ export class Delivery extends Aggregate {
     super(id);
   }
 
-  addArea(
+  setup(
     name: string,
     store_id: string,
     address: string,
     lat: number,
     lng: number,
-    radius: number
-  ) {
-    this.apply(
-      new DeliveryAreaAdded(name, store_id, address, lat, lng, radius)
-    );
-  }
-
-  onDeliveryAreaAdded(event: DeliveryAreaAdded) {
-    this.name = event.name;
-    this.store_id = event.store_id;
-    this.address = event.address;
-    this.lat = event.lat;
-    this.lng = event.lng;
-    this.radius = event.radius;
-  }
-
-  setBusinessHours(
+    radius: number,
     monday: boolean,
     tuesday: boolean,
     wednesday: boolean,
@@ -80,7 +67,13 @@ export class Delivery extends Aggregate {
     sunday_hours_to?: string
   ) {
     this.apply(
-      new BusinessHoursSet(
+      new DeliveryAreaSetup(
+        name,
+        store_id,
+        address,
+        lat,
+        lng,
+        radius,
         monday,
         tuesday,
         wednesday,
@@ -106,7 +99,13 @@ export class Delivery extends Aggregate {
     );
   }
 
-  onBusinessHoursSet(event: BusinessHoursSet) {
+  onDeliveryAreaSetup(event: DeliveryAreaSetup) {
+    this.name = event.name;
+    this.store_id = event.store_id;
+    this.address = event.address;
+    this.lat = event.lat;
+    this.lng = event.lng;
+    this.radius = event.radius;
     this.monday = event.monday;
     this.tuesday = event.tuesday;
     this.wednesday = event.wednesday;
@@ -128,5 +127,9 @@ export class Delivery extends Aggregate {
     this.saturday_hours_to = event.saturday_hours_to;
     this.sunday_hours_from = event.sunday_hours_from;
     this.sunday_hours_to = event.sunday_hours_to;
+  }
+
+  close() {
+    this.apply(new DeliveryAreaClosed());
   }
 }

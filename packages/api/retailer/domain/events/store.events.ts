@@ -16,6 +16,13 @@ export class StoreOpened extends Event {
   }
 }
 
+export class StoreClosed extends Event {
+  constructor() {
+    super();
+  }
+}
+
 export const StoreEvents = {
   StoreOpened,
+  StoreClosed,
 };

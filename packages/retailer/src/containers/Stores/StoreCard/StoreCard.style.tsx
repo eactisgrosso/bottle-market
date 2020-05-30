@@ -77,9 +77,18 @@ export const Text = styled("span", ({ $theme }) => ({
   margin: "2px",
 }));
 
+export const Footer = styled("div", () => ({
+  borderTop: "1px solid #e8e8e8",
+  paddingTop: "10px",
+  paddingBottom: "10px",
+  marginTop: "30px",
+  display: "flex",
+  flexDirection: "column",
+}));
+
 export const ButtonContainer = styled("div", ({ $theme }) => ({
   display: "flex",
-  marginTop: "40px",
+  marginTop: "20px",
   marginBottom: "20px",
   justifyContent: "space-evenly",
 }));

@@ -53,4 +53,13 @@ export class StoreResolver {
 
     return dto;
   }
+
+  @Mutation(() => String)
+  async deleteStore(@Args("id") id: string): Promise<string> {
+    const store = await this.repository.load(id);
+    store.close();
+    store.commit();
+
+    return id;
+  }
 }

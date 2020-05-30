@@ -21,10 +21,8 @@ import {
   FieldDetails,
   ButtonGroup,
 } from "../DrawerItems/DrawerItems.style";
-import {
-  GET_STORES,
-  GET_DELIVERY_AREAS,
-} from "../../graphql/query/store.query";
+import { GET_STORES } from "../../graphql/query/store.query";
+import { GET_DELIVERY_AREAS } from "../../graphql/query/delivery.query";
 
 const CREATE_DELIVERY_AREA = gql`
   mutation createDeliveryArea($deliveryArea: AddDeliveryAreaInput!) {

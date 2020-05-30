@@ -1,20 +1,13 @@
 import { Event } from "../../../common/domain/event";
 
-export class DeliveryAreaAdded extends Event {
+export class DeliveryAreaSetup extends Event {
   constructor(
     public readonly name: string,
     public readonly store_id: string,
     public readonly address: string,
     public readonly lat: number,
     public readonly lng: number,
-    public readonly radius: number
-  ) {
-    super();
-  }
-}
-
-export class BusinessHoursSet extends Event {
-  constructor(
+    public readonly radius: number,
     public readonly monday: boolean,
     public readonly tuesday: boolean,
     public readonly wednesday: boolean,
@@ -41,7 +34,13 @@ export class BusinessHoursSet extends Event {
   }
 }
 
+export class DeliveryAreaClosed extends Event {
+  constructor() {
+    super();
+  }
+}
+
 export const DeliveryEvents = {
-  DeliveryAreaAdded,
-  BusinessHoursSet,
+  DeliveryAreaSetup,
+  DeliveryAreaClosed,
 };

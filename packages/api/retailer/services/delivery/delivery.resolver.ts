@@ -4,7 +4,7 @@ import { KNEX_CONNECTION } from "@nestjsplus/knex";
 import { UseGuards } from "@nestjs/common";
 import { GraphqlAuthGuard } from "../../../common/auth/graphql.auth.guard";
 import { User } from "../../../common/auth/user.decorator";
-import { DeliveryRepository } from "../../domain/repositories/delivery.repository";
+import { DeliveryAreaRepository } from "../../domain/repositories/delivery_area.repository";
 import DeliveryAreaDTO from "../delivery/delivery.type";
 import AddDeliveryAreaInput from "../delivery/delivery.input_type";
 
@@ -14,7 +14,7 @@ const { v4: uuidv4 } = require("uuid");
 @Resolver()
 export class DeliveryResolver {
   constructor(
-    private repository: DeliveryRepository,
+    private repository: DeliveryAreaRepository,
     @Inject(KNEX_CONNECTION) private readonly knex: any,
     private httpService: HttpService
   ) {}
@@ -29,23 +29,35 @@ export class DeliveryResolver {
     return dbAreas;
   }
 
+  @UseGuards(GraphqlAuthGuard)
+  @Query(() => [DeliveryAreaDTO])
+  async deliveryAreasByStore(
+    @User() user: any,
+    @Args("store_id") store_id: string
+  ): Promise<DeliveryAreaDTO[]> {
+    const dbAreas = await this.knex("delivery_area_view")
+      .select("*")
+      .where("user_id", user.id)
+      .andWhere("store_id", store_id);
+
+    return dbAreas;
+  }
+
   @Mutation(() => DeliveryAreaDTO, { description: "Create Delivery Area" })
   async createDeliveryArea(
     @Args("deliveryArea") deliveryArea: AddDeliveryAreaInput
   ): Promise<DeliveryAreaDTO> {
     const id = uuidv4();
 
-    const delivery = await this.repository.load(id);
+    const delivery_area = await this.repository.load(id);
 
-    delivery.addArea(
+    delivery_area.setup(
       deliveryArea.name,
       deliveryArea.store_id,
       deliveryArea.address,
       deliveryArea.lat,
       deliveryArea.lng,
-      deliveryArea.radius
-    );
-    delivery.setBusinessHours(
+      deliveryArea.radius,
       deliveryArea.monday,
       deliveryArea.tuesday,
       deliveryArea.wednesday,
@@ -69,7 +81,7 @@ export class DeliveryResolver {
       deliveryArea.sunday_hours_to
     );
 
-    delivery.commit();
+    delivery_area.commit();
 
     let dto = new DeliveryAreaDTO();
     Object.keys(deliveryArea).forEach(
@@ -77,5 +89,15 @@ export class DeliveryResolver {
     );
 
     return dto;
+  }
+
+  @Mutation(() => String)
+  async deleteDeliveryArea(@Args("id") id: string): Promise<string> {
+    const delivery = await this.repository.load(id);
+
+    delivery.close();
+    delivery.commit();
+
+    return id;
   }
 }

@@ -150,6 +150,7 @@ export const theme = createTheme(
       primary700: "#00bd87",
       primary400: "#03D3B5",
       red400: "#FC5C63",
+      red500: "#F44336",
       red700: "#FC6687",
       greyE6: "#E6E6E6",
       textDark: "#161F6A",

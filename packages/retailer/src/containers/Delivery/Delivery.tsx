@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { styled } from "baseui";
 import gql from "graphql-tag";
-import { GET_DELIVERY_AREAS } from "../../graphql/query/store.query";
+import { GET_DELIVERY_AREAS } from "../../graphql/query/delivery.query";
 import { useQuery } from "@apollo/client";
 import {
   Grid,
@@ -12,7 +12,7 @@ import { Header, Heading } from "../../components/WrapperStyle";
 import NoResult from "../../components/NoResult/NoResult";
 import Placeholder from "../../components/Placeholder/Placeholder";
 import Fade from "react-reveal/Fade";
-import DeliveryCard from "../../components/DeliveryCard/DeliveryCard";
+import DeliveryCard from "./DeliveryCard/DeliveryCard";
 
 export const Col = styled(Column, () => ({
   "@media only screen and (max-width: 767px)": {
@@ -77,6 +77,7 @@ const Delivery: React.FC<Props> = (props) => {
                   >
                     <Fade bottom duration={800} delay={index * 10}>
                       <DeliveryCard
+                        id={deliveryArea.id}
                         store={deliveryArea.store}
                         area={deliveryArea.name}
                         address={deliveryArea.address}

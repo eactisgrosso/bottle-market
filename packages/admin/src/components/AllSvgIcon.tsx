@@ -1248,7 +1248,7 @@ export const ProductIcon = ({
 // Category
 export const SidebarCategoryIcon = ({
   color = "currentColor",
-  width = "13px",
+  width = "16px",
   height = "13px",
 }) => {
   return (

@@ -19,4 +19,10 @@ export default class StoreDTO {
 
   @Field()
   street: string;
+
+  @Field()
+  delivery_areas: number;
+
+  @Field()
+  products: number;
 }

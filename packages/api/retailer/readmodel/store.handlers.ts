@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { KNEX_CONNECTION } from "@nestjsplus/knex";
 import { EventsHandler, IEventHandler } from "@nestjs/cqrs";
-import { StoreOpened } from "../domain/events/store.events";
+import { StoreOpened, StoreClosed } from "../domain/events/store.events";
 import "../../common/helpers/date.extensions";
 
 @Injectable()
@@ -27,4 +27,15 @@ export class StoreOpenedHandler implements IEventHandler<StoreOpened> {
   }
 }
 
-export const EventHandlers = [StoreOpenedHandler];
+@Injectable()
+@EventsHandler(StoreClosed)
+export class StoreClosedHandler implements IEventHandler<StoreClosed> {
+  constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {}
+
+  async handle(event: StoreClosed) {
+    const id = this.knex.raw("UUID_TO_BIN(?)", event.aggregateId);
+    await this.knex("store").where("id", id).del();
+  }
+}
+
+export const EventHandlers = [StoreOpenedHandler, StoreClosedHandler];

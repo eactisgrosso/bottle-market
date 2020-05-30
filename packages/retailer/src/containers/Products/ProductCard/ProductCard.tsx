@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   ProductCardWrapper,
   ProductImageWrapper,
@@ -13,8 +13,8 @@ import {
   ProductPriceWrapper,
   ProductPrice,
   DiscountedPrice,
-} from './ProductCard.style';
-import { useDrawerDispatch } from '../../context/DrawerContext';
+} from "./ProductCard.style";
+import { useDrawerDispatch } from "../../../context/DrawerContext";
 
 type ProductCardProps = {
   title: string;
@@ -46,8 +46,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const openDrawer = React.useCallback(
     () =>
       dispatch({
-        type: 'OPEN_DRAWER',
-        drawerComponent: 'PRODUCT_UPDATE_FORM',
+        type: "OPEN_DRAWER",
+        drawerComponent: "PRODUCT_UPDATE_FORM",
         data: data,
       }),
     [dispatch, data]

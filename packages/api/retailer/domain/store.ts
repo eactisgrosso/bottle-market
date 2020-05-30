@@ -1,5 +1,5 @@
 import { Aggregate } from "../../common/domain/aggregate";
-import { StoreOpened } from "./events/store.events";
+import { StoreOpened, StoreClosed } from "./events/store.events";
 
 export class Store extends Aggregate {
   name: string;
@@ -27,7 +27,6 @@ export class Store extends Aggregate {
   ) {
     this.apply(
       new StoreOpened(
-        this.id,
         name,
         store_type,
         "AR",
@@ -51,5 +50,9 @@ export class Store extends Aggregate {
     this.city_id = event.city_id;
     this.city = event.city;
     this.street = event.street;
+  }
+
+  close() {
+    this.apply(new StoreClosed());
   }
 }

@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { DeliveryIcon, GpsIcon } from "../../components/AllSvgIcon";
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/client";
+import { GET_DELIVERY_AREAS } from "../../../graphql/query/delivery.query";
+import { DeliveryIcon, GpsIcon } from "../../../components/AllSvgIcon";
 import {
   Card,
   TopInfo,
@@ -14,11 +17,19 @@ import {
   Content,
   ButtonContainer,
 } from "./DeliveryCard.style";
-import Button, { KIND } from "../../components/Button/Button";
+import Button, { KIND } from "../../../components/Button/Button";
 import { Tag, VARIANT } from "baseui/tag";
 import { groupBy } from "lodash";
+import Confirm from "../../../components/Confirm/Confirm";
+
+const DELETE_DELIVERY_AREA = gql`
+  mutation deleteDeliveryArea($id: String!) {
+    deleteDeliveryArea(id: $id)
+  }
+`;
 
 type DeliveryCardProps = {
+  id: string;
   store: string;
   area: string;
   address: string;
@@ -46,6 +57,7 @@ type DeliveryCardProps = {
   sunday_hours_to: string;
 };
 const DeliveryCard: React.FC<DeliveryCardProps> = ({
+  id,
   store,
   area,
   address,
@@ -190,6 +202,28 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
     sunday_hours_to,
   ]);
 
+  const [deleteDeliveryArea] = useMutation(DELETE_DELIVERY_AREA, {
+    update(cache, { data: { deleteDeliveryArea } }) {
+      const { stores } = cache.readQuery({
+        query: GET_DELIVERY_AREAS,
+      });
+
+      cache.writeQuery({
+        query: GET_DELIVERY_AREAS,
+        data: {
+          stores: [...stores.filter((s) => s.id !== deleteDeliveryArea)],
+        },
+      });
+    },
+    onError: (error) => {},
+  });
+
+  const handleDelete = () => {
+    deleteDeliveryArea({
+      variables: { id: id },
+    });
+  };
+
   return (
     <Card>
       <TopInfo>
@@ -242,25 +276,31 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
         ))}
       </Hours>
       <ButtonContainer>
-        <Button
-          kind={KIND.minimal}
-          overrides={{
-            BaseButton: {
-              style: ({ $theme }) => ({
-                display: "inline-block",
-                width: "40%",
-                borderTopLeftRadius: "3px",
-                borderTopRightRadius: "3px",
-                borderBottomRightRadius: "3px",
-                borderBottomLeftRadius: "3px",
-                marginRight: "15px",
-                color: $theme.colors.red400,
-              }),
-            },
-          }}
+        <Confirm
+          message={`Se eliminará el delivery ${store}.`}
+          onClick={handleDelete}
         >
-          Eliminar
-        </Button>
+          <Button
+            kind={KIND.minimal}
+            overrides={{
+              BaseButton: {
+                style: ({ $theme }) => ({
+                  display: "inline-block",
+                  width: "40%",
+                  borderTopLeftRadius: "3px",
+                  borderTopRightRadius: "3px",
+                  borderBottomRightRadius: "3px",
+                  borderBottomLeftRadius: "3px",
+                  marginRight: "15px",
+                  color: $theme.colors.red400,
+                }),
+              },
+            }}
+          >
+            Eliminar
+          </Button>
+        </Confirm>
+
         <Button
           kind={KIND.secondary}
           overrides={{

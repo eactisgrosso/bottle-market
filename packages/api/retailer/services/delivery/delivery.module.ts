@@ -1,7 +1,7 @@
 import { Module, HttpModule } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
-import { DeliveryRepository } from "../../domain/repositories/delivery.repository";
-import { EventHandlers } from "../../readmodel/delivery.handlers";
+import { DeliveryAreaRepository } from "../../domain/repositories/delivery_area.repository";
+import { EventHandlers } from "../../readmodel/delivery_area.handlers";
 import { DeliveryResolver } from "./delivery.resolver";
 
 @Module({
@@ -12,6 +12,6 @@ import { DeliveryResolver } from "./delivery.resolver";
       maxRedirects: 5,
     }),
   ],
-  providers: [DeliveryRepository, DeliveryResolver, ...EventHandlers],
+  providers: [DeliveryAreaRepository, DeliveryResolver, ...EventHandlers],
 })
 export class DeliveryModule {}

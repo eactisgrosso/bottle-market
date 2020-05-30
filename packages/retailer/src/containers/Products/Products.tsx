@@ -12,7 +12,7 @@ import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
 import { Header, Heading } from "../../components/WrapperStyle";
 import Fade from "react-reveal/Fade";
-import ProductCard from "../../components/ProductCard/ProductCard";
+import ProductCard from "./ProductCard/ProductCard";
 import NoResult from "../../components/NoResult/NoResult";
 import { CURRENCY } from "../../settings/constants";
 import Placeholder from "../../components/Placeholder/Placeholder";

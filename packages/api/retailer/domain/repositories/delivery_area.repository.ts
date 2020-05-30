@@ -2,11 +2,11 @@ import { Injectable } from "@nestjs/common";
 import { EventStore } from "../../../common/domain/event.store";
 import { StorageEvent } from "../../../common/domain/storage.event";
 import { Event } from "../../../common/domain/event";
-import { Delivery } from "../delivery";
-import { DeliveryEvents } from "../events/delivery.events";
+import { DeliveryArea } from "../delivery_area";
+import { DeliveryEvents } from "../events/delivery_area.events";
 
 @Injectable()
-export class DeliveryRepository extends EventStore {
+export class DeliveryAreaRepository extends EventStore {
   protected recreateEventFromStorage(dbEvent: StorageEvent): Event {
     try {
       const event = new DeliveryEvents[dbEvent.eventType]();
@@ -22,7 +22,7 @@ export class DeliveryRepository extends EventStore {
     }
   }
 
-  async load(id: string): Promise<Delivery> {
-    return await this.ctx(new Delivery(id));
+  async load(id: string): Promise<DeliveryArea> {
+    return await this.ctx(new DeliveryArea(id));
   }
 }

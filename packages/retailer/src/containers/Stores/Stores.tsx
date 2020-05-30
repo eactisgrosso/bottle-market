@@ -12,7 +12,7 @@ import { Header, Heading } from "../../components/WrapperStyle";
 import Fade from "react-reveal/Fade";
 import NoResult from "../../components/NoResult/NoResult";
 import Placeholder from "../../components/Placeholder/Placeholder";
-import StoreCard from "../../components/StoreCard/StoreCard";
+import StoreCard from "./StoreCard/StoreCard";
 
 export const Col = styled(Column, () => ({
   "@media only screen and (max-width: 767px)": {
@@ -74,11 +74,14 @@ export default function Stores() {
                   >
                     <Fade bottom duration={800} delay={index * 10}>
                       <StoreCard
+                        id={store.id}
                         store_type={STORE_TYPES[store.store_type]}
                         name={store.name}
                         street={store.street}
                         city={store.city}
                         state={store.state}
+                        delivery_areas={store.delivery_areas}
+                        products={store.products}
                       ></StoreCard>
                     </Fade>
                   </Col>
