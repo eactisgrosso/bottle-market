@@ -14,8 +14,6 @@ type NoResultProps = {
 
 const NoResult: React.FC<NoResultProps> = ({
   id,
-  onClick,
-  hideButton = true,
   style,
   text = "No hay productos cargados que respondan al criterio de búsqueda",
 }) => {
@@ -26,17 +24,6 @@ const NoResult: React.FC<NoResultProps> = ({
       <ImageWrapper>
         <img src={NoResultSvg} alt="No Result" />
       </ImageWrapper>
-
-      {hideButton ? (
-        <ButtonWrapper>
-          <div onClick={onClick}>
-            <Button>
-              Intentar más tarde
-              {/* <ArrowPrev /> Go Back */}
-            </Button>
-          </div>
-        </ButtonWrapper>
-      ) : null}
     </NoResultWrapper>
   );
 };

@@ -2,12 +2,19 @@ import React, { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import uuidv4 from "uuid/v4";
 import gql from "graphql-tag";
-import { useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { Scrollbars } from "react-custom-scrollbars";
 import { useDrawerDispatch } from "../../../context/DrawerContext";
 import Button, { KIND } from "../../../components/Button/Button";
 import DrawerBox from "../../../components/DrawerBox/DrawerBox";
-import { Row, Col } from "../../../components/FlexBox/FlexBox";
+import { Grid, Row, Col } from "../../../components/FlexBox/FlexBox";
+import { Header, Heading } from "../../../components/WrapperStyle";
+import Select from "../../../components/Select/Select";
+import Input from "../../../components/Input/Input";
+import Fade from "react-reveal/Fade";
+import ProductCard from "../ProductCard/ProductCard";
+import { Waypoint } from "react-waypoint";
+import { CURRENCY } from "../../../settings/constants";
 
 import {
   Form,
@@ -32,7 +39,7 @@ const GET_PRODUCTS = gql`
     ) {
       items {
         id
-        name
+        title
         image
         type
         price
@@ -49,7 +56,7 @@ const CREATE_PRODUCT = gql`
   mutation createProduct($product: AddProductInput!) {
     createProduct(product: $product) {
       id
-      name
+      title
       image
       slug
       type
@@ -71,23 +78,9 @@ const AddProduct: React.FC<Props> = (props) => {
   const closeDrawer = useCallback(() => dispatch({ type: "CLOSE_DRAWER" }), [
     dispatch,
   ]);
+  const { data, error, refetch, fetchMore } = useQuery(GET_PRODUCTS);
   const { register, handleSubmit, setValue } = useForm();
-  const [type, setType] = useState([]);
-  const [tag, setTag] = useState([]);
-  const [description, setDescription] = useState("");
-
-  React.useEffect(() => {
-    register({ name: "type" });
-    register({ name: "categories" });
-    register({ name: "image", required: true });
-    register({ name: "description" });
-  }, [register]);
-
-  const handleDescriptionChange = (e) => {
-    const value = e.target.value;
-    setValue("description", value);
-    setDescription(value);
-  };
+  const [search, setSearch] = useState([]);
 
   const [createProduct] = useMutation(CREATE_PRODUCT, {
     update(cache, { data: { createProduct } }) {
@@ -108,18 +101,26 @@ const AddProduct: React.FC<Props> = (props) => {
       });
     },
   });
-  const handleMultiChange = ({ value }) => {
-    setValue("categories", value);
-    setTag(value);
-  };
 
-  const handleTypeChange = ({ value }) => {
-    setValue("type", value);
-    setType(value);
-  };
-  const handleUploader = (files) => {
-    setValue("image", files[0].path);
-  };
+  function loadMore() {
+    fetchMore({
+      variables: {
+        offset: data.products.items.length,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        return Object.assign({}, prev, {
+          products: {
+            __typename: prev.products.__typename,
+            items: [...prev.products.items, ...fetchMoreResult.products.items],
+            totalCount: fetchMoreResult.products.totalCount,
+            hasMore: fetchMoreResult.products.hasMore,
+          },
+        });
+      },
+    });
+  }
+
   const onSubmit = (data) => {
     const newProduct = {
       id: uuidv4(),
@@ -135,7 +136,6 @@ const AddProduct: React.FC<Props> = (props) => {
       slug: data.name,
       creation_date: new Date(),
     };
-    console.log(newProduct, "newProduct data");
     createProduct({
       variables: { product: newProduct },
     });
@@ -148,60 +148,52 @@ const AddProduct: React.FC<Props> = (props) => {
         <DrawerTitle>Agregar Productos</DrawerTitle>
       </DrawerTitleWrapper>
 
-      <Form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
-        <Scrollbars
-          autoHide
-          renderView={(props) => (
-            <div {...props} style={{ ...props.style, overflowX: "hidden" }} />
-          )}
-          renderTrackHorizontal={(props) => (
-            <div
-              {...props}
-              style={{ display: "none" }}
-              className="track-horizontal"
-            />
-          )}
-        ></Scrollbars>
-
-        <ButtonGroup>
-          <Button
-            kind={KIND.minimal}
-            onClick={closeDrawer}
-            overrides={{
-              BaseButton: {
-                style: ({ $theme }) => ({
-                  width: "50%",
-                  borderTopLeftRadius: "3px",
-                  borderTopRightRadius: "3px",
-                  borderBottomRightRadius: "3px",
-                  borderBottomLeftRadius: "3px",
-                  marginRight: "15px",
-                  color: $theme.colors.red400,
-                }),
-              },
-            }}
-          >
-            Cancelar
-          </Button>
-
-          <Button
-            type="submit"
-            overrides={{
-              BaseButton: {
-                style: ({ $theme }) => ({
-                  width: "50%",
-                  borderTopLeftRadius: "3px",
-                  borderTopRightRadius: "3px",
-                  borderBottomRightRadius: "3px",
-                  borderBottomLeftRadius: "3px",
-                }),
-              },
-            }}
-          >
-            Confirmar
-          </Button>
-        </ButtonGroup>
-      </Form>
+      <Grid fluid={true}>
+        <Row>
+          <Col md={12}>
+            <Header>
+              <Col md={6} xs={12}>
+                <Input
+                  value={search}
+                  placeholder="Buscá por Etiqueta, Bodega, Región..."
+                  clearable
+                />
+              </Col>
+            </Header>
+          </Col>
+        </Row>
+        <Row>
+          {data &&
+            data.products &&
+            data.products.items.length !== 0 &&
+            data.products.items.map((item: any, index: number) => (
+              <Col
+                md={4}
+                lg={3}
+                sm={6}
+                xs={12}
+                key={index}
+                style={{ margin: "15px 0" }}
+              >
+                <Fade bottom duration={800} delay={index * 10}>
+                  <ProductCard
+                    title={item.title}
+                    weight={item.size}
+                    image={item.image}
+                    currency={CURRENCY}
+                    price={item.price}
+                    salePrice={item.salePrice}
+                    discountInPercent={item.discountInPercent}
+                    data={item}
+                  />
+                </Fade>
+                {index === data.products.items.length - 4 && (
+                  <Waypoint onEnter={() => loadMore()} />
+                )}
+              </Col>
+            ))}
+        </Row>
+      </Grid>
     </>
   );
 };

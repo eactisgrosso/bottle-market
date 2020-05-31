@@ -17,3 +17,10 @@ export const STORE_TYPES = {
   restaurant: "Restaurant",
   distributor: "Distribuidor",
 };
+
+export const PRODUCT_TYPES = [
+  { value: "wine", label: "Vinos" },
+  { value: "spirits", label: "Spirits" },
+  { value: "beer", label: "Cervezas" },
+  { value: "other", label: "Más..." },
+];

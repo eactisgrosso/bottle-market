@@ -63,7 +63,7 @@ const CREATE_DELIVERY_AREA = gql`
 type Props = {};
 
 const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
-  const { data, error, loading } = useQuery(GET_STORES);
+  const { data: storesData, error, loading } = useQuery(GET_STORES);
 
   const dispatch = useDrawerDispatch();
   const closeDrawer = useCallback(() => dispatch({ type: "CLOSE_DRAWER" }), [
@@ -114,24 +114,24 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
   });
 
   useEffect(() => {
-    if (data && data.stores.length > 0 && store.length == 0) {
-      const initialValue = data.stores.map((s, i) => {
+    if (storesData && storesData.stores.length > 0 && store.length == 0) {
+      const initialValue = storesData.stores.map((s, i) => {
         return {
           id: s.id,
           label: s.name,
         };
       });
       setStore(initialValue);
-      const s = data.stores[0];
+      const s = storesData.stores[0];
       setAddress(`${s.street}, ${s.city}, ${s.state}`);
     }
-  }, [data]);
+  }, [storesData]);
 
   const handleStoreChange = ({ value }) => {
     setValue("store", value);
     setStore(value);
 
-    const s = data.stores.find((s) => s.id == value[0].id);
+    const s = storesData.stores.find((s) => s.id == value[0].id);
     setAddress(`${s.street}, ${s.city}, ${s.state}`);
   };
 
@@ -242,8 +242,8 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
                   <Select
                     clearable={false}
                     options={
-                      data
-                        ? data.stores.map((s, i) => {
+                      storesData
+                        ? storesData.stores.map((s, i) => {
                             return {
                               id: s.id,
                               label: s.name,

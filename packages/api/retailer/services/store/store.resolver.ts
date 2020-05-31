@@ -7,6 +7,10 @@ import { User } from "../../../common/auth/user.decorator";
 import { StoreRepository } from "../../domain/repositories/store.repository";
 import StoreDTO from "./store.type";
 import AddStoreInput from "./store.input_type";
+import { ProductType } from "../../../common/data/product.enum";
+import ProductDTO from "../product/product.type";
+import Products from "../product/products.type";
+import GetProductsArgs from "../product/product.args_type";
 
 const { v4: uuidv4 } = require("uuid");
 
@@ -61,5 +65,53 @@ export class StoreResolver {
     store.commit();
 
     return id;
+  }
+
+  private async mapProduct(dbProduct: any, product: ProductDTO) {
+    Object.keys(dbProduct).forEach(
+      (key) => ((product as any)[key] = dbProduct[key])
+    );
+
+    product.image = "";
+    if (dbProduct.images)
+      product.image = `https://s3.amazonaws.com/bottlemarket.images/${
+        dbProduct.images.split(",")[0]
+      }`;
+
+    product.size = `${dbProduct.size} ml`;
+    product.salePrice = 0;
+    product.categories = [];
+
+    return product;
+  }
+
+  @UseGuards(GraphqlAuthGuard)
+  @Query((returns) => Products, { description: "Get the store products" })
+  async storeProducts(
+    @User() user: any,
+    @Args()
+    { limit, offset, sortByPrice, type, searchText, category }: GetProductsArgs
+  ): Promise<Products> {
+    const userId = this.knex.raw("UUID_TO_BIN(?)", user.id);
+    const storeId = this.knex.raw("BIN_TO_UUID(ms.id)");
+    const query = this.knex("store_product_size_view as msp")
+      .select("msp.*")
+      .join("store as ms", "msp.store_id", storeId)
+      .where("ms.user_id", userId);
+
+    const dbProducts = await query.map((dbProduct: any) => {
+      const product = new ProductDTO();
+      this.mapProduct(dbProduct, product);
+      product.discountInPercent = 0;
+      product.type = (<any>ProductType)[type != null ? type : ProductType.vino];
+
+      return product;
+    });
+
+    return {
+      items: dbProducts,
+      totalCount: dbProducts.length,
+      hasMore: false,
+    };
   }
 }

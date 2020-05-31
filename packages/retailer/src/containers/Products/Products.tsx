@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "baseui";
 import Button from "../../components/Button/Button";
 import {
@@ -10,11 +10,12 @@ import Input from "../../components/Input/Input";
 import Select from "../../components/Select/Select";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
+import { GET_STORES } from "../../graphql/query/store.query";
 import { Header, Heading } from "../../components/WrapperStyle";
 import Fade from "react-reveal/Fade";
 import ProductCard from "./ProductCard/ProductCard";
 import NoResult from "../../components/NoResult/NoResult";
-import { CURRENCY } from "../../settings/constants";
+import { CURRENCY, PRODUCT_TYPES } from "../../settings/constants";
 import Placeholder from "../../components/Placeholder/Placeholder";
 
 export const ProductsRow = styled("div", ({ $theme }) => ({
@@ -97,27 +98,33 @@ const GET_STORE_PRODUCTS = gql`
   }
 `;
 
-const typeSelectOptions = [
-  { value: "vino", label: "Vinos" },
-  { value: "oporto", label: "Oporto" },
-  { value: "vermouth", label: "Vermouth" },
-  { value: "spirits", label: "Spirits" },
-];
-const priceSelectOptions = [
-  { value: "highestToLowest", label: "Mayor a Menor" },
-  { value: "lowestToHighest", label: "Menor a Mayor" },
-];
-
 export default function Products() {
+  const { data: storesData, error: storesError, loading } = useQuery(
+    GET_STORES
+  );
   const { data, error, refetch, fetchMore } = useQuery(GET_STORE_PRODUCTS);
   const [loadingMore, toggleLoading] = useState(false);
-  const [type, setType] = useState([]);
-  const [priceOrder, setPriceOrder] = useState([]);
+  const [type, setType] = useState([PRODUCT_TYPES[0]]);
+  const [store, setStore] = useState([]);
   const [search, setSearch] = useState([]);
+
+  useEffect(() => {
+    if (storesData && storesData.stores.length > 0 && store.length == 0) {
+      const initialValue = storesData.stores.map((s, i) => {
+        return {
+          id: s.id,
+          label: s.name,
+        };
+      });
+      setStore(initialValue);
+      const s = storesData.stores[0];
+    }
+  }, [storesData]);
 
   if (error) {
     return <div>Error! {error.message}</div>;
   }
+
   function loadMore() {
     toggleLoading(true);
     fetchMore({
@@ -137,18 +144,7 @@ export default function Products() {
       },
     });
   }
-  function handlePriceSort({ value }) {
-    setPriceOrder(value);
-    if (value.length) {
-      refetch({
-        sortByPrice: value[0].value,
-      });
-    } else {
-      refetch({
-        sortByPrice: null,
-      });
-    }
-  }
+  function handleStoreChange({ value }) {}
   function handleCategoryType({ value }) {
     setType(value);
     if (value.length) {
@@ -180,7 +176,28 @@ export default function Products() {
               <Row>
                 <Col md={3} xs={12}>
                   <Select
-                    options={typeSelectOptions}
+                    clearable={false}
+                    options={
+                      storesData
+                        ? storesData.stores.map((s, i) => {
+                            return {
+                              id: s.id,
+                              label: s.name,
+                            };
+                          })
+                        : []
+                    }
+                    value={store}
+                    placeholder="Tienda"
+                    searchable={false}
+                    onChange={handleStoreChange}
+                  />
+                </Col>
+
+                <Col md={3} xs={12}>
+                  <Select
+                    clearable={false}
+                    options={PRODUCT_TYPES}
                     labelKey="label"
                     valueKey="value"
                     placeholder="Categoría"
@@ -190,22 +207,10 @@ export default function Products() {
                   />
                 </Col>
 
-                <Col md={3} xs={12}>
-                  <Select
-                    options={priceSelectOptions}
-                    labelKey="label"
-                    valueKey="value"
-                    value={priceOrder}
-                    placeholder="Precio"
-                    searchable={false}
-                    onChange={handlePriceSort}
-                  />
-                </Col>
-
                 <Col md={6} xs={12}>
                   <Input
                     value={search}
-                    placeholder="Ex: Buscar por Etiqueta, Bodega, Región, etc"
+                    placeholder="Buscá por Etiqueta, Bodega, Región..."
                     onChange={handleSearch}
                     clearable
                   />
