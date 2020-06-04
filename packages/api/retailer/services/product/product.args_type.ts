@@ -11,9 +11,6 @@ export default class GetProductsArgs {
   offset: number;
 
   @Field({ nullable: true })
-  sortByPrice?: string;
-
-  @Field({ nullable: true })
   type?: string;
 
   @Field({ nullable: true })

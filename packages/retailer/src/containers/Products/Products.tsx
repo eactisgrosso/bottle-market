@@ -9,8 +9,8 @@ import {
 import Input from "../../components/Input/Input";
 import Select from "../../components/Select/Select";
 import gql from "graphql-tag";
-import { useQuery } from "@apollo/client";
-import { GET_STORES } from "../../graphql/query/store.query";
+import { useQuery, useMutation, useApolloClient } from "@apollo/client";
+import { GET_STORE, GET_STORES } from "../../graphql/query/store.query";
 import { Header, Heading } from "../../components/WrapperStyle";
 import Fade from "react-reveal/Fade";
 import ProductCard from "./ProductCard/ProductCard";
@@ -70,14 +70,12 @@ const GET_STORE_PRODUCTS = gql`
   query getStoreProducts(
     $storeId: String
     $type: String
-    $sortByPrice: String
     $searchText: String
     $offset: Int
   ) {
     storeProducts(
       storeId: $storeId
       type: $type
-      sortByPrice: $sortByPrice
       searchText: $searchText
       offset: $offset
     ) {
@@ -107,6 +105,7 @@ export default function Products() {
   const [type, setType] = useState([PRODUCT_TYPES[0]]);
   const [store, setStore] = useState([]);
   const [search, setSearch] = useState([]);
+  const client = useApolloClient();
 
   useEffect(() => {
     if (storesData && storesData.stores.length > 0 && store.length == 0) {
@@ -116,8 +115,7 @@ export default function Products() {
           label: s.name,
         };
       });
-      setStore(initialValue);
-      const s = storesData.stores[0];
+      handleStoreChange({ value: initialValue });
     }
   }, [storesData]);
 
@@ -144,7 +142,15 @@ export default function Products() {
       },
     });
   }
-  function handleStoreChange({ value }) {}
+
+  function handleStoreChange({ value }) {
+    setStore(value);
+    client.writeQuery({
+      query: GET_STORE,
+      data: { storeId: value[0].id },
+    });
+  }
+
   function handleCategoryType({ value }) {
     setType(value);
     if (value.length) {
@@ -157,6 +163,7 @@ export default function Products() {
       });
     }
   }
+
   function handleSearch(event) {
     const value = event.currentTarget.value;
     setSearch(value);
@@ -233,14 +240,14 @@ export default function Products() {
                   >
                     <Fade bottom duration={800} delay={index * 10}>
                       <ProductCard
+                        id={item.id}
                         title={item.title}
-                        weight={item.size}
+                        size={item.size}
                         image={item.image}
                         currency={CURRENCY}
                         price={item.price}
                         salePrice={item.salePrice}
                         discountInPercent={item.discountInPercent}
-                        data={item}
                       />
                     </Fade>
                   </Col>

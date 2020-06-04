@@ -1,20 +1,22 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import uuidv4 from "uuid/v4";
 import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/client";
-import { Scrollbars } from "react-custom-scrollbars";
+import { GET_STORE } from "../../../graphql/query/store.query";
 import { useDrawerDispatch } from "../../../context/DrawerContext";
-import Button, { KIND } from "../../../components/Button/Button";
-import DrawerBox from "../../../components/DrawerBox/DrawerBox";
 import { Grid, Row, Col } from "../../../components/FlexBox/FlexBox";
 import { Header, Heading } from "../../../components/WrapperStyle";
+import Button, { KIND, SIZE } from "../../../components/Button/Button";
+import DrawerBox from "../../../components/DrawerBox/DrawerBox";
 import Select from "../../../components/Select/Select";
 import Input from "../../../components/Input/Input";
+import { Tag, VARIANT } from "baseui/tag";
+
 import Fade from "react-reveal/Fade";
 import ProductCard from "../ProductCard/ProductCard";
 import { Waypoint } from "react-waypoint";
-import { CURRENCY } from "../../../settings/constants";
+import { CURRENCY, CATEGORIES } from "../../../settings/constants";
 
 import {
   Form,
@@ -26,14 +28,14 @@ import {
 
 const GET_PRODUCTS = gql`
   query getProducts(
+    $storeId: String
     $type: String
-    $sortByPrice: String
     $searchText: String
     $offset: Int
   ) {
     products(
+      storeId: $storeId
       type: $type
-      sortByPrice: $sortByPrice
       searchText: $searchText
       offset: $offset
     ) {
@@ -71,6 +73,8 @@ const CREATE_PRODUCT = gql`
     }
   }
 `;
+
+type Products = any;
 type Props = any;
 
 const AddProduct: React.FC<Props> = (props) => {
@@ -78,9 +82,17 @@ const AddProduct: React.FC<Props> = (props) => {
   const closeDrawer = useCallback(() => dispatch({ type: "CLOSE_DRAWER" }), [
     dispatch,
   ]);
-  const { data, error, refetch, fetchMore } = useQuery(GET_PRODUCTS);
+  const {
+    data: { storeId },
+  } = useQuery(GET_STORE);
+  const { data, error, refetch, fetchMore } = useQuery<Products>(GET_PRODUCTS, {
+    variables: {
+      storeId: storeId,
+      searchText: "",
+    },
+  });
   const { register, handleSubmit, setValue } = useForm();
-  const [search, setSearch] = useState([]);
+  const [search, setSearch] = useState("");
 
   const [createProduct] = useMutation(CREATE_PRODUCT, {
     update(cache, { data: { createProduct } }) {
@@ -102,12 +114,22 @@ const AddProduct: React.FC<Props> = (props) => {
     },
   });
 
+  useEffect(() => {
+    const timeOutId = setTimeout(
+      () => refetch({ storeId: storeId, searchText: search }),
+      1000
+    );
+    return () => {
+      clearTimeout(timeOutId);
+    };
+  }, [search]);
+
   function loadMore() {
     fetchMore({
       variables: {
         offset: data.products.items.length,
       },
-      updateQuery: (prev, { fetchMoreResult }) => {
+      updateQuery: (prev, { fetchMoreResult }): Products => {
         if (!fetchMoreResult) return prev;
         return Object.assign({}, prev, {
           products: {
@@ -145,23 +167,26 @@ const AddProduct: React.FC<Props> = (props) => {
   return (
     <>
       <DrawerTitleWrapper>
-        <DrawerTitle>Agregar Productos</DrawerTitle>
+        <Input
+          overrides={{
+            Input: {
+              style: ({ $theme }) => {
+                return {
+                  color: $theme.colors.textDark,
+                  ...$theme.typography.fontBold14,
+                  width: "320px",
+                };
+              },
+            },
+          }}
+          value={search}
+          placeholder="Buscá por Etiqueta, Bodega, Región..."
+          onChange={(event) => setSearch(event.target.value)}
+          clearable
+        />
       </DrawerTitleWrapper>
 
       <Grid fluid={true}>
-        <Row>
-          <Col md={12}>
-            <Header>
-              <Col md={6} xs={12}>
-                <Input
-                  value={search}
-                  placeholder="Buscá por Etiqueta, Bodega, Región..."
-                  clearable
-                />
-              </Col>
-            </Header>
-          </Col>
-        </Row>
         <Row>
           {data &&
             data.products &&
@@ -177,14 +202,14 @@ const AddProduct: React.FC<Props> = (props) => {
               >
                 <Fade bottom duration={800} delay={index * 10}>
                   <ProductCard
+                    id={item.id}
                     title={item.title}
-                    weight={item.size}
+                    size={item.size}
                     image={item.image}
                     currency={CURRENCY}
                     price={item.price}
                     salePrice={item.salePrice}
                     discountInPercent={item.discountInPercent}
-                    data={item}
                   />
                 </Fade>
                 {index === data.products.items.length - 4 && (
@@ -193,6 +218,44 @@ const AddProduct: React.FC<Props> = (props) => {
               </Col>
             ))}
         </Row>
+        <ButtonGroup>
+          <Button
+            kind={KIND.minimal}
+            onClick={closeDrawer}
+            overrides={{
+              BaseButton: {
+                style: ({ $theme }) => ({
+                  width: "50%",
+                  borderTopLeftRadius: "3px",
+                  borderTopRightRadius: "3px",
+                  borderBottomRightRadius: "3px",
+                  borderBottomLeftRadius: "3px",
+                  marginRight: "15px",
+                  color: $theme.colors.red400,
+                }),
+              },
+            }}
+          >
+            Cancelar
+          </Button>
+
+          <Button
+            type="submit"
+            overrides={{
+              BaseButton: {
+                style: ({ $theme }) => ({
+                  width: "50%",
+                  borderTopLeftRadius: "3px",
+                  borderTopRightRadius: "3px",
+                  borderBottomRightRadius: "3px",
+                  borderBottomLeftRadius: "3px",
+                }),
+              },
+            }}
+          >
+            Confirmar
+          </Button>
+        </ButtonGroup>
       </Grid>
     </>
   );

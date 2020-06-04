@@ -14,44 +14,48 @@ import {
   ProductPrice,
   DiscountedPrice,
 } from "./ProductCard.style";
+import Button, { KIND, SIZE, SHAPE } from "../../../components/Button/Button";
+import { CartIcon } from "../../../components/AllSvgIcon";
+import { Counter } from "../../../components/Counter/Counter";
 import { useDrawerDispatch } from "../../../context/DrawerContext";
 
 type ProductCardProps = {
+  id: string;
   title: string;
   image: any;
-  weight?: string;
+  size?: string;
   currency?: string;
   description?: string;
   price: number;
   salePrice?: number;
   orderId?: number;
   discountInPercent?: number;
-  data: any;
 };
 
 const ProductCard: React.FC<ProductCardProps> = ({
+  id,
   title,
   image,
-  weight,
+  size,
   price,
   salePrice,
   discountInPercent,
   currency,
-  data,
-  orderId,
   ...props
 }) => {
-  const dispatch = useDrawerDispatch();
+  const handleAddClick = (e) => {
+    e.stopPropagation();
+    // addItem(data);
+    // if (!isInCart(data.id)) {
+    // cartAnimation(e);
+    // }
+  };
 
-  const openDrawer = React.useCallback(
-    () =>
-      dispatch({
-        type: "OPEN_DRAWER",
-        drawerComponent: "PRODUCT_UPDATE_FORM",
-        data: data,
-      }),
-    [dispatch, data]
-  );
+  const handleRemoveClick = (e) => {
+    e.stopPropagation();
+    // removeItem(data);
+  };
+
   return (
     <ProductCardWrapper
       {...props}
@@ -69,7 +73,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </ProductImageWrapper>
       <ProductInfo>
         <ProductTitle>{title}</ProductTitle>
-        <ProductWeight>{weight}</ProductWeight>
+        <ProductWeight>{size}</ProductWeight>
         <ProductMeta>
           <ProductPriceWrapper>
             <ProductPrice>
@@ -84,8 +88,46 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </DiscountedPrice>
             ) : null}
           </ProductPriceWrapper>
-
-          <OrderID>{orderId}</OrderID>
+          {true ? (
+            <Button
+              overrides={{
+                StartEnhancer: {
+                  style: {
+                    marginRight: "8px",
+                  },
+                },
+                BaseButton: {
+                  style: ({ $theme }) => {
+                    return {
+                      fontFamily: "'Lato', sans-serif",
+                      fontSize: "13px",
+                      fontWeight: 700,
+                      lineHeight: 1.5,
+                      color: $theme.colors.primary,
+                      backgroundColor: "transparent",
+                      border: "1px solid " + $theme.colors.borderF1,
+                      width: "100px",
+                      ":hover": {
+                        color: "white",
+                      },
+                    };
+                  },
+                },
+              }}
+              startEnhancer={() => <CartIcon height={24} />}
+              shape={SHAPE.pill}
+              size={SIZE.mini}
+              onClick={handleAddClick}
+            >
+              Agregar
+            </Button>
+          ) : (
+            <Counter
+              value={1}
+              onDecrement={handleRemoveClick}
+              onIncrement={handleAddClick}
+            />
+          )}
         </ProductMeta>
       </ProductInfo>
     </ProductCardWrapper>

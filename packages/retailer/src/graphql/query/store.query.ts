@@ -1,5 +1,11 @@
 import gql from "graphql-tag";
 
+export const GET_STORE = gql`
+  query GetCurrentStore {
+    storeId
+  }
+`;
+
 export const GET_STORES = gql`
   query getStores {
     stores {

@@ -24,3 +24,13 @@ export const PRODUCT_TYPES = [
   { value: "beer", label: "Cervezas" },
   { value: "other", label: "Más..." },
 ];
+
+export const CATEGORIES = [
+  { value: "vino-tinto", label: "Tinto" },
+  { value: "vino-blanco", label: "Blanco" },
+  { value: "espumante", label: "Espumante" },
+  { value: "vino-rosado", label: "Rosado" },
+  { value: "vino-dulce", label: "Dulce" },
+  { value: "oporto", label: "Oporto" },
+  { value: "vermouth", label: "Vermouth" },
+];

@@ -2,7 +2,7 @@ export default class ProductQuery {
   constructor(private readonly knex: any) {}
 
   create = () => {
-    return this.knex("product_view as p").select("*");
+    return this.knex("product_view as p").select("p.*");
   };
 
   createCount = () => {

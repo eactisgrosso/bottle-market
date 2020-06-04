@@ -90,7 +90,7 @@ export class StoreResolver {
   async storeProducts(
     @User() user: any,
     @Args()
-    { limit, offset, sortByPrice, type, searchText, category }: GetProductsArgs
+    { limit, offset, type, searchText, category }: GetProductsArgs
   ): Promise<Products> {
     const userId = this.knex.raw("UUID_TO_BIN(?)", user.id);
     const storeId = this.knex.raw("BIN_TO_UUID(ms.id)");

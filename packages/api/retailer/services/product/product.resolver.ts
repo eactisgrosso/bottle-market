@@ -24,10 +24,12 @@ export class ProductResolver {
   @Query((returns) => Products, { description: "Get all the products" })
   async products(
     @Args()
-    { limit, offset, sortByPrice, type, searchText, category }: GetProductsArgs
+    { storeId, limit, offset, type, searchText, category }: GetProductsArgs
   ): Promise<Products> {
     const query = this.productQuery.create();
     const queryCount = this.productQuery.createCount();
+
+    query.leftJoin("product_size as ps", "p.id", "ps.product_id");
 
     if (category) {
       await this.productQuery.byCategorySlug(query, category);
@@ -42,7 +44,10 @@ export class ProductResolver {
       this.productQuery.byText(queryCount, searchText);
     }
 
-    if (sortByPrice) this.productQuery.sortByPrice(query, sortByPrice);
+    const subQuery = this.knex("store_product")
+      .select("product_size_id")
+      .where("store_id", this.knex.raw("UUID_TO_BIN(?)", storeId));
+    query.whereNotIn("ps.id", subQuery);
 
     const dbProducts = await query
       .limit(limit)
