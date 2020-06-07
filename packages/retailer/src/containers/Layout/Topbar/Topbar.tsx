@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import Button from "../../../components/Button/Button";
+import {
+  getPaddingStyles,
+  getBorderRadiiStyles,
+} from "../../../components/Button/Button.style";
 import Popover, { PLACEMENT } from "../../../components/Popover/Popover";
 import Notification from "../../../components/Notification/Notification";
 import { useAuth } from "@bottle-market/common";
@@ -47,14 +51,12 @@ const data = [
 ];
 
 const FORMS = {
-  [DASHBOARD]: "PRODUCT_FORM",
   [STORES]: "STORE_FORM",
   [PRODUCTS]: "PRODUCT_FORM",
   [DELIVERY]: "DELIVERY_FORM",
 };
 
 const BUTTON_TEXT = {
-  [DASHBOARD]: "Agregar Productos",
   [STORES]: "Agregar Tienda",
   [PRODUCTS]: "Agregar Productos",
   [DELIVERY]: "Agregar Delivery",
@@ -119,17 +121,32 @@ const Topbar = ({ refs, ...props }: any) => {
       </DrawerWrapper>
 
       <TopbarRightSide>
-        <Button
-          onClick={() => {
-            dispatch({
-              type: "OPEN_DRAWER",
-              drawerComponent: FORMS[location.pathname],
-            });
-          }}
-        >
-          {BUTTON_TEXT[location.pathname]}
-        </Button>
-
+        {FORMS[location.pathname] && (
+          <Button
+            overrides={{
+              BaseButton: {
+                style: ({ $theme, $size, $shape }) => {
+                  return {
+                    ...getPaddingStyles({ $theme, $size }),
+                    ...getBorderRadiiStyles({ $theme, $size, $shape }),
+                    paddingTop: "10px",
+                    paddingBottom: "10px",
+                    marginTop: "-5px",
+                    marginBottom: "-5px",
+                  };
+                },
+              },
+            }}
+            onClick={() => {
+              dispatch({
+                type: "OPEN_DRAWER",
+                drawerComponent: FORMS[location.pathname],
+              });
+            }}
+          >
+            {BUTTON_TEXT[location.pathname]}
+          </Button>
+        )}
         <Popover
           content={({ close }) => <Notification data={data} onClear={close} />}
           accessibilityType={"tooltip"}

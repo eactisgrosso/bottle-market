@@ -50,34 +50,6 @@ const client = new ApolloClient({
     }),
   ]),
   cache: new InMemoryCache(),
-  resolvers: {
-    Mutation: {
-      incrementProductQuantity: (_root, variables, { cache }) => {
-        cache.modify({
-          id: cache.identify({
-            __typename: "ProductDTO",
-            id: variables.id,
-          }),
-          fields: {
-            quantity: (value) => value + 1,
-          },
-        });
-        return null;
-      },
-      decrementProductQuantity: (_root, variables, { cache }) => {
-        cache.modify({
-          id: cache.identify({
-            __typename: "ProductDTO",
-            id: variables.id,
-          }),
-          fields: {
-            quantity: (value) => value - 1,
-          },
-        });
-        return null;
-      },
-    },
-  },
 });
 
 const mapsLibraries = ["places"];

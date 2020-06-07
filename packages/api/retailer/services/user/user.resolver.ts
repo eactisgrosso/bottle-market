@@ -28,13 +28,6 @@ export class UserResolver {
       user.id = id;
       user.email = dbUser.email;
       user.name = `${dbUser.firstname} ${dbUser.lastname}`;
-
-      const storeId = this.knex.raw("BIN_TO_UUID(id) as id");
-      const dbStores = await this.knex("store")
-        .select(storeId, "name")
-        .where("user_id", aggregateId);
-      if (dbStores.length > 0)
-        user.store = dbStores.map((s) => new StoreDTO(s.id, s.name));
     }
 
     return user;

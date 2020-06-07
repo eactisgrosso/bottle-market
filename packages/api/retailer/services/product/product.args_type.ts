@@ -1,8 +1,8 @@
 import { Field, Int, ArgsType } from "@nestjs/graphql";
 @ArgsType()
 export default class GetProductsArgs {
-  @Field({ nullable: true })
-  storeId: string;
+  @Field()
+  store_id: string;
 
   @Field((type) => Int, { defaultValue: 12 })
   limit: number;

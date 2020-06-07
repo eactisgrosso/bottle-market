@@ -24,7 +24,7 @@ export class ProductResolver {
   @Query((returns) => Products, { description: "Get all the products" })
   async products(
     @Args()
-    { storeId, limit, offset, type, searchText, category }: GetProductsArgs
+    { store_id, limit, offset, type, searchText, category }: GetProductsArgs
   ): Promise<Products> {
     const query = this.productQuery.select(
       "retailer_product_view as p",
@@ -53,9 +53,17 @@ export class ProductResolver {
       this.productQuery.byText(queryCount, searchText);
     }
 
-    query
-      .whereNull("sp.store_id")
-      .orWhere("sp.store_id", "=", this.knex.raw("BIN_TO_UUID(?)", storeId));
+    query.andWhere((builder: any) => {
+      builder.andWhere((innerBuilder: any) => {
+        innerBuilder
+          .whereNull("sp.store_id")
+          .orWhere(
+            "sp.store_id",
+            "=",
+            this.knex.raw("UUID_TO_BIN(?)", store_id)
+          );
+      });
+    });
 
     const dbProducts = await query
       .limit(limit)

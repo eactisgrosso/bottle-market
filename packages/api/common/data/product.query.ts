@@ -23,8 +23,9 @@ export default class ProductQuery {
       .where("path", "like", `%[catalogo-publico]%`)
       .andWhere("path", "like", `%[${category}]%`);
 
-    if (childrenCategories && childrenCategories.length > 0) {
-      query.andWhere((builder: any) => {
+    query.andWhere((builder: any) => {
+      builder.orWhere("categoriesSlugs", "like", `%[${category}]%`);
+      if (childrenCategories && childrenCategories.length > 0) {
         for (let childrenCategory of childrenCategories) {
           builder.orWhere(
             "categoriesSlugs",
@@ -32,8 +33,8 @@ export default class ProductQuery {
             `%[${childrenCategory.slug}]%`
           );
         }
-      });
-    }
+      }
+    });
   };
 
   byText = (query: any, text: string) => {

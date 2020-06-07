@@ -4,6 +4,7 @@ import { KNEX_CONNECTION } from "@nestjsplus/knex";
 import { UseGuards } from "@nestjs/common";
 import { GraphqlAuthGuard } from "../../../common/auth/graphql.auth.guard";
 import { User } from "../../../common/auth/user.decorator";
+import ProductQuery from "../../../common/data/product.query";
 import { StoreRepository } from "../../domain/repositories/store.repository";
 import StoreDTO from "./store.type";
 import AddStoreInput from "./store.input_type";
@@ -21,11 +22,15 @@ const { v4: uuidv4 } = require("uuid");
 @Injectable()
 @Resolver()
 export class StoreResolver {
+  private productQuery: ProductQuery;
+
   constructor(
     private repository: StoreRepository,
     @Inject(KNEX_CONNECTION) private readonly knex: any,
     private httpService: HttpService
-  ) {}
+  ) {
+    this.productQuery = new ProductQuery(knex);
+  }
 
   @UseGuards(GraphqlAuthGuard)
   @Query(() => [StoreDTO])
@@ -91,16 +96,27 @@ export class StoreResolver {
   @UseGuards(GraphqlAuthGuard)
   @Query((returns) => StoreProducts, { description: "Get the store products" })
   async storeProducts(
-    @User() user: any,
     @Args()
-    { limit, offset, type, searchText, category }: GetProductsArgs
+    { limit, offset, store_id, type, searchText, category }: GetProductsArgs
   ): Promise<StoreProducts> {
-    const userId = this.knex.raw("UUID_TO_BIN(?)", user.id);
-    const storeId = this.knex.raw("BIN_TO_UUID(s.id)");
-    const query = this.knex("store_product_view as sp")
-      .select("sp.*")
-      .join("store as s", "sp.store_id", storeId)
-      .where("s.user_id", userId);
+    const query = this.productQuery.select("store_product_view as p");
+    const queryCount = this.productQuery.selectCount("store_product_view as p");
+
+    if (category) {
+      await this.productQuery.byCategorySlug(query, category);
+      await this.productQuery.byCategorySlug(queryCount, category);
+    } else if (type) {
+      await this.productQuery.byCategorySlug(query, type);
+      await this.productQuery.byCategorySlug(queryCount, type);
+    }
+
+    if (searchText) {
+      this.productQuery.byText(query, searchText);
+      this.productQuery.byText(queryCount, searchText);
+    }
+
+    query.where("p.store_id", store_id);
+    queryCount.where("p.store_id", store_id);
 
     const dbProducts = await query.map((dbProduct: any) => {
       const product = new StoreProductDTO();
@@ -111,10 +127,12 @@ export class StoreResolver {
       return product;
     });
 
+    const dbTotal = await queryCount;
+
     return {
       items: dbProducts,
-      totalCount: dbProducts.length,
-      hasMore: false,
+      totalCount: dbTotal[0].count,
+      hasMore: offset + limit < dbTotal[0].count,
     };
   }
 
@@ -129,6 +147,7 @@ export class StoreResolver {
     const response = new StoreProductDTO();
     response.id = productInput.product_size_id;
     const productInfo = store.products.get(productInput.product_size_id);
+    response.price = productInfo ? productInfo.price : 0;
     response.quantity = productInfo ? productInfo.quantity : 0;
 
     return response;
@@ -147,6 +166,7 @@ export class StoreResolver {
     const response = new StoreProductDTO();
     response.id = productInput.product_size_id;
     const productInfo = store.products.get(productInput.product_size_id);
+    response.price = productInfo ? productInfo.price : 0;
     response.quantity = productInfo ? productInfo.quantity : 0;
 
     return response;
@@ -165,6 +185,7 @@ export class StoreResolver {
     const response = new StoreProductDTO();
     response.id = productInput.product_size_id;
     const productInfo = store.products.get(productInput.product_size_id);
+    response.price = productInfo ? productInfo.price : 0;
     response.quantity = productInfo ? productInfo.quantity : 0;
 
     return response;

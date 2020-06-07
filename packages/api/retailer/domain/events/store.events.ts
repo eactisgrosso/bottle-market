@@ -26,13 +26,19 @@ export class ProductAdded extends Event {
 }
 
 export class ProductIncremented extends Event {
-  constructor(public readonly product_size_id: string) {
+  constructor(
+    public readonly product_size_id: string,
+    public readonly quantity: number
+  ) {
     super();
   }
 }
 
 export class ProductDecremented extends Event {
-  constructor(public readonly product_size_id: string) {
+  constructor(
+    public readonly product_size_id: string,
+    public readonly quantity: number
+  ) {
     super();
   }
 }

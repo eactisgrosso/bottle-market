@@ -11,7 +11,7 @@ SELECT
         ps.size,
         ps.price_retail,
 		GROUP_CONCAT(DISTINCT pc.category_id SEPARATOR ',') as categories,
-		GROUP_CONCAT(DISTINCT CONCAT("[",p.slug,"]") SEPARATOR ',') as categoriesSlugs,
+		GROUP_CONCAT(DISTINCT CONCAT("[",c.slug,"]") SEPARATOR ',') as categoriesSlugs,
 		GROUP_CONCAT(DISTINCT pi.image SEPARATOR ',') as images
         
 FROM store_product sp
@@ -24,6 +24,9 @@ ON ps.product_id = p.aggregateId
 
 LEFT JOIN product_categories as pc
 ON p.id = pc.product_id
+
+LEFT JOIN category c
+ON pc.category_id = c.id
 
 LEFT JOIN product_image as pi
 ON p.id = pi.product_id

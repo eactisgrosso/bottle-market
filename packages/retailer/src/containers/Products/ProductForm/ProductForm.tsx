@@ -3,20 +3,19 @@ import { useForm } from "react-hook-form";
 import uuidv4 from "uuid/v4";
 import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/client";
-import { GET_STORE } from "../../../graphql/query/store.query";
+import {
+  GET_STORE,
+  GET_CATEGORY_TYPE,
+  GET_STORE_PRODUCTS,
+} from "../../../graphql/query/store.query";
 import { useDrawerDispatch } from "../../../context/DrawerContext";
 import { Grid, Row, Col } from "../../../components/FlexBox/FlexBox";
-import { Header, Heading } from "../../../components/WrapperStyle";
-import Button, { KIND, SIZE } from "../../../components/Button/Button";
-import DrawerBox from "../../../components/DrawerBox/DrawerBox";
-import Select from "../../../components/Select/Select";
 import Input from "../../../components/Input/Input";
-import { Tag, VARIANT } from "baseui/tag";
 
 import Fade from "react-reveal/Fade";
 import ProductCard from "../ProductCard/ProductCard";
 import { Waypoint } from "react-waypoint";
-import { CURRENCY, CATEGORIES } from "../../../settings/constants";
+import { CURRENCY } from "../../../settings/constants";
 
 import {
   Form,
@@ -28,13 +27,13 @@ import {
 
 const GET_PRODUCTS = gql`
   query getProducts(
-    $storeId: String
+    $store_id: String!
     $type: String
     $searchText: String
     $offset: Int
   ) {
     products(
-      storeId: $storeId
+      store_id: $store_id
       type: $type
       searchText: $searchText
       offset: $offset
@@ -60,6 +59,7 @@ const ADD_PRODUCT_TO_STORE = gql`
   mutation addProductToStore($productInput: AddStoreProduct!) {
     addProductToStore(productInput: $productInput) {
       id
+      price
       quantity
     }
   }
@@ -83,18 +83,6 @@ const DECREMENT_STORE_PRODUCT = gql`
   }
 `;
 
-const INCREMENT_PRODUCT_QUANTITY = gql`
-  mutation incrementProductQuantity($id: String!) {
-    incrementProductQuantity(id: $id) @client
-  }
-`;
-
-const DECREMENT_PRODUCT_QUANTITY = gql`
-  mutation decrementProductQuantity($id: String!) {
-    decrementProductQuantity(id: $id) @client
-  }
-`;
-
 type Props = any;
 
 const AddProduct: React.FC<Props> = (props) => {
@@ -103,25 +91,120 @@ const AddProduct: React.FC<Props> = (props) => {
     dispatch,
   ]);
   const {
-    data: { storeId },
+    data: { store_id },
   } = useQuery(GET_STORE);
+  const {
+    data: { category_type },
+  } = useQuery(GET_CATEGORY_TYPE);
   const { data, error, refetch, fetchMore } = useQuery(GET_PRODUCTS, {
     variables: {
-      storeId: storeId,
+      store_id: store_id,
+      type: category_type,
       searchText: "",
     },
   });
-  const { register, handleSubmit, setValue } = useForm();
   const [search, setSearch] = useState("");
-  const [addProductToStore] = useMutation(ADD_PRODUCT_TO_STORE);
-  const [incrementStoreProduct] = useMutation(INCREMENT_STORE_PRODUCT);
-  const [decrementStoreProduct] = useMutation(DECREMENT_STORE_PRODUCT);
-  const [incrementProductQuantity] = useMutation(INCREMENT_PRODUCT_QUANTITY);
-  const [decrementProductQuantity] = useMutation(DECREMENT_PRODUCT_QUANTITY);
+  const [addProductToStore] = useMutation(ADD_PRODUCT_TO_STORE, {
+    update(cache, { data: { addProductToStore } }) {
+      const { storeProducts } = cache.readQuery({
+        query: GET_STORE_PRODUCTS,
+        variables: {
+          store_id: store_id,
+          type: category_type,
+        },
+      });
+
+      cache.writeQuery({
+        query: GET_STORE_PRODUCTS,
+        variables: {
+          store_id: store_id,
+          type: category_type,
+        },
+        data: {
+          storeProducts: {
+            __typename: storeProducts.__typename,
+            items: [addProductToStore, ...storeProducts.items],
+            hasMore: true,
+            totalCount: storeProducts.items.length + 1,
+          },
+        },
+      });
+      cache.modify({
+        id: cache.identify({
+          __typename: "ProductDTO",
+          id: addProductToStore.id,
+        }),
+        fields: {
+          quantity: (value) => value + 1,
+        },
+      });
+    },
+  });
+  const [incrementStoreProduct] = useMutation(INCREMENT_STORE_PRODUCT, {
+    update(cache, { data: { incrementStoreProduct } }) {
+      cache.modify({
+        id: cache.identify({
+          __typename: "ProductDTO",
+          id: incrementStoreProduct.id,
+        }),
+        fields: {
+          quantity: (value) => value + 1,
+        },
+      });
+    },
+  });
+  const [decrementStoreProduct] = useMutation(DECREMENT_STORE_PRODUCT, {
+    update(cache, { data: { decrementStoreProduct } }) {
+      const { storeProducts } = cache.readQuery({
+        query: GET_STORE_PRODUCTS,
+        variables: {
+          store_id: store_id,
+          type: category_type,
+        },
+      });
+
+      cache.modify({
+        id: cache.identify({
+          __typename: "ProductDTO",
+          id: decrementStoreProduct.id,
+        }),
+        fields: {
+          quantity: (value) => value - 1,
+        },
+      });
+
+      if (decrementStoreProduct.quantity == 0) {
+        cache.writeQuery({
+          query: GET_STORE_PRODUCTS,
+          variables: {
+            store_id: store_id,
+            type: category_type,
+          },
+          data: {
+            storeProducts: {
+              __typename: storeProducts.__typename,
+              items: [
+                ...storeProducts.items.filter(
+                  (sp) => sp.id !== decrementStoreProduct.id
+                ),
+              ],
+              hasMore: true,
+              totalCount: storeProducts.items.length + 1,
+            },
+          },
+        });
+      }
+    },
+  });
 
   useEffect(() => {
     const timeOutId = setTimeout(
-      () => refetch({ storeId: storeId, searchText: search }),
+      () =>
+        refetch({
+          store_id: store_id,
+          type: category_type,
+          searchText: search,
+        }),
       1000
     );
     return () => {
@@ -152,15 +235,10 @@ const AddProduct: React.FC<Props> = (props) => {
     addProductToStore({
       variables: {
         productInput: {
-          store_id: storeId,
+          store_id: store_id,
           product_size_id: id,
           price: price,
         },
-      },
-    });
-    incrementProductQuantity({
-      variables: {
-        id: id,
       },
     });
   };
@@ -169,15 +247,9 @@ const AddProduct: React.FC<Props> = (props) => {
     incrementStoreProduct({
       variables: {
         productInput: {
-          store_id: storeId,
+          store_id: store_id,
           product_size_id: id,
         },
-      },
-    });
-
-    incrementProductQuantity({
-      variables: {
-        id: id,
       },
     });
   };
@@ -186,15 +258,9 @@ const AddProduct: React.FC<Props> = (props) => {
     decrementStoreProduct({
       variables: {
         productInput: {
-          store_id: storeId,
+          store_id: store_id,
           product_size_id: id,
         },
-      },
-    });
-
-    decrementProductQuantity({
-      variables: {
-        id: id,
       },
     });
   };

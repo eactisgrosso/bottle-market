@@ -72,7 +72,12 @@ export class Store extends Aggregate {
   }
 
   incrementProduct(product_size_id: string) {
-    this.apply(new ProductIncremented(product_size_id));
+    const productInfo = this.products.get(product_size_id);
+    if (!productInfo) throw Error(`Product not found: ${product_size_id}`);
+
+    this.apply(
+      new ProductIncremented(product_size_id, productInfo.quantity + 1)
+    );
   }
 
   onProductIncremented(event: ProductIncremented) {
@@ -82,7 +87,13 @@ export class Store extends Aggregate {
   }
 
   decrementProduct(product_size_id: string) {
-    this.apply(new ProductDecremented(product_size_id));
+    const productInfo = this.products.get(product_size_id);
+    if (!productInfo) throw Error(`Product not found: ${product_size_id}`);
+    if (productInfo.quantity == 0) return;
+
+    this.apply(
+      new ProductDecremented(product_size_id, productInfo.quantity - 1)
+    );
   }
 
   onProductDecremented(event: ProductDecremented) {

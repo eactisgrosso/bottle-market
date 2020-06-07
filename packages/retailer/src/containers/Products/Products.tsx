@@ -9,8 +9,18 @@ import {
 import Input from "../../components/Input/Input";
 import Select from "../../components/Select/Select";
 import gql from "graphql-tag";
-import { useQuery, useMutation, useApolloClient } from "@apollo/client";
-import { GET_STORE, GET_STORES } from "../../graphql/query/store.query";
+import {
+  useQuery,
+  useLazyQuery,
+  useMutation,
+  useApolloClient,
+} from "@apollo/client";
+import {
+  GET_STORE,
+  GET_CATEGORY_TYPE,
+  GET_STORES,
+  GET_STORE_PRODUCTS,
+} from "../../graphql/query/store.query";
 import { Header, Heading } from "../../components/WrapperStyle";
 import Fade from "react-reveal/Fade";
 import ProductCard from "./ProductCard/ProductCard";
@@ -66,44 +76,15 @@ export const LoaderItem = styled("div", () => ({
   marginBottom: "30px",
 }));
 
-const GET_STORE_PRODUCTS = gql`
-  query getStoreProducts(
-    $storeId: String
-    $type: String
-    $searchText: String
-    $offset: Int
-  ) {
-    storeProducts(
-      storeId: $storeId
-      type: $type
-      searchText: $searchText
-      offset: $offset
-    ) {
-      items {
-        id
-        title
-        description
-        image
-        type
-        price
-        size
-        salePrice
-        discountInPercent
-        quantity
-      }
-      totalCount
-      hasMore
-    }
-  }
-`;
-
 export default function Products() {
   const { data: storesData, error: storesError, loading } = useQuery(
     GET_STORES
   );
-  const { data, error, refetch, fetchMore } = useQuery(GET_STORE_PRODUCTS);
+  const [getStoreProducts, { data, error, refetch, fetchMore }] = useLazyQuery(
+    GET_STORE_PRODUCTS
+  );
   const [loadingMore, toggleLoading] = useState(false);
-  const [type, setType] = useState([PRODUCT_TYPES[0]]);
+  const [categoryType, setCategoryType] = useState([]);
   const [store, setStore] = useState([]);
   const [search, setSearch] = useState([]);
   const client = useApolloClient();
@@ -118,7 +99,23 @@ export default function Products() {
       });
       handleStoreChange({ value: initialValue });
     }
+    if (categoryType.length == 0)
+      handleCategoryTypeChange({ value: PRODUCT_TYPES });
   }, [storesData]);
+
+  useEffect(() => {
+    handleCategoryTypeChange({ value: PRODUCT_TYPES });
+  }, []);
+
+  useEffect(() => {
+    if (store.length > 0 && categoryType.length > 0)
+      getStoreProducts({
+        variables: {
+          store_id: store[0].id,
+          type: categoryType[0].id,
+        },
+      });
+  }, [store, categoryType]);
 
   if (error) {
     return <div>Error! {error.message}</div>;
@@ -148,21 +145,16 @@ export default function Products() {
     setStore(value);
     client.writeQuery({
       query: GET_STORE,
-      data: { storeId: value[0].id },
+      data: { store_id: value[0].id },
     });
   }
 
-  function handleCategoryType({ value }) {
-    setType(value);
-    if (value.length) {
-      refetch({
-        type: value[0].value,
-      });
-    } else {
-      refetch({
-        type: null,
-      });
-    }
+  function handleCategoryTypeChange({ value }) {
+    setCategoryType(value);
+    client.writeQuery({
+      query: GET_CATEGORY_TYPE,
+      data: { category_type: value[0].id },
+    });
   }
 
   function handleSearch(event) {
@@ -212,12 +204,10 @@ export default function Products() {
                   <Select
                     clearable={false}
                     options={PRODUCT_TYPES}
-                    labelKey="label"
-                    valueKey="value"
                     placeholder="Categoría"
-                    value={type}
+                    value={categoryType}
                     searchable={false}
-                    onChange={handleCategoryType}
+                    onChange={handleCategoryTypeChange}
                   />
                 </Col>
 

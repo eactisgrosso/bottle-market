@@ -12,7 +12,7 @@ SELECT  p.id,
         p.region_id,
         re.path as region,
 		GROUP_CONCAT(DISTINCT pc.category_id SEPARATOR ',') as categories,
-		GROUP_CONCAT(DISTINCT CONCAT("[",mk.slug,"]") SEPARATOR ',') as categoriesSlugs,
+		GROUP_CONCAT(DISTINCT CONCAT("[",c.slug,"]") SEPARATOR ',') as categoriesSlugs,
 		GROUP_CONCAT(DISTINCT pi.image SEPARATOR ',') as images
        
 FROM product p
@@ -20,8 +20,8 @@ FROM product p
 LEFT JOIN product_categories as pc
 ON p.id = pc.product_id
 
-LEFT JOIN category mk
-ON pc.category_id = mk.id
+LEFT JOIN category c
+ON pc.category_id = c.id
 
 LEFT JOIN product_image as pi
 ON p.id = pi.product_id

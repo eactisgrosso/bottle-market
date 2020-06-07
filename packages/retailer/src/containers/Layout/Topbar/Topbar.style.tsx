@@ -8,12 +8,12 @@ export const NotificationIconWrapper = styled("div", ({ $theme }) => ({
   cursor: "pointer",
 
   "@media only screen and (max-width: 767px)": {
-    margin: "0 20px"
+    margin: "0 20px",
   },
 
   "@media only screen and (min-width: 768px) and (max-width: 991px)": {
-    margin: "0 30px"
-  }
+    margin: "0 30px",
+  },
 }));
 
 export const AlertDot = styled("div", ({ $theme }) => ({
@@ -21,7 +21,7 @@ export const AlertDot = styled("div", ({ $theme }) => ({
   position: "absolute",
   top: "-4px",
   right: "-2px",
-  display: "flex"
+  display: "flex",
 }));
 
 export const TopbarWrapper = styled("div", () => ({
@@ -35,35 +35,35 @@ export const TopbarWrapper = styled("div", () => ({
   position: "relative",
 
   "@media only screen and (max-width: 767px)": {
-    padding: "20px"
+    padding: "20px",
   },
 
   "@media only screen and (max-width: 1440px)": {
-    padding: "20px 45px"
-  }
+    padding: "20px 45px",
+  },
 }));
 
 export const Logo = styled("div", () => ({
   marginRight: "auto",
 
   "@media only screen and (max-width: 1199px)": {
-    display: "none"
-  }
+    display: "none",
+  },
 }));
 
 export const DrawerIcon = styled("div", ({ $theme }) => ({
-  color: $theme.colors.textDark
+  color: $theme.colors.textDark,
 }));
 
 export const LogoImage = styled("img", () => ({
   display: "block",
   backfaceVisibility: "hidden",
-  maxWidth: "150px"
+  maxWidth: "150px",
 }));
 
 export const TopbarRightSide = styled("div", () => ({
   display: "flex",
-  alignItems: "center"
+  alignItems: "center",
 }));
 
 export const ProfileImg = styled("div", () => ({
@@ -74,17 +74,17 @@ export const ProfileImg = styled("div", () => ({
   border: "2px solid #ffffff",
   overflow: "hidden",
   cursor: "pointer",
-  flexShrink: "0"
+  flexShrink: "0",
 }));
 
 export const Image = styled("img", () => ({
   width: "100%",
-  height: "100%"
+  height: "100%",
 }));
 
 export const UserDropdowItem = styled("div", () => ({
   display: "flex",
-  flexDirection: "column"
+  flexDirection: "column",
 }));
 
 export const NavLink = styled(RRNavLink, ({ $theme }) => ({
@@ -102,8 +102,8 @@ export const NavLink = styled(RRNavLink, ({ $theme }) => ({
   cursor: "pointer",
 
   ":hover": {
-    color: $theme.colors.primary
-  }
+    color: $theme.colors.primary,
+  },
 }));
 
 export const LogoutBtn = styled("button", ({ $theme }) => ({
@@ -122,8 +122,8 @@ export const LogoutBtn = styled("button", ({ $theme }) => ({
   transition: "0.15s ease-in-out",
   cursor: "pointer",
   ":hover": {
-    color: $theme.colors.primary
-  }
+    color: $theme.colors.primary,
+  },
 }));
 
 export const CloseButton = styled("button", ({ $theme }) => ({
@@ -137,11 +137,11 @@ export const CloseButton = styled("button", ({ $theme }) => ({
   position: "absolute",
   top: "20px",
   right: "30px",
-  cursor: "pointer"
+  cursor: "pointer",
 }));
 
 export const DrawerWrapper = styled("div", ({ $theme }) => ({
   "@media only screen and (min-width: 1200px)": {
-    display: "none"
-  }
+    display: "none",
+  },
 }));

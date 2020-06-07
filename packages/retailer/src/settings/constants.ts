@@ -19,10 +19,10 @@ export const STORE_TYPES = {
 };
 
 export const PRODUCT_TYPES = [
-  { value: "wine", label: "Vinos" },
-  { value: "spirits", label: "Spirits" },
-  { value: "beer", label: "Cervezas" },
-  { value: "other", label: "Más..." },
+  { id: "vino", label: "Vinos" },
+  { id: "spirits", label: "Spirits" },
+  { id: "cerveza", label: "Cervezas" },
+  { id: "otros", label: "Más..." },
 ];
 
 export const CATEGORIES = [
