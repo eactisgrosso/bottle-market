@@ -1,13 +1,17 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import uuidv4 from "uuid/v4";
 import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/client";
 import {
   GET_STORE,
   GET_CATEGORY_TYPE,
-  GET_STORE_PRODUCTS,
 } from "../../../graphql/query/store.query";
+import {
+  INCREMENT_STORE_PRODUCT,
+  DECREMENT_STORE_PRODUCT,
+  updateStore,
+  updateProduct,
+  updateStoreProducts,
+} from "../../../graphql/mutation/store.mutation";
 import { useDrawerDispatch } from "../../../context/DrawerContext";
 import { Grid, Row, Col } from "../../../components/FlexBox/FlexBox";
 import Input from "../../../components/Input/Input";
@@ -65,24 +69,6 @@ const ADD_PRODUCT_TO_STORE = gql`
   }
 `;
 
-const INCREMENT_STORE_PRODUCT = gql`
-  mutation incrementStoreProduct($productInput: ChangeStoreProduct!) {
-    incrementStoreProduct(productInput: $productInput) {
-      id
-      quantity
-    }
-  }
-`;
-
-const DECREMENT_STORE_PRODUCT = gql`
-  mutation decrementStoreProduct($productInput: ChangeStoreProduct!) {
-    decrementStoreProduct(productInput: $productInput) {
-      id
-      quantity
-    }
-  }
-`;
-
 type Props = any;
 
 const AddProduct: React.FC<Props> = (props) => {
@@ -106,92 +92,49 @@ const AddProduct: React.FC<Props> = (props) => {
   const [search, setSearch] = useState("");
   const [addProductToStore] = useMutation(ADD_PRODUCT_TO_STORE, {
     update(cache, { data: { addProductToStore } }) {
-      const { storeProducts } = cache.readQuery({
-        query: GET_STORE_PRODUCTS,
-        variables: {
-          store_id: store_id,
-          type: category_type,
-        },
+      updateProduct(cache, addProductToStore.id, {
+        quantity: (value) => value + 1,
       });
-
-      cache.writeQuery({
-        query: GET_STORE_PRODUCTS,
-        variables: {
-          store_id: store_id,
-          type: category_type,
-        },
-        data: {
-          storeProducts: {
-            __typename: storeProducts.__typename,
-            items: [addProductToStore, ...storeProducts.items],
-            hasMore: true,
-            totalCount: storeProducts.items.length + 1,
-          },
-        },
-      });
-      cache.modify({
-        id: cache.identify({
-          __typename: "ProductDTO",
-          id: addProductToStore.id,
-        }),
-        fields: {
-          quantity: (value) => value + 1,
-        },
+      updateStoreProducts(
+        cache,
+        store_id,
+        category_type,
+        (items) => [addProductToStore, ...items],
+        (length) => length + 1
+      );
+      updateStore(cache, store_id, {
+        products: (value) => value + 1,
       });
     },
   });
+
   const [incrementStoreProduct] = useMutation(INCREMENT_STORE_PRODUCT, {
     update(cache, { data: { incrementStoreProduct } }) {
-      cache.modify({
-        id: cache.identify({
-          __typename: "ProductDTO",
-          id: incrementStoreProduct.id,
-        }),
-        fields: {
-          quantity: (value) => value + 1,
-        },
+      updateProduct(cache, incrementStoreProduct.id, {
+        quantity: (value) => value + 1,
       });
     },
   });
+
   const [decrementStoreProduct] = useMutation(DECREMENT_STORE_PRODUCT, {
     update(cache, { data: { decrementStoreProduct } }) {
-      const { storeProducts } = cache.readQuery({
-        query: GET_STORE_PRODUCTS,
-        variables: {
-          store_id: store_id,
-          type: category_type,
-        },
-      });
-
-      cache.modify({
-        id: cache.identify({
-          __typename: "ProductDTO",
-          id: decrementStoreProduct.id,
-        }),
-        fields: {
-          quantity: (value) => value - 1,
-        },
+      updateProduct(cache, decrementStoreProduct.id, {
+        quantity: (value) => value - 1,
       });
 
       if (decrementStoreProduct.quantity == 0) {
-        cache.writeQuery({
-          query: GET_STORE_PRODUCTS,
-          variables: {
-            store_id: store_id,
-            type: category_type,
-          },
-          data: {
-            storeProducts: {
-              __typename: storeProducts.__typename,
-              items: [
-                ...storeProducts.items.filter(
-                  (sp) => sp.id !== decrementStoreProduct.id
-                ),
-              ],
-              hasMore: true,
-              totalCount: storeProducts.items.length + 1,
-            },
-          },
+        updateStoreProducts(
+          cache,
+          store_id,
+          category_type,
+          (items) => [
+            ...items.filter((sp) => sp.id !== decrementStoreProduct.id),
+          ],
+          (length) => length - 1
+        );
+
+        updateStore(cache, store_id, {
+          products: (value) => value - 1,
         });
       }
     },

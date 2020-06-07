@@ -21,6 +21,13 @@ import {
   GET_STORES,
   GET_STORE_PRODUCTS,
 } from "../../graphql/query/store.query";
+import {
+  INCREMENT_STORE_PRODUCT,
+  DECREMENT_STORE_PRODUCT,
+  updateStore,
+  updateProduct,
+  updateStoreProducts,
+} from "../../graphql/mutation/store.mutation";
 import { Header, Heading } from "../../components/WrapperStyle";
 import Fade from "react-reveal/Fade";
 import ProductCard from "./ProductCard/ProductCard";
@@ -88,6 +95,38 @@ export default function Products() {
   const [store, setStore] = useState([]);
   const [search, setSearch] = useState([]);
   const client = useApolloClient();
+
+  const [incrementStoreProduct] = useMutation(INCREMENT_STORE_PRODUCT, {
+    update(cache, { data: { incrementStoreProduct } }) {
+      updateProduct(cache, incrementStoreProduct.id, {
+        quantity: (value) => value + 1,
+      });
+    },
+  });
+
+  const [decrementStoreProduct] = useMutation(DECREMENT_STORE_PRODUCT, {
+    update(cache, { data: { decrementStoreProduct } }) {
+      updateProduct(cache, decrementStoreProduct.id, {
+        quantity: (value) => value - 1,
+      });
+
+      if (decrementStoreProduct.quantity == 0) {
+        updateStoreProducts(
+          cache,
+          store[0].id,
+          categoryType[0].id,
+          (items) => [
+            ...items.filter((sp) => sp.id !== decrementStoreProduct.id),
+          ],
+          (length) => length - 1
+        );
+
+        updateStore(cache, store[0].id, {
+          products: (value) => value - 1,
+        });
+      }
+    },
+  });
 
   useEffect(() => {
     if (storesData && storesData.stores.length > 0 && store.length == 0) {
@@ -163,11 +202,27 @@ export default function Products() {
     refetch({ searchText: value });
   }
 
-  const handleAddProduct = (id: string, price: number) => {};
+  const handleIncrement = (id: string) => {
+    incrementStoreProduct({
+      variables: {
+        productInput: {
+          store_id: store[0].id,
+          product_size_id: id,
+        },
+      },
+    });
+  };
 
-  const handleIncrement = (id: string) => {};
-
-  const handleDecrement = (id: string) => {};
+  const handleDecrement = (id: string) => {
+    decrementStoreProduct({
+      variables: {
+        productInput: {
+          store_id: store[0].id,
+          product_size_id: id,
+        },
+      },
+    });
+  };
 
   return (
     <Grid fluid={true}>
@@ -246,7 +301,6 @@ export default function Products() {
                         salePrice={item.salePrice}
                         discountInPercent={item.discountInPercent}
                         quantity={item.quantity}
-                        onAdd={handleAddProduct}
                         onIncrement={handleIncrement}
                         onDecrement={handleDecrement}
                       />

@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
 import { GET_DELIVERY_AREAS } from "../../../graphql/query/delivery.query";
 import { GET_STORES } from "../../../graphql/query/store.query";
+import { updateStore } from "../../../graphql/mutation/store.mutation";
 import { DeliveryIcon, GpsIcon } from "../../../components/AllSvgIcon";
 import {
   Card,
@@ -221,27 +222,8 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
         },
       });
 
-      const { stores } = cache.readQuery({
-        query: GET_STORES,
-      });
-
-      cache.writeQuery({
-        query: GET_STORES,
-        data: {
-          stores: [
-            ...stores.map((store) => {
-              if (store.id == deleteDeliveryArea.store_id) {
-                const storeCopy = {
-                  delivery_areas: store.delivery_areas - 1,
-                };
-
-                return storeCopy;
-              }
-
-              return store;
-            }),
-          ],
-        },
+      updateStore(cache, deleteDeliveryArea.store_id, {
+        delivery_areas: (value) => value - 1,
       });
     },
     onError: (error) => {},

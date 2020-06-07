@@ -25,6 +25,7 @@ import {
 } from "../../DrawerItems/DrawerItems.style";
 import { GET_STORES } from "../../../graphql/query/store.query";
 import { GET_DELIVERY_AREAS } from "../../../graphql/query/delivery.query";
+import { updateStore } from "../../../graphql/mutation/store.mutation";
 
 const CREATE_DELIVERY_AREA = gql`
   mutation createDeliveryArea($deliveryAreaInput: AddDeliveryAreaInput!) {
@@ -88,27 +89,8 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
         },
       });
 
-      const { stores } = cache.readQuery({
-        query: GET_STORES,
-      });
-
-      cache.writeQuery({
-        query: GET_STORES,
-        data: {
-          stores: [
-            ...stores.map((store) => {
-              if (store.id == createDeliveryArea.store_id) {
-                const storeCopy = {
-                  delivery_areas: store.delivery_areas + 1,
-                };
-
-                return storeCopy;
-              }
-
-              return store;
-            }),
-          ],
-        },
+      updateStore(cache, createDeliveryArea.store_id, {
+        delivery_areas: (value) => value + 1,
       });
     },
   });

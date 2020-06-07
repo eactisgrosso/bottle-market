@@ -29,7 +29,7 @@ type ProductCardProps = {
   salePrice?: number;
   discountInPercent?: number;
   quantity: number;
-  onAdd: Function;
+  onAdd?: Function;
   onIncrement: Function;
   onDecrement: Function;
 };
