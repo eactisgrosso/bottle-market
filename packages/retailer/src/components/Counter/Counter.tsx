@@ -17,81 +17,56 @@ export const Counter: React.FC<Props> = ({
   value,
   className,
 }) => {
+  const renderButton = (onClick: Function, icon: JSX.Element) => {
+    return (
+      <Button
+        overrides={{
+          StartEnhancer: {
+            style: {
+              marginRight: "0px",
+              justifyContent: "center",
+              height: "12px",
+            },
+          },
+          BaseButton: {
+            style: ({ $theme }) => {
+              return {
+                backgroundColor: "transparent",
+                color: "#ffffff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+                width: "100%",
+                paddingLeft: "8px",
+                paddingRight: "8px",
+                paddingTop: "6px",
+                paddingBottom: "6px",
+                marginLeft: "0px",
+                marginRight: "0px",
+                marginTop: "0px",
+                marginBottom: "0px",
+                cursor: "pointer",
+                ":hover": {
+                  backgroundColor: "transparent",
+                },
+              };
+            },
+          },
+        }}
+        startEnhancer={() => icon}
+        shape={SHAPE.pill}
+        size={SIZE.mini}
+        onClick={onClick}
+      />
+    );
+  };
+
   return (
     <CounterBox>
-      <Button
-        overrides={{
-          StartEnhancer: {
-            style: {
-              marginRight: "0px",
-              justifyContent: "center",
-              height: "12px",
-            },
-          },
-          BaseButton: {
-            style: ({ $theme }) => {
-              return {
-                border: "none",
-                backgroundColor: "transparent",
-                color: "#ffffff",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100%",
-                width: "100%",
-                padding: "10px",
-                margin: "0px",
-                cursor: "pointer",
-                ":hover, :focus": {
-                  outline: "none",
-                  backgroundColor: "transparent",
-                },
-              };
-            },
-          },
-        }}
-        startEnhancer={() => <Minus height={12} />}
-        shape={SHAPE.pill}
-        size={SIZE.mini}
-        onClick={onDecrement}
-      />
+      {renderButton(onDecrement, <Minus height={12} />)}
       <CounterValue>{value}</CounterValue>
-      <Button
-        overrides={{
-          StartEnhancer: {
-            style: {
-              marginRight: "0px",
-              justifyContent: "center",
-              height: "12px",
-            },
-          },
-          BaseButton: {
-            style: ({ $theme }) => {
-              return {
-                border: "none",
-                backgroundColor: "transparent",
-                color: "#ffffff",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100%",
-                width: "100%",
-                padding: "10px",
-                margin: "0px",
-                cursor: "pointer",
-                ":hover, :focus": {
-                  backgroundColor: "transparent",
-                  outline: "none",
-                },
-              };
-            },
-          },
-        }}
-        startEnhancer={() => <Plus height={12} />}
-        shape={SHAPE.pill}
-        size={SIZE.mini}
-        onClick={onDecrement}
-      />
+      {renderButton(onIncrement, <Plus height={12} />)}
     </CounterBox>
   );
 };

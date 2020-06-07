@@ -58,8 +58,8 @@ export class ProductResolver {
   ) {
     let categoryIds = new Set<number>();
 
-    const query = this.productQuery.create();
-    const queryCount = this.productQuery.createCount();
+    const query = this.productQuery.select();
+    const queryCount = this.productQuery.selectCount();
 
     if (category) {
       await this.productQuery.byCategorySlug(query, category);
@@ -123,7 +123,7 @@ export class ProductResolver {
   async product(@Args("slug", { type: () => String }) slug: string) {
     let categoryIds = new Set<number>();
 
-    const query = this.productQuery.create();
+    const query = this.productQuery.select();
     this.productQuery.bySlug(query, slug);
 
     const dbProduct = await query;

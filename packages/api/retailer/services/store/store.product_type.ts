@@ -2,7 +2,7 @@ import { Field, ID, Int, Float, ObjectType } from "@nestjs/graphql";
 import Category from "../category/category.type";
 
 @ObjectType()
-export default class ProductDTO {
+export default class StoreProductDTO {
   @Field((type) => ID)
   id: string;
 
@@ -17,9 +17,6 @@ export default class ProductDTO {
 
   @Field()
   size: string;
-
-  @Field((type) => [Category])
-  categories: Category[];
 
   @Field((type) => Float)
   price: number;

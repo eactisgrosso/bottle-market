@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ProductCardWrapper,
   ProductImageWrapper,
@@ -9,7 +9,6 @@ import {
   ProductTitle,
   ProductWeight,
   ProductMeta,
-  OrderID,
   ProductPriceWrapper,
   ProductPrice,
   DiscountedPrice,
@@ -28,8 +27,11 @@ type ProductCardProps = {
   description?: string;
   price: number;
   salePrice?: number;
-  orderId?: number;
   discountInPercent?: number;
+  quantity: number;
+  onAdd: Function;
+  onIncrement: Function;
+  onDecrement: Function;
 };
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -41,24 +43,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
   salePrice,
   discountInPercent,
   currency,
-  ...props
+  quantity,
+  onAdd,
+  onIncrement,
+  onDecrement,
 }) => {
-  const handleAddClick = (e) => {
-    e.stopPropagation();
-    // addItem(data);
-    // if (!isInCart(data.id)) {
-    // cartAnimation(e);
-    // }
-  };
-
-  const handleRemoveClick = (e) => {
-    e.stopPropagation();
-    // removeItem(data);
-  };
-
   return (
     <ProductCardWrapper
-      {...props}
       className="product-card"
       // onClick={openDrawer}
     >
@@ -88,7 +79,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </DiscountedPrice>
             ) : null}
           </ProductPriceWrapper>
-          {true ? (
+          {quantity == 0 ? (
             <Button
               overrides={{
                 StartEnhancer: {
@@ -105,7 +96,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
                       lineHeight: 1.5,
                       color: $theme.colors.primary,
                       backgroundColor: "transparent",
-                      border: "1px solid " + $theme.colors.borderF1,
+                      borderColor: $theme.colors.backgroundF7,
+                      borderBottomStyle: "solid",
+                      borderTopStyle: "solid",
+                      borderLeftStyle: "solid",
+                      borderRightStyle: "solid",
+                      borderBottomWidth: 0.5,
+                      borderTopWidth: 0.5,
+                      borderLeftWidth: 0.5,
+                      borderRightWidth: 0.5,
                       width: "100px",
                       ":hover": {
                         color: "white",
@@ -117,15 +116,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
               startEnhancer={() => <CartIcon height={24} />}
               shape={SHAPE.pill}
               size={SIZE.mini}
-              onClick={handleAddClick}
+              onClick={() => onAdd(id, price)}
             >
               Agregar
             </Button>
           ) : (
             <Counter
-              value={1}
-              onDecrement={handleRemoveClick}
-              onIncrement={handleAddClick}
+              value={quantity}
+              onDecrement={(e) => onDecrement(id)}
+              onIncrement={(e) => onIncrement(id)}
             />
           )}
         </ProductMeta>

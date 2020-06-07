@@ -8,8 +8,12 @@ import { StoreRepository } from "../../domain/repositories/store.repository";
 import StoreDTO from "./store.type";
 import AddStoreInput from "./store.input_type";
 import { ProductType } from "../../../common/data/product.enum";
-import ProductDTO from "../product/product.type";
-import Products from "../product/products.type";
+import StoreProductDTO from "./store.product_type";
+import StoreProducts from "./store.products_type";
+import {
+  AddStoreProduct,
+  ChangeStoreProduct,
+} from "./store.product.input_type";
 import GetProductsArgs from "../product/product.args_type";
 
 const { v4: uuidv4 } = require("uuid");
@@ -67,7 +71,7 @@ export class StoreResolver {
     return id;
   }
 
-  private async mapProduct(dbProduct: any, product: ProductDTO) {
+  private async mapProduct(dbProduct: any, product: StoreProductDTO) {
     Object.keys(dbProduct).forEach(
       (key) => ((product as any)[key] = dbProduct[key])
     );
@@ -80,27 +84,26 @@ export class StoreResolver {
 
     product.size = `${dbProduct.size} ml`;
     product.salePrice = 0;
-    product.categories = [];
 
     return product;
   }
 
   @UseGuards(GraphqlAuthGuard)
-  @Query((returns) => Products, { description: "Get the store products" })
+  @Query((returns) => StoreProducts, { description: "Get the store products" })
   async storeProducts(
     @User() user: any,
     @Args()
     { limit, offset, type, searchText, category }: GetProductsArgs
-  ): Promise<Products> {
+  ): Promise<StoreProducts> {
     const userId = this.knex.raw("UUID_TO_BIN(?)", user.id);
-    const storeId = this.knex.raw("BIN_TO_UUID(ms.id)");
-    const query = this.knex("store_product_size_view as msp")
-      .select("msp.*")
-      .join("store as ms", "msp.store_id", storeId)
-      .where("ms.user_id", userId);
+    const storeId = this.knex.raw("BIN_TO_UUID(s.id)");
+    const query = this.knex("store_product_view as sp")
+      .select("sp.*")
+      .join("store as s", "sp.store_id", storeId)
+      .where("s.user_id", userId);
 
     const dbProducts = await query.map((dbProduct: any) => {
-      const product = new ProductDTO();
+      const product = new StoreProductDTO();
       this.mapProduct(dbProduct, product);
       product.discountInPercent = 0;
       product.type = (<any>ProductType)[type != null ? type : ProductType.vino];
@@ -113,5 +116,57 @@ export class StoreResolver {
       totalCount: dbProducts.length,
       hasMore: false,
     };
+  }
+
+  @Mutation(() => StoreProductDTO, { description: "Add product to store" })
+  async addProductToStore(
+    @Args("productInput") productInput: AddStoreProduct
+  ): Promise<StoreProductDTO> {
+    const store = await this.repository.load(productInput.store_id);
+    store.addProduct(productInput.product_size_id, productInput.price);
+    store.commit();
+
+    const response = new StoreProductDTO();
+    response.id = productInput.product_size_id;
+    const productInfo = store.products.get(productInput.product_size_id);
+    response.quantity = productInfo ? productInfo.quantity : 0;
+
+    return response;
+  }
+
+  @Mutation(() => StoreProductDTO, {
+    description: "Increment product quantity",
+  })
+  async incrementStoreProduct(
+    @Args("productInput") productInput: ChangeStoreProduct
+  ): Promise<StoreProductDTO> {
+    const store = await this.repository.load(productInput.store_id);
+    store.incrementProduct(productInput.product_size_id);
+    store.commit();
+
+    const response = new StoreProductDTO();
+    response.id = productInput.product_size_id;
+    const productInfo = store.products.get(productInput.product_size_id);
+    response.quantity = productInfo ? productInfo.quantity : 0;
+
+    return response;
+  }
+
+  @Mutation(() => StoreProductDTO, {
+    description: "Decrement product quantity",
+  })
+  async decrementStoreProduct(
+    @Args("productInput") productInput: ChangeStoreProduct
+  ): Promise<StoreProductDTO> {
+    const store = await this.repository.load(productInput.store_id);
+    store.decrementProduct(productInput.product_size_id);
+    store.commit();
+
+    const response = new StoreProductDTO();
+    response.id = productInput.product_size_id;
+    const productInfo = store.products.get(productInput.product_size_id);
+    response.quantity = productInfo ? productInfo.quantity : 0;
+
+    return response;
   }
 }

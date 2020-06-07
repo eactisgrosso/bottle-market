@@ -1,11 +1,11 @@
-CREATE VIEW `product_view` AS 
-SELECT  p.id,
-        p.aggregateid,
+CREATE VIEW `retailer_product_view` AS 
+SELECT  BIN_TO_UUID(ps.id) as id,
+		p.id as product_id,
         p.title,
         p.slug,
         p.description,
-        p.package_size as size,
-        p.price_retail as price,
+        ps.size,
+        ps.price_retail as price,
         p.promo_discount as discountInPercent,
         p.producer_id,
         pro.title as producer,
@@ -15,7 +15,10 @@ SELECT  p.id,
 		GROUP_CONCAT(DISTINCT CONCAT("[",mk.slug,"]") SEPARATOR ',') as categoriesSlugs,
 		GROUP_CONCAT(DISTINCT pi.image SEPARATOR ',') as images
        
-FROM product p
+FROM product_size ps
+
+LEFT JOIN product as p
+ON ps.product_id = p.aggregateid
 
 LEFT JOIN product_categories as pc
 ON p.id = pc.product_id
@@ -32,4 +35,4 @@ ON p.producer_id = pro.id
 INNER JOIN region_view re
 ON p.region_id = re.id
  
-GROUP BY p.id, re.path
+GROUP BY ps.id, p.id, re.path

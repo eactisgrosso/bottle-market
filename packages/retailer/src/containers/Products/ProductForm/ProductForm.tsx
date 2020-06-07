@@ -45,36 +45,56 @@ const GET_PRODUCTS = gql`
         image
         type
         price
-        unit
+        size
         salePrice
         discountInPercent
+        quantity
       }
       totalCount
       hasMore
     }
   }
 `;
-const CREATE_PRODUCT = gql`
-  mutation createProduct($product: AddProductInput!) {
-    createProduct(product: $product) {
+
+const ADD_PRODUCT_TO_STORE = gql`
+  mutation addProductToStore($productInput: AddStoreProduct!) {
+    addProductToStore(productInput: $productInput) {
       id
-      title
-      image
-      slug
-      type
-      price
-      unit
-      description
-      salePrice
-      discountInPercent
-      # per_unit
       quantity
-      # creation_date
     }
   }
 `;
 
-type Products = any;
+const INCREMENT_STORE_PRODUCT = gql`
+  mutation incrementStoreProduct($productInput: ChangeStoreProduct!) {
+    incrementStoreProduct(productInput: $productInput) {
+      id
+      quantity
+    }
+  }
+`;
+
+const DECREMENT_STORE_PRODUCT = gql`
+  mutation decrementStoreProduct($productInput: ChangeStoreProduct!) {
+    decrementStoreProduct(productInput: $productInput) {
+      id
+      quantity
+    }
+  }
+`;
+
+const INCREMENT_PRODUCT_QUANTITY = gql`
+  mutation incrementProductQuantity($id: String!) {
+    incrementProductQuantity(id: $id) @client
+  }
+`;
+
+const DECREMENT_PRODUCT_QUANTITY = gql`
+  mutation decrementProductQuantity($id: String!) {
+    decrementProductQuantity(id: $id) @client
+  }
+`;
+
 type Props = any;
 
 const AddProduct: React.FC<Props> = (props) => {
@@ -85,7 +105,7 @@ const AddProduct: React.FC<Props> = (props) => {
   const {
     data: { storeId },
   } = useQuery(GET_STORE);
-  const { data, error, refetch, fetchMore } = useQuery<Products>(GET_PRODUCTS, {
+  const { data, error, refetch, fetchMore } = useQuery(GET_PRODUCTS, {
     variables: {
       storeId: storeId,
       searchText: "",
@@ -93,26 +113,11 @@ const AddProduct: React.FC<Props> = (props) => {
   });
   const { register, handleSubmit, setValue } = useForm();
   const [search, setSearch] = useState("");
-
-  const [createProduct] = useMutation(CREATE_PRODUCT, {
-    update(cache, { data: { createProduct } }) {
-      const { products } = cache.readQuery({
-        query: GET_PRODUCTS,
-      });
-
-      cache.writeQuery({
-        query: GET_PRODUCTS,
-        data: {
-          products: {
-            __typename: products.__typename,
-            items: [createProduct, ...products.items],
-            hasMore: true,
-            totalCount: products.items.length + 1,
-          },
-        },
-      });
-    },
-  });
+  const [addProductToStore] = useMutation(ADD_PRODUCT_TO_STORE);
+  const [incrementStoreProduct] = useMutation(INCREMENT_STORE_PRODUCT);
+  const [decrementStoreProduct] = useMutation(DECREMENT_STORE_PRODUCT);
+  const [incrementProductQuantity] = useMutation(INCREMENT_PRODUCT_QUANTITY);
+  const [decrementProductQuantity] = useMutation(DECREMENT_PRODUCT_QUANTITY);
 
   useEffect(() => {
     const timeOutId = setTimeout(
@@ -129,7 +134,7 @@ const AddProduct: React.FC<Props> = (props) => {
       variables: {
         offset: data.products.items.length,
       },
-      updateQuery: (prev, { fetchMoreResult }): Products => {
+      updateQuery: (prev: any, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
         return Object.assign({}, prev, {
           products: {
@@ -143,25 +148,55 @@ const AddProduct: React.FC<Props> = (props) => {
     });
   }
 
-  const onSubmit = (data) => {
-    const newProduct = {
-      id: uuidv4(),
-      name: data.name,
-      type: data.type[0].value,
-      description: data.description,
-      image: data.image && data.image.length !== 0 ? data.image : "",
-      price: Number(data.price),
-      unit: data.unit,
-      salePrice: Number(data.salePrice),
-      discountInPercent: Number(data.discountInPercent),
-      quantity: Number(data.quantity),
-      slug: data.name,
-      creation_date: new Date(),
-    };
-    createProduct({
-      variables: { product: newProduct },
+  const handleAddProduct = (id: string, price: number) => {
+    addProductToStore({
+      variables: {
+        productInput: {
+          store_id: storeId,
+          product_size_id: id,
+          price: price,
+        },
+      },
     });
-    closeDrawer();
+    incrementProductQuantity({
+      variables: {
+        id: id,
+      },
+    });
+  };
+
+  const handleIncrement = (id: string) => {
+    incrementStoreProduct({
+      variables: {
+        productInput: {
+          store_id: storeId,
+          product_size_id: id,
+        },
+      },
+    });
+
+    incrementProductQuantity({
+      variables: {
+        id: id,
+      },
+    });
+  };
+
+  const handleDecrement = (id: string) => {
+    decrementStoreProduct({
+      variables: {
+        productInput: {
+          store_id: storeId,
+          product_size_id: id,
+        },
+      },
+    });
+
+    decrementProductQuantity({
+      variables: {
+        id: id,
+      },
+    });
   };
 
   return (
@@ -210,6 +245,10 @@ const AddProduct: React.FC<Props> = (props) => {
                     price={item.price}
                     salePrice={item.salePrice}
                     discountInPercent={item.discountInPercent}
+                    quantity={item.quantity}
+                    onAdd={handleAddProduct}
+                    onIncrement={handleIncrement}
+                    onDecrement={handleDecrement}
                   />
                 </Fade>
                 {index === data.products.items.length - 4 && (
@@ -218,44 +257,6 @@ const AddProduct: React.FC<Props> = (props) => {
               </Col>
             ))}
         </Row>
-        <ButtonGroup>
-          <Button
-            kind={KIND.minimal}
-            onClick={closeDrawer}
-            overrides={{
-              BaseButton: {
-                style: ({ $theme }) => ({
-                  width: "50%",
-                  borderTopLeftRadius: "3px",
-                  borderTopRightRadius: "3px",
-                  borderBottomRightRadius: "3px",
-                  borderBottomLeftRadius: "3px",
-                  marginRight: "15px",
-                  color: $theme.colors.red400,
-                }),
-              },
-            }}
-          >
-            Cancelar
-          </Button>
-
-          <Button
-            type="submit"
-            overrides={{
-              BaseButton: {
-                style: ({ $theme }) => ({
-                  width: "50%",
-                  borderTopLeftRadius: "3px",
-                  borderTopRightRadius: "3px",
-                  borderBottomRightRadius: "3px",
-                  borderBottomLeftRadius: "3px",
-                }),
-              },
-            }}
-          >
-            Confirmar
-          </Button>
-        </ButtonGroup>
       </Grid>
     </>
   );

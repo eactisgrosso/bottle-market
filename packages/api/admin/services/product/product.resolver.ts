@@ -22,8 +22,8 @@ export default class ProductResolver {
     @Args()
     { limit, offset, sortByPrice, type, searchText, category }: GetProductsArgs
   ): Promise<Products> {
-    const query = this.productQuery.create();
-    const queryCount = this.productQuery.createCount();
+    const query = this.productQuery.select();
+    const queryCount = this.productQuery.selectCount();
 
     if (category) {
       await this.productQuery.byCategorySlug(query, category);
@@ -78,7 +78,7 @@ export default class ProductResolver {
 
   @Query(() => ProductDTO)
   async product(@Args("slug") slug: string): Promise<ProductDTO | undefined> {
-    const query = this.productQuery.create();
+    const query = this.productQuery.select();
     this.productQuery.bySlug(query, slug);
 
     const dbProduct = await query.map((dbProduct: any) => {

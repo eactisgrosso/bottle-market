@@ -122,15 +122,6 @@ export const ProductMeta = styled("div", ({ $theme }) => ({
   },
 }));
 
-export const OrderID = styled("span", ({ $theme }) => ({
-  ...$theme.typography.fontBold14,
-  color: $theme.colors.textDark,
-
-  "@media only screen and (max-width: 767px)": {
-    ...$theme.typography.fontBold12,
-  },
-}));
-
 export const ProductPriceWrapper = styled("div", ({ $theme }) => ({
   display: "flex",
   alignItems: "center",

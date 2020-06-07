@@ -26,10 +26,19 @@ export class ProductResolver {
     @Args()
     { storeId, limit, offset, type, searchText, category }: GetProductsArgs
   ): Promise<Products> {
-    const query = this.productQuery.create();
-    const queryCount = this.productQuery.createCount();
+    const query = this.productQuery.select(
+      "retailer_product_view as p",
+      this.knex.raw("COALESCE(sp.quantity,0) as quantity")
+    );
+    const queryCount = this.productQuery.selectCount(
+      "retailer_product_view as p"
+    );
 
-    query.leftJoin("product_size as ps", "p.id", "ps.product_id");
+    query.leftJoin(
+      "store_product as sp",
+      "p.id",
+      this.knex.raw("BIN_TO_UUID(sp.product_size_id)")
+    );
 
     if (category) {
       await this.productQuery.byCategorySlug(query, category);
@@ -44,10 +53,9 @@ export class ProductResolver {
       this.productQuery.byText(queryCount, searchText);
     }
 
-    const subQuery = this.knex("store_product")
-      .select("product_size_id")
-      .where("store_id", this.knex.raw("UUID_TO_BIN(?)", storeId));
-    query.whereNotIn("ps.id", subQuery);
+    query
+      .whereNull("sp.store_id")
+      .orWhere("sp.store_id", "=", this.knex.raw("BIN_TO_UUID(?)", storeId));
 
     const dbProducts = await query
       .limit(limit)
@@ -64,7 +72,6 @@ export class ProductResolver {
           if (images.length > 0)
             product.image = `https://s3.amazonaws.com/bottlemarket.images/${images[0]}`;
         }
-        product.unit = `${dbProduct.units} unidad(es)`;
         product.size = dbProduct.size;
         product.salePrice = 0;
         product.categories = [];

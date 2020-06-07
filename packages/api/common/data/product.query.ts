@@ -1,12 +1,14 @@
 export default class ProductQuery {
   constructor(private readonly knex: any) {}
 
-  create = () => {
-    return this.knex("product_view as p").select("p.*");
+  select = (table: string = "product_view as p", ...fields: string[]) => {
+    let s = ["p.*"];
+    if (fields) s.push(...fields);
+    return this.knex(table).select(s);
   };
 
-  createCount = () => {
-    return this.knex("product_view as p").count("id as count");
+  selectCount = (table: string = "product_view as p") => {
+    return this.knex(table).count("id as count");
   };
 
   bySlug = (query: any, slug: string) => {

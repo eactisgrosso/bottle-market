@@ -89,6 +89,7 @@ const GET_STORE_PRODUCTS = gql`
         size
         salePrice
         discountInPercent
+        quantity
       }
       totalCount
       hasMore
@@ -170,6 +171,12 @@ export default function Products() {
     refetch({ searchText: value });
   }
 
+  const handleAddProduct = (id: string, price: number) => {};
+
+  const handleIncrement = (id: string) => {};
+
+  const handleDecrement = (id: string) => {};
+
   return (
     <Grid fluid={true}>
       <Row>
@@ -248,6 +255,10 @@ export default function Products() {
                         price={item.price}
                         salePrice={item.salePrice}
                         discountInPercent={item.discountInPercent}
+                        quantity={item.quantity}
+                        onAdd={handleAddProduct}
+                        onIncrement={handleIncrement}
+                        onDecrement={handleDecrement}
                       />
                     </Fade>
                   </Col>

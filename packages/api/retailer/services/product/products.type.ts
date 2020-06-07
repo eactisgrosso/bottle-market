@@ -1,9 +1,9 @@
 import { ObjectType, Field, Int } from "@nestjs/graphql";
-import Product from "./product.type";
+import ProductDTO from "./product.type";
 @ObjectType()
-export default class ProductsConnection {
-  @Field((type) => [Product])
-  items: Product[];
+export default class Products {
+  @Field((type) => [ProductDTO])
+  items: ProductDTO[];
 
   @Field((type) => Int)
   totalCount: number;

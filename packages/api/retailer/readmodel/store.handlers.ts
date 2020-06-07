@@ -39,3 +39,5 @@ export class StoreClosedHandler implements IEventHandler<StoreClosed> {
 }
 
 export const EventHandlers = [StoreOpenedHandler, StoreClosedHandler];
+
+
