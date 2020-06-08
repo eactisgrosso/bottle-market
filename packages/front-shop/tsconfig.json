@@ -25,6 +25,5 @@
     "experimentalDecorators": true
   },
   "exclude": ["node_modules"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "references": [{ "path": "../common" }]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }
