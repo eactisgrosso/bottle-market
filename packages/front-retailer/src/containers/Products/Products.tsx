@@ -8,7 +8,6 @@ import {
 } from "../../components/FlexBox/FlexBox";
 import Input from "../../components/Input/Input";
 import Select from "../../components/Select/Select";
-import gql from "graphql-tag";
 import {
   useQuery,
   useLazyQuery,
@@ -84,12 +83,11 @@ export const LoaderItem = styled("div", () => ({
 }));
 
 export default function Products() {
-  const { data: storesData, error: storesError, loading } = useQuery(
-    GET_STORES
-  );
-  const [getStoreProducts, { data, error, refetch, fetchMore }] = useLazyQuery(
-    GET_STORE_PRODUCTS
-  );
+  const { data: storesData, error: storesError } = useQuery(GET_STORES);
+  const [
+    getStoreProducts,
+    { data, loading, error, refetch, fetchMore },
+  ] = useLazyQuery(GET_STORE_PRODUCTS);
   const [loadingMore, toggleLoading] = useState(false);
   const [categoryType, setCategoryType] = useState([]);
   const [store, setStore] = useState([]);
@@ -279,8 +277,10 @@ export default function Products() {
           </Header>
 
           <Row>
-            {data ? (
-              data.storeProducts && data.storeProducts.items.length !== 0 ? (
+            {!loading ? (
+              data &&
+              data.storeProducts &&
+              data.storeProducts.items.length !== 0 ? (
                 data.storeProducts.items.map((item: any, index: number) => (
                   <Col
                     md={4}

@@ -24,7 +24,6 @@ import {
   AlertDot,
   NotificationIconWrapper,
   UserDropdowItem,
-  NavLink,
   LogoutBtn,
   DrawerIcon,
   CloseButton,
@@ -35,12 +34,16 @@ import { useDrawerDispatch } from "../../../context/DrawerContext";
 import { MenuIcon } from "../../../components/AllSvgIcon";
 import Drawer, { ANCHOR } from "../../../components/Drawer/Drawer";
 import Sidebar from "../Sidebar/Sidebar";
-import {
-  DASHBOARD,
-  STORES,
-  PRODUCTS,
-  DELIVERY,
-} from "../../../settings/constants";
+import { STORES, PRODUCTS, DELIVERY } from "../../../settings/constants";
+import { useQuery, gql } from "@apollo/client";
+
+const GET_STORES = gql`
+  query getStores {
+    stores {
+      id
+    }
+  }
+`;
 
 const data = [
   {
@@ -67,6 +70,7 @@ const Topbar = ({ refs, ...props }: any) => {
   const dispatch = useDrawerDispatch();
   const { logout, user } = useAuth();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { data } = useQuery(GET_STORES);
 
   return (
     <TopbarWrapper ref={refs}>
@@ -121,32 +125,33 @@ const Topbar = ({ refs, ...props }: any) => {
       </DrawerWrapper>
 
       <TopbarRightSide>
-        {FORMS[location.pathname] && (
-          <Button
-            overrides={{
-              BaseButton: {
-                style: ({ $theme, $size, $shape }) => {
-                  return {
-                    ...getPaddingStyles({ $theme, $size }),
-                    ...getBorderRadiiStyles({ $theme, $size, $shape }),
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                    marginTop: "-5px",
-                    marginBottom: "-5px",
-                  };
+        {FORMS[location.pathname] &&
+          (data.stores.length > 0 || location.pathname == "/stores") && (
+            <Button
+              overrides={{
+                BaseButton: {
+                  style: ({ $theme, $size, $shape }) => {
+                    return {
+                      ...getPaddingStyles({ $theme, $size }),
+                      ...getBorderRadiiStyles({ $theme, $size, $shape }),
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      marginTop: "-5px",
+                      marginBottom: "-5px",
+                    };
+                  },
                 },
-              },
-            }}
-            onClick={() => {
-              dispatch({
-                type: "OPEN_DRAWER",
-                drawerComponent: FORMS[location.pathname],
-              });
-            }}
-          >
-            {BUTTON_TEXT[location.pathname]}
-          </Button>
-        )}
+              }}
+              onClick={() => {
+                dispatch({
+                  type: "OPEN_DRAWER",
+                  drawerComponent: FORMS[location.pathname],
+                });
+              }}
+            >
+              {BUTTON_TEXT[location.pathname]}
+            </Button>
+          )}
         <Popover
           content={({ close }) => <Notification data={data} onClear={close} />}
           accessibilityType={"tooltip"}
