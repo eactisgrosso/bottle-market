@@ -5,7 +5,7 @@ import { Modal } from "@redq/reuse-modal";
 import { withApollo } from "helper/apollo";
 import { SEO } from "components/seo";
 import Checkout from "containers/CheckoutWithSidebar/CheckoutWithSidebar";
-import { useAuth } from "@bottle-market/common";
+import { useAuth } from "@bottle-market/common/auth";
 import { GET_LOGGED_IN_CUSTOMER } from "graphql/query/customer.query";
 
 import { ProfileProvider } from "contexts/profile/profile.provider";

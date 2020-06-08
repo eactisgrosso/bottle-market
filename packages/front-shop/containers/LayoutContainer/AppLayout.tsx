@@ -6,7 +6,7 @@ import Header from "./Header/Header";
 import { useStickyState } from "contexts/app/app.provider";
 import { LayoutWrapper } from "./Layout.style";
 import { isCategoryPage } from "./is-home-page";
-import { useRefreshToken } from "@bottle-market/common";
+import { useRefreshToken } from "@bottle-market/common/auth";
 
 const MobileHeader = dynamic(() => import("./Header/MobileHeader"), {
   ssr: false,

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAuth } from "@bottle-market/common";
+import { useAuth } from "@bottle-market/common/auth";
 import { NextPage } from "next";
 import Router from "next/router";
 import { withApollo } from "helper/apollo";

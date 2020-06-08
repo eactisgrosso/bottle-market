@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "./lib",
+    "outDir": "./dist",
     "target": "esnext",
     "module": "commonjs",
     "allowJs": true,
@@ -26,6 +25,6 @@
     "jsx": "react",
     "typeRoots": ["index.d.ts", "node_modules/@types"]
   },
-  "include": ["./src/**/*.tsx", "./src/**/*.ts"],
+  "include": ["./**/*.tsx", "./**/*.ts"],
   "exclude": ["node_modules"]
 }

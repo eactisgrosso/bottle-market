@@ -8,7 +8,7 @@ import {
 } from "../../../components/Button/Button.style";
 import Popover, { PLACEMENT } from "../../../components/Popover/Popover";
 import Notification from "../../../components/Notification/Notification";
-import { useAuth } from "@bottle-market/common";
+import { useAuth } from "@bottle-market/common/auth";
 import {
   NotificationIcon,
   AlertDotIcon,

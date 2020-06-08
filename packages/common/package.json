@@ -21,6 +21,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "rm -rf dist && mkdir dist && tsc -b",
+    "postbuild": "cp package.json dist/package.json && cd dist && yarn install --production"
   }
 }

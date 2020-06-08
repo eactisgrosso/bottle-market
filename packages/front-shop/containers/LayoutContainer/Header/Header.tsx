@@ -3,7 +3,7 @@ import Router, { useRouter } from "next/router";
 import { openModal } from "@redq/reuse-modal";
 import SearchBox from "components/SearchBox/SearchBox";
 import { SearchContext } from "contexts/search/search.context";
-import { useAuth } from "@bottle-market/common";
+import { useAuth } from "@bottle-market/common/auth";
 import { RightMenu } from "./Menu/RightMenu/RightMenu";
 import { LeftMenu } from "./Menu/LeftMenu/LeftMenu";
 import HeaderWrapper from "./Header.style";

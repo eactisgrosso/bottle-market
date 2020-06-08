@@ -10,7 +10,7 @@ import {
 import Button from "../../components/Button/Button";
 import Logoimage from "../../image/BottleMarket.png";
 import { Facebook, Google } from "../../components/AllSvgIcon";
-import { useAuth } from "@bottle-market/common";
+import { useAuth } from "@bottle-market/common/auth";
 
 export default () => {
   const { loginSocial } = useAuth();

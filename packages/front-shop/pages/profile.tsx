@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import Link from "next/link";
 import { useLazyQuery } from "@apollo/client";
 import { Modal } from "@redq/reuse-modal";
-import { useAuth } from "@bottle-market/common";
+import { useAuth } from "@bottle-market/common/auth";
 import { ProfileProvider } from "contexts/profile/profile.provider";
 import { GET_LOGGED_IN_CUSTOMER } from "graphql/query/customer.query";
 import SettingsContent from "containers/Profile/Settings/Settings";

@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: "12.x"
       - name: Install dependencies
-        run: yarn Install
+        run: yarn install --frozen-lockfile
       - name: Install SAM cli
         run: |
           pip3 install wheel --upgrade

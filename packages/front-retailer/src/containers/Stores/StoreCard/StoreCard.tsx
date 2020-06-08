@@ -2,7 +2,6 @@ import React from "react";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
 import { GET_STORES } from "../../../graphql/query/store.query";
-import "@bottle-market/common";
 import { CartIconBig } from "../../../components/AllSvgIcon";
 import {
   Card,

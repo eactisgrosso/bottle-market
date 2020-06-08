@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useAuth } from "@bottle-market/common";
+import { useAuth } from "@bottle-market/common/auth";
 import { useMutation } from "@apollo/client";
 import { Col } from "react-styled-flexboxgrid";
 import { openModal } from "@redq/reuse-modal";

@@ -13,7 +13,7 @@ import {
   PRODUCTS,
   DELIVERY,
 } from "../../../settings/constants";
-import { useAuth } from "@bottle-market/common";
+import { useAuth } from "@bottle-market/common/auth";
 import {
   DashboardIcon,
   ProductIcon,

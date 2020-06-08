@@ -7,7 +7,7 @@ import NavLink from "components/NavLink/NavLink";
 import { CloseIcon } from "components/AllSvgIcon";
 import { DrawerContext } from "contexts/drawer/drawer.context";
 import SignInForm from "../../SignInOutForm/SignIn";
-import { useAuth } from "@bottle-market/common";
+import { useAuth } from "@bottle-market/common/auth";
 import { setCookie } from "helper/session";
 
 import { FormattedMessage } from "react-intl";

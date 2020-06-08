@@ -2,7 +2,7 @@ import React from "react";
 
 import { ThemeProvider } from "styled-components";
 import { theme } from "theme";
-import { AuthProvider } from "@bottle-market/common";
+import { AuthProvider } from "@bottle-market/common/auth";
 import { StickyProvider } from "contexts/app/app.provider";
 import { SearchProvider } from "contexts/search/search.provider";
 import { HeaderProvider } from "contexts/header/header.provider";

@@ -8,7 +8,7 @@ import {
   STORES,
   DASHBOARD,
 } from "./settings/constants";
-import { useAuth, useRefreshToken } from "@bottle-market/common";
+import { useAuth, useRefreshToken } from "@bottle-market/common/auth";
 
 import { InLineLoader } from "./components/InlineLoader/InlineLoader";
 const Products = lazy(() => import("./containers/Products/Products"));

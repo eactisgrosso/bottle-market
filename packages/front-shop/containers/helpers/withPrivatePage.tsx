@@ -1,5 +1,5 @@
 import React, { Component, useEffect } from "react";
-import { useAuth } from "@bottle-market/common";
+import { useAuth } from "@bottle-market/common/auth";
 import { useRouter } from "next/router";
 import { Modal, openModal } from "@redq/reuse-modal";
 import SignInForm from "../SignInOutForm/SignIn";

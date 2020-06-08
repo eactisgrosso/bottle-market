@@ -17,7 +17,7 @@ import { theme } from "./theme";
 import Routes from "./routes";
 import * as serviceWorker from "./serviceWorker";
 import "./theme/global.css";
-import { AuthProvider } from "@bottle-market/common";
+import { AuthProvider } from "@bottle-market/common/auth";
 import { LoadScript } from "@react-google-maps/api";
 
 const authLink = setContext((_, { headers }) => {

@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
-import Router from "next/router";
-import { useAuth } from "@bottle-market/common";
+import { useAuth } from "@bottle-market/common/auth";
 import {
   SidebarWrapper,
   SidebarTop,

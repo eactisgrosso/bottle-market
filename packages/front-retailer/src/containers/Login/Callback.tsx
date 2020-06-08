@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useAuth } from "@bottle-market/common";
+import { useAuth } from "@bottle-market/common/auth";
 import { Redirect } from "react-router-dom";
 
 type CallbackProps = {};
