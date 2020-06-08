@@ -32,6 +32,7 @@ export const RightMenu: React.FC<Props> = ({
       <NavLink
         className="menu-item"
         href={RETAILER_PAGE}
+        passHref={true}
         label="I'm a Retailer"
         intlId="navlinkRetailer"
         iconClass="menu-icon"

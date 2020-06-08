@@ -1,12 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
-import Link from 'next/link';
-import { withRouter } from 'next/router';
-import { FormattedMessage } from 'react-intl';
+import React from "react";
+import styled from "styled-components";
+import Link from "next/link";
+import { withRouter } from "next/router";
+import { FormattedMessage } from "react-intl";
 
 type NavLinkProps = {
   router: any;
   href: string;
+  passHref?: boolean;
   label: string;
   intlId?: string;
   icon?: React.ReactNode;
@@ -25,6 +26,7 @@ const Icon = styled.span`
 
 const NavLink: React.SFC<NavLinkProps> = ({
   href,
+  passHref = false,
   label,
   intlId,
   router,
@@ -35,18 +37,18 @@ const NavLink: React.SFC<NavLinkProps> = ({
 }) => {
   const isCurrentPath = router.pathname === href || router.asPath === href;
   return (
-    <div onClick={onClick} className={className ? className : ''}>
-      <Link href={href}>
+    <div onClick={onClick} className={className ? className : ""}>
+      <Link href={href} passHref={passHref}>
         <a
-          className={isCurrentPath ? ' current-page' : ''}
-          style={{ display: 'flex', alignItems: 'center' }}
+          className={isCurrentPath ? " current-page" : ""}
+          style={{ display: "flex", alignItems: "center" }}
         >
-          {icon ? <Icon className={iconClass}>{icon}</Icon> : ''}
+          {icon ? <Icon className={iconClass}>{icon}</Icon> : ""}
 
           <span className="label">
             {intlId ? (
               <FormattedMessage
-                id={intlId ? intlId : 'defaultNavLinkId'}
+                id={intlId ? intlId : "defaultNavLinkId"}
                 defaultMessage={label}
               />
             ) : (

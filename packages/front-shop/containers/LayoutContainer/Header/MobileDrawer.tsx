@@ -32,9 +32,7 @@ import {
   PROFILE_PAGE,
   YOUR_ORDER,
   ORDER_RECEIVED,
-  HELP_PAGE,
   OFFER_PAGE,
-  RETAILER_PAGE,
 } from "constants/navigation";
 
 const DrawerMenuItems = [
