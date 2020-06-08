@@ -1,7 +1,7 @@
-import React from 'react';
-import Image from 'components/Image/Image';
-import Button from '../Button/Button';
-import { PlusOutline } from '../AllSvgIcon';
+import React from "react";
+import Image from "components/Image/Image";
+import Button from "../Button/Button";
+import { PlusOutline } from "../AllSvgIcon";
 import {
   CardWrapper,
   ImageWrapper,
@@ -11,8 +11,8 @@ import {
   Unit,
   CartButton,
   Counter,
-} from './MedicineCard.style';
-import { useCart } from 'contexts/cart/use-cart';
+} from "./MedicineCard.style";
+import { useCart } from "contexts/cart/use-cart";
 // import { Counter } from 'components/Counter/Counter';
 
 type ProductCardProps = {
@@ -67,25 +67,24 @@ const ProductCard: React.FC<ProductCardProps> = ({
     e.stopPropagation();
     removeItem(data);
   };
-  // console.log(items, 'product-card');
 
   return (
-    <CardWrapper onClick={onClick} className='medicine-card'>
-      <ImageWrapper className={isInCart(data?.id) && 'overlay'}>
+    <CardWrapper onClick={onClick} className="medicine-card">
+      <ImageWrapper className={isInCart(data?.id) && "overlay"}>
         <Image
           url={image}
-          className='product-image'
-          style={{ position: 'relative' }}
+          className="product-image"
+          style={{ position: "relative" }}
           alt={title}
         />
 
         {!isInCart(data?.id) ? (
           <CartButton
-            iconPosition='left'
-            colors='primary'
-            size='small'
-            variant='outlined'
-            className='cart-button'
+            iconPosition="left"
+            colors="primary"
+            size="small"
+            variant="outlined"
+            className="cart-button"
             icon={<PlusOutline />}
             onClick={handleAddClick}
           />
