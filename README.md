@@ -55,7 +55,7 @@ yarn build:admin
 
 ## Shop
 
-Configure Stripe api key in the `/packages/shop/next.config.js`. In the `env` section set `STRIPE_PUBLIC_KEY` to your `stripe` public key.
+Configure Stripe api key in the `/packages/front-shop/next.config.js`. In the `env` section set `STRIPE_PUBLIC_KEY` to your `stripe` public key.
 
 For starting the shop part with corresponding api run below commands.
 
@@ -99,15 +99,15 @@ yarn serve:shop
 
 # Folder Structure & Customization
 
-`/packages/admin` : In this portion all the admin dashboard related coding and functions.
+`/packages/front-admin` : In this portion all the admin dashboard related coding and functions.
 
-`/packages/shop` : All the shop related coding and functions.
+`/packages/front-shop` : All the shop related coding and functions.
 
 `/packages/api` : API related code code for both admin and shop section.
 
-admin related api codes are in `admin` folder
+admin related api codes are in `front-admin` folder
 
-shop related codes are in `shop` folder
+shop related codes are in `front-shop` folder
 
 # Configuration & Deployment
 

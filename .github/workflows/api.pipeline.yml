@@ -1,0 +1,44 @@
+name: API Pipeline
+
+on:
+  push:
+    branches: [dev]
+    paths:
+      - "packages/api/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: Install dependencies
+        run: yarn Install
+      - name: Install SAM cli
+        run: |
+          pip3 install wheel --upgrade
+          pip3 install setuptools --upgrade
+          pip3 install aws-sam-cli --upgrade
+
+          echo "::add-path::$HOME/.local/bin"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: SAM Build
+        run: sam build
+
+      # - name: Fix @mg.marketplace/common deps
+      #   run: |
+      #     chmod 700 build.sh
+      #     ./build.sh
+
+      - name: SAM Deploy
+        run: yes | sam deploy --stack-name bottlehub-api-staging --no-fail-on-empty-changeset --parameter-overrides StageName=staging
