@@ -12,6 +12,7 @@ const Callback: React.FC<CallbackProps> = ({}) => {
   }, [handleAuthentication]);
 
   if (isAuthenticated) {
+    console.log("isAuthenticated");
     // if (!user.id)
     //   await signMeUpMutation({
     //     variables: {
@@ -23,7 +24,7 @@ const Callback: React.FC<CallbackProps> = ({}) => {
     //       },
     //     },
     //   });
-    return <Redirect to={{ pathname: "/" }} />;
+    // return <Redirect to={{ pathname: "/" }} />;
   }
 
   return <div></div>;
