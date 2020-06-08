@@ -4,7 +4,7 @@ import {
   APIGatewayProxyResult,
 } from "aws-lambda";
 import { App } from "./app";
-import { AppModule } from "./shop/app.module";
+import { AppModule } from "./retailer/app.module";
 import * as fastify from "fastify";
 import { proxy } from "aws-serverless-fastify";
 

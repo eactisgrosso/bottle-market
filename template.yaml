@@ -53,6 +53,36 @@ Resources:
             Method: any
             Path: /shop/graphql
 
+  RetailerAPI:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./packages/api/dist/
+      Handler: dist/entrypoint-retailer.handler
+      Runtime: nodejs12.x
+      MemorySize: 512
+      Environment:
+        Variables:
+          NODE_ENV: production
+      Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: !Sub ${StageName}/DATABASE_HOST
+        - SSMParameterReadPolicy:
+            ParameterName: !Sub ${StageName}/DATABASE_USER
+        - SSMParameterReadPolicy:
+            ParameterName: !Sub ${StageName}/DATABASE_PASSWORD
+        - SSMParameterReadPolicy:
+            ParameterName: !Sub ${StageName}/AUTH0_DOMAIN
+        - SSMParameterReadPolicy:
+            ParameterName: !Sub ${StageName}/AUTH0_AUDIENCE
+        - SSMParameterReadPolicy:
+            ParameterName: !Sub ${StageName}/AUTH0_TOKEN
+      Events:
+        Shop:
+          Type: Api
+          Properties:
+            Method: any
+            Path: /retailer/graphql
+
   AdminAPI:
     Type: AWS::Serverless::Function
     Properties:
