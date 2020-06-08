@@ -126,7 +126,8 @@ const Topbar = ({ refs, ...props }: any) => {
 
       <TopbarRightSide>
         {FORMS[location.pathname] &&
-          (data.stores.length > 0 || location.pathname == "/stores") && (
+          ((data && data.stores.length > 0) ||
+            location.pathname == "/stores") && (
             <Button
               overrides={{
                 BaseButton: {
