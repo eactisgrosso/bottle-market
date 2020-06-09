@@ -81,7 +81,11 @@ export const LoaderItem = styled("div", () => ({
 }));
 
 export default function Products() {
-  const { data: storesData, error: storesError } = useQuery(GET_STORES);
+  const {
+    data: storesData,
+    loading: storesLoading,
+    error: storesError,
+  } = useQuery(GET_STORES);
   const [
     getStoreProducts,
     { data, loading, error, refetch, fetchMore },
@@ -268,39 +272,7 @@ export default function Products() {
           </Header>
 
           <Row>
-            {!loading ? (
-              data &&
-              data.storeProducts &&
-              data.storeProducts.items.length !== 0 ? (
-                data.storeProducts.items.map((item: any, index: number) => (
-                  <Col
-                    md={4}
-                    lg={3}
-                    sm={6}
-                    xs={12}
-                    key={index}
-                    style={{ margin: "15px 0" }}
-                  >
-                    <Fade bottom duration={800} delay={index * 10}>
-                      <ProductCard
-                        id={item.id}
-                        title={item.title}
-                        size={item.size}
-                        image={item.image}
-                        currency={CURRENCY}
-                        price={item.price}
-                        salePrice={item.salePrice}
-                        discountInPercent={item.discountInPercent}
-                        quantity={item.quantity}
-                        onChangeQuantity={handleChangeQuantity}
-                      />
-                    </Fade>
-                  </Col>
-                ))
-              ) : (
-                <NoResult />
-              )
-            ) : (
+            {storesLoading || loading ? (
               <LoaderWrapper>
                 <LoaderItem>
                   <Placeholder />
@@ -315,6 +287,36 @@ export default function Products() {
                   <Placeholder />
                 </LoaderItem>
               </LoaderWrapper>
+            ) : data &&
+              data.storeProducts &&
+              data.storeProducts.items.length !== 0 ? (
+              data.storeProducts.items.map((item: any, index: number) => (
+                <Col
+                  md={4}
+                  lg={3}
+                  sm={6}
+                  xs={12}
+                  key={index}
+                  style={{ margin: "15px 0" }}
+                >
+                  <Fade bottom duration={800} delay={index * 10}>
+                    <ProductCard
+                      id={item.id}
+                      title={item.title}
+                      size={item.size}
+                      image={item.image}
+                      currency={CURRENCY}
+                      price={item.price}
+                      salePrice={item.salePrice}
+                      discountInPercent={item.discountInPercent}
+                      quantity={item.quantity}
+                      onChangeQuantity={handleChangeQuantity}
+                    />
+                  </Fade>
+                </Col>
+              ))
+            ) : (
+              <NoResult />
             )}
           </Row>
           {data && data.products && data.products.hasMore && (
