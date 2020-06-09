@@ -4,8 +4,7 @@ import { EventsHandler, IEventHandler } from "@nestjs/cqrs";
 import {
   StoreOpened,
   ProductAdded,
-  ProductIncremented,
-  ProductDecremented,
+  ProductQuantitiesChanged,
   StoreClosed,
 } from "../domain/events/store.events";
 import "../../common/helpers/date.extensions";
@@ -56,49 +55,27 @@ export class ProductAddedHandler implements IEventHandler<ProductAdded> {
 }
 
 @Injectable()
-@EventsHandler(ProductIncremented)
-export class ProductIncrementedHandler
-  implements IEventHandler<ProductIncremented> {
+@EventsHandler(ProductQuantitiesChanged)
+export class ProductQuantitiesChangedHandler
+  implements IEventHandler<ProductQuantitiesChanged> {
   constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {}
 
-  async handle(event: ProductIncremented) {
+  async handle(event: ProductQuantitiesChanged) {
     const store_id = this.knex.raw("UUID_TO_BIN(?)", event.aggregateId);
-    const product_size_id = this.knex.raw(
-      "UUID_TO_BIN(?)",
-      event.product_size_id
-    );
+    for (let product of event.products) {
+      const product_size_id = this.knex.raw("UUID_TO_BIN(?)", product.id);
 
-    await this.knex("store_product")
-      .where({ store_id: store_id, product_size_id: product_size_id })
-      .update({
-        quantity: event.quantity,
-      });
-  }
-}
-
-@Injectable()
-@EventsHandler(ProductDecremented)
-export class ProductDecrementedHandler
-  implements IEventHandler<ProductDecremented> {
-  constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {}
-
-  async handle(event: ProductDecremented) {
-    const store_id = this.knex.raw("UUID_TO_BIN(?)", event.aggregateId);
-    const product_size_id = this.knex.raw(
-      "UUID_TO_BIN(?)",
-      event.product_size_id
-    );
-
-    if (event.quantity > 0)
-      await this.knex("store_product")
-        .where({ store_id: store_id, product_size_id: product_size_id })
-        .update({
-          quantity: event.quantity,
-        });
-    else
-      await this.knex("store_product")
-        .where({ store_id: store_id, product_size_id: product_size_id })
-        .del();
+      if (product.quantity > 0)
+        await this.knex("store_product")
+          .where({ store_id: store_id, product_size_id: product_size_id })
+          .update({
+            quantity: product.quantity,
+          });
+      else
+        await this.knex("store_product")
+          .where({ store_id: store_id, product_size_id: product_size_id })
+          .del();
+    }
   }
 }
 
@@ -116,7 +93,6 @@ class StoreClosedHandler implements IEventHandler<StoreClosed> {
 export const EventHandlers = [
   StoreOpenedHandler,
   ProductAddedHandler,
-  ProductIncrementedHandler,
-  ProductDecrementedHandler,
+  ProductQuantitiesChangedHandler,
   StoreClosedHandler,
 ];

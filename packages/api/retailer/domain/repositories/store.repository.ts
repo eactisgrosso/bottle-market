@@ -18,6 +18,7 @@ export class StoreRepository extends EventStore {
 
       return event;
     } catch (error) {
+      console.log(error);
       throw new Error("Unable to reconstruct event");
     }
   }

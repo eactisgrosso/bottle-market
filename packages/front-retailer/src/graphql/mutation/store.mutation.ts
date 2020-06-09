@@ -1,21 +1,35 @@
 import gql from "graphql-tag";
 import { GET_STORE_PRODUCTS } from "../query/store.query";
 
-export const INCREMENT_STORE_PRODUCT = gql`
-  mutation incrementStoreProduct($productInput: ChangeStoreProduct!) {
-    incrementStoreProduct(productInput: $productInput) {
+export const CHANGE_PRODUCT_QUANTITIES = gql`
+  mutation changeProductQuanties($productInput: ChangeProductQuantities!) {
+    changeProductQuantities(productInput: $productInput)
+  }
+`;
+
+export const ADD_PRODUCT_TO_STORE = gql`
+  mutation addProductToStore($productInput: AddStoreProduct!) {
+    addProductToStore(productInput: $productInput) {
       id
       quantity
+      price
     }
   }
 `;
 
-export const DECREMENT_STORE_PRODUCT = gql`
-  mutation decrementStoreProduct($productInput: ChangeStoreProduct!) {
-    decrementStoreProduct(productInput: $productInput) {
-      id
-      quantity
-    }
+export const CHANGE_LOCAL_PRODUCT_QUANTITY = gql`
+  mutation changeLocalProductQuantity(
+    $id: String!
+    $quantity: Number!
+    $store_id: String!
+    $category_type: String!
+  ) {
+    changeLocalProductQuantity(
+      id: $id
+      quantity: $quantity
+      store_id: $store_id
+      category_type: $category_type
+    ) @client
   }
 `;
 
@@ -34,6 +48,16 @@ export const updateProduct = (cache, product_id, fields) => {
     id: cache.identify({
       __typename: "ProductDTO",
       id: product_id,
+    }),
+    fields: fields,
+  });
+};
+
+export const updateStoreProduct = (cache, product_size_id, fields) => {
+  cache.modify({
+    id: cache.identify({
+      __typename: "StoreProductDTO",
+      id: product_size_id,
     }),
     fields: fields,
   });

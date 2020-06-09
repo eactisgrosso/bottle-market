@@ -30,8 +30,7 @@ type ProductCardProps = {
   discountInPercent?: number;
   quantity: number;
   onAdd?: Function;
-  onIncrement: Function;
-  onDecrement: Function;
+  onChangeQuantity: Function;
 };
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -45,8 +44,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   currency,
   quantity,
   onAdd,
-  onIncrement,
-  onDecrement,
+  onChangeQuantity,
 }) => {
   return (
     <ProductCardWrapper
@@ -123,8 +121,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
           ) : (
             <Counter
               value={quantity}
-              onDecrement={(e) => onDecrement(id)}
-              onIncrement={(e) => onIncrement(id)}
+              onDecrement={(e) =>
+                onChangeQuantity(id, quantity > 0 ? quantity - 1 : 0)
+              }
+              onIncrement={(e) => onChangeQuantity(id, quantity + 1)}
             />
           )}
         </ProductMeta>

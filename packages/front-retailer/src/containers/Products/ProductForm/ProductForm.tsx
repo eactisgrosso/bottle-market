@@ -6,10 +6,9 @@ import {
   GET_CATEGORY_TYPE,
 } from "../../../graphql/query/store.query";
 import {
-  INCREMENT_STORE_PRODUCT,
-  DECREMENT_STORE_PRODUCT,
-  updateStore,
-  updateProduct,
+  ADD_PRODUCT_TO_STORE,
+  CHANGE_LOCAL_PRODUCT_QUANTITY,
+  CHANGE_PRODUCT_QUANTITIES,
   updateStoreProducts,
 } from "../../../graphql/mutation/store.mutation";
 import { useDrawerDispatch } from "../../../context/DrawerContext";
@@ -59,16 +58,6 @@ const GET_PRODUCTS = gql`
   }
 `;
 
-const ADD_PRODUCT_TO_STORE = gql`
-  mutation addProductToStore($productInput: AddStoreProduct!) {
-    addProductToStore(productInput: $productInput) {
-      id
-      price
-      quantity
-    }
-  }
-`;
-
 type Props = any;
 
 const AddProduct: React.FC<Props> = (props) => {
@@ -90,11 +79,10 @@ const AddProduct: React.FC<Props> = (props) => {
     },
   });
   const [search, setSearch] = useState("");
+  const [quantities, setQuantities] = useState<Map<string, number>>();
+
   const [addProductToStore] = useMutation(ADD_PRODUCT_TO_STORE, {
-    update(cache, { data: { addProductToStore } }) {
-      updateProduct(cache, addProductToStore.id, {
-        quantity: (value) => value + 1,
-      });
+    update(cache, { data: { createStore } }) {
       updateStoreProducts(
         cache,
         store_id,
@@ -102,43 +90,12 @@ const AddProduct: React.FC<Props> = (props) => {
         (items) => [addProductToStore, ...items],
         (length) => length + 1
       );
-      updateStore(cache, store_id, {
-        products: (value) => value + 1,
-      });
     },
   });
-
-  const [incrementStoreProduct] = useMutation(INCREMENT_STORE_PRODUCT, {
-    update(cache, { data: { incrementStoreProduct } }) {
-      updateProduct(cache, incrementStoreProduct.id, {
-        quantity: (value) => value + 1,
-      });
-    },
-  });
-
-  const [decrementStoreProduct] = useMutation(DECREMENT_STORE_PRODUCT, {
-    update(cache, { data: { decrementStoreProduct } }) {
-      updateProduct(cache, decrementStoreProduct.id, {
-        quantity: (value) => value - 1,
-      });
-
-      if (decrementStoreProduct.quantity == 0) {
-        updateStoreProducts(
-          cache,
-          store_id,
-          category_type,
-          (items) => [
-            ...items.filter((sp) => sp.id !== decrementStoreProduct.id),
-          ],
-          (length) => length - 1
-        );
-
-        updateStore(cache, store_id, {
-          products: (value) => value - 1,
-        });
-      }
-    },
-  });
+  const [changeLocalProductQuantity] = useMutation(
+    CHANGE_LOCAL_PRODUCT_QUANTITY
+  );
+  const [changeProductQuantities] = useMutation(CHANGE_PRODUCT_QUANTITIES);
 
   useEffect(() => {
     const timeOutId = setTimeout(
@@ -154,6 +111,30 @@ const AddProduct: React.FC<Props> = (props) => {
       clearTimeout(timeOutId);
     };
   }, [search]);
+
+  useEffect(() => {
+    const timeOutId = setTimeout(() => {
+      if (quantities) {
+        changeProductQuantities({
+          variables: {
+            productInput: {
+              store_id: store_id,
+              quantities: Array.from(quantities).map((kv) => {
+                return {
+                  id: kv[0],
+                  quantity: kv[1],
+                };
+              }),
+            },
+          },
+        });
+        setQuantities(null);
+      }
+    }, 1000);
+    return () => {
+      clearTimeout(timeOutId);
+    };
+  }, [quantities]);
 
   function loadMore() {
     fetchMore({
@@ -175,6 +156,12 @@ const AddProduct: React.FC<Props> = (props) => {
   }
 
   const handleAddProduct = (id: string, price: number) => {
+    changeLocalProductQuantity({
+      variables: {
+        id: id,
+        quantity: 1,
+      },
+    });
     addProductToStore({
       variables: {
         productInput: {
@@ -186,24 +173,17 @@ const AddProduct: React.FC<Props> = (props) => {
     });
   };
 
-  const handleIncrement = (id: string) => {
-    incrementStoreProduct({
-      variables: {
-        productInput: {
-          store_id: store_id,
-          product_size_id: id,
-        },
-      },
-    });
-  };
+  const handleChangeQuantity = (id: string, quantity: number) => {
+    const pq = quantities ? new Map(quantities) : new Map<string, number>();
+    pq.set(id, quantity);
+    setQuantities(pq);
 
-  const handleDecrement = (id: string) => {
-    decrementStoreProduct({
+    changeLocalProductQuantity({
       variables: {
-        productInput: {
-          store_id: store_id,
-          product_size_id: id,
-        },
+        id: id,
+        quantity: quantity,
+        store_id: store_id,
+        category_type: category_type,
       },
     });
   };
@@ -256,8 +236,7 @@ const AddProduct: React.FC<Props> = (props) => {
                     discountInPercent={item.discountInPercent}
                     quantity={item.quantity}
                     onAdd={handleAddProduct}
-                    onIncrement={handleIncrement}
-                    onDecrement={handleDecrement}
+                    onChangeQuantity={handleChangeQuantity}
                   />
                 </Fade>
                 {index === data.products.items.length - 4 && (

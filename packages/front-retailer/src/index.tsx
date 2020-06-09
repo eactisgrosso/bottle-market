@@ -19,6 +19,12 @@ import * as serviceWorker from "./serviceWorker";
 import "./theme/global.css";
 import { AuthProvider } from "@bottle-market/common/auth";
 import { LoadScript } from "@react-google-maps/api";
+import {
+  updateProduct,
+  updateStoreProduct,
+  updateStoreProducts,
+  updateStore,
+} from "./graphql/mutation/store.mutation";
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem("access_token");
@@ -50,6 +56,26 @@ const client = new ApolloClient({
     }),
   ]),
   cache: new InMemoryCache(),
+  resolvers: {
+    Mutation: {
+      changeLocalProductQuantity: (_root, variables, { cache }) => {
+        updateProduct(cache, variables.id, {
+          quantity: (value) => variables.quantity,
+        });
+        updateStoreProduct(cache, variables.id, {
+          quantity: (value) => variables.quantity,
+        });
+        if (variables.quantity == 0)
+          updateStoreProducts(
+            cache,
+            variables.store_id,
+            variables.category_type,
+            (items) => [...items.filter((sp) => sp.id !== variables.id)],
+            (length) => length - 1
+          );
+      },
+    },
+  },
 });
 
 const mapsLibraries = ["places"];

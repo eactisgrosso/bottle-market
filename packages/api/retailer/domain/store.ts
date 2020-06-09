@@ -1,9 +1,9 @@
 import { Aggregate } from "../../common/domain/aggregate";
+import { ProductQuantity } from "../../common/data/product.types";
 import {
   StoreOpened,
   ProductAdded,
-  ProductIncremented,
-  ProductDecremented,
+  ProductQuantitiesChanged,
   StoreClosed,
 } from "./events/store.events";
 
@@ -71,38 +71,16 @@ export class Store extends Aggregate {
     );
   }
 
-  incrementProduct(product_size_id: string) {
-    const productInfo = this.products.get(product_size_id);
-    if (!productInfo) throw Error(`Product not found: ${product_size_id}`);
-
-    this.apply(
-      new ProductIncremented(product_size_id, productInfo.quantity + 1)
-    );
+  changeProductQuantities(productQuantities: ProductQuantity[]) {
+    this.apply(new ProductQuantitiesChanged(productQuantities));
   }
 
-  onProductIncremented(event: ProductIncremented) {
-    const productInfo = this.products.get(event.product_size_id);
-    if (productInfo) productInfo.quantity++;
-    else throw Error(`Product not found: ${event.product_size_id}`);
-  }
-
-  decrementProduct(product_size_id: string) {
-    const productInfo = this.products.get(product_size_id);
-    if (!productInfo) throw Error(`Product not found: ${product_size_id}`);
-    if (productInfo.quantity == 0) return;
-
-    this.apply(
-      new ProductDecremented(product_size_id, productInfo.quantity - 1)
-    );
-  }
-
-  onProductDecremented(event: ProductDecremented) {
-    const productInfo = this.products.get(event.product_size_id);
-    if (productInfo) {
-      productInfo.quantity--;
-      if (productInfo.quantity == 0)
-        this.products.delete(event.product_size_id);
-    } else throw Error(`Product not found: ${event.product_size_id}`);
+  onProductQuantitiesChanged(event: ProductQuantitiesChanged) {
+    for (let product of event.products) {
+      const productInfo = this.products.get(product.id);
+      if (productInfo) productInfo.quantity == product.quantity;
+      else throw Error(`Product not found: ${product.id}`);
+    }
   }
 
   close() {

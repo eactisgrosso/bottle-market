@@ -13,7 +13,7 @@ import StoreProductDTO from "./store.product_type";
 import StoreProducts from "./store.products_type";
 import {
   AddStoreProduct,
-  ChangeStoreProduct,
+  ChangeProductQuantities,
 } from "./store.product.input_type";
 import GetProductsArgs from "../product/product.args_type";
 
@@ -153,43 +153,16 @@ export class StoreResolver {
     return response;
   }
 
-  @Mutation(() => StoreProductDTO, {
+  @Mutation(() => Boolean, {
     description: "Increment product quantity",
   })
-  async incrementStoreProduct(
-    @Args("productInput") productInput: ChangeStoreProduct
-  ): Promise<StoreProductDTO> {
-    console.time("MySql");
+  async changeProductQuantities(
+    @Args("productInput") productInput: ChangeProductQuantities
+  ) {
     const store = await this.repository.load(productInput.store_id);
-    store.incrementProduct(productInput.product_size_id);
-    store.commit();
-    console.timeEnd("MySql");
-
-    const response = new StoreProductDTO();
-    response.id = productInput.product_size_id;
-    const productInfo = store.products.get(productInput.product_size_id);
-    response.price = productInfo ? productInfo.price : 0;
-    response.quantity = productInfo ? productInfo.quantity : 0;
-
-    return response;
-  }
-
-  @Mutation(() => StoreProductDTO, {
-    description: "Decrement product quantity",
-  })
-  async decrementStoreProduct(
-    @Args("productInput") productInput: ChangeStoreProduct
-  ): Promise<StoreProductDTO> {
-    const store = await this.repository.load(productInput.store_id);
-    store.decrementProduct(productInput.product_size_id);
+    store.changeProductQuantities(productInput.quantities);
     store.commit();
 
-    const response = new StoreProductDTO();
-    response.id = productInput.product_size_id;
-    const productInfo = store.products.get(productInput.product_size_id);
-    response.price = productInfo ? productInfo.price : 0;
-    response.quantity = productInfo ? productInfo.quantity : 0;
-
-    return response;
+    return true;
   }
 }

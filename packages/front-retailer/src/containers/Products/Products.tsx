@@ -13,6 +13,7 @@ import {
   useLazyQuery,
   useMutation,
   useApolloClient,
+  gql,
 } from "@apollo/client";
 import {
   GET_STORE,
@@ -21,11 +22,8 @@ import {
   GET_STORE_PRODUCTS,
 } from "../../graphql/query/store.query";
 import {
-  INCREMENT_STORE_PRODUCT,
-  DECREMENT_STORE_PRODUCT,
-  updateStore,
-  updateProduct,
-  updateStoreProducts,
+  CHANGE_LOCAL_PRODUCT_QUANTITY,
+  CHANGE_PRODUCT_QUANTITIES,
 } from "../../graphql/mutation/store.mutation";
 import { Header, Heading } from "../../components/WrapperStyle";
 import Fade from "react-reveal/Fade";
@@ -92,39 +90,14 @@ export default function Products() {
   const [categoryType, setCategoryType] = useState([]);
   const [store, setStore] = useState([]);
   const [search, setSearch] = useState([]);
+  const [quantities, setQuantities] = useState<Map<string, number>>();
+
   const client = useApolloClient();
 
-  const [incrementStoreProduct] = useMutation(INCREMENT_STORE_PRODUCT, {
-    update(cache, { data: { incrementStoreProduct } }) {
-      updateProduct(cache, incrementStoreProduct.id, {
-        quantity: (value) => value + 1,
-      });
-    },
-  });
-
-  const [decrementStoreProduct] = useMutation(DECREMENT_STORE_PRODUCT, {
-    update(cache, { data: { decrementStoreProduct } }) {
-      updateProduct(cache, decrementStoreProduct.id, {
-        quantity: (value) => value - 1,
-      });
-
-      if (decrementStoreProduct.quantity == 0) {
-        updateStoreProducts(
-          cache,
-          store[0].id,
-          categoryType[0].id,
-          (items) => [
-            ...items.filter((sp) => sp.id !== decrementStoreProduct.id),
-          ],
-          (length) => length - 1
-        );
-
-        updateStore(cache, store[0].id, {
-          products: (value) => value - 1,
-        });
-      }
-    },
-  });
+  const [changeLocalProductQuantity] = useMutation(
+    CHANGE_LOCAL_PRODUCT_QUANTITY
+  );
+  const [changeProductQuantities] = useMutation(CHANGE_PRODUCT_QUANTITIES);
 
   useEffect(() => {
     if (storesData && storesData.stores.length > 0 && store.length == 0) {
@@ -145,14 +118,39 @@ export default function Products() {
   }, []);
 
   useEffect(() => {
-    if (store.length > 0 && categoryType.length > 0)
+    if (store.length > 0 && categoryType.length > 0) {
       getStoreProducts({
         variables: {
           store_id: store[0].id,
           type: categoryType[0].id,
         },
       });
+    }
   }, [store, categoryType]);
+
+  useEffect(() => {
+    const timeOutId = setTimeout(() => {
+      if (quantities) {
+        changeProductQuantities({
+          variables: {
+            productInput: {
+              store_id: store[0].id,
+              quantities: Array.from(quantities).map((kv) => {
+                return {
+                  id: kv[0],
+                  quantity: kv[1],
+                };
+              }),
+            },
+          },
+        });
+        setQuantities(null);
+      }
+    }, 1000);
+    return () => {
+      clearTimeout(timeOutId);
+    };
+  }, [quantities]);
 
   if (error) {
     return <div>Error! {error.message}</div>;
@@ -200,24 +198,17 @@ export default function Products() {
     refetch({ searchText: value });
   }
 
-  const handleIncrement = (id: string) => {
-    incrementStoreProduct({
-      variables: {
-        productInput: {
-          store_id: store[0].id,
-          product_size_id: id,
-        },
-      },
-    });
-  };
+  const handleChangeQuantity = (id: string, quantity: number) => {
+    const pq = quantities ? new Map(quantities) : new Map<string, number>();
+    pq.set(id, quantity);
+    setQuantities(pq);
 
-  const handleDecrement = (id: string) => {
-    decrementStoreProduct({
+    changeLocalProductQuantity({
       variables: {
-        productInput: {
-          store_id: store[0].id,
-          product_size_id: id,
-        },
+        id: id,
+        quantity: quantity,
+        store_id: store[0].id,
+        category_type: categoryType[0].id,
       },
     });
   };
@@ -301,8 +292,7 @@ export default function Products() {
                         salePrice={item.salePrice}
                         discountInPercent={item.discountInPercent}
                         quantity={item.quantity}
-                        onIncrement={handleIncrement}
-                        onDecrement={handleDecrement}
+                        onChangeQuantity={handleChangeQuantity}
                       />
                     </Fade>
                   </Col>
