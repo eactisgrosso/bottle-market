@@ -159,9 +159,11 @@ export class StoreResolver {
   async incrementStoreProduct(
     @Args("productInput") productInput: ChangeStoreProduct
   ): Promise<StoreProductDTO> {
+    console.time("MySql");
     const store = await this.repository.load(productInput.store_id);
     store.incrementProduct(productInput.product_size_id);
     store.commit();
+    console.timeEnd("MySql");
 
     const response = new StoreProductDTO();
     response.id = productInput.product_size_id;
