@@ -45,10 +45,10 @@ async function fetchCoordinates(search, dispatch, cancelToken) {
   try {
     const result = await axios(
       `${GOB_AR_API}?provincia=${encodeURIComponent(
-        address[2]
+        address[0]
       )}&localidad=${encodeURIComponent(
         address[1]
-      )}&direccion=${encodeURIComponent(address[0])}`,
+      )}&direccion=${encodeURIComponent(address[2])}`,
       {
         cancelToken,
       }
