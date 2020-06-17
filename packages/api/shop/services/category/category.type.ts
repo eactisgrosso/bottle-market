@@ -2,8 +2,8 @@ import { ObjectType, Field, Int } from "@nestjs/graphql";
 
 @ObjectType()
 export default class Category {
-  @Field((type) => Int)
-  id: number;
+  @Field()
+  id: string;
 
   @Field()
   title: string;

@@ -6,7 +6,6 @@ import { Event } from "./event";
 import { StorageEvent } from "./storage.event";
 import { Aggregate } from "./aggregate";
 import { decode } from "jsonwebtoken";
-import "../helpers/date.extensions";
 
 export interface Constructor<T> {
   new (...args: any[]): T;
@@ -23,20 +22,16 @@ export abstract class EventStore {
     const user = decode(
       context.req.headers.authorization.replace("Bearer ", "")
     );
-    if (user)
-      this.user_id = user["https://app.bottlemarket.com.ar/userinfo"].bottleId;
+    if (user) {
+      const info = user["https://app.bottlemarket.com.ar/userinfo"];
+      if (info) this.user_id = info.bottleId;
+    }
   }
 
   protected abstract recreateEventFromStorage(event: StorageEvent): Event;
 
   async ctx<T extends Aggregate>(object: T): Promise<T> {
-    const aggregateId = this.knex.raw("UUID_TO_BIN(?)", object.id);
-    const userId = this.knex.raw("UUID_TO_BIN(?)", this.user_id);
-
-    const dbEvents = await this.knex("events").where(
-      "aggregateid",
-      aggregateId
-    );
+    const dbEvents = await this.knex("events").where("aggregateId", object.id);
     const events = dbEvents.map((event: StorageEvent) =>
       this.recreateEventFromStorage(event)
     );
@@ -49,13 +44,13 @@ export abstract class EventStore {
       event.userId = this.user_id;
 
       await this.knex("events").insert({
-        aggregateId: aggregateId,
+        aggregateId: object.id,
         aggregateType: object.constructor.name,
         eventType: event.constructor.name,
         eventData: JSON.stringify(event),
-        userId: userId,
+        userId: this.user_id,
         sequence: event.sequence,
-        timestamp: new Date().toMySQLString(),
+        timestamp: event.timestamp,
       });
 
       eventBus.publish(event);

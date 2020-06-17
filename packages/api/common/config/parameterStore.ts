@@ -31,7 +31,7 @@ export class ParameterStore {
       const host =
         process.env.NODE_ENV != "development"
           ? response.Parameters[2].Value
-          : "localhost";
+          : "127.0.0.1";
       const auth0Domain = response.Parameters[1].Value;
       const auth0Audience = response.Parameters[0].Value;
 
@@ -46,8 +46,14 @@ export class ParameterStore {
         })
         .promise();
 
-      const user = response.Parameters[2].Value;
-      const pwd = response.Parameters[1].Value;
+      const user =
+        process.env.NODE_ENV != "development"
+          ? response.Parameters[2].Value
+          : "eactisgrosso";
+      const pwd =
+        process.env.NODE_ENV != "development"
+          ? response.Parameters[1].Value
+          : "";
       const auth0Token = response.Parameters[0].Value;
 
       ParameterStore.instance = new ParameterStore(
@@ -64,13 +70,12 @@ export class ParameterStore {
   }
 
   dbConfig: KnexOptions = {
-    client: "mysql",
+    client: "pg",
     connection: {
       host: this.host,
-      port: 3306,
       user: this.user,
       password: this.pwd,
-      database: "bottlehub",
+      database: "postgres",
     },
   };
 

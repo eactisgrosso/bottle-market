@@ -34,11 +34,7 @@ export class ProductResolver {
       "retailer_product_view as p"
     );
 
-    query.leftJoin(
-      "store_product as sp",
-      "p.id",
-      this.knex.raw("BIN_TO_UUID(sp.product_size_id)")
-    );
+    query.leftJoin("store_product as sp", "p.id", "sp.product_size_id");
 
     if (category) {
       await this.productQuery.byCategorySlug(query, category);
@@ -57,11 +53,7 @@ export class ProductResolver {
       builder.andWhere((innerBuilder: any) => {
         innerBuilder
           .whereNull("sp.store_id")
-          .orWhere(
-            "sp.store_id",
-            "=",
-            this.knex.raw("UUID_TO_BIN(?)", store_id)
-          );
+          .orWhere("sp.store_id", "=", store_id);
       });
     });
 

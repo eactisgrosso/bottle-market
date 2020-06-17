@@ -20,18 +20,14 @@ export default class ProductQuery {
 
     const childrenCategories = await this.knex("category_tree_view")
       .select("slug")
-      .where("path", "like", `%[catalogo-publico]%`)
-      .andWhere("path", "like", `%[${category}]%`);
+      .where("path", "ilike", `%[catalogo-publico]%`)
+      .andWhere("path", "ilike", `%[${category}]%`);
 
     query.andWhere((builder: any) => {
-      builder.orWhere("categoriesSlugs", "like", `%[${category}]%`);
+      // builder.orWhereRaw(`? = ANY (categories)`, category);
       if (childrenCategories && childrenCategories.length > 0) {
         for (let childrenCategory of childrenCategories) {
-          builder.orWhere(
-            "categoriesSlugs",
-            "like",
-            `%[${childrenCategory.slug}]%`
-          );
+          builder.orWhereRaw(`? = ANY (categories)`, childrenCategory.slug);
         }
       }
     });
@@ -45,10 +41,10 @@ export default class ProductQuery {
       for (let term of terms) {
         builder.andWhere((innerBuilder: any) => {
           innerBuilder
-            .where("title", "like", `%${term}%`)
-            .orWhere("producer", "like", `%${term}%`)
-            .orWhere("region", "like", `%${term}%`)
-            .orWhere("description", "like", `%${term}%`);
+            .where("title", "ilike", `%${term}%`)
+            .orWhere("producer", "ilike", `%${term}%`)
+            .orWhere("region", "ilike", `%${term}%`)
+            .orWhere("description", "ilike", `%${term}%`);
         });
       }
     });

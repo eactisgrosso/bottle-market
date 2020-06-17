@@ -1,0 +1,11 @@
+{
+  "name": "@bottle-market/token-rotator",
+  "version": "1.0.0",
+  "description": "Bottle Market - Token Rotator",
+  "main": "app.js",
+  "author": "BottleHub S.A.",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.88.2"
+  }
+}

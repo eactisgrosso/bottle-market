@@ -1,15 +1,16 @@
-CREATE VIEW `delivery_area_view` AS 
+
+CREATE VIEW delivery_area_view AS 
 SELECT
-	 BIN_TO_UUID(user_id) as user_id,
-	 BIN_TO_UUID(da.id) as id,
+	 user_id,
+	 da.id,
      da.name,
-     BIN_TO_UUID(store_id) as store_id,
+     store_id,
      st.name as store,
      address,
-     ST_X(centroid) as lat,
-	 ST_Y(centroid) as lng,
+     centroid[0] as lat,
+	 centroid[1] as lng,
      radius,
-	monday, 
+	 monday, 
      monday_hours_from, 
      monday_hours_to, 
      tuesday, 

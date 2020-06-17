@@ -1,7 +1,7 @@
-CREATE VIEW `store_view` AS 
+CREATE VIEW store_view AS 
 SELECT
-	BIN_TO_UUID(user_id) as user_id,
-	BIN_TO_UUID(s.id) as id,
+	user_id,
+	s.id,
     s.name,
     store_type,
     street,

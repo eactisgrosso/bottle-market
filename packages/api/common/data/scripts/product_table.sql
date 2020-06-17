@@ -1,3 +1,21 @@
-
-ALTER TABLE product
-ADD COLUMN aggregateId BINARY(16)
+CREATE TABLE product (
+  id uuid primary key,
+  slug varchar(255),
+  title varchar(255) NOT NULL,
+  description text,
+  is_enabled smallint NOT NULL,
+  _json json,
+  date_last_modified timestamp,
+  price_retail decimal(8,2) NOT NULL,
+  sale_min_qty int,
+  producer_id uuid,
+  promo_discount decimal(4,2),
+  unit_per_box int,
+  package_size varchar(10),
+  author_id uuid,
+  region_id uuid,
+  details text,
+  images text [],
+  categories varchar(50) [],
+  unique (slug)
+);

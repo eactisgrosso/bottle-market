@@ -1,0 +1,248 @@
+[
+  {
+    "id": 1,
+    "name": "Pedro Rosell & Lorena Mulet",
+    "country": "AR",
+    "slug": "pedro-rosell-lorena-mulet"
+  },
+  {
+    "id": 2,
+    "name": "Rogelio Rabino",
+    "country": "AR",
+    "slug": "rogelio-rabino"
+  },
+  {
+    "id": 3,
+    "name": "Mauricio Vegetti Lui",
+    "country": "AR",
+    "slug": "mauricio-vegetti-lui"
+  },
+  {
+    "id": 4,
+    "name": "Aurelio Montes",
+    "country": "AR",
+    "slug": "aurelio-montes"
+  },
+  {
+    "id": 5,
+    "name": "Marcos Miguelez",
+    "country": "AR",
+    "slug": "marcos-miguelez"
+  },
+  {
+    "id": 6,
+    "name": "Sergio Montiel",
+    "country": "AR",
+    "slug": "sergio-montiel"
+  },
+  { "id": 7, "name": "Lucas Niven", "country": "AR", "slug": "lucas-niven" },
+  {
+    "id": 8,
+    "name": "Lucas Richardi",
+    "country": "AR",
+    "slug": "lucas-richardi"
+  },
+  {
+    "id": 9,
+    "name": "Gonzalo Mazzotta",
+    "country": "AR",
+    "slug": "gonzalo-mazzotta"
+  },
+  {
+    "id": 10,
+    "name": "Laureano Gomez",
+    "country": "AR",
+    "slug": "laureano-gomez"
+  },
+  {
+    "id": 11,
+    "name": "Pablo C\u00faneo",
+    "country": "AR",
+    "slug": "pablo-cuneo"
+  },
+  {
+    "id": 12,
+    "name": "Giuseppe Franceschini",
+    "country": "AR",
+    "slug": "giuseppe-franceschini"
+  },
+  {
+    "id": 13,
+    "name": "Fabricio Orlando",
+    "country": "AR",
+    "slug": "fabricio-orlando"
+  },
+  {
+    "id": 14,
+    "name": "Lucas Pfister",
+    "country": "AR",
+    "slug": "lucas-pfister"
+  },
+  {
+    "id": 15,
+    "name": "Gabriela Celeste",
+    "country": "AR",
+    "slug": "gabriela-celeste"
+  },
+  { "id": 16, "name": "Jimena Lopez", "country": "AR", "slug": "jimena-lopez" },
+  {
+    "id": 17,
+    "name": "Pepe Reginato",
+    "country": "AR",
+    "slug": "pepe-reginato"
+  },
+  {
+    "id": 18,
+    "name": "Mariela Ardito",
+    "country": "AR",
+    "slug": "mariela-ardito"
+  },
+  {
+    "id": 19,
+    "name": "Luis Barraud - Ignacio Macciardi",
+    "country": "AR",
+    "slug": "luis-barraud-ignacio-macciardi"
+  },
+  {
+    "id": 20,
+    "name": "Ignacio Macciardi",
+    "country": "AR",
+    "slug": "ignacio-macciardi"
+  },
+  {
+    "id": 21,
+    "name": "Lucas Gimenez Bachiocchi",
+    "country": "AR",
+    "slug": "lucas-gimenez-bachiocchi-michel-rolland"
+  },
+  {
+    "id": 22,
+    "name": "Lucas Gimenez Bachiocchi & Daniel Garc\u00eda Corazza",
+    "country": "AR",
+    "slug": "lucas-gimenez-bachiocchi-daniel-garcia-corazza"
+  },
+  {
+    "id": 23,
+    "name": "Mat\u00edas Calleja",
+    "country": "ES",
+    "slug": "matias-calleja"
+  },
+  {
+    "id": 24,
+    "name": "Roberto Simonetto",
+    "country": "AR",
+    "slug": "roberto-simonetto"
+  },
+  {
+    "id": 25,
+    "name": "Rodrigo Romero",
+    "country": "AR",
+    "slug": "rodrigo-romero"
+  },
+  {
+    "id": 26,
+    "name": "Iv\u00e1n Fern\u00e1ndez",
+    "country": "AR",
+    "slug": "ivan-fernanez"
+  },
+  {
+    "id": 27,
+    "name": "Soledad Vargas",
+    "country": "AR",
+    "slug": "soledad-vargas"
+  },
+  {
+    "id": 28,
+    "name": "Javier Lo Forte",
+    "country": "AR",
+    "slug": "javier-lo-forte"
+  },
+  {
+    "id": 29,
+    "name": "Germ\u00e1n Di C\u00e9sare",
+    "country": "AR",
+    "slug": "german-di-cesare"
+  },
+  {
+    "id": 30,
+    "name": "Victoria Prandina & Enrique Tirado",
+    "country": "AR",
+    "slug": "victoria-prandina-enrique-tirado"
+  },
+  { "id": 31, "name": "Marcelo Papa", "country": "AR", "slug": "marcelo-papa" },
+  {
+    "id": 32,
+    "name": "Enrique Tirado",
+    "country": "CL",
+    "slug": "enrique-tirado"
+  },
+  {
+    "id": 33,
+    "name": "Marcio Ram\u00edrez",
+    "country": "CL",
+    "slug": "marcio-ramirez"
+  },
+  {
+    "id": 34,
+    "name": "Pablo y Hector Durigutti",
+    "country": "AR",
+    "slug": "pablo-y-hector-durigutti"
+  },
+  {
+    "id": 35,
+    "name": "Tomas Stahringer",
+    "country": "AR",
+    "slug": "tomas-stahringer"
+  },
+  {
+    "id": 36,
+    "name": "Thibault Lepoutre",
+    "country": "AR",
+    "slug": "thibault-lepoutre"
+  },
+  { "id": 37, "name": "Leandro Azin", "country": "AR", "slug": "leandro-azin" },
+  {
+    "id": 38,
+    "name": "Cecilia Bajuk",
+    "country": "AR",
+    "slug": "cecilia-bajuk"
+  },
+  {
+    "id": 39,
+    "name": "Roberto de la Mota",
+    "country": "AR",
+    "slug": "roberto-de-la-mota"
+  },
+  { "id": 40, "name": "David Bonomi", "country": "AR", "slug": "david-bonomi" },
+  { "id": 41, "name": "German Berra", "country": "AR", "slug": "german-berra" },
+  {
+    "id": 42,
+    "name": "Manel Quintana",
+    "country": "ES",
+    "slug": "manel-quintana"
+  },
+  {
+    "id": 43,
+    "name": "Daniel Eckert",
+    "country": "AR",
+    "slug": "daniel-eckert"
+  },
+  {
+    "id": 44,
+    "name": "Julia Halupczok y Mat\u00edas Michelini",
+    "country": "AR",
+    "slug": "julia-halupczok-y-matias-michelini"
+  },
+  {
+    "id": 45,
+    "name": "Jos\u00e9 Galante",
+    "country": "AR",
+    "slug": "jose-galante"
+  },
+  {
+    "id": 46,
+    "name": "Miriam G\u00f3mez",
+    "country": "AR",
+    "slug": "miriam-gomez"
+  }
+]

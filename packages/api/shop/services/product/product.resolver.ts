@@ -24,8 +24,7 @@ export class ProductResolver {
     product.gallery = [];
     product.image = "";
     if (dbProduct.images) {
-      const images = dbProduct.images.split(",");
-      for (let image of images) {
+      for (let image of dbProduct.images) {
         const gallery = new Gallery();
         gallery.url = `https://s3.amazonaws.com/bottlemarket.images/${image}`;
         product.gallery.push(gallery);
@@ -35,6 +34,7 @@ export class ProductResolver {
 
     product.size = dbProduct.size;
     product.salePrice = 0;
+    product.discountInPercent = 0;
     product.categories = [];
 
     return product;
@@ -84,32 +84,31 @@ export class ProductResolver {
         product.type = (<any>ProductType)[
           type != null ? type : ProductType.vino
         ];
-        let dbCategoryIds = dbProduct.categories.split(",");
-        for (let categoryId of dbCategoryIds) {
-          let category = new Category();
-          category.id = +categoryId;
-          categoryIds.add(category.id);
-          product.categories.push(category);
-        }
+        // for (let categorySlug of dbProduct.categories) {
+        //   let category = new Category();
+        //   category.id = +categorySlug;
+        //   categoryIds.add(category.id);
+        //   product.categories.push(category);
+        // }
 
         return product;
       });
 
-    let categories = await this.buildCategoryMap(categoryIds);
+    // let categories = await this.buildCategoryMap(categoryIds);
 
-    for (let dbProduct of dbProducts)
-      for (let category of dbProduct.categories) {
-        let dbCategory = categories[category.id];
-        category.title = dbCategory.title;
-        category.slug = dbCategory.slug;
-        category.type = (<any>ProductType)[
-          type != null ? type : ProductType.vino
-        ];
-        category.icon = type
-          ? type.charAt(0).toUpperCase() + type.slice(1)
-          : "Vinos";
-        category.children = [];
-      }
+    // for (let dbProduct of dbProducts)
+    //   for (let category of dbProduct.categories) {
+    //     let dbCategory = categories[category.id];
+    //     category.title = dbCategory.title;
+    //     category.slug = dbCategory.slug;
+    //     category.type = (<any>ProductType)[
+    //       type != null ? type : ProductType.vino
+    //     ];
+    //     category.icon = type
+    //       ? type.charAt(0).toUpperCase() + type.slice(1)
+    //       : "Vinos";
+    //     category.children = [];
+    //   }
 
     const dbTotal = await queryCount;
     return new ProductResponse({

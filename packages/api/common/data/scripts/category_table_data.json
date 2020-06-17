@@ -1,0 +1,850 @@
+[
+  {
+    "id": 1,
+    "title": "INICIO",
+    "_json": "",
+    "slug": "ROOT",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 2,
+    "title": "Vino",
+    "_json": "",
+    "slug": "vino",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 3,
+    "title": "Vino Tinto",
+    "_json": "{\r\n\"tituloMenuSecHeader\" : \"Tintos\"\r\n}",
+    "slug": "vino-tinto",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 4,
+    "title": "Malbec",
+    "_json": "",
+    "slug": "malbec",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 5,
+    "title": "Vino Blanco",
+    "_json": "{\r\n\"tituloMenuSecHeader\" : \"Blancos\"\r\n}",
+    "slug": "vino-blanco",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 6,
+    "title": "Torront\u00e9s",
+    "_json": "",
+    "slug": "torrontes",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 7,
+    "title": "Whisky",
+    "_json": "",
+    "slug": "whisky",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 8,
+    "title": "Red Blend",
+    "_json": "",
+    "slug": "redblend",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 9,
+    "title": "Espumante",
+    "_json": "{\r\n\"tituloMenuSecHeader\":\"Espumantes\"\r\n}",
+    "slug": "espumante",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 10,
+    "title": "Semill\u00f3n",
+    "_json": "",
+    "slug": "semillon",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 11,
+    "title": "Cabernet Sauvignon",
+    "_json": "",
+    "slug": "cabernetsauvignon",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 12,
+    "title": "Petit Verdot",
+    "_json": "",
+    "slug": "petitverdot",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 13,
+    "title": "Cabernet Franc",
+    "_json": "",
+    "slug": "cabernetfranc",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 14,
+    "title": "Tannat",
+    "_json": "",
+    "slug": "tannat",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 15,
+    "title": "Viognier",
+    "_json": "",
+    "slug": "viognier",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 16,
+    "title": "White Blend",
+    "_json": "",
+    "slug": "whiteblend",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 17,
+    "title": "Spirits",
+    "_json": "{\r\n\"tituloMenuSecHeader\":\"Spirits\"\r\n}",
+    "slug": "spirits",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 18,
+    "title": "Chardonnay",
+    "_json": "",
+    "slug": "chardonnay",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 19,
+    "title": "Merlot",
+    "_json": "",
+    "slug": "merlot",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 20,
+    "title": "Bonarda",
+    "_json": "",
+    "slug": "bonarda",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 21,
+    "title": "Sauvignon Blanc",
+    "_json": "",
+    "slug": "sauvignonblanc",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 22,
+    "title": "Vino Rosado",
+    "_json": "{\r\n\"tituloMenuSecHeader\":\"Rosados\"\r\n}",
+    "slug": "vino-rosado",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 23,
+    "title": "CATALOGO PUBLICO",
+    "_json": "",
+    "slug": "catalogo-publico",
+    "is_public": 0,
+    "description": ""
+  },
+  {
+    "id": 24,
+    "title": "INTERNAS",
+    "_json": "",
+    "slug": "internas",
+    "is_public": 0,
+    "description": ""
+  },
+  {
+    "id": 25,
+    "title": "CAROUSEL CHICO DESTACADOS HOME",
+    "_json": "",
+    "slug": "carousel-chico-destacados-home",
+    "is_public": 0,
+    "description": ""
+  },
+  {
+    "id": 26,
+    "title": "Tintos",
+    "_json": "",
+    "slug": "tintos-destacados",
+    "is_public": 0,
+    "description": ""
+  },
+  {
+    "id": 27,
+    "title": "Blancos",
+    "_json": "",
+    "slug": "blancos-destacados",
+    "is_public": 0,
+    "description": ""
+  },
+  {
+    "id": 28,
+    "title": "CAROUSEL GRANDE DESTACADOS HOME",
+    "_json": "",
+    "slug": "carousel-grande-destacados-home",
+    "is_public": 0,
+    "description": ""
+  },
+  {
+    "id": 29,
+    "title": "GLOBAL",
+    "_json": "{\r\n\"tipoDeHome\": \"2\",\r\n\"alertaHeaderPromo\": \"S\u00d3LO POR HOY: 25%OFF EN TODA LA L\u00cdNEA OUTER LIMITS \",\r\n\"alertaHeaderSolicitudesPendientes\": \"TEN\u00c9S SOLICITUDES PENDIENTES DE REVISI\u00d3N\",\r\n\"notaPieCarrito\": \"Los distribuidores te contactar\u00e1n para gestionar el pago y la entrega, que se realizan por fuera de la plataforma. Los acuerdos por mercader\u00eda sin cargo, descuentos por volumen y similares no aparecen en este carrito pero se contemplar\u00e1n al procesar tu pedido (consultalo con tu vendedor).\"\r\n}",
+    "slug": "ajustes-globales",
+    "is_public": 0,
+    "description": ""
+  },
+  {
+    "id": 30,
+    "title": "Extra Brut",
+    "_json": "",
+    "slug": "extrabrut",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 31,
+    "title": "MENU SECUNDARIO HEADER",
+    "_json": "",
+    "slug": "menu-secundario-header",
+    "is_public": 0,
+    "description": ""
+  },
+  {
+    "id": 32,
+    "title": "Vino Dulce",
+    "_json": "",
+    "slug": "vino-dulce",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 33,
+    "title": "Brut Nature",
+    "_json": "",
+    "slug": "brut-nature",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 34,
+    "title": "Nature",
+    "_json": "",
+    "slug": "nature",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 35,
+    "title": "Brut",
+    "_json": "",
+    "slug": "brut",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 36,
+    "title": "Ros\u00e9",
+    "_json": "",
+    "slug": "espumante-rosado",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 37,
+    "title": "Demi Sec",
+    "_json": "",
+    "slug": "demi-sec",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 38,
+    "title": "Vodka",
+    "_json": "",
+    "slug": "vodka",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 39,
+    "title": "Malbec Ros\u00e9",
+    "_json": "",
+    "slug": "rosado-malbec",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 40,
+    "title": "Syrah",
+    "_json": "",
+    "slug": "syrah",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 41,
+    "title": "Carm\u00e9n\u00e8re",
+    "_json": "",
+    "slug": "carmenere",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 42,
+    "title": "Pinot Noir",
+    "_json": "",
+    "slug": "pinot-noir",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 43,
+    "title": "Cinsault",
+    "_json": "",
+    "slug": "cinsault",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 44,
+    "title": "DESTACADO LISTADOS",
+    "_json": "",
+    "slug": "destacado-listados-959x137",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 45,
+    "title": "DESTACADOS HOME FOOTER",
+    "_json": "",
+    "slug": "destacados-home-footer",
+    "is_public": 0,
+    "description": ""
+  },
+  {
+    "id": 46,
+    "title": "Rosados",
+    "_json": "",
+    "slug": "rosados-destacados",
+    "is_public": 0,
+    "description": ""
+  },
+  {
+    "id": 47,
+    "title": "Zinfandel",
+    "_json": "",
+    "slug": "zinfandel",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 48,
+    "title": "NOTAS",
+    "_json": "",
+    "slug": "notas-internas",
+    "is_public": 0,
+    "description": ""
+  },
+  {
+    "id": 49,
+    "title": "20 vinos para el verano",
+    "_json": "",
+    "slug": "20-vinos-para-el-verano",
+    "is_public": 0,
+    "description": "**20 vinos para el verano**\r\n\r\nbla bla bla bla bla bla bla bla bla bla bla bla . bla bla bla bla bla bla .\r\n\r\nbla bla .bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla \r\nbla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla"
+  },
+  {
+    "id": 50,
+    "title": "10 espumantes Premium por menos de $300",
+    "_json": "",
+    "slug": "10-espumantes-Premium",
+    "is_public": 0,
+    "description": "Los vinos con burbuja ya se beben durante todo el a\u00f1o. Descubr\u00ed esta selecci\u00f3n de espumantes best value, que te ayudar\u00e1n a rotar tu oferta sin resignar calidad."
+  },
+  {
+    "id": 51,
+    "title": "Campari Orange, el drink del verano",
+    "_json": "",
+    "slug": "Destacado-Footer-Home-1",
+    "is_public": 1,
+    "description": "No pierdas ni una sola venta del trago del momento. Repon\u00e9 tu stock de Aperol y Campari desde aqu\u00ed. \r\n\r\n**No te quedes sin stock!**"
+  },
+  {
+    "id": 52,
+    "title": "Muscadelle",
+    "_json": "",
+    "slug": "muscadelle",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 53,
+    "title": "Explor\u00e1 nuestra selecci\u00f3n de importados",
+    "_json": "",
+    "slug": "vinos-importados",
+    "is_public": 0,
+    "description": "Dale un toque de sofisticaci\u00f3n a tu programa de bebidas incorporando atractivas opciones que llegan desde terroirs cautivantes de todo el mundo."
+  },
+  {
+    "id": 54,
+    "title": "Criolla",
+    "_json": "",
+    "slug": "criolla",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 55,
+    "title": "Garnacha",
+    "_json": "",
+    "slug": "garnacha",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 58,
+    "title": "Agua",
+    "_json": "",
+    "slug": "agua",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 59,
+    "title": "Vermouth",
+    "_json": "",
+    "slug": "vermouth",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 60,
+    "title": "Pisco",
+    "_json": "",
+    "slug": "pisco",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 61,
+    "title": "Gin",
+    "_json": "",
+    "slug": "gin",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 62,
+    "title": "Pinot Gris",
+    "_json": "",
+    "slug": "pinot-gris",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 63,
+    "title": "Tockaij",
+    "_json": "",
+    "slug": "tockaij",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 64,
+    "title": "Gew\u00fcrztraminer",
+    "_json": "",
+    "slug": "gewurztraminer",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 65,
+    "title": "Riesling",
+    "_json": "",
+    "slug": "riesling",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 66,
+    "title": "Tempranillo",
+    "_json": "",
+    "slug": "tempranillo",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 67,
+    "title": "Fiano",
+    "_json": "",
+    "slug": "fiano",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 68,
+    "title": "Chenin",
+    "_json": "",
+    "slug": "chenin",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 69,
+    "title": "Nebbiolo",
+    "_json": "",
+    "slug": "nebbiolo",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 70,
+    "title": "Nebbiolo ros\u00e9",
+    "_json": "",
+    "slug": "nebbiolo-rose",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 71,
+    "title": "Sangiovese",
+    "_json": "",
+    "slug": "sangiovese",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 72,
+    "title": "Cabernet Sauvignon",
+    "_json": "",
+    "slug": "cabernetsauvignonblanco",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 73,
+    "title": "10 Cabernet Franc para descubrir la variedad",
+    "_json": "",
+    "slug": "10-cabernet-franc-para-descubrir-la-variedad",
+    "is_public": 0,
+    "description": "Una selecci\u00f3n de etiquetas para que tus clientes se enamoren de la cepa que est\u00e1 de  moda en la Argentina."
+  },
+  {
+    "id": 74,
+    "title": "Malbec Dulce",
+    "_json": "",
+    "slug": "malbec_dulce",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 75,
+    "title": "Torront\u00e9s Dulce",
+    "_json": "",
+    "slug": "torrontes_dulce",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 76,
+    "title": "Oporto",
+    "_json": "",
+    "slug": "oporto",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 77,
+    "title": "Tawny",
+    "_json": "",
+    "slug": "tawny_port",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 78,
+    "title": "Fine Ruby",
+    "_json": "",
+    "slug": "fine_ruby_port",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 79,
+    "title": "Late Bottled Vintage",
+    "_json": "",
+    "slug": "late_bottled_vintage_port",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 80,
+    "title": "Vermouth Tinto",
+    "_json": "",
+    "slug": "vermouth_rosso",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 81,
+    "title": "Vermouth Blanco",
+    "_json": "",
+    "slug": "vermouth_blanco",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 82,
+    "title": "Ron",
+    "_json": "",
+    "slug": "ron",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 83,
+    "title": "Licor",
+    "_json": "",
+    "slug": "licor",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 84,
+    "title": "Whiskey",
+    "_json": "",
+    "slug": "whiskey",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 85,
+    "title": "Maltas",
+    "_json": "",
+    "slug": "maltas",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 86,
+    "title": "Fernet",
+    "_json": "",
+    "slug": "fernet",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 87,
+    "title": "Chenin Blanc",
+    "_json": "",
+    "slug": "chenin-blanc",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 88,
+    "title": "Gr\u00fcner Vertliner",
+    "_json": "",
+    "slug": "gruner-vertliner",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 89,
+    "title": "Glera",
+    "_json": "",
+    "slug": "glera",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 90,
+    "title": "Cava",
+    "_json": "",
+    "slug": "cava",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 91,
+    "title": "Semi Seco",
+    "_json": "",
+    "slug": "semi-seco",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 92,
+    "title": "Brut",
+    "_json": "",
+    "slug": "cava_brut",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 93,
+    "title": "Brut Ros\u00e9",
+    "_json": "",
+    "slug": "cava_brut_rose",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 94,
+    "title": "Semi Seco Ros\u00e9",
+    "_json": "",
+    "slug": "cava_semi_seco_rose",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 95,
+    "title": "Prosecco",
+    "_json": "",
+    "slug": "prosecco",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 96,
+    "title": "Ros\u00e9",
+    "_json": "",
+    "slug": "prosecco_rose",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 97,
+    "title": "Dulce",
+    "_json": "",
+    "slug": "espumante_dulce",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 98,
+    "title": "Moscato",
+    "_json": "",
+    "slug": "moscato_espumante",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 99,
+    "title": "Moscato Ros\u00e9",
+    "_json": "",
+    "slug": "espumante_moscato_rose",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 100,
+    "title": "Champagne",
+    "_json": "",
+    "slug": "champagne",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 101,
+    "title": "Brut",
+    "_json": "",
+    "slug": "champagne_brut",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 102,
+    "title": "Brut Ros\u00e9",
+    "_json": "",
+    "slug": "champagne_brut_rose",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 103,
+    "title": "Blanc de Blancs",
+    "_json": "",
+    "slug": "champagne-blanc-de-blancs",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 104,
+    "title": "Albari\u00f1o",
+    "_json": "",
+    "slug": "albarino",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 105,
+    "title": "Triple Sec",
+    "_json": "",
+    "slug": "triple-sec",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 106,
+    "title": "Amaretto",
+    "_json": "",
+    "slug": "amaretto",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 107,
+    "title": "Bitter",
+    "_json": "",
+    "slug": "bitter",
+    "is_public": 1,
+    "description": ""
+  },
+  {
+    "id": 108,
+    "title": "Viura",
+    "_json": "",
+    "slug": "viura",
+    "is_public": 1,
+    "description": ""
+  }
+]

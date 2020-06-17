@@ -1,8 +1,7 @@
-CREATE TABLE `product_size` (
-  `id` BINARY(16),
-  `product_id` BINARY(16) NOT NULL,
-  `size` int NOT NULL,
-  `price_retail` DECIMAL(8,2), 
-  PRIMARY KEY (`id`),
-  CONSTRAINT `product_size_unique` UNIQUE (`product_id`,`size`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE product_size (
+  id uuid primary key,
+  product_id uuid NOT NULL REFERENCES product (id),
+  size smallint NOT NULL,
+  price_retail DECIMAL(8,2), 
+  UNIQUE (product_id, size)
+)

@@ -2,12 +2,11 @@
 
 const fs = require("fs");
 const knex = require("knex")({
-  client: "mysql",
+  client: "pg",
   connection: {
     host: "127.0.0.1",
-    user: "root",
-    password: process.env.DATABASE_PASSWORD,
-    database: "bottlehub",
+    user: "eactisgrosso",
+    database: "postgres",
   },
 });
 

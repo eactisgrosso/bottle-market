@@ -1,7 +1,7 @@
-CREATE VIEW `category_tree_view` AS 
+CREATE VIEW category_tree_view AS 
 WITH RECURSIVE category_path (id, title, slug, path) AS
 (
-  SELECT id, title, slug, CAST(slug AS CHAR(1000)) as path
+  SELECT id, title, slug, CAST(slug AS text) as path
     FROM category
 	  WHERE id NOT IN (SELECT from_category_id FROM category_parent)        
   UNION ALL

@@ -18,11 +18,10 @@ export class UserResolver {
   @Query(() => UserDTO)
   async me(@Args("id") id: string): Promise<UserDTO> {
     let user = new UserDTO();
-    const aggregateId = this.knex.raw("UUID_TO_BIN(?)", id);
 
     const dbUser = await this.knex("user")
       .select("email", "firstname", "lastname")
-      .where("aggregateId", aggregateId)
+      .where("id", id)
       .first();
     if (dbUser) {
       user.id = id;

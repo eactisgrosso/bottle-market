@@ -1,7 +1,11 @@
-interface Date {
-  toMySQLString(): String;
+declare global {
+  interface Date {
+    addDays(days: number): Date;
+  }
 }
-
-Date.prototype.toMySQLString = function (): string {
-  return this.toISOString().slice(0, 19).replace("T", " ");
+Date.prototype.addDays = function (days): Date {
+  var date = new Date(this.valueOf());
+  date.setDate(date.getDate() + days);
+  return date;
 };
+export {};

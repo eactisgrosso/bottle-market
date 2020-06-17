@@ -1,7 +1,7 @@
-CREATE VIEW `region_view` AS 
+CREATE VIEW region_view AS 
 WITH RECURSIVE region_path (id, title, path) AS
 (
-  SELECT id, title, CAST(title AS CHAR(1000)) as path
+  SELECT id, title, CAST(title AS text) as path
     FROM region
     WHERE parent_id IS NULL
   UNION ALL

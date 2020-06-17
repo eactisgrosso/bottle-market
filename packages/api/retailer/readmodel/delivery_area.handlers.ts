@@ -5,7 +5,6 @@ import {
   DeliveryAreaSetup,
   DeliveryAreaClosed,
 } from "../domain/events/delivery_area.events";
-import "../../common/helpers/date.extensions";
 
 @Injectable()
 @EventsHandler(DeliveryAreaSetup)
@@ -14,17 +13,15 @@ export class DeliveryAreaSetupHandler
   constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {}
 
   async handle(event: DeliveryAreaSetup) {
-    const id = this.knex.raw("UUID_TO_BIN(?)", event.aggregateId);
-    const store_id = this.knex.raw("UUID_TO_BIN(?)", event.store_id);
-    const point = this.knex.raw("POINT(:lat,:lng)", {
+    const point = this.knex.raw("point(:lat,:lng)", {
       lat: event.lat,
       lng: event.lng,
     });
 
     await this.knex("delivery_area").insert({
-      id: id,
+      id: event.aggregateId,
       name: event.name,
-      store_id: store_id,
+      store_id: event.store_id,
       address: event.address,
       centroid: point,
       radius: event.radius,
@@ -49,7 +46,7 @@ export class DeliveryAreaSetupHandler
       sunday: event.sunday,
       sunday_hours_from: `${event.sunday_hours_from}:00`,
       sunday_hours_to: `${event.sunday_hours_to}:00`,
-      date_added: event.timestamp.toMySQLString(),
+      date_added: event.timestamp,
     });
   }
 }
@@ -61,9 +58,7 @@ export class DeliveryAreaClosedtHandler
   constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {}
 
   async handle(event: DeliveryAreaClosed) {
-    const id = this.knex.raw("UUID_TO_BIN(?)", event.aggregateId);
-
-    await this.knex("delivery_area").where("id", id).del();
+    await this.knex("delivery_area").where("id", event.aggregateId).del();
   }
 }
 

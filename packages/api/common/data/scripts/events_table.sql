@@ -1,1 +1,8 @@
-CREATE TABLE events (aggregateId BINARY(16), aggregateType VARCHAR(255), sequence INT, eventType VARCHAR(255), eventData json, userId BINARY(16), timestamp DATETIME, PRIMARY KEY(aggregateId, sequence));
+CREATE TABLE events
+("aggregateId" uuid primary key, 
+ "aggregateType" varchar(255), 
+ sequence int, 
+ "eventType" varchar(255), 
+ "eventData" json, 
+ "userId" uuid, 
+ timestamp timestamp);

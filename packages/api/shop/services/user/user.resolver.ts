@@ -2,6 +2,7 @@ import { Resolver, Query, Args, Int, Mutation } from "@nestjs/graphql";
 import { Inject, Injectable, HttpService } from "@nestjs/common";
 import { KNEX_CONNECTION } from "@nestjsplus/knex";
 import { UseGuards } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { GraphqlAuthGuard } from "../../../common/auth/graphql.auth.guard";
 
 import { UserRepository } from "../../domain/repositories/user.repository";
@@ -15,6 +16,7 @@ const { v4: uuidv4 } = require("uuid");
 @Resolver()
 export class UserResolver {
   constructor(
+    private configService: ConfigService,
     private repository: UserRepository,
     @Inject(KNEX_CONNECTION) private readonly knex: any,
     private httpService: HttpService
@@ -37,9 +39,10 @@ export class UserResolver {
     );
     user.commit();
 
+    const domain = this.configService.get<string>("AUTH0_DOMAIN");
     await this.httpService
       .patch(
-        `${process.env.AUTH0_DOMAIN}api/v2/users/${signUpInput.sub}`,
+        `${domain}api/v2/users/${signUpInput.sub}`,
         {
           app_metadata: {
             bottleId: bottleId,
@@ -47,7 +50,9 @@ export class UserResolver {
         },
         {
           headers: {
-            authorization: `Bearer ${process.env.AUTH0_TOKEN}`,
+            authorization: `Bearer ${this.configService.get<string>(
+              "AUTH0_TOKEN"
+            )}`,
             "content-type": "application/json",
           },
         }
@@ -64,11 +69,10 @@ export class UserResolver {
   @Query(() => UserDTO)
   async me(@Args("id") id: string): Promise<UserDTO> {
     let user = new UserDTO();
-    const aggregateId = this.knex.raw("UUID_TO_BIN(?)", id);
 
     const dbUser = await this.knex("user")
       .select("email", "firstname", "lastname")
-      .where("aggregateId", aggregateId)
+      .where("id", id)
       .first();
     if (dbUser) {
       user.id = id;

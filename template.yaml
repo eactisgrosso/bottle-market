@@ -23,6 +23,40 @@ Globals:
     Timeout: 30
 
 Resources:
+  TokenRotator:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./packages/token-rotator
+      Handler: app.handler
+      Runtime: nodejs12.x
+      Environment:
+        Variables:
+          NODE_ENV: production
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - ssm:PutParameter
+                - ssm:GetParameter
+                - ssm:GetParameters
+              Resource:
+                - !Sub "arn:aws:ssm:us-east-1:435084048873:${StageName}/AUTH0_TOKEN"
+
+  TokenRotatorEvent:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: Token rotation
+      Name: TokenRotatorEvent
+      ScheduleExpression: "cron(0/5 * * * ? *)"
+      State: ENABLED
+      Targets:
+        - Arn:
+            Fn::GetAtt:
+              - "TokenRotator"
+              - "Arn"
+          Id: "TokenRotatorEvent"
+          Input: ""
+
   ShopAPI:
     Type: AWS::Serverless::Function
     Properties:
