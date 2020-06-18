@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import Link from 'next/link';
-import Router from 'next/router';
-import Button from 'components/Button/Button';
+import React, { useEffect } from "react";
+import Link from "next/link";
+import Router from "next/router";
+import Button from "components/Button/Button";
 import {
   ProductDetailsWrapper,
   ProductPreview,
@@ -20,17 +20,17 @@ import {
   MetaSingle,
   MetaItem,
   RelatedItems,
-} from './ProductDetails.style';
-import { LongArrowLeft, CartIcon } from 'components/AllSvgIcon';
-import ReadMore from 'components/Truncate/Truncate';
-import CarouselWithCustomDots from 'components/MultiCarousel/MultiCarousel';
-import Products from 'containers/Products/Products';
-import { CURRENCY } from 'helper/constant';
-import { Product } from 'interfaces';
-import { FormattedMessage } from 'react-intl';
-import { useLocale } from 'contexts/language/language.provider';
-import { useCart } from 'contexts/cart/use-cart';
-import { Counter } from 'components/Counter/Counter';
+} from "./ProductDetails.style";
+import { LongArrowLeft, CartIcon } from "components/AllSvgIcon";
+import ReadMore from "components/Truncate/Truncate";
+import CarouselWithCustomDots from "components/MultiCarousel/MultiCarousel";
+import Products from "containers/Products/Products";
+import { CURRENCY } from "helper/constant";
+import { Product } from "interfaces";
+import { FormattedMessage } from "react-intl";
+import { useLocale } from "contexts/language/language.provider";
+import { useCart } from "contexts/cart/use-cart";
+import { Counter } from "components/Counter/Counter";
 
 type ProductDetailsProps = {
   product: Product | any;
@@ -67,19 +67,19 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
 
   return (
     <>
-      <ProductDetailsWrapper className='product-card' dir='ltr'>
+      <ProductDetailsWrapper className="product-card" dir="ltr">
         {!isRtl && (
           <ProductPreview>
             <BackButton>
               <Button
-                title='Back'
-                intlButtonId='backBtn'
-                iconPosition='left'
-                size='small'
+                title="Back"
+                intlButtonId="backBtn"
+                iconPosition="left"
+                size="small"
                 style={{
-                  backgroundColor: '#ffffff',
-                  border: '1px solid #f1f1f1',
-                  color: '#77798c',
+                  backgroundColor: "#ffffff",
+                  border: "1px solid #f1f1f1",
+                  color: "#77798c",
                 }}
                 icon={<LongArrowLeft />}
                 onClick={Router.back}
@@ -93,7 +93,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
           </ProductPreview>
         )}
 
-        <ProductInfo dir={isRtl ? 'rtl' : 'ltr'}>
+        <ProductInfo dir={isRtl ? "rtl" : "ltr"}>
           <ProductTitlePriceWrapper>
             <ProductTitle>{product.title}</ProductTitle>
             <ProductPriceWrapper>
@@ -103,7 +103,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
                   {product.price}
                 </SalePrice>
               ) : (
-                ''
+                ""
               )}
 
               <ProductPrice>
@@ -113,7 +113,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
             </ProductPriceWrapper>
           </ProductTitlePriceWrapper>
 
-          <ProductWeight>{product.unit}</ProductWeight>
+          <ProductWeight>{product.size}</ProductWeight>
           <ProductDescription>
             <ReadMore character={600}>{product.description}</ReadMore>
           </ProductDescription>
@@ -122,11 +122,11 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
             <ProductCartBtn>
               {!isInCart(data.id) ? (
                 <Button
-                  title='Add to Cart'
-                  intlButtonId='addToCartButton'
-                  iconPosition='left'
-                  size='small'
-                  className='cart-button'
+                  title="Add to Cart"
+                  intlButtonId="addToCartButton"
+                  iconPosition="left"
+                  size="small"
+                  className="cart-button"
                   icon={<CartIcon />}
                   onClick={handleAddClick}
                 />
@@ -157,7 +157,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
                       }
                     </Link>
                   ))
-                : ''}
+                : ""}
             </MetaSingle>
           </ProductMeta>
         </ProductInfo>
@@ -166,14 +166,14 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
           <ProductPreview>
             <BackButton>
               <Button
-                title='Back'
-                intlButtonId='backBtn'
-                iconPosition='left'
-                size='small'
+                title="Back"
+                intlButtonId="backBtn"
+                iconPosition="left"
+                size="small"
                 style={{
-                  backgroundColor: '#ffffff',
-                  border: '1px solid #f1f1f1',
-                  color: '#77798c',
+                  backgroundColor: "#ffffff",
+                  border: "1px solid #f1f1f1",
+                  color: "#77798c",
                 }}
                 icon={<LongArrowLeft />}
                 onClick={Router.back}
@@ -191,8 +191,8 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
       <RelatedItems>
         <h2>
           <FormattedMessage
-            id='intlReletedItems'
-            defaultMessage='Related Items'
+            id="intlReletedItems"
+            defaultMessage="Related Items"
           />
         </h2>
         <Products

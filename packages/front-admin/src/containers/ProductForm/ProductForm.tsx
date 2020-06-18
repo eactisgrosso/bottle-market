@@ -60,7 +60,7 @@ const GET_PRODUCTS = gql`
         image
         type
         price
-        unit
+        size
         salePrice
         discountInPercent
       }
@@ -78,7 +78,7 @@ const CREATE_PRODUCT = gql`
       slug
       type
       price
-      unit
+      size
       description
       salePrice
       discountInPercent

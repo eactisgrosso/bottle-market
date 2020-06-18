@@ -1,7 +1,7 @@
-import React from 'react';
-import { Counter } from 'components/Counter/Counter';
-import { CURRENCY } from 'helper/constant';
-import { CloseIcon } from 'assets/icons/close';
+import React from "react";
+import { Counter } from "components/Counter/Counter";
+import { CURRENCY } from "helper/constant";
+import { CloseIcon } from "assets/icons/close";
 import {
   ItemBox,
   Image,
@@ -11,7 +11,7 @@ import {
   Weight,
   Total,
   RemoveButton,
-} from './CartItem.style';
+} from "./CartItem.style";
 
 interface Props {
   data: any;
@@ -35,7 +35,7 @@ export const CartItem: React.FC<Props> = ({
         value={quantity}
         onDecrement={onDecrement}
         onIncrement={onIncrement}
-        variant='lightVertical'
+        variant="lightVertical"
       />
       <Image src={image} />
       <Information>

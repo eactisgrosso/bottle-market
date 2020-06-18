@@ -5,69 +5,6 @@ import Gallery from "./gallery.type";
 import PaginatedResponse from "../../helpers/paginated-response";
 
 @ObjectType()
-export class Meta {
-  @Field()
-  publisher: string;
-
-  @Field()
-  isbn: string;
-
-  @Field()
-  edition: string;
-
-  @Field()
-  country: string;
-
-  @Field(() => [String])
-  languages: string[];
-
-  @Field()
-  numberOfReader: string;
-
-  @Field()
-  numberOfPage: string;
-
-  @Field()
-  samplePDF: string;
-}
-
-@ObjectType()
-export class Social {
-  @Field(() => ID)
-  id: string;
-
-  @Field()
-  media: string;
-
-  @Field()
-  profileLink: string;
-}
-
-@ObjectType()
-export class Author {
-  @Field(() => ID)
-  id: string;
-
-  @Field()
-  name: string;
-
-  @Field()
-  avatar: string;
-
-  @Field()
-  bio: string;
-
-  @Field()
-  email: string;
-
-  @Field()
-  website: string;
-
-  @Field(() => [Social])
-  socials: Social[];
-}
-
-@ObjectType()
 export default class ProductDTO {
   @Field()
   id: string;
@@ -104,12 +41,6 @@ export default class ProductDTO {
 
   @Field()
   discountInPercent: number;
-
-  @Field(() => Author, { nullable: true })
-  author?: Author;
-
-  @Field(() => Meta, { nullable: true })
-  meta?: Meta;
 }
 
 @ObjectType()

@@ -56,6 +56,6 @@ export class CategoryResolver {
   async category(
     @Args("id", { type: () => Int }) id: number
   ): Promise<Category | undefined> {
-    return await this.items.find((item) => item.id === id);
+    return undefined;
   }
 }

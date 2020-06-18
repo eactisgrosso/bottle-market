@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export const GET_PRODUCT_WITH_RELATED_PRODUCTS = gql`
   query getProductWithRelatedProducts($slug: String!, $type: String!) {
@@ -71,7 +71,7 @@ export const GET_PRODUCT_DETAILS = gql`
       slug
       title
       type
-      unit
+      size
       price
       salePrice
       description
@@ -84,27 +84,6 @@ export const GET_PRODUCT_DETAILS = gql`
         id
         slug
         title
-      }
-      author {
-        id
-        name
-        avatar
-        bio
-        socials {
-          id
-          media
-          profileLink
-        }
-      }
-      meta {
-        publisher
-        isbn
-        edition
-        languages
-        country
-        numberOfReader
-        numberOfPage
-        samplePDF
       }
     }
   }

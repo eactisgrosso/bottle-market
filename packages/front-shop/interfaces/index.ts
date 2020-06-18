@@ -2,7 +2,7 @@ export interface Product {
   id: number;
   title: string;
   weight: string;
-  unit: string;
+  size: string;
   categories: [Category];
   author: string;
   gallery: [Gallery];

@@ -129,30 +129,29 @@ export class ProductResolver {
     const product = new ProductDTO();
     this.mapProduct(dbProduct, product);
 
-    let dbCategoryIds = dbProduct.categories.split(",");
-    for (let categoryId of dbCategoryIds) {
-      let category = new Category();
-      category.id = +categoryId;
-      categoryIds.add(category.id);
-      product.categories.push(category);
-    }
+    // for (let categoryId of dbProduct.categories) {
+    //   let category = new Category();
+    //   category.id = +categoryId;
+    //   categoryIds.add(category.id);
+    //   product.categories.push(category);
+    // }
 
-    const type = await this.knex("category_parent as mkp")
-      .first("mct.slug")
-      .join("category_tree_view as mct", "mkp.to_category_id", "mct.id")
-      .whereIn("from_category_id", [...categoryIds])
-      .andWhere("mct.path", "like", "%[catalogo-publico]%");
-    product.type = type;
+    // const type = await this.knex("category_parent as mkp")
+    //   .first("mct.slug")
+    //   .join("category_tree_view as mct", "mkp.to_category_id", "mct.id")
+    //   .whereIn("from_category_id", [...categoryIds])
+    //   .andWhere("mct.path", "like", "%[catalogo-publico]%");
+    product.type = ProductType.vino;
 
-    let categories = await this.buildCategoryMap(categoryIds);
-    for (let category of product.categories) {
-      let dbCategory = categories[category.id];
-      category.title = dbCategory.title;
-      category.slug = dbCategory.slug;
-      category.type = type;
-      category.icon = "Wines";
-      category.children = [];
-    }
+    // let categories = await this.buildCategoryMap(categoryIds);
+    // for (let category of product.categories) {
+    //   let dbCategory = categories[category.id];
+    //   category.title = dbCategory.title;
+    //   category.slug = dbCategory.slug;
+    //   category.type = type;
+    //   category.icon = "Wines";
+    //   category.children = [];
+    // }
 
     return product;
   }
