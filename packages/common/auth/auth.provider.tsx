@@ -30,6 +30,11 @@ const reducer = (state: any, action: any) => {
         expiresAt: 0,
         user: null,
       };
+    case "SIGNUP_SUCCESS":
+      return {
+        ...state,
+        user: action.payload.user,
+      };
     default:
       return state;
   }

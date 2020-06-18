@@ -31,16 +31,18 @@ Resources:
       Runtime: nodejs12.x
       Environment:
         Variables:
-          NODE_ENV: production
+          STAGE: !Sub "${StageName}"
       Policies:
         - Statement:
             - Effect: Allow
               Action:
                 - ssm:PutParameter
-                - ssm:GetParameter
-                - ssm:GetParameters
               Resource:
-                - !Sub "arn:aws:ssm:us-east-1:435084048873:${StageName}/AUTH0_TOKEN"
+                - !Sub "arn:aws:ssm:us-east-1:435084048873:parameter/${StageName}/AUTH0_TOKEN"
+        - SSMParameterReadPolicy:
+            ParameterName: !Sub ${StageName}/AUTH0_CLIENT_ID
+        - SSMParameterReadPolicy:
+            ParameterName: !Sub ${StageName}/AUTH0_SECRET
 
   TokenRotatorEvent:
     Type: AWS::Events::Rule

@@ -6,6 +6,6 @@
   "author": "BottleHub S.A.",
   "license": "MIT",
   "dependencies": {
-    "request": "^2.88.2"
+    "auth0": "^2.26.0"
   }
 }

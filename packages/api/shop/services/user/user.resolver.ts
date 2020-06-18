@@ -9,6 +9,7 @@ import { UserRepository } from "../../domain/repositories/user.repository";
 import { CreateUserInput, UpdateUserInput } from "./user.input_type";
 import UserDTO from "./user.type";
 import loadUsers from "./user.sample";
+import { url } from "inspector";
 
 const { v4: uuidv4 } = require("uuid");
 
@@ -40,9 +41,11 @@ export class UserResolver {
     user.commit();
 
     const domain = this.configService.get<string>("AUTH0_DOMAIN");
+    const token = this.configService.get<string>("AUTH0_TOKEN");
+    const url = `${domain}api/v2/users/${signUpInput.sub}`;
     await this.httpService
       .patch(
-        `${domain}api/v2/users/${signUpInput.sub}`,
+        url,
         {
           app_metadata: {
             bottleId: bottleId,
@@ -50,19 +53,18 @@ export class UserResolver {
         },
         {
           headers: {
-            authorization: `Bearer ${this.configService.get<string>(
-              "AUTH0_TOKEN"
-            )}`,
+            authorization: `Bearer ${token}`,
             "content-type": "application/json",
           },
         }
       )
-      .toPromise()
-      .catch((e) => {
-        console.log(e);
-      });
+      .toPromise();
 
-    return await this.items[0];
+    let response = new UserDTO();
+    response.id = bottleId;
+    Object.keys(user).forEach((key) => ((response as any)[key] = user[key]));
+
+    return response;
   }
 
   @UseGuards(GraphqlAuthGuard)

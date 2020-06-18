@@ -1,19 +1,42 @@
-var AWS = require("aws-sdk");
-var ssm = new AWS.SSM({ region: "us-east-1" });
-var request = require("request");
+const AWS = require("aws-sdk");
+const ssm = new AWS.SSM({ region: "us-east-1" });
+const authClient = require("auth0").AuthenticationClient;
 
-exports.handler = function (event, context, callback) {
-  var options = {
-    method: "POST",
-    url: "https://bottlehub.auth0.com/oauth/token",
-    headers: { "content-type": "application/json" },
-    body:
-      '{"client_id":"KOTeZrgRumtW8yEcxgkzL6gFKjWFbpt3","client_secret":"_E4095mPMohjWakH4sqL8jH2sLzp0g0nrl2nfpj3tLbviDKR71I7bl-31co61OCf","audience":"http://localhost:4000/api","grant_type":"client_credentials"}',
-  };
+exports.handler = async (event, context, callback) => {
+  const stage = process.env["STAGE"];
 
-  request(options, function (error, response, body) {
-    if (error) throw new Error(error);
+  try {
+    let response = await ssm
+      .getParameters({
+        Names: [`/${stage}/AUTH0_CLIENT_ID`, `/${stage}/AUTH0_SECRET`],
+        WithDecryption: false,
+      })
+      .promise();
 
-    console.log(body);
-  });
+    const client_id = response.Parameters[0].Value;
+    const client_secret = response.Parameters[1].Value;
+
+    const auth0 = new authClient({
+      domain: "bottlehub.auth0.com",
+      clientId: client_id,
+      clientSecret: client_secret,
+    });
+
+    response = await auth0.clientCredentialsGrant({
+      audience: "https://bottlehub.auth0.com/api/v2/",
+    });
+    console.log(response);
+
+    const params = {
+      Name: `/${stage}/AUTH0_TOKEN`,
+      Value: response.access_token,
+      Overwrite: true,
+      Type: "String",
+    };
+    await ssm.putParameter(params).promise();
+
+    callback(null);
+  } catch (err) {
+    callback(Error(err));
+  }
 };

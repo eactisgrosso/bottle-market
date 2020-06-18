@@ -130,13 +130,34 @@ export const useAuth = () => {
     });
   }, []);
 
+  const setId = useCallback((id) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    localStorage.setItem(
+      "user",
+      JSON.stringify({
+        id: id,
+        picture: user.picture,
+        fullname: user.fullname,
+      })
+    );
+    user.id = id;
+
+    authDispatch({
+      type: "SIGNUP_SUCCESS",
+      payload: {
+        user: user,
+      },
+    });
+  }, []);
+
   return {
     signIn,
     loginSocial,
     logout,
     handleAuthentication,
-    setSession,
     renewSession,
+    setId,
     isAuthenticated,
     expiresAt,
     user,

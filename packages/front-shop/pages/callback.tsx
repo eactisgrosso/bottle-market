@@ -10,8 +10,13 @@ import { getCookie } from "helper/session";
 interface Props {}
 
 const Auth0CallbackPage: NextPage<Props> = () => {
-  const [signMeUpMutation] = useMutation(SIGN_ME_UP);
-  const { handleAuthentication, isAuthenticated, user } = useAuth();
+  const [signMeUpMutation] = useMutation(SIGN_ME_UP, {
+    update(cache, { data: { signMeUp } }) {
+      console.log(signMeUp);
+      setId(signMeUp.id);
+    },
+  });
+  const { handleAuthentication, isAuthenticated, user, setId } = useAuth();
 
   useEffect(() => {
     handleAuthentication();
