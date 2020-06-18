@@ -17,7 +17,7 @@ export class ProductQuantity {
   @Field()
   id: string;
 
-  @Field(() => [Int])
+  @Field(() => Int)
   quantity: number;
 }
 

@@ -71,7 +71,7 @@ export class ProductResolver {
           product.image = `https://s3.amazonaws.com/bottlemarket.images/${dbProduct.images[0]}`;
         }
         product.size = dbProduct.size;
-        product.salePrice = 0;
+        product.priceRetail = 0;
         product.discountInPercent = 0;
         product.categories = [];
         product.type = (<any>ProductType)[

@@ -135,16 +135,17 @@ export default function Products() {
   useEffect(() => {
     const timeOutId = setTimeout(() => {
       if (quantities) {
+        const map = Array.from(quantities).map((kv) => {
+          return {
+            id: kv[0],
+            quantity: kv[1],
+          };
+        });
         changeProductQuantities({
           variables: {
             productInput: {
               store_id: store[0].id,
-              quantities: Array.from(quantities).map((kv) => {
-                return {
-                  id: kv[0],
-                  quantity: kv[1],
-                };
-              }),
+              quantities: map,
             },
           },
         });

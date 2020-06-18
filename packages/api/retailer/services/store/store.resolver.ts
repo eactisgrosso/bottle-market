@@ -158,6 +158,7 @@ export class StoreResolver {
     @Args("productInput") productInput: ChangeProductQuantities
   ) {
     const store = await this.repository.load(productInput.store_id);
+
     store.changeProductQuantities(productInput.quantities);
     store.commit();
 

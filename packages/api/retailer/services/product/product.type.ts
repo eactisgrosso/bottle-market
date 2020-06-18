@@ -25,7 +25,7 @@ export default class ProductDTO {
   price: number;
 
   @Field((type) => Float)
-  salePrice: number;
+  priceRetail: number;
 
   @Field((type) => Int)
   discountInPercent: number;
