@@ -73,14 +73,14 @@ type CartItemProps = {
 };
 
 const OrderItem: React.FC<CartItemProps> = ({ product }) => {
-  const { id, quantity, title, unit, price, salePrice } = product;
+  const { id, quantity, title, size, price, salePrice } = product;
   const displayPrice = salePrice ? salePrice : price;
   return (
     <Items key={id}>
       <Quantity>{quantity}</Quantity>
       <Multiplier>x</Multiplier>
       <ItemInfo>
-        {title} | {unit ?? ""}
+        {title} | {size ?? ""}
       </ItemInfo>
       <Price>
         {CURRENCY}
