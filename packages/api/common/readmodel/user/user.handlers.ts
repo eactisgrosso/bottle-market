@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { KNEX_CONNECTION } from "@nestjsplus/knex";
 import { EventsHandler, IEventHandler } from "@nestjs/cqrs";
-import { UserSignedUp, UserNameChanged } from "../domain/events/user.events";
+import { UserSignedUp, UserNameChanged } from "../../domain/user/user.events";
 
 @Injectable()
 @EventsHandler(UserSignedUp)

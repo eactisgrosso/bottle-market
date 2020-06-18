@@ -307,7 +307,7 @@ export default function Products() {
                       image={item.image}
                       currency={CURRENCY}
                       price={item.price}
-                      salePrice={item.salePrice}
+                      priceRetail={item.priceRetail}
                       discountInPercent={item.discountInPercent}
                       quantity={item.quantity}
                       onChangeQuantity={handleChangeQuantity}

@@ -10,13 +10,13 @@ import { getCookie } from "helper/session";
 interface Props {}
 
 const Auth0CallbackPage: NextPage<Props> = () => {
-  const [signMeUpMutation] = useMutation(SIGN_ME_UP, {
-    update(cache, { data: { signMeUp } }) {
-      console.log(signMeUp);
-      setId(signMeUp.id);
-    },
-  });
-  const { handleAuthentication, isAuthenticated, user, setId } = useAuth();
+  const {
+    handleAuthentication,
+    isAuthenticated,
+    user,
+    renewSession,
+  } = useAuth();
+  const [signMeUpMutation] = useMutation(SIGN_ME_UP);
 
   useEffect(() => {
     handleAuthentication();
@@ -25,7 +25,7 @@ const Auth0CallbackPage: NextPage<Props> = () => {
   useEffect(() => {
     if (isAuthenticated) {
       (async () => {
-        if (!user.id)
+        if (!user.id) {
           await signMeUpMutation({
             variables: {
               signUpInput: {
@@ -36,6 +36,9 @@ const Auth0CallbackPage: NextPage<Props> = () => {
               },
             },
           });
+          renewSession();
+        }
+
         const returnUrl = getCookie("returnUrl");
         Router.push(returnUrl ? returnUrl : "/");
       })();

@@ -26,7 +26,7 @@ type ProductCardProps = {
   currency?: string;
   description?: string;
   price: number;
-  salePrice?: number;
+  priceRetail?: number;
   discountInPercent?: number;
   quantity: number;
   onAdd?: Function;
@@ -39,7 +39,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   image,
   size,
   price,
-  salePrice,
+  priceRetail,
   discountInPercent,
   currency,
   quantity,
@@ -67,7 +67,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <ProductPriceWrapper>
             <ProductPrice>
               {currency}
-              {salePrice && salePrice !== 0 ? salePrice : price}
+              {priceRetail && priceRetail !== 0 ? priceRetail : price}
             </ProductPrice>
 
             {discountInPercent && discountInPercent !== 0 ? (

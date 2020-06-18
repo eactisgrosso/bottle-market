@@ -10,10 +10,8 @@ export class DeliveryAreaRepository extends EventStore {
   protected recreateEventFromStorage(dbEvent: StorageEvent): Event {
     try {
       const event = new DeliveryEvents[dbEvent.eventType]();
-      const eventProps = JSON.parse(dbEvent.eventData);
-
-      Object.keys(eventProps).forEach(
-        (key) => ((event as any)[key] = eventProps[key])
+      Object.keys(dbEvent.eventData).forEach(
+        (key) => ((event as any)[key] = dbEvent.eventData[key])
       );
 
       return event;

@@ -47,8 +47,8 @@ export const GET_STORE_PRODUCTS = gql`
         image
         type
         price
+        priceRetail
         size
-        salePrice
         discountInPercent
         quantity
       }

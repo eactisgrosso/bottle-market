@@ -47,8 +47,8 @@ const GET_PRODUCTS = gql`
         image
         type
         price
+        priceRetail
         size
-        salePrice
         discountInPercent
         quantity
       }
@@ -232,7 +232,7 @@ const AddProduct: React.FC<Props> = (props) => {
                     image={item.image}
                     currency={CURRENCY}
                     price={item.price}
-                    salePrice={item.salePrice}
+                    priceRetail={item.priceRetail}
                     discountInPercent={item.discountInPercent}
                     quantity={item.quantity}
                     onAdd={handleAddProduct}

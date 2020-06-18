@@ -67,13 +67,12 @@ export class ProductResolver {
         );
 
         product.image = "";
-        if (dbProduct.images) {
-          const images = dbProduct.images.split(",");
-          if (images.length > 0)
-            product.image = `https://s3.amazonaws.com/bottlemarket.images/${images[0]}`;
+        if (dbProduct.images && dbProduct.images.length > 0) {
+          product.image = `https://s3.amazonaws.com/bottlemarket.images/${dbProduct.images[0]}`;
         }
         product.size = dbProduct.size;
         product.salePrice = 0;
+        product.discountInPercent = 0;
         product.categories = [];
         product.type = (<any>ProductType)[
           type != null ? type : ProductType.vino

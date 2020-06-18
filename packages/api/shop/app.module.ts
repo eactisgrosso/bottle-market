@@ -5,7 +5,8 @@ import { KnexModule } from "@nestjsplus/knex";
 
 import { IAppModule } from "../app";
 import { AuthzModule } from "../common/auth/authz.module";
-import { UserModule } from "./services/user/user.module";
+import { UserModule } from "../common/services/user/user.module";
+
 import { ProductModule } from "./services/product/product.module";
 import { PaymentModule } from "./services/payment/payment.module";
 import { OrderModule } from "./services/order/order.module";

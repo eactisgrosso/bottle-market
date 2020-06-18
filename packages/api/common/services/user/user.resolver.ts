@@ -3,9 +3,9 @@ import { Inject, Injectable, HttpService } from "@nestjs/common";
 import { KNEX_CONNECTION } from "@nestjsplus/knex";
 import { UseGuards } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { GraphqlAuthGuard } from "../../../common/auth/graphql.auth.guard";
+import { GraphqlAuthGuard } from "../../auth/graphql.auth.guard";
 
-import { UserRepository } from "../../domain/repositories/user.repository";
+import { UserRepository } from "../../domain/user/user.repository";
 import { CreateUserInput, UpdateUserInput } from "./user.input_type";
 import UserDTO from "./user.type";
 import loadUsers from "./user.sample";

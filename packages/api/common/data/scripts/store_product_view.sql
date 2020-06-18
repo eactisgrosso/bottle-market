@@ -1,6 +1,6 @@
 CREATE VIEW store_product_view AS 
 SELECT 
-		sp.product_size_id,
+		sp.product_size_id as id,
         sp.store_id,
         COALESCE(sp.quantity,0) as quantity,
         sp.price,

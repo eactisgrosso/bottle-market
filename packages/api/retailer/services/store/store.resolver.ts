@@ -82,13 +82,11 @@ export class StoreResolver {
     );
 
     product.image = "";
-    if (dbProduct.images)
-      product.image = `https://s3.amazonaws.com/bottlemarket.images/${
-        dbProduct.images.split(",")[0]
-      }`;
+    if (dbProduct.images && dbProduct.images.length > 0)
+      product.image = `https://s3.amazonaws.com/bottlemarket.images/${dbProduct.images[0]}`;
 
     product.size = `${dbProduct.size} ml`;
-    product.salePrice = 0;
+    product.priceRetail = dbProduct.price_retail;
 
     return product;
   }

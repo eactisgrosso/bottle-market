@@ -1,5 +1,5 @@
-import { Aggregate } from "../../common/domain/aggregate";
-import { UserSignedUp, UserNameChanged } from "./events/user.events";
+import { Aggregate } from "../aggregate";
+import { UserSignedUp, UserNameChanged } from "./user.events";
 
 export class User extends Aggregate {
   sub: string;
