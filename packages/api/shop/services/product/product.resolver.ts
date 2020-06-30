@@ -32,46 +32,73 @@ export class ProductResolver {
       product.image = product.gallery[0].url;
     }
 
-    product.size = dbProduct.size;
     product.salePrice = 0;
-    product.discountInPercent = 0;
     product.categories = [];
 
     return product;
   }
-
-  private buildCategoryMap = async (categoryIds: Set<number>) => {
-    const dbCategories = await this.knex("category_tree_view").whereIn("id", [
-      ...categoryIds,
-    ]);
-
-    return Object.assign({}, ...dbCategories.map((x: any) => ({ [x.id]: x })));
-  };
 
   @Query((returns) => ProductResponse)
   async products(
     @Args("limit", { type: () => Int, defaultValue: 10 }) limit: number,
     @Args("offset", { type: () => Int, defaultValue: 0 }) offset: number,
     @Args("type", { nullable: true }) type?: string,
+    @Args("lat", { nullable: true }) lat?: number,
+    @Args("lng", { nullable: true }) lng?: number,
     @Args("text", { nullable: true }) text?: string,
     @Args("category", { nullable: true }) category?: string
   ) {
-    let categoryIds = new Set<number>();
+    const address = lat && lat != 0 && lng && lng != 0;
+    const fields = address
+      ? [
+          "sp.store_id",
+          "da.geom",
+          this.knex.raw("ST_Distance(geom, ref_geom) AS distance"),
+        ]
+      : [];
 
-    const query = this.productQuery.select();
-    const queryCount = this.productQuery.selectCount();
+    let query = this.productQuery.select("product_view as p", ...fields);
 
-    if (category) {
-      await this.productQuery.byCategorySlug(query, category);
-      await this.productQuery.byCategorySlug(queryCount, category);
-    } else if (type) {
-      await this.productQuery.byCategorySlug(query, type);
-      await this.productQuery.byCategorySlug(queryCount, type);
+    if (address) {
+      query.leftJoin("product_size as ps", "p.id", "ps.product_id");
+      query.leftJoin("store_product as sp", "ps.id", "sp.product_size_id");
+      query.leftJoin("store as s", "sp.store_id", "s.id");
+      query.leftJoin("delivery_area as da", "s.id", "da.store_id");
+      query.crossJoin(
+        this.knex.raw(
+          `(select ST_MakePoint(${lng},${lat})::geography AS ref_geom) as r`
+        )
+      );
     }
 
-    if (text) {
-      await this.productQuery.byText(query, text);
-      await this.productQuery.byText(queryCount, text);
+    if (category) await this.productQuery.byCategorySlug(query, category);
+    else if (type) await this.productQuery.byCategorySlug(query, type);
+
+    if (text) this.productQuery.byText(query, text);
+
+    if (address) {
+      query
+        .whereNotNull("sp.store_id")
+        .whereRaw(this.knex.raw("ST_DWithin(geom, ref_geom, radius * 1000)"))
+        .orderBy("distance");
+
+      const baseFields = [
+        "id",
+        "slug",
+        "title",
+        "description",
+        "size",
+        "price",
+        "discountInPercent",
+        "images",
+        "categories",
+      ];
+      query = this.knex
+        .with("nearby", query)
+        .select(...baseFields)
+        .min("distance")
+        .from("nearby")
+        .groupBy(...baseFields);
     }
 
     const dbProducts = await query
@@ -84,44 +111,20 @@ export class ProductResolver {
         product.type = (<any>ProductType)[
           type != null ? type : ProductType.vino
         ];
-        // for (let categorySlug of dbProduct.categories) {
-        //   let category = new Category();
-        //   category.id = +categorySlug;
-        //   categoryIds.add(category.id);
-        //   product.categories.push(category);
-        // }
 
         return product;
       });
 
-    // let categories = await this.buildCategoryMap(categoryIds);
-
-    // for (let dbProduct of dbProducts)
-    //   for (let category of dbProduct.categories) {
-    //     let dbCategory = categories[category.id];
-    //     category.title = dbCategory.title;
-    //     category.slug = dbCategory.slug;
-    //     category.type = (<any>ProductType)[
-    //       type != null ? type : ProductType.vino
-    //     ];
-    //     category.icon = type
-    //       ? type.charAt(0).toUpperCase() + type.slice(1)
-    //       : "Vinos";
-    //     category.children = [];
-    //   }
-
-    const dbTotal = await queryCount;
+    const count = dbProducts.length > 0 ? dbProducts[0].count : 0;
     return new ProductResponse({
-      total: dbTotal[0].count,
+      total: count,
       items: dbProducts,
-      hasMore: offset + limit < dbTotal[0].count,
+      hasMore: offset + limit < count,
     });
   }
 
   @Query((returns) => ProductDTO)
   async product(@Args("slug", { type: () => String }) slug: string) {
-    let categoryIds = new Set<number>();
-
     const query = this.productQuery.select();
     this.productQuery.bySlug(query, slug);
 
@@ -129,29 +132,7 @@ export class ProductResolver {
     const product = new ProductDTO();
     this.mapProduct(dbProduct, product);
 
-    // for (let categoryId of dbProduct.categories) {
-    //   let category = new Category();
-    //   category.id = +categoryId;
-    //   categoryIds.add(category.id);
-    //   product.categories.push(category);
-    // }
-
-    // const type = await this.knex("category_parent as mkp")
-    //   .first("mct.slug")
-    //   .join("category_tree_view as mct", "mkp.to_category_id", "mct.id")
-    //   .whereIn("from_category_id", [...categoryIds])
-    //   .andWhere("mct.path", "like", "%[catalogo-publico]%");
     product.type = ProductType.vino;
-
-    // let categories = await this.buildCategoryMap(categoryIds);
-    // for (let category of product.categories) {
-    //   let dbCategory = categories[category.id];
-    //   category.title = dbCategory.title;
-    //   category.slug = dbCategory.slug;
-    //   category.type = type;
-    //   category.icon = "Wines";
-    //   category.children = [];
-    // }
 
     return product;
   }

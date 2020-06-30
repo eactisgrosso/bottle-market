@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
 import { GET_DELIVERY_AREAS } from "../../../graphql/query/delivery.query";
-import { GET_STORES } from "../../../graphql/query/store.query";
 import { updateStore } from "../../../graphql/mutation/store.mutation";
 import { DeliveryIcon, GpsIcon } from "../../../components/AllSvgIcon";
 import {

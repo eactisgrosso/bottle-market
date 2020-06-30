@@ -30,24 +30,13 @@ export class ProductResolver {
       "retailer_product_view as p",
       this.knex.raw("COALESCE(sp.quantity,0) as quantity")
     );
-    const queryCount = this.productQuery.selectCount(
-      "retailer_product_view as p"
-    );
 
     query.leftJoin("store_product as sp", "p.id", "sp.product_size_id");
 
-    if (category) {
-      await this.productQuery.byCategorySlug(query, category);
-      await this.productQuery.byCategorySlug(queryCount, category);
-    } else if (type) {
-      await this.productQuery.byCategorySlug(query, type);
-      await this.productQuery.byCategorySlug(queryCount, type);
-    }
+    if (category) await this.productQuery.byCategorySlug(query, category);
+    else if (type) await this.productQuery.byCategorySlug(query, type);
 
-    if (searchText) {
-      this.productQuery.byText(query, searchText);
-      this.productQuery.byText(queryCount, searchText);
-    }
+    if (searchText) this.productQuery.byText(query, searchText);
 
     query.andWhere((builder: any) => {
       builder.andWhere((innerBuilder: any) => {
@@ -81,12 +70,12 @@ export class ProductResolver {
         return product;
       });
 
-    const dbTotal = await queryCount;
+    const count = dbProducts.length > 0 ? dbProducts[0].count : 0;
 
     return {
       items: dbProducts,
-      totalCount: dbTotal[0].count,
-      hasMore: offset + limit < dbTotal[0].count,
+      totalCount: count,
+      hasMore: offset + limit < count,
     };
   }
 }

@@ -94,6 +94,7 @@ function App() {
               callback={process.env.REACT_APP_AUTH0_CALLBACK}
             >
               <LoadScript
+                language={"es-419"}
                 googleMapsApiKey={process.env.REACT_APP_MAPS_API_KEY}
                 libraries={mapsLibraries}
               >

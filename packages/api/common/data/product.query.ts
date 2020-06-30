@@ -2,13 +2,9 @@ export default class ProductQuery {
   constructor(private readonly knex: any) {}
 
   select = (table: string = "product_view as p", ...fields: string[]) => {
-    let s = ["p.*"];
+    let s = ["p.*", this.knex.raw("count(p.id) OVER() AS count")];
     if (fields) s.push(...fields);
     return this.knex(table).select(s);
-  };
-
-  selectCount = (table: string = "product_view as p") => {
-    return this.knex(table).count("id as count");
   };
 
   bySlug = (query: any, slug: string) => {

@@ -20,8 +20,11 @@ import LogoImage from "image/Logo.svg";
 import { SearchIcon, LongArrowLeft } from "components/AllSvgIcon";
 import Logo from "components/Logo/Logo";
 import LanguageSwitcher from "./Menu/LanguageSwitcher/LanguageSwitcher";
+import AddressSwitcher from "./Menu/AddressSwitcher/AddressSwitcher";
+
 import { isCategoryPage } from "../is-home-page";
 import useDimensions from "helper/useComponentSize";
+import { usePlaces } from "@bottle-market/common/helpers";
 
 type MobileHeaderProps = {
   className?: string;
@@ -35,28 +38,64 @@ type SearchModalProps = {
 };
 
 const SearchModal: React.FC<SearchModalProps> = ({
-  state,
   pathname,
   handleSearch,
 }) => {
-  const router = useRouter();
-  const [text, setText] = useState(state.text || "");
+  const {
+    placeSearch,
+    setPlaceSearch,
+    suggestions,
+    getGeocode,
+    getLatLng,
+    clear,
+  } = usePlaces();
+  const { state, dispatch } = React.useContext(SearchContext);
+  const { address, text } = state;
+  const [search, setSearch] = useState("");
+
   const handleSearchInput = (text: string) => {
-    setText(text);
+    setSearch(text);
+    if (!address) setPlaceSearch(text);
   };
-  const { page, ...urlState } = state;
+
+  const handleSuggestionSelected = (suggestion: any) => {
+    setSearch(suggestion.description);
+    clear();
+  };
 
   const handleClickSearchButton = () => {
-    handleSearch(text);
-    router.push({
-      pathname: pathname,
-      query: {
-        ...urlState,
-        text,
-      },
-    });
+    if (!address)
+      getGeocode({ address: search })
+        .then((results) => getLatLng(results[0]))
+        .then(({ lat, lng }) => {
+          dispatch({
+            type: "UPDATE ADDRESS",
+            payload: {
+              ...state,
+              address: {
+                description: search,
+                lat: lat,
+                lng: lng,
+              },
+            },
+          });
+          setSearch("");
+        })
+        .catch((error) => {
+          console.log("😱 Error: ", error);
+        });
+    else {
+      dispatch({
+        type: "UPDATE TEXT",
+        payload: {
+          ...state,
+          text: search,
+        },
+      });
+    }
     closeModal();
   };
+
   return (
     <SearchModalWrapper>
       <SearchModalClose type="submit" onClick={() => closeModal()}>
@@ -66,13 +105,16 @@ const SearchModal: React.FC<SearchModalProps> = ({
         className="header-modal-search"
         bordered={false}
         inputStyle={{ height: 35 }}
-        buttonText=""
-        placeholder="Search"
+        intlPlaceholderId={address ? "searchPlaceholder" : "enterAddress"}
         handleSearch={handleSearchInput}
-        value={text}
+        value={search || ""}
+        onSuggestionSelected={handleSuggestionSelected}
         onClick={handleClickSearchButton}
         pathname={pathname}
         intlMenuId={"navWineMenu"}
+        hideType={true}
+        autoSuggestion={!address}
+        suggestions={suggestions}
       />
     </SearchModalWrapper>
   );
@@ -131,12 +173,14 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ className, pathname }) => {
           <DrawerWrapper>
             <MobileDrawer />
           </DrawerWrapper>
-
+          {/* 
           <LogoWrapper>
             <Logo imageUrl={LogoImage} alt="shop logo" />
-          </LogoWrapper>
+          </LogoWrapper> */}
 
-          <LanguageSwitcher />
+          {/* <LanguageSwitcher /> */}
+
+          <AddressSwitcher />
 
           {isHomePage ? (
             <SearchWrapper

@@ -1,5 +1,5 @@
-import React from "react";
-import Router, { useRouter } from "next/router";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
 import { openModal } from "@redq/reuse-modal";
 import SearchBox from "components/SearchBox/SearchBox";
 import { SearchContext } from "contexts/search/search.context";
@@ -11,6 +11,7 @@ import LogoImage from "image/Logo.svg";
 import { isCategoryPage } from "../is-home-page";
 import SignInForm from "../../SignInOutForm/SignIn";
 import { setCookie } from "helper/session";
+import { usePlaces } from "@bottle-market/common/helpers";
 
 type Props = {
   className?: string;
@@ -20,8 +21,18 @@ type Props = {
 
 const Header: React.FC<Props> = ({ className }) => {
   const { signIn, logout, isAuthenticated, user } = useAuth();
+  const {
+    placeSearch,
+    setPlaceSearch,
+    suggestions,
+    getGeocode,
+    getLatLng,
+    clear,
+  } = usePlaces();
   const { state, dispatch } = React.useContext(SearchContext);
-  const { pathname, query } = useRouter();
+  const { address, text } = state;
+  const [search, setSearch] = useState("");
+  const { pathname } = useRouter();
 
   const handleLogout = () => {
     logout();
@@ -45,27 +56,50 @@ const Header: React.FC<Props> = ({ className }) => {
       },
     });
   };
-  const onSearch = (text: any) => {
-    dispatch({
-      type: "UPDATE",
-      payload: {
-        ...state,
-        text,
-      },
-    });
+
+  const onSearch = (text: string) => {
+    setSearch(text);
+    if (!address) setPlaceSearch(text);
   };
 
-  const { text } = state;
+  const handleSuggestionSelected = (suggestion: any) => {
+    setSearch(suggestion.description);
+    clear();
+  };
+
   const onClickHandler = () => {
-    const updatedQuery = query.category
-      ? { text: text, category: query.category }
-      : { text };
-    Router.push({
-      pathname: pathname,
-      query: updatedQuery,
-    });
+    if (!address)
+      getGeocode({ address: search })
+        .then((results) => getLatLng(results[0]))
+        .then(({ lat, lng }) => {
+          dispatch({
+            type: "UPDATE ADDRESS",
+            payload: {
+              ...state,
+              address: {
+                description: search,
+                lat: lat,
+                lng: lng,
+              },
+            },
+          });
+          setSearch("");
+        })
+        .catch((error) => {
+          console.log("😱 Error: ", error);
+        });
+    else {
+      dispatch({
+        type: "UPDATE TEXT",
+        payload: {
+          ...state,
+          text: search,
+        },
+      });
+    }
   };
   const showSearch = isCategoryPage(pathname);
+
   return (
     <HeaderWrapper className={className}>
       <LeftMenu logo={LogoImage} />
@@ -73,14 +107,17 @@ const Header: React.FC<Props> = ({ className }) => {
         <SearchBox
           className="headerSearch"
           handleSearch={(value: any) => onSearch(value)}
+          onSuggestionSelected={handleSuggestionSelected}
           onClick={onClickHandler}
-          placeholder="Search anything..."
+          intlPlaceholderId={address ? "searchPlaceholder" : "enterAddress"}
           hideType={true}
           minimal={true}
           showSvg={true}
           style={{ width: "100%" }}
-          value={text || ""}
+          value={search || ""}
           intlMenuId={"navWineMenu"}
+          autoSuggestion={!address}
+          suggestions={suggestions}
         />
       )}
       <RightMenu

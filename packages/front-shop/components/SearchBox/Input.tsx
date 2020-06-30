@@ -8,7 +8,9 @@ type InputProps = {
   buttonText?: string;
   inputClass?: string;
   buttonIcon?: React.ReactNode;
+  intlButtonId?: string;
   placeholder?: React.ReactNode;
+  intlPlaceholderId?: string;
   bordered?: boolean;
   showSvg?: boolean;
   style?: React.CSSProperties;
@@ -22,7 +24,6 @@ type InputProps = {
 const InputSearch: React.FC<InputProps> = ({
   type,
   value,
-  buttonText,
   buttonIcon,
   onChange,
   style,
@@ -33,6 +34,8 @@ const InputSearch: React.FC<InputProps> = ({
   bordered,
   showSvg,
   inputClass,
+  intlPlaceholderId,
+  intlButtonId,
 }) => {
   const intl = useIntl();
   return (
@@ -58,8 +61,8 @@ const InputSearch: React.FC<InputProps> = ({
             type={type}
             value={value}
             placeholder={intl.formatMessage({
-              id: "searchPlaceholder",
-              defaultMessage: "Search your products from here",
+              id: intlPlaceholderId || "enterAddress",
+              defaultMessage: "Enter your delivery address",
             })}
             onChange={onChange}
             onFocus={onFocus}
@@ -69,16 +72,11 @@ const InputSearch: React.FC<InputProps> = ({
           {showSvg !== true ? (
             <SearchButton onClick={onClick}>
               {buttonIcon}
-              {buttonText !== "" || null ? (
-                <span className="buttonText">
-                  <FormattedMessage
-                    id="searchButtonText"
-                    defaultMessage={buttonText}
-                  />
-                </span>
-              ) : (
-                ""
-              )}
+              <span className="buttonText">
+                {intlButtonId && (
+                  <FormattedMessage id={intlButtonId} defaultMessage={""} />
+                )}
+              </span>
             </SearchButton>
           ) : (
             ""

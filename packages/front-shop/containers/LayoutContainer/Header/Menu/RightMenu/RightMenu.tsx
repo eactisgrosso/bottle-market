@@ -5,6 +5,7 @@ import Popover from "components/Popover/Popover";
 import { OFFER_PAGE, RETAILER_PAGE } from "constants/navigation";
 import { AuthorizedMenu } from "../AuthorizedMenu";
 import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
+import AddressSwitcher from "../AddressSwitcher/AddressSwitcher";
 import { HelpIcon, Vino } from "components/AllSvgIcon";
 import { RightMenuBox } from "./RightMenu.style";
 
@@ -23,7 +24,7 @@ export const RightMenu: React.FC<Props> = ({
 }) => {
   return (
     <RightMenuBox>
-      <NavLink
+      {/* <NavLink
         className="menu-item"
         href={OFFER_PAGE}
         label="Offer"
@@ -37,9 +38,11 @@ export const RightMenu: React.FC<Props> = ({
         intlId="navlinkRetailer"
         iconClass="menu-icon"
         icon={<Vino />}
-      />
+      /> */}
 
-      <LanguageSwitcher />
+      {/* <LanguageSwitcher /> */}
+
+      <AddressSwitcher />
 
       {!isAuthenticated ? (
         <Button

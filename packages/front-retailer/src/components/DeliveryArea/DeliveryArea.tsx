@@ -1,70 +1,12 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Wrapper } from "./DeliveryArea.style";
 import Radio from "../Radio/Radio";
 import Input from "../Input/Input";
 import Slider from "../Slider/Slider";
-import { GoogleMap, Marker, Circle } from "@react-google-maps/api";
 import { FormFields } from "../FormFields/FormFields";
-
-import axios from "axios";
-
-function fetchReducer(state, action) {
-  switch (action.type) {
-    case "FETCH_START":
-      return {
-        ...state,
-        isLoading: true,
-        hasError: false,
-      };
-    case "FETCH_SUCCESS":
-      return {
-        ...state,
-        isLoading: false,
-        hasError: false,
-        location: action.payload,
-      };
-    case "FETCH_FAILURE":
-      return {
-        ...state,
-        isLoading: false,
-        hasError: true,
-      };
-    default:
-      throw new Error();
-  }
-}
-
-//const GOOGLE_API = "https://maps.google.com/maps/api/geocode/json";
-const GOB_AR_API = `https://apis.datos.gob.ar/georef/api/direcciones`;
-async function fetchCoordinates(search, dispatch, cancelToken) {
-  if (!search) return;
-  const address = search.split(",");
-  if (address.length < 3) return;
-
-  dispatch({ type: "FETCH_START" });
-  try {
-    const result = await axios(
-      `${GOB_AR_API}?provincia=${encodeURIComponent(
-        address[0]
-      )}&localidad=${encodeURIComponent(
-        address[1]
-      )}&direccion=${encodeURIComponent(address[2])}`,
-      {
-        cancelToken,
-      }
-    );
-    console.log(JSON.stringify(result));
-    if (result.data.direcciones.length > 0)
-      dispatch({
-        type: "FETCH_SUCCESS",
-        payload: result.data.direcciones[0].ubicacion,
-      });
-    else dispatch({ type: "FETCH_FAILURE" });
-  } catch (err) {
-    console.error(err);
-    axios.isCancel(err) || dispatch({ type: "FETCH_FAILURE" });
-  }
-}
+import Suggestions from "./Suggestions";
+import { GoogleMap, Marker, Circle } from "@react-google-maps/api";
+import { usePlaces } from "@bottle-market/common/helpers";
 
 const ARG_POSITION = {
   lat: -34.603722,
@@ -87,22 +29,37 @@ const DeliveryArea: React.FC<Props> = ({
   address,
   onChange,
 }) => {
+  const {
+    placeSearch,
+    setPlaceSearch,
+    suggestions,
+    status,
+    getGeocode,
+    getLatLng,
+    clear,
+  } = usePlaces();
   const [radius, setRadius] = useState(1);
   const [zoom, setZoom] = useState(14);
   const [position, setPosition] = useState(ARG_POSITION);
   const [search, setSearch] = useState("");
   const [deliveryOption, setDeliveryOption] = useState("1");
-  const [{ location, hasError, isLoading }, dispatch] = useReducer(
-    fetchReducer,
-    {
-      location: null,
-      isLoading: true,
-      hasError: false,
-    }
-  );
+  const [toggleSuggestion, setToggleSuggestion] = useState(false);
+
+  let searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (isGeolocationEnabled && coords && !location && !address) {
+    document.addEventListener("click", handleClickOutside, false);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, false);
+    };
+  }, []);
+
+  const zoomFromRadius = (r) => {
+    return 14 - Math.log(r) / Math.log(2);
+  };
+
+  useEffect(() => {
+    if (isGeolocationEnabled && coords && !address) {
       setPosition({
         lat: coords.latitude,
         lng: coords.longitude,
@@ -118,39 +75,40 @@ const DeliveryArea: React.FC<Props> = ({
     }
   }, [isGeolocationEnabled, coords]);
 
-  const zoomFromRadius = (r) => {
-    return 14 - Math.log(r) / Math.log(2);
-  };
+  useEffect(() => {
+    if (address) {
+      setSearch(address);
+      setPlaceSearch(address);
+    }
+  }, [address]);
+
+  useEffect(() => {
+    if (suggestions && suggestions.length == 1 && !toggleSuggestion) {
+      handleSelectSuggestion(suggestions[0]);
+    }
+  }, [suggestions]);
 
   useEffect(() => {
     if (deliveryOption == "2") {
-      setPosition(ARG_POSITION);
       setZoom(4);
       if (onChange)
         onChange({
           lat: ARG_POSITION.lat,
           lng: ARG_POSITION.lng,
           address: "",
-          radius: 0,
+          radius: 1,
         });
-      return;
-    }
-
-    if (location) {
-      setPosition({
-        lat: location.lat,
-        lng: location.lon,
-      });
+    } else {
       setZoom(zoomFromRadius(radius));
       if (onChange)
         onChange({
-          lat: location.lat,
-          lng: location.lon,
-          address: search,
+          lat: position.lat,
+          lng: position.lng,
+          address: address,
           radius: radius,
         });
     }
-  }, [location, deliveryOption]);
+  }, [deliveryOption]);
 
   useEffect(() => {
     if (radius != null) {
@@ -165,30 +123,48 @@ const DeliveryArea: React.FC<Props> = ({
     }
   }, [radius]);
 
-  useEffect(() => {
-    if (address != null) {
-      setSearch(address);
-    }
-  }, [address]);
+  const handleSearchInput = (text) => {
+    setSearch(text);
+    setToggleSuggestion(true);
+    setPlaceSearch(text);
+  };
 
-  useEffect(() => {
-    const { cancel, token } = axios.CancelToken.source();
-    const timeOutId = setTimeout(
-      () => fetchCoordinates(search, dispatch, token),
-      1000
-    );
-    return () => {
-      cancel("No longer needed");
-      clearTimeout(timeOutId);
-    };
-  }, [search]);
+  const handleClickOutside = (event: any) => {
+    if (searchRef.current && !searchRef.current.contains(event.target)) {
+      setToggleSuggestion(false);
+    }
+  };
+
+  const handleSelectSuggestion = (suggestion) => {
+    setSearch(suggestion.description);
+    clear();
+
+    getGeocode({ address: suggestion.description })
+      .then((results) => getLatLng(results[0]))
+      .then(({ lat, lng }) => {
+        setPosition({
+          lat: lat,
+          lng: lng,
+        });
+        onChange({
+          lat: lat,
+          lng: lng,
+          address: suggestion.description,
+          radius: radius,
+        });
+      })
+      .catch((error) => {
+        console.log("😱 Error: ", error);
+      });
+  };
 
   const handleChangeDeliveryOption = (event: any) => {
     setDeliveryOption(event.target.value);
+    setToggleSuggestion(false);
   };
 
   return (
-    <Wrapper>
+    <Wrapper ref={searchRef}>
       <FormFields>
         <Radio
           options={[
@@ -200,11 +176,21 @@ const DeliveryArea: React.FC<Props> = ({
         ></Radio>
         {deliveryOption == "1" && (
           <Input
-            value={search}
+            value={search || ""}
             placeholder={searchHint}
-            onChange={(event) => setSearch(event.target.value)}
+            onChange={(event) => {
+              handleSearchInput(event.target.value);
+            }}
           />
         )}
+        {toggleSuggestion ? (
+          <Suggestions
+            suggestions={suggestions}
+            setSuggestionValue={(suggestion) =>
+              handleSelectSuggestion(suggestion)
+            }
+          />
+        ) : null}
       </FormFields>
       <GoogleMap
         zoom={zoom}

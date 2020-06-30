@@ -30,6 +30,7 @@ const messages = {
   es: localEs,
   en: localEn,
 };
+
 // need to provide types
 export default function ExtendedApp({
   Component,

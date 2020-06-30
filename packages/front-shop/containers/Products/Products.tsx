@@ -19,12 +19,15 @@ import Loader from "components/Loader/Loader";
 import Placeholder from "components/Placeholder/Placeholder";
 import Fade from "react-reveal/Fade";
 import NoResultFound from "components/NoResult/NoResult";
+import { SearchContext } from "contexts/search/search.context";
 
 const QuickView = dynamic(() => import("../QuickView/QuickView"));
 
 const GET_PRODUCTS = gql`
   query getProducts(
     $type: String
+    $lat: Float
+    $lng: Float
     $text: String
     $category: String
     $offset: Int
@@ -32,6 +35,8 @@ const GET_PRODUCTS = gql`
   ) {
     products(
       type: $type
+      lat: $lat
+      lng: $lng
       text: $text
       category: $category
       offset: $offset
@@ -78,12 +83,17 @@ export const Products: React.FC<ProductsProps> = ({
   fetchLimit = 8,
   loadMore = true,
 }) => {
+  const { state, dispatch } = React.useContext(SearchContext);
+  const { address, text } = state;
+
   const router = useRouter();
   const [loadingMore, toggleLoading] = useState(false);
   const { data, error, loading, fetchMore } = useQuery(GET_PRODUCTS, {
     variables: {
       type: type,
-      text: router.query.text,
+      lat: address ? address.lat : 0,
+      lng: address ? address.lng : 0,
+      text: text,
       category: router.query.category,
       offset: 0,
       limit: fetchLimit,

@@ -1,5 +1,7 @@
-import React from "react";
-import { useRouter } from "next/router";
+import React, { useContext, useEffect } from "react";
+import { SearchContext } from "contexts/search/search.context";
+
+// import { useRouter } from "next/router";
 import { Modal } from "@redq/reuse-modal";
 import { withApollo } from "helper/apollo";
 import { SEO } from "components/seo";
@@ -24,16 +26,28 @@ import storeType from "constants/storeType";
 const PAGE_TYPE = "vino";
 
 function HomePage({ deviceType }) {
-  const { query } = useRouter();
+  const { state, dispatch } = useContext(SearchContext);
+  const { address, text } = state;
+
+  // const { query } = useRouter();
   const targetRef = React.useRef(null);
-  React.useEffect(() => {
-    if ((query.text || query.category) && targetRef.current) {
+  // React.useEffect(() => {
+  //   if ((query.text || query.category) && targetRef.current) {
+  //     window.scrollTo({
+  //       top: targetRef.current.offsetTop - 110,
+  //       behavior: "smooth",
+  //     });
+  //   }
+  // }, [query]);
+
+  useEffect(() => {
+    if (address && targetRef.current) {
       window.scrollTo({
         top: targetRef.current.offsetTop - 110,
         behavior: "smooth",
       });
     }
-  }, [query]);
+  }, [address]);
 
   return (
     <>

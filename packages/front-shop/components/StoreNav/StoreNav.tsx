@@ -1,7 +1,7 @@
-import React from 'react';
-import NavLink from '../NavLink/NavLink';
-import StoreNavWrapper, { StoreNavLinks } from './StoreNav.style';
-import { GroceryIcon, MakeupIcon, DressIcon, Handbag } from '../AllSvgIcon';
+import React from "react";
+import NavLink from "../NavLink/NavLink";
+import StoreNavWrapper, { StoreNavLinks } from "./StoreNav.style";
+import { GroceryIcon, MakeupIcon, DressIcon, Handbag } from "../AllSvgIcon";
 
 type StoreNavProps = {
   className?: string;
@@ -17,7 +17,7 @@ const StoreNav: React.FunctionComponent<StoreNavProps> = ({
       <StoreNavLinks>
         {items.map((item, index) => (
           <NavLink
-            className='store-nav-link'
+            className="store-nav-link"
             href={item.link}
             label={item.label}
             icon={item.icon}

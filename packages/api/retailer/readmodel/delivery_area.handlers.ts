@@ -5,25 +5,25 @@ import {
   DeliveryAreaSetup,
   DeliveryAreaClosed,
 } from "../domain/events/delivery_area.events";
+const knexPostgis = require("knex-postgis");
 
 @Injectable()
 @EventsHandler(DeliveryAreaSetup)
 export class DeliveryAreaSetupHandler
   implements IEventHandler<DeliveryAreaSetup> {
-  constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {}
+  private readonly st;
+
+  constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {
+    this.st = knexPostgis(knex);
+  }
 
   async handle(event: DeliveryAreaSetup) {
-    const point = this.knex.raw("point(:lat,:lng)", {
-      lat: event.lat,
-      lng: event.lng,
-    });
-
     await this.knex("delivery_area").insert({
       id: event.aggregateId,
       name: event.name,
       store_id: event.store_id,
       address: event.address,
-      centroid: point,
+      geom: this.st.geomFromText(`Point(${event.lng} ${event.lat})`, 4326),
       radius: event.radius,
       monday: event.monday,
       monday_hours_from: `${event.monday_hours_from}:00`,

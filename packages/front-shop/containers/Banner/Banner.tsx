@@ -1,8 +1,9 @@
-import React, { useContext, useCallback } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import { useRouter } from "next/router";
 import { Waypoint } from "react-waypoint";
 import SearchBox from "components/SearchBox/SearchBox";
 import { SearchContext } from "contexts/search/search.context";
+import { usePlaces } from "@bottle-market/common/helpers";
 import { useStickyDispatch } from "contexts/app/app.provider";
 import { FormattedMessage } from "react-intl";
 import {
@@ -25,37 +26,75 @@ const Banner: React.FC<BannerProps> = ({
   intlMenuId,
   intlDescriptionId,
 }) => {
-  const { state, dispatch } = useContext(SearchContext);
-  const router = useRouter();
-  // const { text } = state;
+  const {
+    placeSearch,
+    setPlaceSearch,
+    suggestions,
+    getGeocode,
+    getLatLng,
+    clear,
+  } = usePlaces();
 
+  const { state, dispatch } = useContext(SearchContext);
+  const { address, text } = state;
+
+  const router = useRouter();
   const { pathname } = router;
 
+  const [search, setSearch] = useState("");
+
   const handleSearchInput = (text: string) => {
-    dispatch({
-      type: "UPDATE",
-      payload: {
-        ...state,
-        text,
-      },
-    });
+    setSearch(text);
+    if (!address) setPlaceSearch(text);
   };
 
-  function handleClickSearchButton() {
-    const { page, ...urlState } = state;
+  const handleSuggestionSelected = (suggestion: any) => {
+    setSearch(suggestion.description);
+    clear();
+  };
+
+  const handleClickSearchButton = () => {
+    if (!address)
+      getGeocode({ address: search })
+        .then((results) => getLatLng(results[0]))
+        .then(({ lat, lng }) => {
+          dispatch({
+            type: "UPDATE ADDRESS",
+            payload: {
+              ...state,
+              address: {
+                description: search,
+                lat: lat,
+                lng: lng,
+              },
+            },
+          });
+          setSearch("");
+        })
+        .catch((error) => {
+          console.log("😱 Error: ", error);
+        });
+    else {
+      dispatch({
+        type: "UPDATE TEXT",
+        payload: {
+          ...state,
+          text: search,
+        },
+      });
+    }
 
     router.push(
       {
         pathname: pathname,
-        query: { ...urlState },
       },
       {
         pathname: pathname === "/" ? `${pathname}vinos` : pathname,
-        query: { ...urlState },
       },
       { shallow: true }
     );
-  }
+  };
+
   const useDispatch = useStickyDispatch();
   const setSticky = useCallback(() => useDispatch({ type: "SET_STICKY" }), [
     useDispatch,
@@ -97,14 +136,18 @@ const Banner: React.FC<BannerProps> = ({
             width: 700,
             boxShadow: "0 21px 36px rgba(0,0,0,0.05)",
             borderRadius: "6px",
-            overflow: "hidden",
           }}
           handleSearch={(value: string) => handleSearchInput(value)}
-          value={state.text || ""}
+          value={search || ""}
+          onSuggestionSelected={handleSuggestionSelected}
           onClick={handleClickSearchButton}
           className="banner-search"
           pathname={pathname}
           intlMenuId={intlMenuId}
+          intlPlaceholderId={address ? "searchPlaceholder" : "enterAddress"}
+          intlButtonId={address ? "searchButtonText" : "continueBtn"}
+          autoSuggestion={!address}
+          suggestions={suggestions}
         />
         <Waypoint
           onEnter={removeSticky}

@@ -1,34 +1,25 @@
 import React from "react";
-import {
-  SearchResultWrapper,
-  ItemWrapper,
-  SubmenuHeading,
-} from "./SearchBox.style";
+import { SuggestionsWrapper, ItemWrapper } from "./DeliveryArea.style";
 
 type SuggestionsProps = {
   suggestions?: any;
   itemStyle?: any;
   wrapperStyle?: any;
   setSuggestionValue?: any;
-  clearSearch?: any;
 };
 
-const SearchResults: React.FC<SuggestionsProps> = ({
+const Suggestions: React.FC<SuggestionsProps> = ({
   suggestions,
   itemStyle,
   wrapperStyle,
   setSuggestionValue,
-  clearSearch,
 }) => {
   const setSuggestion = (suggestion: any) => {
     setSuggestionValue(suggestion);
   };
 
   return (
-    <SearchResultWrapper {...wrapperStyle}>
-      <SubmenuHeading>
-        <h3>Recent Search</h3> <button onClick={clearSearch}>Clear</button>
-      </SubmenuHeading>
+    <SuggestionsWrapper {...wrapperStyle}>
       {suggestions.map((suggestion: any) => (
         <ItemWrapper
           {...itemStyle}
@@ -38,8 +29,8 @@ const SearchResults: React.FC<SuggestionsProps> = ({
           {suggestion.description}
         </ItemWrapper>
       ))}
-    </SearchResultWrapper>
+    </SuggestionsWrapper>
   );
 };
 
-export default SearchResults;
+export default Suggestions;

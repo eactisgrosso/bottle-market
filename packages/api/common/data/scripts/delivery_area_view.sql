@@ -1,16 +1,15 @@
 
 CREATE VIEW delivery_area_view AS 
 SELECT
-	 user_id,
-	 da.id,
+	user_id,
+	da.id,
      da.name,
      store_id,
      st.name as store,
      address,
-     centroid[0] as lat,
-	 centroid[1] as lng,
+     geom,
      radius,
-	 monday, 
+	monday, 
      monday_hours_from, 
      monday_hours_to, 
      tuesday, 

@@ -1,11 +1,11 @@
-CREATE VIEW `product_view` AS 
+CREATE VIEW product_view AS 
 SELECT  p.id,
         p.title,
         p.slug,
         p.description,
         p.package_size as size,
         p.price_retail as price,
-        p.promo_discount as discountInPercent,
+        p.promo_discount as "discountInPercent",
         p.producer_id,
         p.images,
         p.categories,

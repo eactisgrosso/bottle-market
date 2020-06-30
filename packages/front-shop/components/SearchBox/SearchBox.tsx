@@ -8,10 +8,14 @@ import SearchWrapper, {
 import { SearchIcon } from "../AllSvgIcon";
 import { FormattedMessage } from "react-intl";
 
+type Suggestion = {
+  id: string;
+  description: string;
+};
 type SearchBoxProps = {
-  suggestions?: string[];
-  buttonText?: string;
+  suggestions?: Suggestion[];
   buttonIcon?: React.ReactNode;
+  intlButtonId?: string;
   inputStyle?: React.CSSProperties;
   style?: React.CSSProperties;
   bordered?: boolean;
@@ -20,9 +24,10 @@ type SearchBoxProps = {
   expand?: boolean;
   minimal?: boolean;
   autoSuggestion?: boolean;
-  placeholder?: string;
+  intlPlaceholderId: string;
   className?: string;
   handleSearch?: Function;
+  onSuggestionSelected?: Function;
   onClick?: Function;
   value?: any;
   pathname?: string;
@@ -31,8 +36,8 @@ type SearchBoxProps = {
 
 const Search: React.FC<SearchBoxProps> = ({
   suggestions,
-  buttonText,
   buttonIcon,
+  intlButtonId,
   inputStyle,
   style,
   bordered,
@@ -41,12 +46,13 @@ const Search: React.FC<SearchBoxProps> = ({
   autoSuggestion,
   className,
   handleSearch,
+  onSuggestionSelected,
   onClick,
   value,
   expand,
   minimal,
-  pathname,
   intlMenuId,
+  intlPlaceholderId,
 }) => {
   const [searchValue, setSearchValue] = useState("");
   const [toggleSuggestion, setToggleSuggestion] = useState(false);
@@ -67,9 +73,10 @@ const Search: React.FC<SearchBoxProps> = ({
     handleSearch(event.target.value);
   };
 
-  const setSuggestion = (suggestion: any) => {
-    setSearchValue(suggestion);
+  const setSuggestion = (suggestion: Suggestion) => {
+    setSearchValue(suggestion.description);
     setToggleSuggestion(false);
+    onSuggestionSelected(suggestion);
   };
 
   const handleClickOutside = (event: any) => {
@@ -107,8 +114,9 @@ const Search: React.FC<SearchBoxProps> = ({
           onChange={handleSearchInput}
           onFocus={() => setToggleSearch(true)}
           onBlur={() => setToggleSearch(false)}
+          intlPlaceholderId={intlPlaceholderId}
           buttonIcon={buttonIcon}
-          buttonText={buttonText}
+          intlButtonId={intlButtonId}
           style={inputStyle}
           bordered={bordered}
           showSvg={showSvg}
@@ -119,7 +127,9 @@ const Search: React.FC<SearchBoxProps> = ({
         <SearchResults
           suggestions={suggestions}
           clearSearch={onClearBtnClick}
-          setSuggestionValue={(suggestion: any) => setSuggestion(suggestion)}
+          setSuggestionValue={(suggestion: Suggestion) =>
+            setSuggestion(suggestion)
+          }
         />
       ) : null}
     </SearchWrapper>
@@ -129,7 +139,6 @@ const Search: React.FC<SearchBoxProps> = ({
 Search.defaultProps = {
   bordered: false,
   autoSuggestion: false,
-  buttonText: "Search",
   buttonIcon: <SearchIcon />,
   inputStyle: {
     width: "100%",

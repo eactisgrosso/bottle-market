@@ -2,7 +2,11 @@ import React from "react";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
 import { GET_STORES } from "../../../graphql/query/store.query";
-import { CartIconBig } from "../../../components/AllSvgIcon";
+import {
+  CartIconBig,
+  ProductIcon,
+  SidebarCategoryIcon,
+} from "../../../components/AllSvgIcon";
 import {
   Card,
   Title,
@@ -18,10 +22,6 @@ import {
 import Button, { KIND } from "../../../components/Button/Button";
 import Confirm from "../../../components/Confirm/Confirm";
 import Tooltip from "../../../components/Tooltip/Tooltip";
-import {
-  ProductIcon,
-  SidebarCategoryIcon,
-} from "../../../components/AllSvgIcon";
 
 const DELETE_STORE = gql`
   mutation deleteStore($id: String!) {

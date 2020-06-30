@@ -98,23 +98,13 @@ export class StoreResolver {
     { limit, offset, store_id, type, searchText, category }: GetProductsArgs
   ): Promise<StoreProducts> {
     const query = this.productQuery.select("store_product_view as p");
-    const queryCount = this.productQuery.selectCount("store_product_view as p");
 
-    if (category) {
-      await this.productQuery.byCategorySlug(query, category);
-      await this.productQuery.byCategorySlug(queryCount, category);
-    } else if (type) {
-      await this.productQuery.byCategorySlug(query, type);
-      await this.productQuery.byCategorySlug(queryCount, type);
-    }
+    if (category) await this.productQuery.byCategorySlug(query, category);
+    else if (type) await this.productQuery.byCategorySlug(query, type);
 
-    if (searchText) {
-      this.productQuery.byText(query, searchText);
-      this.productQuery.byText(queryCount, searchText);
-    }
+    if (searchText) this.productQuery.byText(query, searchText);
 
     query.where("p.store_id", store_id);
-    queryCount.where("p.store_id", store_id);
 
     const dbProducts = await query.map((dbProduct: any) => {
       const product = new StoreProductDTO();
@@ -125,12 +115,12 @@ export class StoreResolver {
       return product;
     });
 
-    const dbTotal = await queryCount;
+    const count = dbProducts.length > 0 ? dbProducts[0].count : 0;
 
     return {
       items: dbProducts,
-      totalCount: dbTotal[0].count,
-      hasMore: offset + limit < dbTotal[0].count,
+      totalCount: count,
+      hasMore: offset + limit < count,
     };
   }
 

@@ -3,8 +3,8 @@ CREATE TABLE delivery_area (
   store_id uuid references store (id),
   name varchar(50),
   address varchar(255),
-  centroid point,
-  radius smallint,
+  geom geometry(POINT,4326),
+  radius int,
   monday bool,
   tuesday bool,
   wednesday bool,
@@ -29,3 +29,4 @@ CREATE TABLE delivery_area (
   date_added timestamp
 );
 
+CREATE INDEX idx_deliver_area_geom ON delivery_area USING gist(geom);  
