@@ -49,7 +49,7 @@ Resources:
     Properties:
       Description: Token rotation
       Name: TokenRotatorEvent
-      ScheduleExpression: "cron(0/5 * * * ? *)"
+      ScheduleExpression: "rate(23 hours)"
       State: ENABLED
       Targets:
         - Arn:
