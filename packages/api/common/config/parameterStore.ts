@@ -1,7 +1,6 @@
 import { KnexOptions } from "@nestjsplus/knex";
 
 const AWS = require("aws-sdk");
-const ssm = new AWS.SSM({ region: "us-east-1" });
 
 export class ParameterStore {
   private static instance: ParameterStore;
@@ -17,6 +16,12 @@ export class ParameterStore {
 
   public static async getInstance(): Promise<ParameterStore> {
     if (!ParameterStore.instance) {
+      const credentials = new AWS.SharedIniFileCredentials({
+        profile: process.env.AWS_PROFILE,
+      });
+      AWS.config.credentials = credentials;
+      const ssm = new AWS.SSM({ region: "us-east-1" });
+
       let response = await ssm
         .getParameters({
           Names: [
