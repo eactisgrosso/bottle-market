@@ -29,9 +29,9 @@ export class ParameterStore {
         .promise();
 
       const host =
-        process.env.NODE_ENV != "development"
-          ? response.Parameters[2].Value
-          : "127.0.0.1";
+        process.env.NODE_ENV === "development"
+          ? process.env.DB_HOST
+          : response.Parameters[2].Value;
       const auth0Domain = response.Parameters[1].Value;
       const auth0Audience = response.Parameters[0].Value;
 
@@ -47,13 +47,13 @@ export class ParameterStore {
         .promise();
 
       const user =
-        process.env.NODE_ENV != "development"
-          ? response.Parameters[2].Value
-          : "eactisgrosso";
+        process.env.NODE_ENV === "development"
+          ? process.env.DB_USER
+          : response.Parameters[2].Value;
       const pwd =
-        process.env.NODE_ENV != "development"
-          ? response.Parameters[1].Value
-          : "";
+        process.env.NODE_ENV === "development"
+          ? process.env.DB_PWD
+          : response.Parameters[1].Value;
       const auth0Token = response.Parameters[0].Value;
 
       ParameterStore.instance = new ParameterStore(
@@ -75,7 +75,7 @@ export class ParameterStore {
       host: this.host,
       user: this.user,
       password: this.pwd,
-      database: "postgres",
+      database: process.env.DB_NAME ? process.env.DB_NAME : "postgres",
     },
   };
 
