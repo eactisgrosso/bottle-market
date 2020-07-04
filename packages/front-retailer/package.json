@@ -2,7 +2,7 @@
   "name": "@bottle-market/front-retailer",
   "version": "2.0.2",
   "scripts": {
-    "start": "craco start",
+    "start": "PORT=3001 craco start",
     "admin": "craco start",
     "build": "craco build",
     "eject": "craco eject",
