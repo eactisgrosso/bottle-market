@@ -9,8 +9,8 @@ import { UserModule } from "../common/services/user/user.module";
 
 import { LocationModule } from "./services/location/location.module";
 import { StoreModule } from "./services/store/store.module";
-import { DeliveryModule } from "./services/delivery/delivery.module";
-import { ProductModule } from "./services/product/product.module";
+import { StoreProductModule } from "./services/store_product/store_product.module";
+import { DeliveryModule } from "./services/delivery_area/delivery_area.module";
 import { ParameterStore } from "../common/config/parameterStore";
 
 @Module({
@@ -19,8 +19,8 @@ import { ParameterStore } from "../common/config/parameterStore";
     UserModule,
     LocationModule,
     StoreModule,
+    StoreProductModule,
     DeliveryModule,
-    ProductModule,
     ConfigModule.forRoot({
       load: [async () => (await ParameterStore.getInstance()).authConfig],
       isGlobal: true,

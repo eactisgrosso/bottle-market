@@ -55,13 +55,11 @@ const data = [
 
 const FORMS = {
   [STORES]: "STORE_FORM",
-  [PRODUCTS]: "PRODUCT_FORM",
   [DELIVERY]: "DELIVERY_FORM",
 };
 
 const BUTTON_TEXT = {
   [STORES]: "Agregar Tienda",
-  [PRODUCTS]: "Agregar Productos",
   [DELIVERY]: "Agregar Delivery",
 };
 

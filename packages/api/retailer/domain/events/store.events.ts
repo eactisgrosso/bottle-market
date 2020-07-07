@@ -1,5 +1,4 @@
 import { Event } from "../../../common/domain/event";
-import { ProductQuantity } from "../../../common/data/product.types";
 
 export class StoreOpened extends Event {
   constructor(
@@ -17,21 +16,6 @@ export class StoreOpened extends Event {
   }
 }
 
-export class ProductAdded extends Event {
-  constructor(
-    public readonly product_size_id: string,
-    public readonly price: number
-  ) {
-    super();
-  }
-}
-
-export class ProductQuantitiesChanged extends Event {
-  constructor(public readonly products: ProductQuantity[]) {
-    super();
-  }
-}
-
 export class StoreClosed extends Event {
   constructor() {
     super();
@@ -40,7 +24,5 @@ export class StoreClosed extends Event {
 
 export const StoreEvents = {
   StoreOpened,
-  ProductAdded,
-  ProductQuantitiesChanged,
   StoreClosed,
 };

@@ -5,9 +5,11 @@ import { UseGuards } from "@nestjs/common";
 import { GraphqlAuthGuard } from "../../../common/auth/graphql.auth.guard";
 import { User } from "../../../common/auth/user.decorator";
 import { DeliveryAreaRepository } from "../../domain/repositories/delivery_area.repository";
-import DeliveryAreaDTO from "../delivery/delivery.type";
-import AddDeliveryAreaInput from "../delivery/delivery.input_type";
-import DeliveryAreaDeleteDTO from "./delivery.delete_type";
+import {
+  AddDeliveryAreaInput,
+  DeliveryAreaDTO,
+  DeliveryAreaDeleteDTO,
+} from "./delivery_area.types";
 
 const { v4: uuidv4 } = require("uuid");
 

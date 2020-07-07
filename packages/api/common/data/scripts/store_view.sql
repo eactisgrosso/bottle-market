@@ -8,7 +8,7 @@ SELECT
     st.name as state,
     ct.name as city,
     (SELECT COUNT(da.id) from delivery_area as da where da.store_id = s.id ) as delivery_areas,
-    (SELECT COUNT(sp.product_size_id) from store_product as sp where sp.store_id = s.id) as products
+    (SELECT COUNT(sp.product_size_id) from store_product as sp where sp.store_id = s.id and sp.quantity > 0) as products
 FROM store s
 
 LEFT JOIN state st

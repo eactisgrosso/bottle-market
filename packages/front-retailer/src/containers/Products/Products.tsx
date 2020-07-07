@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "baseui";
-import Button from "../../components/Button/Button";
 import {
   Grid,
   Row as Rows,
@@ -19,66 +18,60 @@ import {
   GET_STORE,
   GET_CATEGORY_TYPE,
   GET_STORES,
-  GET_STORE_PRODUCTS,
 } from "../../graphql/query/store.query";
-import {
-  CHANGE_LOCAL_PRODUCT_QUANTITY,
-  CHANGE_PRODUCT_QUANTITIES,
-} from "../../graphql/mutation/store.mutation";
+import { updateStore } from "../../graphql/mutation/store.mutation";
 import { Header, Heading } from "../../components/WrapperStyle";
 import Fade from "react-reveal/Fade";
 import ProductCard from "./ProductCard/ProductCard";
 import NoResult from "../../components/NoResult/NoResult";
 import { CURRENCY, PRODUCT_TYPES } from "../../settings/constants";
 import Placeholder from "../../components/Placeholder/Placeholder";
+import { Waypoint } from "react-waypoint";
 
-export const ProductsRow = styled("div", ({ $theme }) => ({
-  display: "flex",
-  flexWrap: "wrap",
-  marginTop: "25px",
-  backgroundColor: $theme.colors.backgroundF7,
-  position: "relative",
-  zIndex: "1",
+const GET_STORE_PRODUCTS = gql`
+  query storeProducts(
+    $store_id: String!
+    $type: String
+    $searchText: String
+    $offset: Int
+  ) {
+    storeProducts(
+      store_id: $store_id
+      type: $type
+      searchText: $searchText
+      offset: $offset
+    ) {
+      items {
+        id
+        product_size_id
+        title
+        image
+        type
+        price
+        price_retail
+        size
+        promo_discount
+        quantity
+      }
+      totalCount
+      hasMore
+    }
+  }
+`;
 
-  "@media only screen and (max-width: 767px)": {
-    marginLeft: "-7.5px",
-    marginRight: "-7.5px",
-    marginTop: "15px",
-  },
-}));
-
-export const Col = styled(Column, () => ({
-  "@media only screen and (max-width: 767px)": {
-    marginBottom: "20px",
-
-    ":last-child": {
-      marginBottom: 0,
-    },
-  },
-}));
-
-const Row = styled(Rows, () => ({
-  "@media only screen and (min-width: 768px) and (max-width: 991px)": {
-    alignItems: "center",
-  },
-}));
-
-export const ProductCardWrapper = styled("div", () => ({
-  height: "100%",
-}));
-
-export const LoaderWrapper = styled("div", () => ({
-  width: "100%",
-  height: "100vh",
-  display: "flex",
-  flexWrap: "wrap",
-}));
-
-export const LoaderItem = styled("div", () => ({
-  width: "25%",
-  padding: "0 15px",
-  marginBottom: "30px",
-}));
+const CHANGE_PRODUCT_AVAILABILITY = gql`
+  mutation changeProductAvailability(
+    $availabilityInput: ChangeProductAvailability!
+  ) {
+    changeProductAvailability(availabilityInput: $availabilityInput) {
+      id
+      store_id
+      product_size_id
+      price
+      quantity
+    }
+  }
+`;
 
 export default function Products() {
   const {
@@ -90,18 +83,20 @@ export default function Products() {
     getStoreProducts,
     { data, loading, error, refetch, fetchMore },
   ] = useLazyQuery(GET_STORE_PRODUCTS);
-  const [loadingMore, toggleLoading] = useState(false);
   const [categoryType, setCategoryType] = useState([]);
   const [store, setStore] = useState([]);
   const [search, setSearch] = useState([]);
-  const [quantities, setQuantities] = useState<Map<string, number>>();
 
   const client = useApolloClient();
-
-  const [changeLocalProductQuantity] = useMutation(
-    CHANGE_LOCAL_PRODUCT_QUANTITY
-  );
-  const [changeProductQuantities] = useMutation(CHANGE_PRODUCT_QUANTITIES);
+  const [changeProductAvailability] = useMutation(CHANGE_PRODUCT_AVAILABILITY, {
+    update(cache, { data: { changeProductAvailability } }) {
+      updateStore(cache, changeProductAvailability.store_id, {
+        products: (value) =>
+          changeProductAvailability.quantity > 0 ? value + 1 : value - 1,
+      });
+    },
+    onError: (error) => {},
+  });
 
   useEffect(() => {
     if (storesData && storesData.stores.length > 0 && store.length == 0) {
@@ -132,49 +127,26 @@ export default function Products() {
     }
   }, [store, categoryType]);
 
-  useEffect(() => {
-    const timeOutId = setTimeout(() => {
-      if (quantities) {
-        const map = Array.from(quantities).map((kv) => {
-          return {
-            id: kv[0],
-            quantity: kv[1],
-          };
-        });
-        changeProductQuantities({
-          variables: {
-            productInput: {
-              store_id: store[0].id,
-              quantities: map,
-            },
-          },
-        });
-        setQuantities(null);
-      }
-    }, 1000);
-    return () => {
-      clearTimeout(timeOutId);
-    };
-  }, [quantities]);
-
   if (error) {
     return <div>Error! {error.message}</div>;
   }
 
   function loadMore() {
-    toggleLoading(true);
     fetchMore({
       variables: {
-        offset: data.products.items.length,
+        offset: data.storeProducts.items.length,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
-        toggleLoading(false);
         if (!fetchMoreResult) return prev;
         return Object.assign({}, prev, {
-          products: {
-            __typename: prev.products.__typename,
-            items: [...prev.products.items, ...fetchMoreResult.products.items],
-            hasMore: fetchMoreResult.products.hasMore,
+          storeProducts: {
+            __typename: prev.storeProducts.__typename,
+            items: [
+              ...prev.storeProducts.items,
+              ...fetchMoreResult.storeProducts.items,
+            ],
+            totalCount: fetchMoreResult.storeProducts.totalCount,
+            hasMore: fetchMoreResult.storeProducts.hasMore,
           },
         });
       },
@@ -203,19 +175,25 @@ export default function Products() {
     refetch({ searchText: value });
   }
 
-  const handleChangeQuantity = (id: string, quantity: number) => {
-    const pq = quantities ? new Map(quantities) : new Map<string, number>();
-    pq.set(id, quantity);
-    setQuantities(pq);
-
-    changeLocalProductQuantity({
-      variables: {
-        id: id,
-        quantity: quantity,
-        store_id: store[0].id,
-        category_type: categoryType[0].id,
-      },
-    });
+  const handleToggle = (
+    id: string,
+    sizeId: string,
+    price: number,
+    enabled: boolean
+  ) => {
+    setTimeout(() => {
+      changeProductAvailability({
+        variables: {
+          availabilityInput: {
+            id: id,
+            store_id: store[0].id,
+            product_size_id: sizeId,
+            price: price,
+            quantity: enabled ? 1 : 0,
+          },
+        },
+      });
+    }, 500);
   };
 
   return (
@@ -303,37 +281,77 @@ export default function Products() {
                   <Fade bottom duration={800} delay={index * 10}>
                     <ProductCard
                       id={item.id}
+                      sizeId={item.product_size_id}
                       title={item.title}
                       size={item.size}
                       image={item.image}
                       currency={CURRENCY}
                       price={item.price}
-                      priceRetail={item.priceRetail}
-                      discountInPercent={item.discountInPercent}
+                      priceRetail={item.price_retail}
+                      discountInPercent={item.promo_discount}
                       quantity={item.quantity}
-                      onChangeQuantity={handleChangeQuantity}
+                      onToggle={handleToggle}
                     />
                   </Fade>
+                  {index === data.storeProducts.items.length - 4 && (
+                    <Waypoint onEnter={() => loadMore()} />
+                  )}
                 </Col>
               ))
             ) : (
               <NoResult />
             )}
           </Row>
-          {data && data.products && data.products.hasMore && (
-            <Row>
-              <Col
-                md={12}
-                style={{ display: "flex", justifyContent: "center" }}
-              >
-                <Button onClick={loadMore} isLoading={loadingMore}>
-                  Ver más
-                </Button>
-              </Col>
-            </Row>
-          )}
         </Col>
       </Row>
     </Grid>
   );
 }
+
+export const ProductsRow = styled("div", ({ $theme }) => ({
+  display: "flex",
+  flexWrap: "wrap",
+  marginTop: "25px",
+  backgroundColor: $theme.colors.backgroundF7,
+  position: "relative",
+  zIndex: "1",
+
+  "@media only screen and (max-width: 767px)": {
+    marginLeft: "-7.5px",
+    marginRight: "-7.5px",
+    marginTop: "15px",
+  },
+}));
+
+export const Col = styled(Column, () => ({
+  "@media only screen and (max-width: 767px)": {
+    marginBottom: "20px",
+
+    ":last-child": {
+      marginBottom: 0,
+    },
+  },
+}));
+
+const Row = styled(Rows, () => ({
+  "@media only screen and (min-width: 768px) and (max-width: 991px)": {
+    alignItems: "center",
+  },
+}));
+
+export const ProductCardWrapper = styled("div", () => ({
+  height: "100%",
+}));
+
+export const LoaderWrapper = styled("div", () => ({
+  width: "100%",
+  height: "100vh",
+  display: "flex",
+  flexWrap: "wrap",
+}));
+
+export const LoaderItem = styled("div", () => ({
+  width: "25%",
+  padding: "0 15px",
+  marginBottom: "30px",
+}));

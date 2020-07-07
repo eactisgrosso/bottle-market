@@ -7,3 +7,8 @@ export class Event implements IEvent {
   userId: number;
   timestamp: Date;
 }
+
+export interface ILegacyEvent<T extends Event> {
+  isLegacy: boolean;
+  upcast(): T;
+}

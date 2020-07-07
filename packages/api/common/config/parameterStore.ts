@@ -1,5 +1,4 @@
 import { KnexOptions } from "@nestjsplus/knex";
-
 const AWS = require("aws-sdk");
 
 export class ParameterStore {

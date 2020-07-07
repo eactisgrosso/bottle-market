@@ -26,34 +26,3 @@ export const GET_STORES = gql`
     }
   }
 `;
-
-export const GET_STORE_PRODUCTS = gql`
-  query getStoreProducts(
-    $store_id: String!
-    $type: String
-    $searchText: String
-    $offset: Int
-  ) {
-    storeProducts(
-      store_id: $store_id
-      type: $type
-      searchText: $searchText
-      offset: $offset
-    ) {
-      items {
-        id
-        title
-        description
-        image
-        type
-        price
-        priceRetail
-        size
-        discountInPercent
-        quantity
-      }
-      totalCount
-      hasMore
-    }
-  }
-`;

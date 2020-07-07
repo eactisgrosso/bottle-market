@@ -5,15 +5,11 @@ import { CloseIcon } from "../../components/AllSvgIcon";
 import { useDrawerState, useDrawerDispatch } from "../../context/DrawerContext";
 
 import StoreForm from "../Stores/StoreForm/StoreForm";
-import ProductForm from "../Products/ProductForm/ProductForm";
-import ProductUpdateForm from "../Products/ProductForm/ProductUpdateForm";
 import DeliveryForm from "../Delivery/DeliveryForm/DeliveryForm";
 import Sidebar from "../Layout/Sidebar/Sidebar";
 
 const DRAWER_COMPONENTS = {
   STORE_FORM: StoreForm,
-  PRODUCT_FORM: ProductForm,
-  PRODUCT_UPDATE_FORM: ProductUpdateForm,
   DELIVERY_FORM: DeliveryForm,
   SIDEBAR: Sidebar,
 };
