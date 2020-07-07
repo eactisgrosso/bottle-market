@@ -37,10 +37,11 @@ import Sidebar from "../Sidebar/Sidebar";
 import { STORES, PRODUCTS, DELIVERY } from "../../../settings/constants";
 import { useQuery, gql } from "@apollo/client";
 
-const GET_STORES = gql`
-  query getStores {
-    stores {
+const GET_STORES_LOCAL = gql`
+  {
+    stores @client {
       id
+      name
     }
   }
 `;
@@ -68,7 +69,7 @@ const Topbar = ({ refs, ...props }: any) => {
   const dispatch = useDrawerDispatch();
   const { logout, user } = useAuth();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const { data } = useQuery(GET_STORES);
+  const { data } = useQuery(GET_STORES_LOCAL);
 
   return (
     <TopbarWrapper ref={refs}>

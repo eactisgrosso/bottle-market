@@ -14,11 +14,6 @@ import {
   useApolloClient,
   gql,
 } from "@apollo/client";
-import {
-  GET_STORE,
-  GET_CATEGORY_TYPE,
-  GET_STORES,
-} from "../../graphql/query/store.query";
 import { updateStore } from "../../graphql/mutation/store.mutation";
 import { Header, Heading } from "../../components/WrapperStyle";
 import Fade from "react-reveal/Fade";
@@ -27,6 +22,15 @@ import NoResult from "../../components/NoResult/NoResult";
 import { CURRENCY, PRODUCT_TYPES } from "../../settings/constants";
 import Placeholder from "../../components/Placeholder/Placeholder";
 import { Waypoint } from "react-waypoint";
+
+const GET_STORES = gql`
+  query getStores {
+    stores {
+      id
+      name
+    }
+  }
+`;
 
 const GET_STORE_PRODUCTS = gql`
   query storeProducts(
@@ -155,18 +159,10 @@ export default function Products() {
 
   function handleStoreChange({ value }) {
     setStore(value);
-    client.writeQuery({
-      query: GET_STORE,
-      data: { store_id: value[0].id },
-    });
   }
 
   function handleCategoryTypeChange({ value }) {
     setCategoryType(value);
-    client.writeQuery({
-      query: GET_CATEGORY_TYPE,
-      data: { category_type: value[0].id },
-    });
   }
 
   function handleSearch(event) {

@@ -1,17 +1,5 @@
 import gql from "graphql-tag";
 
-export const GET_STORE = gql`
-  query GetCurrentStore {
-    store_id
-  }
-`;
-
-export const GET_CATEGORY_TYPE = gql`
-  query GetCurrentCategoryType {
-    category_type
-  }
-`;
-
 export const GET_STORES = gql`
   query getStores {
     stores {
