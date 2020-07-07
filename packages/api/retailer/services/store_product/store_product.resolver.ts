@@ -13,7 +13,7 @@ import {
   ChangeProductAvailability,
 } from "./store_product.types";
 
-const { v4: uuidv4 } = require("uuid");
+const getUuid = require("uuid-by-string");
 
 @Injectable()
 @Resolver()
@@ -56,7 +56,7 @@ export class StoreProductResolver {
         Object.keys(dbProduct).forEach(
           (key) => ((product as any)[key] = dbProduct[key])
         );
-
+        product.id = getUuid(`${store_id}-${dbProduct.product_size_id}`);
         product.image = "";
         if (dbProduct.images && dbProduct.images.length > 0) {
           product.image = `https://s3.amazonaws.com/bottlemarket.images/${dbProduct.images[0]}`;
@@ -83,11 +83,7 @@ export class StoreProductResolver {
   async changeProductAvailability(
     @Args("availabilityInput") availabilityInput: ChangeProductAvailability
   ): Promise<StoreProductDTO> {
-    const store_product_id =
-      availabilityInput.id != availabilityInput.product_size_id
-        ? availabilityInput.id
-        : uuidv4();
-    const storeProduct = await this.repository.load(store_product_id);
+    const storeProduct = await this.repository.load(availabilityInput.id);
 
     storeProduct.changeAvailability(
       availabilityInput.store_id,
