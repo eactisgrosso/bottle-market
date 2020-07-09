@@ -20,6 +20,8 @@ import Placeholder from "components/Placeholder/Placeholder";
 import Fade from "react-reveal/Fade";
 import NoResultFound from "components/NoResult/NoResult";
 import { SearchContext } from "contexts/search/search.context";
+import { Waypoint } from "react-waypoint";
+
 
 const QuickView = dynamic(() => import("../QuickView/QuickView"));
 
@@ -162,7 +164,7 @@ export const Products: React.FC<ProductsProps> = ({
   if (!data || !data.products || data.products.items.length === 0) {
     return <NoResultFound />;
   }
-  const handleLoadMore = () => {
+  const infiniteScroll = () => {
     toggleLoading(true);
     fetchMore({
       variables: {
@@ -217,22 +219,7 @@ export const Products: React.FC<ProductsProps> = ({
         ))}
       </ProductsRow>
       {loadMore && data.products.hasMore && (
-        <ButtonWrapper>
-          <Button
-            onClick={handleLoadMore}
-            title="Load More"
-            intlButtonId="loadMoreBtn"
-            size="small"
-            isLoading={loadingMore}
-            loader={<Loader color="#009E7F" />}
-            style={{
-              minWidth: 135,
-              backgroundColor: "#ffffff",
-              border: "1px solid #f1f1f1",
-              color: "#009E7F",
-            }}
-          />
-        </ButtonWrapper>
+        <Waypoint onEnter={() => infiniteScroll()} />
       )}
     </>
   );
