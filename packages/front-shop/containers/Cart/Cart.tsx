@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import Link from "next/link";
-import gql from "graphql-tag";
-import { useMutation } from "@apollo/client";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/client';
 import {
   CartPopupBody,
   PopupHeader,
@@ -17,19 +17,24 @@ import {
   CouponBoxWrapper,
   CouponCode,
   ErrorMsg,
-} from "./CartItemCard.style";
-import { CloseIcon } from "components/AllSvgIcon";
-import { ShoppingBagLarge } from "components/AllSvgIcon";
-import { CURRENCY } from "helper/constant";
-import { Product } from "interfaces";
-import { FormattedMessage } from "react-intl";
-import { useLocale } from "contexts/language/language.provider";
-import CouponBox from "components/CouponBox/CouponBox";
+} from './CartItemCard.style';
+import { CloseIcon } from 'components/AllSvgIcon';
+import { ShoppingBagLarge } from 'components/AllSvgIcon';
+import { CURRENCY } from 'helper/constant';
+import { Product } from 'interfaces';
+import { FormattedMessage } from 'react-intl';
+import { useLocale } from 'contexts/language/language.provider';
+import CouponBox from 'components/CouponBox/CouponBox';
 
-import { Scrollbars } from "react-custom-scrollbars";
-import { useCart } from "contexts/cart/use-cart";
-import { Counter } from "components/Counter/Counter";
-import { CartItem } from "./CartItem/CartItem";
+import { Scrollbars } from 'react-custom-scrollbars';
+import { useCart } from 'contexts/cart/use-cart';
+import { Counter } from 'components/Counter/Counter';
+import { CartItem } from './CartItem/CartItem';
+
+import { useAuth } from '@bottle-market/common/auth';
+import { setCookie } from 'helper/session';
+import { openModal } from '@redq/reuse-modal';
+import SignInForm from '../SignInOutForm/SignIn';
 
 type CartItemProps = {
   product: Product;
@@ -71,9 +76,9 @@ const Cart: React.FC<CartPropsType> = ({
     calculatePrice,
     applyCoupon,
   } = useCart();
-  const [couponText, setCoupon] = useState("");
+  const [couponText, setCoupon] = useState('');
   const [displayCoupon, showCoupon] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [applyedCoupon] = useMutation(APPLY_COUPON);
   const { isRtl } = useLocale();
 
@@ -82,11 +87,11 @@ const Cart: React.FC<CartPropsType> = ({
       variables: { code: couponText },
     });
     if (data.applyCoupon && data.applyCoupon.discountInPercent) {
-      setError("");
+      setError('');
       applyCoupon(data.applyCoupon);
-      setCoupon("");
+      setCoupon('');
     } else {
-      setError("Invalid Coupon");
+      setError('Invalid Coupon');
     }
   };
 
@@ -96,6 +101,27 @@ const Cart: React.FC<CartPropsType> = ({
 
   const toggleCoupon = () => {
     showCoupon(true);
+  };
+
+  const { signIn, isAuthenticated } = useAuth();
+
+  const handleJoin = () => {
+    setCookie('returnUrl', '/');
+    signIn();
+    openModal({
+      show: true,
+      overlayClassName: 'quick-view-overlay',
+      closeOnClickOutside: true,
+      component: SignInForm,
+      closeComponent: '',
+      config: {
+        enableResizing: false,
+        disableDragging: true,
+        className: 'quick-view-modal',
+        width: 458,
+        height: 'auto',
+      },
+    });
   };
 
   return (
@@ -178,10 +204,10 @@ const Cart: React.FC<CartPropsType> = ({
                     buttonTitle="Apply"
                     intlCouponBoxPlaceholder="couponPlaceholder"
                     style={{
-                      boxShadow: "0 3px 6px rgba(0, 0, 0, 0.06)",
+                      boxShadow: '0 3px 6px rgba(0, 0, 0, 0.06)',
                     }}
                   />
-                  {error ? <ErrorMsg>{error}</ErrorMsg> : ""}
+                  {error ? <ErrorMsg>{error}</ErrorMsg> : ''}
                 </CouponBoxWrapper>
               )}
             </>
@@ -197,8 +223,25 @@ const Cart: React.FC<CartPropsType> = ({
         </PromoCode>
 
         {cartItemsCount !== 0 ? (
-          <Link href="/checkout">
-            <CheckoutButton onClick={onCloseBtnClick}>
+          isAuthenticated ? (
+            <Link href="/checkout">
+              <CheckoutButton onClick={onCloseBtnClick}>
+                <>
+                  <Title>
+                    <FormattedMessage
+                      id="navlinkCheckout"
+                      defaultMessage="Checkout"
+                    />
+                  </Title>
+                  <PriceBox>
+                    {CURRENCY}
+                    {calculatePrice()}
+                  </PriceBox>
+                </>
+              </CheckoutButton>
+            </Link>
+          ) : (
+            <CheckoutButton onClick={handleJoin}>
               <>
                 <Title>
                   <FormattedMessage
@@ -212,7 +255,7 @@ const Cart: React.FC<CartPropsType> = ({
                 </PriceBox>
               </>
             </CheckoutButton>
-          </Link>
+          )
         ) : (
           <CheckoutButton>
             <>
