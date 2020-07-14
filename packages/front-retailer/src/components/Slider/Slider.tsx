@@ -1,5 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { SliderStyle, SliderWrapper } from "./Slider.style";
+import React, { useState, useEffect } from 'react';
+import {
+  SliderStyle,
+  SliderWrapper,
+  ValueContainer,
+  Value,
+  Unit,
+  Input,
+} from './Slider.style';
 
 type SliderProps = {
   props?: any;
@@ -14,7 +21,7 @@ const Slider: React.FC<SliderProps> = ({
   min,
   max,
   initialValue,
-  unit = "",
+  unit = '',
   onChange,
 }) => {
   const [value, setValue] = useState(1);
@@ -33,16 +40,15 @@ const Slider: React.FC<SliderProps> = ({
   return (
     <SliderWrapper>
       <SliderStyle>
-        <div className="valueContainer">
-          <div className="value">{value}</div>
-          <div className="unit">{unit}</div>
-        </div>
-        <input
+        <ValueContainer>
+          <Value>{value}</Value>
+          <Unit>{unit}</Unit>
+        </ValueContainer>
+        <Input
           type="range"
           min={min ? min : 0}
           max={max ? max : 100}
           value={value}
-          className="slider"
           onChange={handleOnChange}
         />
       </SliderStyle>

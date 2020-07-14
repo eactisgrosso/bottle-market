@@ -1,5 +1,5 @@
-import { InputType, Field } from "@nestjs/graphql";
-import { ProductType } from "../../../common/data/product.enum";
+import { InputType, Field } from '@nestjs/graphql';
+import { ProductType } from '../../../common/types/product.enum';
 
 @InputType()
 class ProductSearchInput {

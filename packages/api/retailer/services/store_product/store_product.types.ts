@@ -6,7 +6,8 @@ import {
   Float,
   ObjectType,
   InputType,
-} from "@nestjs/graphql";
+} from '@nestjs/graphql';
+import Gallery from '../../../common/types/gallery.type';
 
 @ArgsType()
 export class GetProductsArgs {
@@ -46,6 +47,9 @@ export class StoreProductDTO {
   @Field()
   image: string;
 
+  @Field(() => [Gallery])
+  gallery: Gallery[];
+
   @Field()
   type: string;
 
@@ -64,8 +68,8 @@ export class StoreProductDTO {
   @Field((type) => Int)
   quantity: number;
 
-  @Field({ nullable: true })
-  description?: string;
+  @Field()
+  description: string;
 
   @Field()
   creation_date: Date;

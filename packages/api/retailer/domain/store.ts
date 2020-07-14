@@ -1,5 +1,5 @@
-import { Aggregate } from "../../common/domain/aggregate";
-import { StoreOpened, StoreClosed } from "./events/store.events";
+import { Aggregate } from '../../common/domain/aggregate';
+import { StoreOpened, StoreClosed } from './events/store.events';
 
 export class Store extends Aggregate {
   name: string;
@@ -29,8 +29,8 @@ export class Store extends Aggregate {
       new StoreOpened(
         name,
         store_type,
-        "AR",
-        "Argentina",
+        'AR',
+        'Argentina',
         state_id,
         state,
         city_id,

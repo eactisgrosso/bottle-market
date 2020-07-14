@@ -1,27 +1,27 @@
-import React from "react";
-import useComponentSize from "../../settings/useComponentSize";
-import Sidebar from "./Sidebar/Sidebar";
-import Topbar from "./Topbar/Topbar";
-import DrawerItems from "../DrawerItems/DrawerItems";
-import { DrawerProvider } from "../../context/DrawerContext";
+import React from 'react';
+import useComponentSize from '../../settings/useComponentSize';
+import Sidebar from './Sidebar/Sidebar';
+import Topbar from './Topbar/Topbar';
+import DrawerItems from '../DrawerItems/DrawerItems';
+import { DrawerProvider } from '../../context/DrawerContext';
 import {
   LayoutWrapper,
   ContentWrapper,
   ContentInnerWrapper,
-} from "./Layout.style";
-import { useDeviceType } from "../../settings/useDeviceType";
-import { styled } from "baseui";
+} from './Layout.style';
+import { useDeviceType } from '@bottle-market/common/helpers';
+import { styled } from 'baseui';
 
-const SidebarDesktop = styled("div", () => ({
-  "@media only screen and (max-width: 1199px)": {
-    display: "none",
+const SidebarDesktop = styled('div', () => ({
+  '@media only screen and (max-width: 1199px)': {
+    display: 'none',
   },
 }));
 
 const RetailerLayout = ({ children }: any) => {
   let [topbarRef, { height }] = useComponentSize();
   let [sidebarRef, { width }] = useComponentSize();
-  const { desktop } = useDeviceType();
+  const { desktop } = useDeviceType(window.navigator.userAgent);
 
   return (
     <DrawerProvider>
@@ -52,12 +52,9 @@ const RetailerLayout = ({ children }: any) => {
         ) : (
           <ContentWrapper
             style={{
-              width: "100%",
+              width: '100%',
             }}
           >
-            <h3>
-              width: {width} , height: {height}
-            </h3>
             <ContentInnerWrapper>{children}</ContentInnerWrapper>
           </ContentWrapper>
         )}

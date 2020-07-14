@@ -1,12 +1,12 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { KNEX_CONNECTION } from "@nestjsplus/knex";
-import { Resolver, Query, Args, Mutation } from "@nestjs/graphql";
-import ProductDTO from "./product.type";
-import Products from "./products.type";
-import GetProductsArgs from "./product.args_type";
-import AddProductInput from "./product.input_type";
-import { ProductType } from "../../../common/data/product.enum";
-import ProductQuery from "../../../common/data/product.query";
+import { Inject, Injectable } from '@nestjs/common';
+import { KNEX_CONNECTION } from '@nestjsplus/knex';
+import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
+import ProductDTO from './product.type';
+import Products from './products.type';
+import GetProductsArgs from './product.args_type';
+import AddProductInput from './product.input_type';
+import { ProductType } from '../../../common/types/product.enum';
+import ProductQuery from '../../../common/data/product.query';
 
 @Injectable()
 @Resolver()
@@ -17,7 +17,7 @@ export default class ProductResolver {
     this.productQuery = new ProductQuery(knex);
   }
 
-  @Query((returns) => Products, { description: "Get all the products" })
+  @Query((returns) => Products, { description: 'Get all the products' })
   async products(
     @Args()
     { limit, offset, sortByPrice, type, searchText, category }: GetProductsArgs
@@ -40,7 +40,7 @@ export default class ProductResolver {
         );
 
         product.name = dbProduct.title;
-        product.image = "";
+        product.image = '';
         if (dbProduct.images && dbProduct.images.length > 0) {
           product.image = `https://s3.amazonaws.com/bottlemarket.images/${dbProduct.images[0]}`;
         }
@@ -65,7 +65,7 @@ export default class ProductResolver {
   }
 
   @Query(() => ProductDTO)
-  async product(@Args("slug") slug: string): Promise<ProductDTO | undefined> {
+  async product(@Args('slug') slug: string): Promise<ProductDTO | undefined> {
     const query = this.productQuery.select();
     this.productQuery.bySlug(query, slug);
 
@@ -76,9 +76,9 @@ export default class ProductResolver {
       );
 
       product.name = dbProduct.title;
-      product.image = "";
+      product.image = '';
       if (dbProduct.images) {
-        const images = dbProduct.images.split(",");
+        const images = dbProduct.images.split(',');
         if (images.length > 0)
           product.image = `https://s3.amazonaws.com/bottlemarket.images/${images[0]}`;
       }
@@ -92,11 +92,11 @@ export default class ProductResolver {
     return dbProduct;
   }
 
-  @Mutation(() => ProductDTO, { description: "Create Category" })
+  @Mutation(() => ProductDTO, { description: 'Create Category' })
   async createProduct(
-    @Args("product") product: AddProductInput
+    @Args('product') product: AddProductInput
   ): Promise<ProductDTO> {
-    console.log(product, "product");
+    console.log(product, 'product');
 
     return await product;
   }

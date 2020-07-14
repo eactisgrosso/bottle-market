@@ -1,6 +1,6 @@
-import { ObjectType, Field } from "@nestjs/graphql";
-import { ProductType } from "../../../common/data/product.enum";
-import Category from "../../services/category/category.type";
+import { ObjectType, Field } from '@nestjs/graphql';
+import { ProductType } from '../../../common/types/product.enum';
+import Category from '../../services/category/category.type';
 
 @ObjectType()
 export default class OrderProduct {

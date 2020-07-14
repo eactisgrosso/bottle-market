@@ -1,29 +1,25 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import dynamic from "next/dynamic";
-import gql from "graphql-tag";
-import { openModal, closeModal } from "@redq/reuse-modal";
-import ProductCard from "components/ProductCard/ProductCard";
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
+import gql from 'graphql-tag';
+import { openModal, closeModal } from '@redq/reuse-modal';
+import ProductCard from 'components/ProductCard/ProductCard';
 import {
   ProductsRow,
   ProductsCol,
-  ButtonWrapper,
   LoaderWrapper,
   LoaderItem,
   ProductCardWrapper,
-} from "./Products.style";
-import { CURRENCY } from "helper/constant";
-import { useQuery } from "@apollo/client";
-import Button from "components/Button/Button";
-import Loader from "components/Loader/Loader";
-import Placeholder from "components/Placeholder/Placeholder";
-import Fade from "react-reveal/Fade";
-import NoResultFound from "components/NoResult/NoResult";
-import { SearchContext } from "contexts/search/search.context";
-import { Waypoint } from "react-waypoint";
+} from './Products.style';
+import { CURRENCY } from 'helper/constant';
+import { useQuery } from '@apollo/client';
+import Placeholder from 'components/Placeholder/Placeholder';
+import Fade from 'react-reveal/Fade';
+import NoResultFound from 'components/NoResult/NoResult';
+import { SearchContext } from 'contexts/search/search.context';
+import { Waypoint } from 'react-waypoint';
 
-
-const QuickView = dynamic(() => import("../QuickView/QuickView"));
+const QuickView = dynamic(() => import('../QuickView/QuickView'));
 
 const GET_PRODUCTS = gql`
   query getProducts(
@@ -101,7 +97,7 @@ export const Products: React.FC<ProductsProps> = ({
       limit: fetchLimit,
     },
   });
-  // Quick View Modal
+
   const handleModalClose = () => {
     const as = router.asPath;
     router.push(as, as, { shallow: true });
@@ -113,25 +109,25 @@ export const Products: React.FC<ProductsProps> = ({
     deviceType: any,
     onModalClose: any
   ) => {
-    if (router.pathname === "/product/[slug]") {
+    if (router.pathname === '/product/[slug]') {
       const as = `/product/${modalProps.slug}`;
       router.push(router.pathname, as);
       return;
     }
     openModal({
       show: true,
-      overlayClassName: "quick-view-overlay",
+      overlayClassName: 'quick-view-overlay',
       closeOnClickOutside: false,
       component: QuickView,
       componentProps: { modalProps, deviceType, onModalClose },
-      closeComponent: "div",
+      closeComponent: 'div',
       config: {
         enableResizing: false,
         disableDragging: true,
-        className: "quick-view-modal",
+        className: 'quick-view-modal',
         width: 900,
         y: 30,
-        height: "auto",
+        height: 'auto',
         transition: {
           mass: 1,
           tension: 0,
@@ -196,7 +192,7 @@ export const Products: React.FC<ProductsProps> = ({
               <Fade
                 duration={800}
                 delay={index * 10}
-                style={{ height: "100%" }}
+                style={{ height: '100%' }}
               >
                 <ProductCard
                   title={item.title}

@@ -9,7 +9,8 @@ import {
   ContentWrapper,
   ContentInnerWrapper,
 } from './Layout.style';
-import { useDeviceType } from '../../settings/useDeviceType';
+import { useDeviceType } from '@bottle-market/common/helpers';
+
 import { styled } from 'baseui';
 
 const SidedbarDesktop = styled('div', () => ({
@@ -21,7 +22,7 @@ const SidedbarDesktop = styled('div', () => ({
 const AdminLayout = ({ children }: any) => {
   let [topbarRef, { height }] = useComponentSize();
   let [sidebarRef, { width }] = useComponentSize();
-  const { desktop } = useDeviceType();
+  const { desktop } = useDeviceType(window.navigator.userAgent);
 
   return (
     <DrawerProvider>
@@ -55,9 +56,6 @@ const AdminLayout = ({ children }: any) => {
               width: '100%',
             }}
           >
-            <h3>
-              width: {width} , height: {height}
-            </h3>
             <ContentInnerWrapper>{children}</ContentInnerWrapper>
           </ContentWrapper>
         )}

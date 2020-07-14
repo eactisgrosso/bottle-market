@@ -1,12 +1,12 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { KNEX_CONNECTION } from "@nestjsplus/knex";
-import { Args, Int, Query, Resolver } from "@nestjs/graphql";
+import { Inject, Injectable } from '@nestjs/common';
+import { KNEX_CONNECTION } from '@nestjsplus/knex';
+import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 
-import ProductDTO, { ProductResponse } from "./product.dto";
-import { ProductType } from "../../../common/data/product.enum";
-import Category from "../category/category.type";
-import Gallery from "./gallery.type";
-import ProductQuery from "../../../common/data/product.query";
+import ProductDTO, { ProductResponse } from './product.dto';
+import { ProductType } from '../../../common/types/product.enum';
+import Category from '../category/category.type';
+import Gallery from '../../../common/types/gallery.type';
+import ProductQuery from '../../../common/data/product.query';
 @Injectable()
 @Resolver()
 export class ProductResolver {
@@ -22,7 +22,7 @@ export class ProductResolver {
     );
 
     product.gallery = [];
-    product.image = "";
+    product.image = '';
     if (dbProduct.images) {
       for (let image of dbProduct.images) {
         const gallery = new Gallery();
@@ -40,30 +40,30 @@ export class ProductResolver {
 
   @Query((returns) => ProductResponse)
   async products(
-    @Args("limit", { type: () => Int, defaultValue: 10 }) limit: number,
-    @Args("offset", { type: () => Int, defaultValue: 0 }) offset: number,
-    @Args("type", { nullable: true }) type?: string,
-    @Args("lat", { nullable: true }) lat?: number,
-    @Args("lng", { nullable: true }) lng?: number,
-    @Args("text", { nullable: true }) text?: string,
-    @Args("category", { nullable: true }) category?: string
+    @Args('limit', { type: () => Int, defaultValue: 10 }) limit: number,
+    @Args('offset', { type: () => Int, defaultValue: 0 }) offset: number,
+    @Args('type', { nullable: true }) type?: string,
+    @Args('lat', { nullable: true }) lat?: number,
+    @Args('lng', { nullable: true }) lng?: number,
+    @Args('text', { nullable: true }) text?: string,
+    @Args('category', { nullable: true }) category?: string
   ) {
     const address = lat && lat != 0 && lng && lng != 0;
     const fields = address
       ? [
-          "sp.store_id",
-          "da.geom",
-          this.knex.raw("ST_Distance(geom, ref_geom) AS distance"),
+          'sp.store_id',
+          'da.geom',
+          this.knex.raw('ST_Distance(geom, ref_geom) AS distance'),
         ]
       : [];
 
-    let query = this.productQuery.select("product_view as p", ...fields);
+    let query = this.productQuery.select('product_view as p', ...fields);
 
     if (address) {
-      query.leftJoin("product_size as ps", "p.id", "ps.product_id");
-      query.leftJoin("store_product as sp", "ps.id", "sp.product_size_id");
-      query.leftJoin("store as s", "sp.store_id", "s.id");
-      query.leftJoin("delivery_area as da", "s.id", "da.store_id");
+      query.leftJoin('product_size as ps', 'p.id', 'ps.product_id');
+      query.leftJoin('store_product as sp', 'ps.id', 'sp.product_size_id');
+      query.leftJoin('store as s', 'sp.store_id', 's.id');
+      query.leftJoin('delivery_area as da', 's.id', 'da.store_id');
       query.crossJoin(
         this.knex.raw(
           `(select ST_MakePoint(${lng},${lat})::geography AS ref_geom) as r`
@@ -78,26 +78,26 @@ export class ProductResolver {
 
     if (address) {
       query
-        .whereNotNull("sp.store_id")
-        .whereRaw(this.knex.raw("ST_DWithin(geom, ref_geom, radius * 1000)"))
-        .orderBy("distance");
+        .whereNotNull('sp.store_id')
+        .whereRaw(this.knex.raw('ST_DWithin(geom, ref_geom, radius * 1000)'))
+        .orderBy('distance');
 
       const baseFields = [
-        "id",
-        "slug",
-        "title",
-        "description",
-        "size",
-        "price",
-        "discountInPercent",
-        "images",
-        "categories",
+        'id',
+        'slug',
+        'title',
+        'description',
+        'size',
+        'price',
+        'discountInPercent',
+        'images',
+        'categories',
       ];
       query = this.knex
-        .with("nearby", query)
+        .with('nearby', query)
         .select(...baseFields)
-        .min("distance")
-        .from("nearby")
+        .min('distance')
+        .from('nearby')
         .groupBy(...baseFields);
     }
 
@@ -124,7 +124,7 @@ export class ProductResolver {
   }
 
   @Query((returns) => ProductDTO)
-  async product(@Args("slug", { type: () => String }) slug: string) {
+  async product(@Args('slug', { type: () => String }) slug: string) {
     const query = this.productQuery.select();
     this.productQuery.bySlug(query, slug);
 

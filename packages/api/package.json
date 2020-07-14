@@ -2,9 +2,9 @@
   "name": "@bottle-market/api",
   "version": "2.0.2",
   "scripts": {
-    "shop": "ts-node-dev --inspect --respawn server.shop.ts",
-    "admin": "ts-node-dev --inspect --respawn server.admin.ts",
-    "retailer": "ts-node-dev --inspect=9230 --respawn server.retailer.ts",
+    "shop": "AWS_PROFILE=bottlehub ts-node-dev --inspect --respawn server.shop.ts",
+    "admin": "AWS_PROFILE=bottlehub ts-node-dev --inspect --respawn server.admin.ts",
+    "retailer": "AWS_PROFILE=bottlehub ts-node-dev --inspect=9230 --respawn server.retailer.ts",
     "build": "rm -rf dist && mkdir dist && tsc -b && copyfiles *.gql dist/",
     "postbuild": "cp package.json dist/package.json && cd dist && npm install --only=production",
     "shop-serve": "NODE_ENV=production node dist/server.shop.js"

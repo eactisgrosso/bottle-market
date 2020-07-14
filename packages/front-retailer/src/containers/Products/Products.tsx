@@ -1,27 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { styled } from "baseui";
+import React, { useState, useEffect } from 'react';
+import { Waypoint } from 'react-waypoint';
+import Fade from 'react-reveal/Fade';
+
+import { useQuery, useLazyQuery, useMutation, gql } from '@apollo/client';
+import { updateStore } from '../../graphql/mutation/store.mutation';
+import { CURRENCY, PRODUCT_TYPES } from '../../settings/constants';
+
+import { styled } from 'baseui';
 import {
   Grid,
   Row as Rows,
   Col as Column,
-} from "../../components/FlexBox/FlexBox";
-import Input from "../../components/Input/Input";
-import Select from "../../components/Select/Select";
-import {
-  useQuery,
-  useLazyQuery,
-  useMutation,
-  useApolloClient,
-  gql,
-} from "@apollo/client";
-import { updateStore } from "../../graphql/mutation/store.mutation";
-import { Header, Heading } from "../../components/WrapperStyle";
-import Fade from "react-reveal/Fade";
-import ProductCard from "./ProductCard/ProductCard";
-import NoResult from "../../components/NoResult/NoResult";
-import { CURRENCY, PRODUCT_TYPES } from "../../settings/constants";
-import Placeholder from "../../components/Placeholder/Placeholder";
-import { Waypoint } from "react-waypoint";
+} from '../../components/FlexBox/FlexBox';
+import Input from '../../components/Input/Input';
+import Select from '../../components/Select/Select';
+import { Header, Heading } from '../../components/WrapperStyle';
+import NoResult from '../../components/NoResult/NoResult';
+import Placeholder from '../../components/Placeholder/Placeholder';
+import ProductCard from './ProductCard/ProductCard';
+import ProductUpdateForm from './ProductForm/ProductUpdateForm';
 
 const GET_STORES = gql`
   query getStores {
@@ -90,8 +87,9 @@ export default function Products() {
   const [categoryType, setCategoryType] = useState([]);
   const [store, setStore] = useState([]);
   const [search, setSearch] = useState([]);
+  const [editingProduct, setEditingProduct] = useState();
+  const [showModal, setShowModal] = useState(false);
 
-  const client = useApolloClient();
   const [changeProductAvailability] = useMutation(CHANGE_PRODUCT_AVAILABILITY, {
     update(cache, { data: { changeProductAvailability } }) {
       updateStore(cache, changeProductAvailability.store_id, {
@@ -171,25 +169,28 @@ export default function Products() {
     refetch({ searchText: value });
   }
 
-  const handleToggle = (
-    id: string,
-    sizeId: string,
-    price: number,
-    enabled: boolean
-  ) => {
-    setTimeout(() => {
-      changeProductAvailability({
-        variables: {
-          availabilityInput: {
-            id: id,
-            store_id: store[0].id,
-            product_size_id: sizeId,
-            price: price,
-            quantity: enabled ? 1 : 0,
+  const handleViewModal = (modalProps: any) => {
+    setShowModal(true);
+    setEditingProduct(modalProps);
+  };
+
+  const handleToggle = (enabled, product) => {
+    if (enabled && product.quantity === -1) {
+      handleViewModal(product);
+    } else
+      setTimeout(() => {
+        changeProductAvailability({
+          variables: {
+            availabilityInput: {
+              id: product.id,
+              store_id: store[0].id,
+              product_size_id: product.product_size_id,
+              price: product.price,
+              quantity: enabled ? 1 : 0,
+            },
           },
-        },
-      });
-    }, 500);
+        });
+      }, 150);
   };
 
   return (
@@ -272,7 +273,7 @@ export default function Products() {
                   sm={6}
                   xs={12}
                   key={index}
-                  style={{ margin: "15px 0" }}
+                  style={{ margin: '15px 0' }}
                 >
                   <Fade bottom duration={800} delay={index * 10}>
                     <ProductCard
@@ -286,7 +287,12 @@ export default function Products() {
                       priceRetail={item.price_retail}
                       discountInPercent={item.promo_discount}
                       quantity={item.quantity}
-                      onToggle={handleToggle}
+                      onToggle={(enabled) => {
+                        handleToggle(enabled, item);
+                      }}
+                      onClick={(e) => {
+                        handleViewModal(item);
+                      }}
                     />
                   </Fade>
                   {index === data.storeProducts.items.length - 4 && (
@@ -297,6 +303,13 @@ export default function Products() {
             ) : (
               <NoResult />
             )}
+            <ProductUpdateForm
+              product={editingProduct}
+              isOpen={showModal}
+              onClose={() => {
+                setShowModal(false);
+              }}
+            />
           </Row>
         </Col>
       </Row>
@@ -304,50 +317,50 @@ export default function Products() {
   );
 }
 
-export const ProductsRow = styled("div", ({ $theme }) => ({
-  display: "flex",
-  flexWrap: "wrap",
-  marginTop: "25px",
+export const ProductsRow = styled('div', ({ $theme }) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  marginTop: '25px',
   backgroundColor: $theme.colors.backgroundF7,
-  position: "relative",
-  zIndex: "1",
+  position: 'relative',
+  zIndex: '1',
 
-  "@media only screen and (max-width: 767px)": {
-    marginLeft: "-7.5px",
-    marginRight: "-7.5px",
-    marginTop: "15px",
+  '@media only screen and (max-width: 767px)': {
+    marginLeft: '-7.5px',
+    marginRight: '-7.5px',
+    marginTop: '15px',
   },
 }));
 
 export const Col = styled(Column, () => ({
-  "@media only screen and (max-width: 767px)": {
-    marginBottom: "20px",
+  '@media only screen and (max-width: 767px)': {
+    marginBottom: '20px',
 
-    ":last-child": {
+    ':last-child': {
       marginBottom: 0,
     },
   },
 }));
 
 const Row = styled(Rows, () => ({
-  "@media only screen and (min-width: 768px) and (max-width: 991px)": {
-    alignItems: "center",
+  '@media only screen and (min-width: 768px) and (max-width: 991px)': {
+    alignItems: 'center',
   },
 }));
 
-export const ProductCardWrapper = styled("div", () => ({
-  height: "100%",
+export const ProductCardWrapper = styled('div', () => ({
+  height: '100%',
 }));
 
-export const LoaderWrapper = styled("div", () => ({
-  width: "100%",
-  height: "100vh",
-  display: "flex",
-  flexWrap: "wrap",
+export const LoaderWrapper = styled('div', () => ({
+  width: '100%',
+  height: '100vh',
+  display: 'flex',
+  flexWrap: 'wrap',
 }));
 
-export const LoaderItem = styled("div", () => ({
-  width: "25%",
-  padding: "0 15px",
-  marginBottom: "30px",
+export const LoaderItem = styled('div', () => ({
+  width: '25%',
+  padding: '0 15px',
+  marginBottom: '30px',
 }));

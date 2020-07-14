@@ -1,35 +1,31 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
-import { Client as Styletron } from "styletron-engine-atomic";
-import { Provider as StyletronProvider } from "styletron-react";
-import { BaseProvider } from "baseui";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { Client as Styletron } from 'styletron-engine-atomic';
+import { Provider as StyletronProvider } from 'styletron-react';
+import { BaseProvider } from 'baseui';
 import {
   ApolloProvider,
   ApolloClient,
   from,
   HttpLink,
   InMemoryCache,
-} from "@apollo/client";
-import { onError } from "@apollo/link-error";
-import { setContext } from "@apollo/link-context";
-import { theme } from "./theme";
-import Routes from "./routes";
-import * as serviceWorker from "./serviceWorker";
-import "./theme/global.css";
-import { AuthProvider } from "@bottle-market/common/auth";
-import { LoadScript } from "@react-google-maps/api";
-import {
-  updateProduct,
-  updateStoreProduct,
-} from "./graphql/mutation/store.mutation";
+} from '@apollo/client';
+import { onError } from '@apollo/link-error';
+import { setContext } from '@apollo/link-context';
+import { theme } from './theme';
+import Routes from './routes';
+import * as serviceWorker from './serviceWorker';
+import './theme/global.css';
+import { AuthProvider } from '@bottle-market/common/auth';
+import { LoadScript } from '@react-google-maps/api';
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("access_token");
+  const token = localStorage.getItem('access_token');
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      authorization: token ? `Bearer ${token}` : '',
     },
   };
 });
@@ -50,7 +46,7 @@ const client = new ApolloClient({
     errorLink,
     new HttpLink({
       uri: process.env.REACT_APP_API_URL,
-      credentials: "same-origin",
+      credentials: 'same-origin',
     }),
   ]),
   cache: new InMemoryCache(),
@@ -59,7 +55,7 @@ const client = new ApolloClient({
   },
 });
 
-const mapsLibraries = ["places"];
+const mapsLibraries = ['places'];
 
 function App() {
   const engine = new Styletron();
@@ -75,7 +71,7 @@ function App() {
               callback={process.env.REACT_APP_AUTH0_CALLBACK}
             >
               <LoadScript
-                language={"es-419"}
+                language={'es-419'}
                 googleMapsApiKey={process.env.REACT_APP_MAPS_API_KEY}
                 libraries={mapsLibraries}
               >
@@ -89,7 +85,7 @@ function App() {
   );
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

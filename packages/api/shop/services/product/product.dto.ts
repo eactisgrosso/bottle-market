@@ -1,8 +1,8 @@
-import { ObjectType, Field, ID } from "@nestjs/graphql";
-import { ProductType } from "../../../common/data/product.enum";
-import Category from "../category/category.type";
-import Gallery from "./gallery.type";
-import PaginatedResponse from "../../helpers/paginated-response";
+import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ProductType } from '../../../common/types/product.enum';
+import Category from '../category/category.type';
+import Gallery from '../../../common/types/gallery.type';
+import PaginatedResponse from '../../helpers/paginated-response';
 
 @ObjectType()
 export default class ProductDTO {

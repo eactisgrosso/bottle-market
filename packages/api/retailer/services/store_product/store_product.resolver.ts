@@ -1,19 +1,27 @@
-import { Resolver, Query, Args, Mutation } from "@nestjs/graphql";
-import { Inject, Injectable } from "@nestjs/common";
-import { KNEX_CONNECTION } from "@nestjsplus/knex";
-import { UseGuards } from "@nestjs/common";
-import { GraphqlAuthGuard } from "../../../common/auth/graphql.auth.guard";
-import { ProductType } from "../../../common/data/product.enum";
-import ProductQuery from "../../../common/data/product.query";
-import { StoreProductRepository } from "../../domain/repositories/store_product.repository";
+import {
+  Resolver,
+  Query,
+  Args,
+  Mutation,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
+import { Inject, Injectable } from '@nestjs/common';
+import { KNEX_CONNECTION } from '@nestjsplus/knex';
+import { UseGuards } from '@nestjs/common';
+import { GraphqlAuthGuard } from '../../../common/auth/graphql.auth.guard';
+import { ProductType } from '../../../common/types/product.enum';
+import Gallery from '../../../common/types/gallery.type';
+import ProductQuery from '../../../common/data/product.query';
+import { StoreProductRepository } from '../../domain/repositories/store_product.repository';
 import {
   GetProductsArgs,
   StoreProductDTO,
   StoreProducts,
   ChangeProductAvailability,
-} from "./store_product.types";
+} from './store_product.types';
 
-const getUuid = require("uuid-by-string");
+const getUuid = require('uuid-by-string');
 
 @Injectable()
 @Resolver()
@@ -29,13 +37,13 @@ export class StoreProductResolver {
 
   @UseGuards(GraphqlAuthGuard)
   @Query((returns) => StoreProducts, {
-    description: "Get all the products with the store ones toggled",
+    description: 'Get all the products with the store ones toggled',
   })
   async storeProducts(
     @Args()
     { limit, offset, store_id, type, searchText, category }: GetProductsArgs
   ): Promise<StoreProducts> {
-    const query = this.productQuery.select("retailer_product_view as p");
+    const query = this.productQuery.select('retailer_product_view as p');
 
     if (category) await this.productQuery.byCategorySlug(query, category);
     else if (type) await this.productQuery.byCategorySlug(query, type);
@@ -44,7 +52,7 @@ export class StoreProductResolver {
 
     query.andWhere((builder: any) => {
       builder.andWhere((innerBuilder: any) => {
-        innerBuilder.whereNull("store_id").orWhere("store_id", "=", store_id);
+        innerBuilder.whereNull('store_id').orWhere('store_id', '=', store_id);
       });
     });
 
@@ -57,9 +65,9 @@ export class StoreProductResolver {
           (key) => ((product as any)[key] = dbProduct[key])
         );
         product.id = getUuid(`${store_id}-${dbProduct.product_size_id}`);
-        product.image = "";
-        if (dbProduct.images && dbProduct.images.length > 0) {
-          product.image = `https://s3.amazonaws.com/bottlemarket.images/${dbProduct.images[0]}`;
+        product.image = '';
+        if (dbProduct.gallery && dbProduct.gallery.length > 0) {
+          product.image = `https://s3.amazonaws.com/bottlemarket.images/${dbProduct.gallery[0]}`;
         }
         product.type = (<any>ProductType)[
           type != null ? type : ProductType.vino
@@ -77,11 +85,41 @@ export class StoreProductResolver {
     };
   }
 
+  @UseGuards(GraphqlAuthGuard)
+  @Query((returns) => StoreProductDTO)
+  async storeProduct(@Args('id', { type: () => String }) id: string) {
+    const dbRow = await this.knex('retailer_product_view as p')
+      .first(
+        'id',
+        'title',
+        'gallery',
+        'description',
+        'price',
+        'price_retail',
+        'quantity'
+      )
+      .where('id', '=', id);
+
+    const product = new StoreProductDTO();
+    Object.keys(dbRow).forEach((key) => ((product as any)[key] = dbRow[key]));
+    product.gallery = [];
+    if (dbRow.gallery) {
+      for (let image of dbRow.gallery) {
+        const gallery = new Gallery();
+        gallery.url = `https://s3.amazonaws.com/bottlemarket.images/${image}`;
+        product.gallery.push(gallery);
+      }
+      product.image = product.gallery[0].url;
+    }
+
+    return product;
+  }
+
   @Mutation(() => StoreProductDTO, {
-    description: "Change availability of a given product within the store",
+    description: 'Change availability of a given product within the store',
   })
   async changeProductAvailability(
-    @Args("availabilityInput") availabilityInput: ChangeProductAvailability
+    @Args('availabilityInput') availabilityInput: ChangeProductAvailability
   ): Promise<StoreProductDTO> {
     const storeProduct = await this.repository.load(availabilityInput.id);
 

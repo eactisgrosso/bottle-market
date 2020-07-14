@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   ProductCardWrapper,
   ProductImageWrapper,
@@ -12,11 +12,9 @@ import {
   ProductPriceWrapper,
   ProductPrice,
   DiscountedPrice,
-} from "./ProductCard.style";
-import Button, { KIND, SIZE, SHAPE } from "../../../components/Button/Button";
-import { CartIcon } from "../../../components/AllSvgIcon";
-import Toogle from "../../../components/Toggle/Toggle";
-import { useDrawerDispatch } from "../../../context/DrawerContext";
+} from './ProductCard.style';
+import Button, { KIND, SIZE, SHAPE } from '../../../components/Button/Button';
+import Toogle from '../../../components/Toggle/Toggle';
 
 type ProductCardProps = {
   id: string;
@@ -30,6 +28,7 @@ type ProductCardProps = {
   priceRetail?: number;
   discountInPercent?: number;
   quantity: number;
+  onClick?: Function;
   onToggle?: Function;
 };
 
@@ -44,14 +43,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
   discountInPercent,
   currency,
   quantity,
+  onClick,
   onToggle,
 }) => {
   return (
     <ProductCardWrapper
       className="product-card"
-      // onClick={openDrawer}
+      style={{
+        boxShadow: quantity > 0 ? 'rgb(0, 197, 141) 0px 0px 2px 1px' : '',
+      }}
     >
-      <ProductImageWrapper>
+      <ProductImageWrapper onClick={onClick}>
         <Image url={image} className="product-image" />
         {discountInPercent && discountInPercent !== 0 ? (
           <>
@@ -61,10 +63,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
         ) : null}
       </ProductImageWrapper>
       <ProductInfo>
-        <ProductTitle>{title}</ProductTitle>
-        <ProductWeight>{size}</ProductWeight>
+        <ProductTitle onClick={onClick}>{title}</ProductTitle>
+        <ProductWeight onClick={onClick}>{size} ml</ProductWeight>
         <ProductMeta>
-          <ProductPriceWrapper>
+          <ProductPriceWrapper onClick={onClick}>
             <ProductPrice>
               {currency}
               {priceRetail && priceRetail !== 0 ? priceRetail : price}
@@ -79,7 +81,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </ProductPriceWrapper>
           <Toogle
             defaultValue={quantity > 0}
-            onChange={(e) => onToggle(id, sizeId, price, e.target.value)}
+            onChange={(e) => onToggle(e.target.value)}
           />
         </ProductMeta>
       </ProductInfo>

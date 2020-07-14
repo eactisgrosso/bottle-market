@@ -1,3 +1,4 @@
+
 CREATE VIEW retailer_product_view AS 
 SELECT  COALESCE(sp.id, ps.id) as id,
 		sp.store_id,
@@ -16,7 +17,7 @@ SELECT  COALESCE(sp.id, ps.id) as id,
         p.region_id,
         re.path as region,
 		p.categories,
-		p.images
+		p.images as gallery
        
 FROM product_size ps
 
