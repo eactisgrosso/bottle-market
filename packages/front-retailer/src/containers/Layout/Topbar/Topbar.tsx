@@ -46,7 +46,7 @@ const GET_STORES_LOCAL = gql`
   }
 `;
 
-const data = [
+const dataHardcode = [
   {
     title: "Delivery Successful",
     time: "5m",
@@ -153,7 +153,7 @@ const Topbar = ({ refs, ...props }: any) => {
             </Button>
           )}
         <Popover
-          content={({ close }) => <Notification data={data} onClear={close} />}
+          content={({ close }) => <Notification data={dataHardcode} onClear={close} />}
           accessibilityType={"tooltip"}
           placement={PLACEMENT.bottomRight}
           overrides={{
