@@ -1,7 +1,7 @@
-import { KnexOptions } from "@nestjsplus/knex";
+import { KnexOptions } from '@nestjsplus/knex';
 
-const AWS = require("aws-sdk");
-const ssm = new AWS.SSM({ region: "us-east-1" });
+const AWS = require('aws-sdk');
+const ssm = new AWS.SSM({ region: 'us-east-1' });
 
 export class ParameterStore {
   private static instance: ParameterStore;
@@ -20,40 +20,31 @@ export class ParameterStore {
       let response = await ssm
         .getParameters({
           Names: [
-            "/staging/DATABASE_HOST",
-            "/staging/AUTH0_DOMAIN",
-            "/staging/AUTH0_AUDIENCE",
+            '/staging/DATABASE_HOST',
+            '/staging/AUTH0_DOMAIN',
+            '/staging/AUTH0_AUDIENCE',
           ],
           WithDecryption: false,
         })
         .promise();
 
-      const host =
-        process.env.NODE_ENV === "development"
-          ? process.env.DB_HOST
-          : response.Parameters[2].Value;
+      const host = response.Parameters[2].Value;
       const auth0Domain = response.Parameters[1].Value;
       const auth0Audience = response.Parameters[0].Value;
 
       response = await ssm
         .getParameters({
           Names: [
-            "/staging/DATABASE_USER",
-            "/staging/DATABASE_PASSWORD",
-            "/staging/AUTH0_TOKEN",
+            '/staging/DATABASE_USER',
+            '/staging/DATABASE_PASSWORD',
+            '/staging/AUTH0_TOKEN',
           ],
           WithDecryption: true,
         })
         .promise();
 
-      const user =
-        process.env.NODE_ENV === "development"
-          ? process.env.DB_USER
-          : response.Parameters[2].Value;
-      const pwd =
-        process.env.NODE_ENV === "development"
-          ? process.env.DB_PWD
-          : response.Parameters[1].Value;
+      const user =response.Parameters[2].Value;
+      const pwd =response.Parameters[1].Value;
       const auth0Token = response.Parameters[0].Value;
 
       ParameterStore.instance = new ParameterStore(
@@ -70,12 +61,12 @@ export class ParameterStore {
   }
 
   dbConfig: KnexOptions = {
-    client: "pg",
+    client: 'pg',
     connection: {
       host: this.host,
       user: this.user,
       password: this.pwd,
-      database: process.env.DB_NAME ? process.env.DB_NAME : "postgres",
+      database: process.env.DB_NAME ? process.env.DB_NAME : 'postgres',
     },
   };
 
