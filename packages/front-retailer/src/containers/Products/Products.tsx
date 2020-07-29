@@ -46,6 +46,7 @@ const GET_STORE_PRODUCTS = gql`
         id
         product_size_id
         title
+        description
         image
         type
         price

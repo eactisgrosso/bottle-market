@@ -15910,6 +15910,13 @@ react-dropzone@^9.0.0:
     prop-types "^15.6.2"
     prop-types-extra "^1.1.0"
 
+react-easy-swipe@^0.0.18:
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/react-easy-swipe/-/react-easy-swipe-0.0.18.tgz#3f52a05dbe3f8817bb8db94e743f6d966bbe89aa"
+  integrity sha512-IddCZANbT0qVbGFEihfWOkZb/rFpeA3VV87SNOOqPzmSZ93G0nDSyHD28zuGhYJilwEP33MqYv/dwo+zaZha3Q==
+  dependencies:
+    prop-types "^15.5.8"
+
 react-error-overlay@^6.0.7:
   version "6.0.7"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.7.tgz#1dcfb459ab671d53f660a991513cb2f0a0553108"
@@ -16043,6 +16050,15 @@ react-refresh@0.8.2:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.2.tgz#24bb0858eac92b0d7b0dd561747f0c9fd6c60327"
   integrity sha512-n8GXxo3DwM2KtFEL69DAVhGc4A1THn2qjmfvSo3nze0NLCoPbywazeJPqdp0RdSGLmyhQzeyA+XPXOobbYlkzg==
+
+react-responsive-carousel@^3.2.9:
+  version "3.2.9"
+  resolved "https://registry.yarnpkg.com/react-responsive-carousel/-/react-responsive-carousel-3.2.9.tgz#15ea4d2849bdce2fe3d9071976dd86479e6d6e62"
+  integrity sha512-oTLbI4VnZXmRDRHBa7EHFCydHi4ZraH5sZTMR/7pMnapCTdNzdwC3sXeJVduJYM29TEs9lGYgkKQPLB6GlEuUg==
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.5.8"
+    react-easy-swipe "^0.0.18"
 
 react-reveal@^1.2.2:
   version "1.2.2"
