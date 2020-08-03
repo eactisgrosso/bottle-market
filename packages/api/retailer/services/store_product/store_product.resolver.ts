@@ -126,8 +126,12 @@ export class StoreProductResolver {
     storeProduct.changeAvailability(
       availabilityInput.store_id,
       availabilityInput.product_size_id,
-      availabilityInput.price,
       availabilityInput.quantity
+    );
+    storeProduct.changePrice(
+      availabilityInput.store_id,
+      availabilityInput.product_size_id,
+      availabilityInput.price
     );
     storeProduct.commit();
 

@@ -69,7 +69,6 @@ const CHANGE_PRODUCT_AVAILABILITY = gql`
       id
       store_id
       product_size_id
-      price
       quantity
     }
   }
@@ -186,7 +185,6 @@ export default function Products() {
               id: product.id,
               store_id: store[0].id,
               product_size_id: product.product_size_id,
-              price: product.price,
               quantity: enabled ? 1 : 0,
             },
           },

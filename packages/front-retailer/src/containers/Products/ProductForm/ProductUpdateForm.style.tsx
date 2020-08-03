@@ -10,11 +10,18 @@ export const Title = styled('h1', ({ $theme }) => ({
   textAlign: 'center',
 }));
 
-export const Subtitle = styled('h3', ({ $theme }) => ({
+export const SubtitlePrice = styled('h3', ({ $theme }) => ({
   ...$theme.typography.font16,
   color: $theme.colors.textDark,
   textAlign: 'center',
   margin:'10px 20px'
+}));
+
+export const SubtitleToogle = styled('h3', ({ $theme }) => ({
+  ...$theme.typography.font16,
+  color: $theme.colors.textDark,
+  textAlign: 'center',
+  margin:'10px 0'
 }));
 
 export const PurchasedPrice = styled('h3', ({ $theme }) => ({
@@ -62,13 +69,13 @@ export const DetailsWrapper = styled('div', {
 export const SalePriceWrapper = styled('div',{
   display: 'inline-flex',
   alignItems: 'center',
-  margin: '0 10px'
+  margin: '0 14px'
 })
 
 export const ToogleWrapper = styled('div',{
   display: 'inline-flex',
   alignItems: 'center',
-  margin: '0 10px'
+  margin: '0 14px'
 })
 
 export const TitlePriceWrapper = styled('div', {
@@ -85,7 +92,7 @@ export const ControlsWrapper = styled('div', {
   '@media only screen and (max-width: 767px)': {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'start',
+    alignItems: 'center',
     margin: '20px 0'
   },
 });
