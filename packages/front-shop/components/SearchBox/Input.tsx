@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { SearchBox, SearchButton, SearchInputWrapper } from './SearchBox.style';
 import { FormattedMessage, useIntl } from 'react-intl';
 
@@ -38,7 +38,13 @@ const InputSearch: React.FC<InputProps> = ({
   intlButtonId,
 }) => {
   const intl = useIntl();
-  let inputRef = React.useRef<HTMLInputElement>(null);
+  const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+
+  useEffect(() => {
+    if (inputRef && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [intlPlaceholderId]);
 
   return (
     <>
@@ -60,6 +66,7 @@ const InputSearch: React.FC<InputProps> = ({
             </span>
           )}
           <SearchBox
+            ref={inputRef}
             type={type}
             value={value}
             placeholder={intl.formatMessage({
