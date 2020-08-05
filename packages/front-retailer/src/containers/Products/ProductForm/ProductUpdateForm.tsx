@@ -24,7 +24,7 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { number } from 'yup';
 
-const GET_PRODUCT_DETAILS = gql`
+/* const GET_PRODUCT_DETAILS = gql`
   query getStoreProduct($id: String!) {
     storeProduct(id: $id) {
       id
@@ -38,18 +38,34 @@ const GET_PRODUCT_DETAILS = gql`
       quantity
     }
   }
-`;
+`; */
 
 type Props = any;
 
-const ProductUpdateForm: React.FC<Props> = ({ product, isOpen, onClose }) => {
-  console.log(JSON.stringify(product));
+const ProductUpdateForm: React.FC<Props> = ({
+  product,
+  isOpen,
+  onClose,
+  onSave,
+}) => {
+  //console.log(JSON.stringify(product));
 
+  //Price
   const [price, setPrice] = useState('');
   const handlePrice = (e) => {
-    if(e.target.value >= 0 && number ){
+    if (!isNaN(e.target.value)) {
       setPrice(e.target.value);
+      console.log(`price update: ${price}`);
     }
+  };
+
+  //Toogle
+  const [enabled, setEnabled] = useState(
+    product ? product.quantity > 0 : false
+  );
+  const handleEnabled = (e) => {
+    setEnabled(e.target.value);
+    console.log(`quantity update: ${enabled}`);
   };
 
   // const id = product.id;
@@ -72,26 +88,24 @@ const ProductUpdateForm: React.FC<Props> = ({ product, isOpen, onClose }) => {
 
   // if (loading) return <></>;
 
-  const onSubmit = (data) => {
-    // const newProduct = {
-    //   id: uuidv4(),
-    //   name: data.name,
-    //   type: data.type[0].value,
-    //   description: data.description,
-    //   image: data.image,
-    //   price: Number(data.price),
-    //   unit: data.unit,
-    //   salePrice: Number(data.salePrice),
-    //   discountInPercent: Number(data.discountInPercent),
-    //   quantity: Number(data.quantity),
-    //   slug: data.name,
-    //   creation_date: new Date(),
-    // };
-    console.log(data, 'newProduct data');
-    // closeDrawer();
-  };
-
-  
+  //const onSubmit = (data) => {
+  // const newProduct = {
+  //   id: uuidv4(),
+  //   name: data.name,
+  //   type: data.type[0].value,
+  //   description: data.description,
+  //   image: data.image,
+  //   price: Number(data.price),
+  //   unit: data.unit,
+  //   salePrice: Number(data.salePrice),
+  //   discountInPercent: Number(data.discountInPercent),
+  //   quantity: Number(data.quantity),
+  //   slug: data.name,
+  //   creation_date: new Date(),
+  // };
+  //console.log(data, 'newProduct data');
+  // closeDrawer();
+  //};
 
   if (!product) return <></>;
 
@@ -161,12 +175,18 @@ const ProductUpdateForm: React.FC<Props> = ({ product, isOpen, onClose }) => {
 
               <ToogleWrapper>
                 <SubtitleToogle>Disponible</SubtitleToogle>
-                <Toogle />
+                <Toogle onChange={handleEnabled} />
               </ToogleWrapper>
             </ControlsWrapper>
 
             <ButtonsWrapper>
               <Button
+                onClick={() => {
+                  onSave({ enabled, price, product });
+                  console.log(
+                    `enabled: ${enabled} || price: ${price} || product${product}`
+                  );
+                }}
                 overrides={{
                   BaseButton: {
                     style: ({ $theme }) => {
@@ -216,3 +236,4 @@ const hardCodeData = [
 ];
 
 export default ProductUpdateForm;
+
