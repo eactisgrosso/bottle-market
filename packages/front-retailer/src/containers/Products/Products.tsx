@@ -194,6 +194,25 @@ export default function Products() {
       }, 150);
   };
 
+  const handlePriceChanged = (enabled,price, product) => {
+    if (enabled && product.quantity === -1) {
+      handleViewModal(product);
+    } else
+      setTimeout(() => {
+        changeProductAvailability({
+          variables: {
+            availabilityInput: {
+              id: product.id,
+              store_id: store[0].id,
+              product_size_id: product.product_size_id,
+              price: product.price ?product.price: price,
+              quantity: enabled ? 1 : 0,
+            },
+          },
+        });
+      }, 150);
+  };
+
   return (
     <Grid fluid={true}>
       <Row>
@@ -307,6 +326,9 @@ export default function Products() {
             <ProductUpdateForm
               product={editingProduct}
               isOpen={showModal}
+              onSave={(enabled,price, product)=>{
+                handlePriceChanged(enabled,price,product)
+              }}
               onClose={() => {
                 setShowModal(false);
               }}
