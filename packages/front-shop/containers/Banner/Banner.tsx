@@ -1,17 +1,17 @@
-import React, { useState, useContext, useCallback } from "react";
-import { useRouter } from "next/router";
-import { Waypoint } from "react-waypoint";
-import SearchBox from "components/SearchBox/SearchBox";
-import { SearchContext } from "contexts/search/search.context";
-import { usePlaces } from "@bottle-market/common/helpers";
-import { useStickyDispatch } from "contexts/app/app.provider";
-import { FormattedMessage } from "react-intl";
+import React, { useState, useContext, useCallback } from 'react';
+import { useRouter } from 'next/router';
+import { Waypoint } from 'react-waypoint';
+import SearchBox from 'components/SearchBox/SearchBox';
+import { SearchContext } from 'contexts/search/search.context';
+import { usePlaces } from '@bottle-market/common/helpers';
+import { useStickyDispatch } from 'contexts/app/app.provider';
+import { FormattedMessage } from 'react-intl';
 import {
   BannerWrapper,
   BannerHeading,
   BannerSubHeading,
   BannerComponent,
-} from "./Banner.style";
+} from './Banner.style';
 
 type BannerProps = {
   imageUrl: string;
@@ -41,7 +41,7 @@ const Banner: React.FC<BannerProps> = ({
   const router = useRouter();
   const { pathname } = router;
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
 
   const handleSearchInput = (text: string) => {
     setSearch(text);
@@ -59,7 +59,7 @@ const Banner: React.FC<BannerProps> = ({
         .then((results) => getLatLng(results[0]))
         .then(({ lat, lng }) => {
           dispatch({
-            type: "UPDATE ADDRESS",
+            type: 'UPDATE ADDRESS',
             payload: {
               ...state,
               address: {
@@ -69,14 +69,14 @@ const Banner: React.FC<BannerProps> = ({
               },
             },
           });
-          setSearch("");
+          setSearch('');
         })
         .catch((error) => {
-          console.log("😱 Error: ", error);
+          console.log('😱 Error: ', error);
         });
     else {
       dispatch({
-        type: "UPDATE TEXT",
+        type: 'UPDATE TEXT',
         payload: {
           ...state,
           text: search,
@@ -89,23 +89,23 @@ const Banner: React.FC<BannerProps> = ({
         pathname: pathname,
       },
       {
-        pathname: pathname === "/" ? `${pathname}vinos` : pathname,
+        pathname: pathname === '/' ? `${pathname}vinos` : pathname,
       },
       { shallow: true }
     );
   };
 
   const useDispatch = useStickyDispatch();
-  const setSticky = useCallback(() => useDispatch({ type: "SET_STICKY" }), [
+  const setSticky = useCallback(() => useDispatch({ type: 'SET_STICKY' }), [
     useDispatch,
   ]);
   const removeSticky = useCallback(
-    () => useDispatch({ type: "REMOVE_STICKY" }),
+    () => useDispatch({ type: 'REMOVE_STICKY' }),
     [useDispatch]
   );
 
   const onWaypointPositionChange = ({ currentPosition }) => {
-    if (!currentPosition || currentPosition === "above") {
+    if (!currentPosition || currentPosition === 'above') {
       setSticky();
     }
   };
@@ -134,18 +134,18 @@ const Banner: React.FC<BannerProps> = ({
         <SearchBox
           style={{
             width: 700,
-            boxShadow: "0 21px 36px rgba(0,0,0,0.05)",
-            borderRadius: "6px",
+            boxShadow: '0 21px 36px rgba(0,0,0,0.05)',
+            borderRadius: '6px',
           }}
           handleSearch={(value: string) => handleSearchInput(value)}
-          value={search || ""}
+          value={search || ''}
           onSuggestionSelected={handleSuggestionSelected}
           onClick={handleClickSearchButton}
           className="banner-search"
           pathname={pathname}
           intlMenuId={intlMenuId}
-          intlPlaceholderId={address ? "searchPlaceholder" : "enterAddress"}
-          intlButtonId={address ? "searchButtonText" : "continueBtn"}
+          intlPlaceholderId={address ? 'searchPlaceholder' : 'enterAddress'}
+          intlButtonId={address ? 'searchButtonText' : 'continueBtn'}
           autoSuggestion={!address}
           suggestions={suggestions}
         />

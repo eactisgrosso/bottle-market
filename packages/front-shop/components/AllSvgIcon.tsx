@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
 export const Oporto = ({
-  color = "currentColor",
-  width = "18px",
-  height = "18px",
+  color = 'currentColor',
+  width = '18px',
+  height = '18px',
 }) => {
   return (
     <svg
@@ -31,9 +31,9 @@ export const Oporto = ({
 };
 
 export const Vino = ({
-  color = "currentColor",
-  width = "18px",
-  height = "18px",
+  color = 'currentColor',
+  width = '18px',
+  height = '18px',
 }) => {
   return (
     <svg
@@ -73,9 +73,9 @@ export const Vino = ({
 };
 
 export const Spirits = ({
-  color = "currentColor",
-  width = "20px",
-  height = "20px",
+  color = 'currentColor',
+  width = '20px',
+  height = '20px',
 }) => {
   return (
     <svg
@@ -107,9 +107,9 @@ export const Spirits = ({
 };
 
 export const Vermouth = ({
-  color = "currentColor",
-  width = "18px",
-  height = "18px",
+  color = 'currentColor',
+  width = '18px',
+  height = '18px',
 }) => {
   return (
     <svg
@@ -177,9 +177,9 @@ export const Vermouth = ({
 };
 
 export const Google = ({
-  color = "currentColor",
-  width = "17px",
-  height = "17px",
+  color = 'currentColor',
+  width = '17px',
+  height = '17px',
 }) => {
   return (
     <svg
@@ -198,9 +198,9 @@ export const Google = ({
 };
 
 export const GooglePlus = ({
-  color = "currentColor",
-  width = "17px",
-  height = "11px",
+  color = 'currentColor',
+  width = '17px',
+  height = '11px',
 }) => {
   return (
     <svg
@@ -228,9 +228,9 @@ export const GooglePlus = ({
 };
 
 export const Facebook = ({
-  color = "currentColor",
-  width = "17px",
-  height = "17px",
+  color = 'currentColor',
+  width = '17px',
+  height = '17px',
 }) => {
   return (
     <svg
@@ -250,9 +250,9 @@ export const Facebook = ({
 };
 
 export const Twitter = ({
-  color = "currentColor",
-  width = "30px",
-  height = "24px",
+  color = 'currentColor',
+  width = '30px',
+  height = '24px',
 }) => {
   return (
     <svg
@@ -273,9 +273,9 @@ export const Twitter = ({
 };
 
 export const Linkedin = ({
-  width = "60px",
-  height = "60px",
-  color = "currentColor",
+  width = '60px',
+  height = '60px',
+  color = 'currentColor',
 }) => {
   return (
     <svg
@@ -356,9 +356,9 @@ export const CloseSquareO = (props) => (
 
 // SVG plus icon
 export const Plus = ({
-  color = "currentColor",
-  width = "12px",
-  height = "12px",
+  color = 'currentColor',
+  width = '12px',
+  height = '12px',
 }) => {
   return (
     <svg
@@ -395,9 +395,9 @@ export const Plus = ({
 
 // SVG plus icon
 export const PlusOutline = ({
-  color = "currentColor",
-  width = "16px",
-  height = "16px",
+  color = 'currentColor',
+  width = '16px',
+  height = '16px',
 }) => {
   return (
     <svg
@@ -434,9 +434,9 @@ export const PlusOutline = ({
 
 // SVG minus icon
 export const Minus = ({
-  color = "currentColor",
-  width = "12px",
-  height = "2px",
+  color = 'currentColor',
+  width = '12px',
+  height = '2px',
 }) => {
   return (
     <svg
@@ -562,9 +562,9 @@ export const MakeupIcon = () => {
 };
 
 export const MedicineIcon = ({
-  width = "16px",
-  height = "16px",
-  color = "currentColor",
+  width = '16px',
+  height = '16px',
+  color = 'currentColor',
 }) => {
   return (
     <svg
@@ -877,9 +877,9 @@ export const LockIcon = () => {
 
 // SVG SearchIcon icon
 export const SearchIcon = ({
-  color = "currentColor",
-  width = "14px",
-  height = "14px",
+  color = 'currentColor',
+  width = '14px',
+  height = '14px',
 }) => {
   return (
     <svg
@@ -1036,9 +1036,9 @@ export const ShoppingBag = () => {
 };
 
 export const ShoppingBagLarge = ({
-  color = "currentColor",
-  width = "18px",
-  height = "18px",
+  color = 'currentColor',
+  width = '18px',
+  height = '18px',
 }) => {
   return (
     <svg
@@ -1564,9 +1564,9 @@ export const OptionIcon = () => {
 };
 
 export const Revenue = ({
-  color = "currentColor",
-  width = "56px",
-  height = "56px",
+  color = 'currentColor',
+  width = '56px',
+  height = '56px',
 }) => {
   return (
     <svg
@@ -1639,9 +1639,9 @@ export const Revenue = ({
 };
 
 export const Refund = ({
-  color = "currentColor",
-  width = "56px",
-  height = "56px",
+  color = 'currentColor',
+  width = '56px',
+  height = '56px',
 }) => {
   return (
     <svg
@@ -1874,9 +1874,9 @@ export const Refund = ({
 };
 
 export const ArrowUp = ({
-  color = "currentColor",
-  width = "12px",
-  height = "12px",
+  color = 'currentColor',
+  width = '12px',
+  height = '12px',
 }) => {
   return (
     <svg
@@ -1896,9 +1896,9 @@ export const ArrowUp = ({
 };
 
 export const ArrowDown = ({
-  color = "currentColor",
-  width = "12px",
-  height = "12px",
+  color = 'currentColor',
+  width = '12px',
+  height = '12px',
 }) => {
   return (
     <svg
@@ -1918,9 +1918,9 @@ export const ArrowDown = ({
 };
 
 export const UploadIcon = ({
-  color = "currentColor",
-  width = "41px",
-  height = "30px",
+  color = 'currentColor',
+  width = '41px',
+  height = '30px',
 }) => {
   return (
     <svg
@@ -1942,9 +1942,9 @@ export const UploadIcon = ({
 };
 
 export const SiteSettings = ({
-  color = "currentColor",
-  width = "56px",
-  height = "56px",
+  color = 'currentColor',
+  width = '56px',
+  height = '56px',
 }) => {
   return (
     <svg
@@ -2130,9 +2130,9 @@ export const SiteSettings = ({
 };
 
 export const Members = ({
-  color = "currentColor",
-  width = "56px",
-  height = "56px",
+  color = 'currentColor',
+  width = '56px',
+  height = '56px',
 }) => {
   return (
     <svg
@@ -2152,9 +2152,9 @@ export const Members = ({
 };
 
 export const MenuIcon = ({
-  color = "currentColor",
-  width = "26px",
-  height = "18px",
+  color = 'currentColor',
+  width = '26px',
+  height = '18px',
 }) => {
   return (
     <svg
@@ -2187,9 +2187,9 @@ export const MenuIcon = ({
 };
 
 export const ArrowLeftRound = ({
-  color = "currentColor",
-  width = "18px",
-  height = "14px",
+  color = 'currentColor',
+  width = '18px',
+  height = '14px',
 }) => {
   return (
     <svg
@@ -2208,7 +2208,7 @@ export const ArrowLeftRound = ({
   );
 };
 
-export const CoinIcon = ({ width = "48px", height = "48px" }) => {
+export const CoinIcon = ({ width = '48px', height = '48px' }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -2250,7 +2250,7 @@ export const CoinIcon = ({ width = "48px", height = "48px" }) => {
   );
 };
 
-export const CartIconBig = ({ width = "48px", height = "48px" }) => {
+export const CartIconBig = ({ width = '48px', height = '48px' }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -2282,7 +2282,7 @@ export const CartIconBig = ({ width = "48px", height = "48px" }) => {
   );
 };
 
-export const UserIcon = ({ width = "48px", height = "48px" }) => {
+export const UserIcon = ({ width = '48px', height = '48px' }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -2308,7 +2308,7 @@ export const UserIcon = ({ width = "48px", height = "48px" }) => {
   );
 };
 
-export const DeliveryIcon = ({ width = "48px", height = "48px" }) => {
+export const DeliveryIcon = ({ width = '48px', height = '48px' }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -2337,9 +2337,9 @@ export const DeliveryIcon = ({ width = "48px", height = "48px" }) => {
 };
 
 export const IosArrowUp = ({
-  color = "currentColor",
-  width = "7px",
-  height = "10px",
+  color = 'currentColor',
+  width = '7px',
+  height = '10px',
 }) => {
   return (
     <svg
@@ -2358,9 +2358,9 @@ export const IosArrowUp = ({
 };
 
 export const IosArrowDown = ({
-  color = "currentColor",
-  width = "7px",
-  height = "10px",
+  color = 'currentColor',
+  width = '7px',
+  height = '10px',
 }) => {
   return (
     <svg
@@ -2379,9 +2379,9 @@ export const IosArrowDown = ({
 };
 
 export const MenuDown = ({
-  color = "currentColor",
-  width = "12px",
-  height = "6px",
+  color = 'currentColor',
+  width = '12px',
+  height = '6px',
 }) => {
   return (
     <svg
@@ -2402,9 +2402,9 @@ export const MenuDown = ({
 };
 
 export const HelpIcon = ({
-  color = "currentColor",
-  width = "14px",
-  height = "14px",
+  color = 'currentColor',
+  width = '14px',
+  height = '14px',
 }) => {
   return (
     <svg
@@ -2424,7 +2424,7 @@ export const HelpIcon = ({
   );
 };
 
-export const SAFlag = ({ width = "640px", height = "480px" }) => {
+export const SAFlag = ({ width = '640px', height = '480px' }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -2513,7 +2513,7 @@ export const SAFlag = ({ width = "640px", height = "480px" }) => {
   );
 };
 
-export const DEFlag = ({ width = "640px", height = "480px" }) => {
+export const DEFlag = ({ width = '640px', height = '480px' }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -2528,7 +2528,7 @@ export const DEFlag = ({ width = "640px", height = "480px" }) => {
   );
 };
 
-export const ESFlag = ({ width = "640px", height = "480px" }) => {
+export const ESFlag = ({ width = '640px', height = '480px' }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -5129,7 +5129,7 @@ export const ESFlag = ({ width = "640px", height = "480px" }) => {
   );
 };
 
-export const ILFlag = ({ width = "640px", height = "480px" }) => {
+export const ILFlag = ({ width = '640px', height = '480px' }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -5163,7 +5163,7 @@ export const ILFlag = ({ width = "640px", height = "480px" }) => {
   );
 };
 
-export const CNFlag = ({ width = "640px", height = "480px" }) => {
+export const CNFlag = ({ width = '640px', height = '480px' }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -5209,7 +5209,7 @@ export const CNFlag = ({ width = "640px", height = "480px" }) => {
   );
 };
 
-export const USFlag = ({ width = "640px", height = "480px" }) => {
+export const USFlag = ({ width = '640px', height = '480px' }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -5243,9 +5243,9 @@ export const USFlag = ({ width = "640px", height = "480px" }) => {
 };
 
 export const InkPen = ({
-  width = "13px",
-  height = "20px",
-  color = "currentColor",
+  width = '13px',
+  height = '20px',
+  color = 'currentColor',
 }) => {
   return (
     <svg
@@ -5279,9 +5279,9 @@ export const InkPen = ({
 };
 
 export const AdobeIcon = ({
-  width = "20px",
-  height = "18px",
-  color = "currentColor",
+  width = '20px',
+  height = '18px',
+  color = 'currentColor',
 }) => {
   return (
     <svg
@@ -5303,9 +5303,9 @@ export const AdobeIcon = ({
 };
 
 export const UserAvatar = ({
-  width = "25px",
-  height = "30px",
-  color = "currentColor",
+  width = '25px',
+  height = '30px',
+  color = 'currentColor',
 }) => {
   return (
     <svg
@@ -5331,117 +5331,28 @@ export const UserAvatar = ({
   );
 };
 
-export const BookIcon = ({
-  width = "30px",
-  height = "25px",
-  color = "currentColor",
-}) => {
-  return (
-    <svg
-      id="book"
-      xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
-      viewBox="0 0 30.011 24.606"
-    >
-      <path
-        data-name="Path 1"
-        d="M243.79,21.432V0l-.818.069a31.449,31.449,0,0,0-9.533,2.324L232,2.99V24.337l1.048-.436a32.716,32.716,0,0,1,9.861-2.4Zm0,0"
-        transform="translate(-216.459)"
-        fill={color}
-      />
-      <path
-        data-name="Path 2"
-        d="M276.924,47.3h-1.608V66.054a.536.536,0,0,1-.492.536l-1.372.113q-.594.049-1.185.122c-.128.015-.255.036-.382.054-.265.035-.53.071-.794.113-.154.025-.307.053-.46.08-.236.041-.473.082-.709.129-.161.032-.322.068-.486.1-.225.048-.449.1-.672.149-.167.04-.334.082-.5.124-.217.054-.433.111-.648.172-.168.046-.335.095-.5.144-.214.063-.426.128-.637.2l-.5.161q-.318.107-.633.221c-.161.058-.322.117-.486.178l-.22.086h12.283Zm0,0"
-        transform="translate(-246.913 -44.129)"
-        fill={color}
-      />
-      <path
-        data-name="Path 3"
-        d="M40.818.069,40,0V21.433l.951.081a32.5,32.5,0,0,1,9.85,2.412l.988.411V2.99l-1.438-.6A31.448,31.448,0,0,0,40.818.069Zm0,0"
-        transform="translate(-37.32)"
-        fill={color}
-      />
-      <path
-        data-name="Path 4"
-        d="M0,47.3V68.733H12.292c-.066-.026-.132-.054-.2-.078-.153-.058-.308-.114-.462-.17-.218-.079-.435-.156-.654-.229q-.238-.08-.477-.156-.326-.107-.654-.2c-.161-.047-.322-.094-.482-.139-.22-.061-.441-.119-.663-.176-.161-.041-.322-.083-.486-.121-.225-.054-.45-.1-.676-.151-.161-.035-.322-.07-.482-.1-.234-.046-.468-.087-.7-.128L5.891,67c-.259-.041-.519-.076-.779-.111-.131-.018-.262-.038-.393-.053q-.59-.071-1.179-.122L2.1,66.59a.536.536,0,0,1-.49-.536V47.3Zm0,0"
-        transform="translate(0 -44.129)"
-        fill={color}
-      />
-    </svg>
-  );
-};
-
-export const FurnitureIcon = ({
-  width = "30px",
-  height = "26px",
-  color = "currentColor",
-}) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
-      viewBox="0 0 30.402 26.348"
-    >
-      <g id="bed" transform="translate(0 -32)">
-        <g id="Group_2" data-name="Group 2" transform="translate(0 32)">
-          <g id="Group_1" data-name="Group 1" transform="translate(0 0)">
-            <path
-              data-name="Path 5"
-              d="M29.9,47.2h-.507v-1.52a2.533,2.533,0,0,0-1.52-2.319V35.547a.507.507,0,0,0-.3-.464,2.006,2.006,0,0,0,.3-1.056,2.027,2.027,0,1,0-4.054,0A2.006,2.006,0,0,0,24.1,35.04H6.305a2.006,2.006,0,0,0,.282-1.013,2.027,2.027,0,0,0-4.054,0,2.006,2.006,0,0,0,.3,1.056.507.507,0,0,0-.3.464v7.815a2.533,2.533,0,0,0-1.52,2.319V47.2H.507A.507.507,0,0,0,0,47.708V54.8a.507.507,0,0,0,.507.507h.507v2.533a.507.507,0,0,0,.507.507H3.547a.507.507,0,0,0,.507-.507V55.308H26.348v2.533a.507.507,0,0,0,.507.507h2.027a.507.507,0,0,0,.507-.507V55.308H29.9A.507.507,0,0,0,30.4,54.8V47.708A.507.507,0,0,0,29.9,47.2ZM25.842,33.013a1.013,1.013,0,1,1-1.013,1.013A1.013,1.013,0,0,1,25.842,33.013Zm-21.281,0a1.013,1.013,0,1,1-1.013,1.013A1.013,1.013,0,0,1,4.56,33.013Zm-1.013,3.04H26.855v7.094h-2.04a2.507,2.507,0,0,0,.52-1.52V40.614A2.537,2.537,0,0,0,22.8,38.08H18.748a2.537,2.537,0,0,0-2.533,2.534v1.013a2.507,2.507,0,0,0,.52,1.52H13.668a2.507,2.507,0,0,0,.52-1.52V40.614a2.537,2.537,0,0,0-2.533-2.534H7.6a2.537,2.537,0,0,0-2.533,2.534v1.013a2.507,2.507,0,0,0,.52,1.52H3.547Zm20.775,4.56v1.013a1.52,1.52,0,0,1-1.52,1.52H18.748a1.52,1.52,0,0,1-1.52-1.52V40.614a1.52,1.52,0,0,1,1.52-1.52H22.8A1.52,1.52,0,0,1,24.322,40.614Zm-11.147,0v1.013a1.52,1.52,0,0,1-1.52,1.52H7.6a1.52,1.52,0,0,1-1.52-1.52V40.614a1.52,1.52,0,0,1,1.52-1.52h4.054A1.52,1.52,0,0,1,13.174,40.614ZM2.027,45.681a1.52,1.52,0,0,1,1.52-1.52H26.855a1.52,1.52,0,0,1,1.52,1.52V47.2H2.027ZM3.04,57.335H2.027V55.308H3.04Zm25.335,0H27.362V55.308h1.013Zm1.013-3.04H1.013v-6.08H29.389Z"
-              transform="translate(0 -32)"
-              fill={color}
-            />
-          </g>
-        </g>
-        <g id="Group_4" data-name="Group 4" transform="translate(2.027 52.268)">
-          <g id="Group_3" data-name="Group 3">
-            <path
-              data-name="Path 6"
-              d="M34.533,352H32.507a.507.507,0,0,0,0,1.013h2.027a.507.507,0,0,0,0-1.013Z"
-              transform="translate(-32 -352)"
-              fill={color}
-            />
-          </g>
-        </g>
-        <g id="Group_6" data-name="Group 6" transform="translate(6.08 52.268)">
-          <g id="Group_5" data-name="Group 5">
-            <path
-              data-name="Path 7"
-              d="M117.788,352H96.507a.507.507,0,0,0,0,1.013h21.281a.507.507,0,0,0,0-1.013Z"
-              transform="translate(-96 -352)"
-              fill={color}
-            />
-          </g>
-        </g>
-      </g>
-    </svg>
-  );
-};
-
 export const GpsIcon = ({
-  color = "currentColor",
-  width = "18px",
-  height = "18px",
+  color = 'currentColor',
+  width = '18px',
+  height = '18px',
 }) => {
   return (
     <svg width="18pt" height="18pt" viewBox="0 0 18 18" version="1.1">
       <g id="surface1">
         <path
-          fill={"rgb(100%,0%,34.901961%)"}
+          fill={'rgb(100%,0%,34.901961%)'}
           d="M 9.035156 0 C 5.585938 0 2.777344 2.808594 2.777344 6.257812 C 2.777344 10.59375 9.035156 18 9.035156 18 C 9.035156 18 15.289062 10.378906 15.289062 6.257812 C 15.289062 2.808594 12.484375 0 9.035156 0 Z M 9.035156 0 "
         />
         <path
-          fill={"rgb(82.352941%,0%,25.490196%)"}
+          fill={'rgb(82.352941%,0%,25.490196%)'}
           d="M 9.035156 0 L 9.035156 18 C 9.035156 18 15.289062 10.378906 15.289062 6.257812 C 15.289062 2.808594 12.484375 0 9.035156 0 Z M 9.035156 0 "
         />
         <path
-          fill={"rgb(82.352941%,0%,25.490196%)"}
+          fill={'rgb(82.352941%,0%,25.490196%)'}
           d="M 10.921875 8.089844 C 10.402344 8.609375 9.71875 8.871094 9.035156 8.871094 C 8.351562 8.871094 7.667969 8.609375 7.144531 8.089844 C 6.105469 7.046875 6.105469 5.355469 7.144531 4.3125 C 7.652344 3.808594 8.320312 3.53125 9.035156 3.53125 C 9.746094 3.53125 10.417969 3.808594 10.921875 4.3125 C 11.960938 5.355469 11.960938 7.046875 10.921875 8.089844 Z M 10.921875 8.089844 "
         />
         <path
-          fill={"rgb(60.392157%,9.411765%,18.823529%"}
+          fill={'rgb(60.392157%,9.411765%,18.823529%'}
           d="M 10.921875 4.3125 C 10.417969 3.808594 9.746094 3.53125 9.035156 3.53125 L 9.035156 8.871094 C 9.71875 8.871094 10.402344 8.609375 10.921875 8.089844 C 11.960938 7.046875 11.960938 5.355469 10.921875 4.3125 Z M 10.921875 4.3125 "
         />
       </g>

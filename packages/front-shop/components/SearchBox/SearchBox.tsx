@@ -1,12 +1,12 @@
-import InputSearch from "./Input";
-import React, { useEffect, useRef, useState } from "react";
-import SearchResults from "./SearchResults";
+import InputSearch from './Input';
+import React, { useEffect, useRef, useState } from 'react';
+import SearchResults from './SearchResults';
 import SearchWrapper, {
   SearchBoxWrapper,
   CurrentType,
-} from "./SearchBox.style";
-import { SearchIcon } from "../AllSvgIcon";
-import { FormattedMessage } from "react-intl";
+} from './SearchBox.style';
+import { SearchIcon } from '../AllSvgIcon';
+import { FormattedMessage } from 'react-intl';
 
 type Suggestion = {
   id: string;
@@ -54,16 +54,16 @@ const Search: React.FC<SearchBoxProps> = ({
   intlMenuId,
   intlPlaceholderId,
 }) => {
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const [toggleSuggestion, setToggleSuggestion] = useState(false);
   const [toggleSearch, setToggleSearch] = useState(false);
 
   let searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside, false);
+    document.addEventListener('click', handleClickOutside, false);
     return () => {
-      document.removeEventListener("click", handleClickOutside, false);
+      document.removeEventListener('click', handleClickOutside, false);
     };
   }, []);
 
@@ -87,7 +87,7 @@ const Search: React.FC<SearchBoxProps> = ({
   };
 
   const onClearBtnClick = () => {
-    setSearchValue("");
+    setSearchValue('');
   };
 
   return (
@@ -100,13 +100,13 @@ const Search: React.FC<SearchBoxProps> = ({
       expand={expand}
     >
       <SearchBoxWrapper
-        className={`${hideType ? "hideType" : ""} ${
-          expand === true ? (toggleSearch ? "expanded" : "collapsed") : ""
-        } ${minimal === true ? "minimal" : ""}`}
+        className={`${hideType ? 'hideType' : ''} ${
+          expand === true ? (toggleSearch ? 'expanded' : 'collapsed') : ''
+        } ${minimal === true ? 'minimal' : ''}`}
       >
         <CurrentType>
-          {" "}
-          <FormattedMessage id={intlMenuId} defaultMessage={"Vinos"} />
+          {' '}
+          <FormattedMessage id={intlMenuId} defaultMessage={'Vinos'} />
         </CurrentType>
         <InputSearch
           type="text"
@@ -141,7 +141,7 @@ Search.defaultProps = {
   autoSuggestion: false,
   buttonIcon: <SearchIcon />,
   inputStyle: {
-    width: "100%",
+    width: '100%',
   },
 };
 

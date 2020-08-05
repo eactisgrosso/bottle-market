@@ -1,6 +1,6 @@
-import React from "react";
-import { SearchBox, SearchButton, SearchInputWrapper } from "./SearchBox.style";
-import { FormattedMessage, useIntl } from "react-intl";
+import React from 'react';
+import { SearchBox, SearchButton, SearchInputWrapper } from './SearchBox.style';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 type InputProps = {
   type?: string;
@@ -38,13 +38,15 @@ const InputSearch: React.FC<InputProps> = ({
   intlButtonId,
 }) => {
   const intl = useIntl();
+  let inputRef = React.useRef<HTMLInputElement>(null);
+
   return (
     <>
       <SearchInputWrapper
         style={style}
         bordered={bordered}
         showSvg={showSvg}
-        className={`${inputClass} ${bordered === true ? "bordered" : ""}`}
+        className={`${inputClass} ${bordered === true ? 'bordered' : ''}`}
       >
         <form
           onSubmit={(e) => {
@@ -61,8 +63,8 @@ const InputSearch: React.FC<InputProps> = ({
             type={type}
             value={value}
             placeholder={intl.formatMessage({
-              id: intlPlaceholderId || "enterAddress",
-              defaultMessage: "Enter your delivery address",
+              id: intlPlaceholderId || 'enterAddress',
+              defaultMessage: 'Enter your delivery address',
             })}
             onChange={onChange}
             onFocus={onFocus}
@@ -74,12 +76,12 @@ const InputSearch: React.FC<InputProps> = ({
               {buttonIcon}
               <span className="buttonText">
                 {intlButtonId && (
-                  <FormattedMessage id={intlButtonId} defaultMessage={""} />
+                  <FormattedMessage id={intlButtonId} defaultMessage={''} />
                 )}
               </span>
             </SearchButton>
           ) : (
-            ""
+            ''
           )}
         </form>
       </SearchInputWrapper>
