@@ -1,11 +1,11 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { KNEX_CONNECTION } from "@nestjsplus/knex";
-import { CONTEXT } from "@nestjs/graphql";
-import { EventBus } from "@nestjs/cqrs";
-import { Event } from "./event";
-import { StorageEvent } from "./storage.event";
-import { Aggregate } from "./aggregate";
-import { decode } from "jsonwebtoken";
+import { Inject, Injectable } from '@nestjs/common';
+import { KNEX_CONNECTION } from '@nestjsplus/knex';
+import { CONTEXT } from '@nestjs/graphql';
+import { EventBus } from '@nestjs/cqrs';
+import { Event } from './event';
+import { StorageEvent } from './storage.event';
+import { Aggregate } from './aggregate';
+import { decode } from 'jsonwebtoken';
 
 export interface Constructor<T> {
   new (...args: any[]): T;
@@ -19,19 +19,25 @@ export abstract class EventStore {
     @Inject(CONTEXT) private context,
     @Inject(KNEX_CONNECTION) private readonly knex: any
   ) {
-    const user = decode(
-      context.req.headers.authorization.replace("Bearer ", "")
-    );
-    if (user) {
-      const info = user["https://app.bottlemarket.com.ar/userinfo"];
-      if (info) this.user_id = info.bottleId;
+    if (
+      context.req &&
+      context.req.headers &&
+      context.req.headers.authorization
+    ) {
+      const user = decode(
+        context.req.headers.authorization.replace('Bearer ', '')
+      );
+      if (user) {
+        const info = user['https://app.bottlemarket.com.ar/userinfo'];
+        if (info) this.user_id = info.bottleId;
+      }
     }
   }
 
   protected abstract recreateEventFromStorage(event: StorageEvent): Event;
 
   async ctx<T extends Aggregate>(object: T): Promise<T> {
-    const dbEvents = await this.knex("events").where("aggregateId", object.id);
+    const dbEvents = await this.knex('events').where('aggregateId', object.id);
     const events = dbEvents.map((event: StorageEvent) =>
       this.recreateEventFromStorage(event)
     );
@@ -43,7 +49,7 @@ export abstract class EventStore {
       event.sequence = ++object.sequence;
       event.userId = this.user_id;
 
-      await this.knex("events").insert({
+      await this.knex('events').insert({
         aggregateId: object.id,
         aggregateType: object.constructor.name,
         eventType: event.constructor.name,
