@@ -37,6 +37,7 @@ export const getSubTotalPrice = () => {
   const price = getLocalState('subTotalPrice');
   return price ? price : 0;
 };
+
 // export const getCartProducts = (context: any) => {
 //   try {
 //     const products = JSON.parse(getCookie('cart', context));

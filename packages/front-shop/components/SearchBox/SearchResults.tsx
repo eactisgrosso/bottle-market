@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 import {
   SearchResultWrapper,
   ItemWrapper,
   SubmenuHeading,
-} from "./SearchBox.style";
+} from './SearchBox.style';
 
 type SuggestionsProps = {
   suggestions?: any;
@@ -26,9 +26,9 @@ const SearchResults: React.FC<SuggestionsProps> = ({
 
   return (
     <SearchResultWrapper {...wrapperStyle}>
-      <SubmenuHeading>
+      {/* <SubmenuHeading>
         <h3>Recent Search</h3> <button onClick={clearSearch}>Clear</button>
-      </SubmenuHeading>
+      </SubmenuHeading> */}
       {suggestions.map((suggestion: any) => (
         <ItemWrapper
           {...itemStyle}

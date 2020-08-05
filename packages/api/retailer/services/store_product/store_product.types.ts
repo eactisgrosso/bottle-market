@@ -101,8 +101,8 @@ export class ChangeProductAvailability {
   @Field()
   product_size_id: string;
 
-  @Field((type) => Int)
-  price: number;
+  @Field((type) => Float, { nullable: true })
+  price?: number;
 
   @Field((type) => Int)
   quantity: number;

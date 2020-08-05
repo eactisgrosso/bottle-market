@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import { openModal } from "@redq/reuse-modal";
-import SearchBox from "components/SearchBox/SearchBox";
-import { SearchContext } from "contexts/search/search.context";
-import { useAuth } from "@bottle-market/common/auth";
-import { RightMenu } from "./Menu/RightMenu/RightMenu";
-import { LeftMenu } from "./Menu/LeftMenu/LeftMenu";
-import HeaderWrapper from "./Header.style";
-import LogoImage from "image/Logo.svg";
-import { isCategoryPage } from "../is-home-page";
-import SignInForm from "../../SignInOutForm/SignIn";
-import { setCookie } from "helper/session";
-import { usePlaces } from "@bottle-market/common/helpers";
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import { openModal } from '@redq/reuse-modal';
+import SearchBox from 'components/SearchBox/SearchBox';
+import { SearchContext } from 'contexts/search/search.context';
+import { useAuth } from '@bottle-market/common/auth';
+import { RightMenu } from './Menu/RightMenu/RightMenu';
+import { LeftMenu } from './Menu/LeftMenu/LeftMenu';
+import HeaderWrapper from './Header.style';
+import LogoImage from 'image/Logo.svg';
+import { isCategoryPage } from '../is-home-page';
+import SignInForm from '../../SignInOutForm/SignIn';
+import { setCookie } from 'helper/session';
+import { usePlaces } from '@bottle-market/common/helpers';
 
 type Props = {
   className?: string;
@@ -31,7 +31,7 @@ const Header: React.FC<Props> = ({ className }) => {
   } = usePlaces();
   const { state, dispatch } = React.useContext(SearchContext);
   const { address, text } = state;
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const { pathname } = useRouter();
 
   const handleLogout = () => {
@@ -39,20 +39,20 @@ const Header: React.FC<Props> = ({ className }) => {
   };
 
   const handleJoin = () => {
-    setCookie("returnUrl", "/");
+    setCookie('returnUrl', '/');
     signIn();
     openModal({
       show: true,
-      overlayClassName: "quick-view-overlay",
+      overlayClassName: 'quick-view-overlay',
       closeOnClickOutside: true,
       component: SignInForm,
-      closeComponent: "",
+      closeComponent: '',
       config: {
         enableResizing: false,
         disableDragging: true,
-        className: "quick-view-modal",
+        className: 'quick-view-modal',
         width: 458,
-        height: "auto",
+        height: 'auto',
       },
     });
   };
@@ -73,7 +73,7 @@ const Header: React.FC<Props> = ({ className }) => {
         .then((results) => getLatLng(results[0]))
         .then(({ lat, lng }) => {
           dispatch({
-            type: "UPDATE ADDRESS",
+            type: 'UPDATE ADDRESS',
             payload: {
               ...state,
               address: {
@@ -83,14 +83,14 @@ const Header: React.FC<Props> = ({ className }) => {
               },
             },
           });
-          setSearch("");
+          setSearch('');
         })
         .catch((error) => {
-          console.log("😱 Error: ", error);
+          console.log('😱 Error: ', error);
         });
     else {
       dispatch({
-        type: "UPDATE TEXT",
+        type: 'UPDATE TEXT',
         payload: {
           ...state,
           text: search,
@@ -109,13 +109,13 @@ const Header: React.FC<Props> = ({ className }) => {
           handleSearch={(value: any) => onSearch(value)}
           onSuggestionSelected={handleSuggestionSelected}
           onClick={onClickHandler}
-          intlPlaceholderId={address ? "searchPlaceholder" : "enterAddress"}
+          intlPlaceholderId={address ? 'searchPlaceholder' : 'enterAddress'}
           hideType={true}
           minimal={true}
           showSvg={true}
-          style={{ width: "100%" }}
-          value={search || ""}
-          intlMenuId={"navWineMenu"}
+          style={{ width: '100%' }}
+          value={search || ''}
+          intlMenuId={'navWineMenu'}
           autoSuggestion={!address}
           suggestions={suggestions}
         />
@@ -124,7 +124,7 @@ const Header: React.FC<Props> = ({ className }) => {
         isAuthenticated={isAuthenticated}
         onJoin={handleJoin}
         onLogout={handleLogout}
-        avatar={user ? user.picture : ""}
+        avatar={user ? user.picture : ''}
       />
     </HeaderWrapper>
   );

@@ -1,11 +1,11 @@
-import React, { useState, Fragment } from "react";
-import InputWrapper, { VerifiedLabel, VerificationButton } from "./Input.style";
-import { FormattedMessage } from "react-intl";
-import { animated } from "react-spring";
+import React, { useState, Fragment } from 'react';
+import InputWrapper, { VerifiedLabel, VerificationButton } from './Input.style';
+import { FormattedMessage } from 'react-intl';
+import { animated } from 'react-spring';
 
 type InputProps = {
   id?: any;
-  type?: "text" | "email" | "password" | "number" | "textarea";
+  type?: 'text' | 'email' | 'password' | 'number' | 'textarea';
   disabled?: boolean;
   label?: string;
   name?: string;
@@ -24,7 +24,7 @@ type InputProps = {
   handleVerification?: (e: any) => void; // this prop only for number field
   secondaryComponent?: React.ReactChild | React.ReactChildren; // this prop only for number field
   searchIcon?: React.ReactNode;
-  iconPosition?: "left" | "right";
+  iconPosition?: 'left' | 'right';
 };
 
 const Input: React.FC<any> = ({
@@ -56,7 +56,7 @@ const Input: React.FC<any> = ({
   });
 
   // Add all classs to an array
-  const addAllClasses: string[] = ["field-wrapper"];
+  const addAllClasses: string[] = ['field-wrapper'];
 
   // className prop checking
   if (className) {
@@ -65,18 +65,18 @@ const Input: React.FC<any> = ({
 
   // Add disabled class
   if (disabled) {
-    addAllClasses.push("disabled");
+    addAllClasses.push('disabled');
   }
 
   // Add with search icon class
   if (searchIcon) {
-    addAllClasses.push("with-search-icon");
+    addAllClasses.push('with-search-icon');
   }
 
   if (verification) {
     verified
-      ? addAllClasses.push("number-verified")
-      : addAllClasses.push("send-verification");
+      ? addAllClasses.push('number-verified')
+      : addAllClasses.push('send-verification');
   }
 
   // Input onChange handler
@@ -94,30 +94,30 @@ const Input: React.FC<any> = ({
 
   // Make Label value to htmlFor
   if (label) {
-    htmlFor = label.replace(/\s+/g, "_").toLowerCase();
+    htmlFor = label.replace(/\s+/g, '_').toLowerCase();
   }
 
   // set icon position
-  const position: string = iconPosition || "left";
+  const position: string = iconPosition || 'left';
 
   const SearchIcon = searchIcon && (
-    <span className={`${position === "right" ? "right" : "left"} search-icon`}>
+    <span className={`${position === 'right' ? 'right' : 'left'} search-icon`}>
       {searchIcon}
     </span>
   );
 
   const withSearchIconClass: string =
-    searchIcon && position === "right"
-      ? "icon-right"
-      : position === "left"
-      ? "icon-left"
-      : "";
+    searchIcon && position === 'right'
+      ? 'icon-right'
+      : position === 'left'
+      ? 'icon-left'
+      : '';
 
   // Label Field
   const LabelField = label && (
     <label htmlFor={htmlFor}>
       <FormattedMessage
-        id={intlInputLabelId ? intlInputLabelId : "defaultIntlInputLabelId"}
+        id={intlInputLabelId ? intlInputLabelId : 'defaultIntlInputLabelId'}
         defaultMessage={label}
       />
     </label>
@@ -125,11 +125,11 @@ const Input: React.FC<any> = ({
 
   // Set Input element based on type prop
   switch (type) {
-    case "textarea":
+    case 'textarea':
       inputElement = (
         <div className="inner-wrap">
           <FormattedMessage
-            id={intlPlaceholderId ? intlPlaceholderId : "defaultIntlId"}
+            id={intlPlaceholderId ? intlPlaceholderId : 'defaultIntlId'}
             defaultMessage="&nbsp;"
           >
             {(placeholder) => (
@@ -151,11 +151,11 @@ const Input: React.FC<any> = ({
       );
       break;
 
-    case "number":
+    case 'number':
       inputElement = (
         <div className="inner-wrap">
           <FormattedMessage
-            id={intlPlaceholderId ? intlPlaceholderId : "defaultIntlId"}
+            id={intlPlaceholderId ? intlPlaceholderId : 'defaultIntlId'}
             defaultMessage="&nbsp;"
           >
             {(placeholder) => (
@@ -197,11 +197,11 @@ const Input: React.FC<any> = ({
       );
       break;
 
-    case "password":
+    case 'password':
       inputElement = (
         <div className="inner-wrap">
           <FormattedMessage
-            id={intlPlaceholderId ? intlPlaceholderId : "defaultIntlId"}
+            id={intlPlaceholderId ? intlPlaceholderId : 'defaultIntlId'}
             defaultMessage="&nbsp;"
           >
             {(placeholder) => (
@@ -223,11 +223,11 @@ const Input: React.FC<any> = ({
       );
       break;
 
-    case "email":
+    case 'email':
       inputElement = (
         <div className="inner-wrap">
           <FormattedMessage
-            id={intlPlaceholderId ? intlPlaceholderId : "defaultIntlId"}
+            id={intlPlaceholderId ? intlPlaceholderId : 'defaultIntlId'}
             defaultMessage="&nbsp;"
           >
             {(placeholder) => (
@@ -253,9 +253,9 @@ const Input: React.FC<any> = ({
     default:
       inputElement = (
         <div className="inner-wrap">
-          {position === "left" && SearchIcon}
+          {position === 'left' && SearchIcon}
           <FormattedMessage
-            id={intlPlaceholderId ? intlPlaceholderId : "defaultIntlId"}
+            id={intlPlaceholderId ? intlPlaceholderId : 'defaultIntlId'}
             defaultMessage="&nbsp;"
           >
             {(placeholder) => (
@@ -274,20 +274,20 @@ const Input: React.FC<any> = ({
               />
             )}
           </FormattedMessage>
-          {position === "right" && SearchIcon}
+          {position === 'right' && SearchIcon}
         </div>
       );
       break;
   }
 
   return (
-    <InputWrapper className={addAllClasses.join(" ")} style={containerStyle}>
+    <InputWrapper className={addAllClasses.join(' ')} style={containerStyle}>
       {LabelField || secondaryComponent ? (
         <div>
           {LabelField} {secondaryComponent}
         </div>
       ) : (
-        ""
+        ''
       )}
       {inputElement}
     </InputWrapper>

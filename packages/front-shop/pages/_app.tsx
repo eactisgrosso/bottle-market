@@ -45,7 +45,7 @@ export default function ExtendedApp({
     <ThemeProvider theme={theme}>
       <LanguageProvider messages={messages} initLocale={locale}>
         <CartProvider>
-          <SearchProvider query={query}>
+          <SearchProvider>
             <HeaderProvider>
               <StickyProvider>
                 <AuthProvider

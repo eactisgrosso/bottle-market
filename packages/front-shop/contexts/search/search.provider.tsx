@@ -1,34 +1,52 @@
-import React, { useReducer } from "react";
-import { SearchContext } from "./search.context";
+import React, { useReducer, useEffect } from 'react';
+import { SearchContext } from './search.context';
 type ActionType = {
-  type: "UPDATE ADDRESS" | "UPDATE TEXT" | "RESET";
+  type: 'UPDATE ADDRESS' | 'RESET ADDRESS' | 'UPDATE TEXT' | 'RESET';
   payload: any;
 };
 
 function reducer(state: any, action: ActionType): any {
   switch (action.type) {
-    case "UPDATE ADDRESS":
+    case 'UPDATE ADDRESS':
       return {
         ...state,
         address: action.payload.address,
       };
-    case "UPDATE TEXT":
+    case 'RESET ADDRESS':
+      return {
+        ...state,
+        address: null,
+      };
+    case 'UPDATE TEXT':
       return {
         ...state,
         text: action.payload.text,
       };
-    case "RESET":
-      return { text: "" };
+    case 'RESET':
+      return { text: '' };
     default:
       return state;
   }
 }
 
-export const SearchProvider: React.FunctionComponent<{ query: any }> = ({
-  children,
-  query = { text: "" },
-}) => {
-  const [state, dispatch] = useReducer(reducer, query);
+const isBrowser = typeof window !== 'undefined';
+const initialState = isBrowser
+  ? JSON.parse(localStorage.getItem('address') as string) || ''
+  : '';
+
+export const SearchProvider: React.FunctionComponent = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    console.log(JSON.stringify(state));
+    localStorage.setItem(
+      'address',
+      JSON.stringify({
+        address: state.address,
+      })
+    );
+  }, [state]);
+
   return (
     <SearchContext.Provider value={{ state, dispatch }}>
       {children}
