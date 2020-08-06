@@ -13,7 +13,8 @@ export class ProductAvailabilityChangedHandler
     await this.knex.raw(
       `? ON CONFLICT (store_id, product_size_id)
             DO UPDATE SET
-              quantity = EXCLUDED.quantity,
+              price = EXCLUDED.price,
+              quantity = EXCLUDED.quantity
             RETURNING *;`,
       [
         this.knex('store_product').insert({
