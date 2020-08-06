@@ -69,7 +69,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <ProductPriceWrapper onClick={onClick}>
             <ProductPrice>
               {currency}
-              {priceRetail && priceRetail !== 0 ? priceRetail : price}
+              {price > 0 ? price : priceRetail}
             </ProductPrice>
 
             {discountInPercent && discountInPercent !== 0 ? (

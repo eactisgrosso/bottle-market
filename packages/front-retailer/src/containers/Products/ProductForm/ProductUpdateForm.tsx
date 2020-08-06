@@ -151,7 +151,7 @@ const ProductUpdateForm: React.FC<Props> = ({
 
               <ToogleWrapper>
                 <SubtitleToogle>Disponible</SubtitleToogle>
-                <Toogle onChange={handleEnabled} />
+                <Toogle defaultValue={enabled} onChange={handleEnabled} />
               </ToogleWrapper>
             </ControlsWrapper>
 
@@ -159,7 +159,7 @@ const ProductUpdateForm: React.FC<Props> = ({
               <Button
                 onClick={() => {
                   onSave({
-                    ...data.storeProduct,
+                    id: product.id,
                     product_size_id: product.product_size_id,
                     quantity: enabled ? 1 : 0,
                     price,

@@ -29,7 +29,7 @@ import { ParameterStore } from '../common/config/parameterStore';
       path: '/retailer/graphql',
       installSubscriptionHandlers: true,
       autoSchemaFile: true,
-      context: ({ request }) => ({ req: request }),
+      context: ({ request, req }) => ({ req: request ?? req }),
     }),
     KnexModule.registerAsync({
       useFactory: async () => (await ParameterStore.getInstance()).dbConfig,

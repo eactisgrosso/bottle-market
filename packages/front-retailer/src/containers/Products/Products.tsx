@@ -69,6 +69,7 @@ const CHANGE_PRODUCT_AVAILABILITY = gql`
       store_id
       product_size_id
       quantity
+      price
     }
   }
 `;
@@ -173,26 +174,7 @@ export default function Products() {
     setEditingProduct(modalProps);
   };
 
-  const handleToggle = (enabled, product) => {
-    if (enabled && product.quantity === -1) {
-      handleViewModal(product);
-    } else
-      setTimeout(() => {
-        changeProductAvailability({
-          variables: {
-            availabilityInput: {
-              id: product.id,
-              store_id: store[0].id,
-              product_size_id: product.product_size_id,
-              quantity: enabled ? 1 : 0,
-            },
-          },
-        });
-      }, 150);
-  };
-
-  const handleProductChanged = (product) => {
-    console.log(product);
+  const handleProductChange = (product) => {
     setTimeout(() => {
       changeProductAvailability({
         variables: {
@@ -205,7 +187,7 @@ export default function Products() {
           },
         },
       });
-    }, 150);
+    }, 100);
   };
 
   return (
@@ -303,7 +285,13 @@ export default function Products() {
                       discountInPercent={item.promo_discount}
                       quantity={item.quantity}
                       onToggle={(enabled) => {
-                        handleToggle(enabled, item);
+                        if (item.quantity === -1)
+                          handleViewModal({ ...item, quantity: 1 });
+                        else
+                          handleProductChange({
+                            ...item,
+                            quantity: enabled ? 1 : 0,
+                          });
                       }}
                       onClick={(e) => {
                         handleViewModal(item);
@@ -323,7 +311,7 @@ export default function Products() {
                 product={editingProduct}
                 isOpen={showModal}
                 onSave={(product) => {
-                  handleProductChanged(product);
+                  handleProductChange(product);
                   setShowModal(false);
                 }}
                 onClose={() => {
