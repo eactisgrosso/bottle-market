@@ -1,11 +1,4 @@
-import {
-  Resolver,
-  Query,
-  Args,
-  Mutation,
-  ResolveField,
-  Parent,
-} from '@nestjs/graphql';
+import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { Inject, Injectable } from '@nestjs/common';
 import { KNEX_CONNECTION } from '@nestjsplus/knex';
 import { UseGuards } from '@nestjs/common';
@@ -16,6 +9,7 @@ import ProductQuery from '../../../common/data/product.query';
 import { StoreProductRepository } from '../../domain/repositories/store_product.repository';
 import {
   GetProductsArgs,
+  GetProductArgs,
   StoreProductDTO,
   StoreProducts,
   ChangeProductAvailability,
@@ -43,7 +37,18 @@ export class StoreProductResolver {
     @Args()
     { limit, offset, store_id, type, searchText, category }: GetProductsArgs
   ): Promise<StoreProducts> {
-    const query = this.productQuery.select('retailer_product_view as p');
+    const query = this.productQuery.select(
+      'retailer_product_view as p',
+      'id',
+      'product_size_id',
+      'title',
+      'gallery',
+      'price',
+      'price_retail',
+      'size',
+      'promo_discount',
+      'quantity'
+    );
 
     if (category) await this.productQuery.byCategorySlug(query, category);
     else if (type) await this.productQuery.byCategorySlug(query, type);
@@ -87,7 +92,10 @@ export class StoreProductResolver {
 
   @UseGuards(GraphqlAuthGuard)
   @Query((returns) => StoreProductDTO)
-  async storeProduct(@Args('id', { type: () => String }) id: string) {
+  async storeProduct(
+    @Args()
+    { id, product_size_id }: GetProductArgs
+  ) {
     const dbRow = await this.knex('retailer_product_view as p')
       .first(
         'id',
@@ -98,7 +106,8 @@ export class StoreProductResolver {
         'price_retail',
         'quantity'
       )
-      .where('id', '=', id);
+      .where('id', '=', id)
+      .orWhere('id', '=', product_size_id);
 
     const product = new StoreProductDTO();
     Object.keys(dbRow).forEach((key) => ((product as any)[key] = dbRow[key]));
@@ -126,11 +135,7 @@ export class StoreProductResolver {
     storeProduct.changeAvailability(
       availabilityInput.store_id,
       availabilityInput.product_size_id,
-      availabilityInput.quantity
-    );
-    storeProduct.changePrice(
-      availabilityInput.store_id,
-      availabilityInput.product_size_id,
+      availabilityInput.quantity,
       availabilityInput.price
     );
     storeProduct.commit();

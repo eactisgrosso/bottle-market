@@ -46,7 +46,6 @@ const GET_STORE_PRODUCTS = gql`
         id
         product_size_id
         title
-        description
         image
         type
         price
@@ -87,7 +86,7 @@ export default function Products() {
   const [categoryType, setCategoryType] = useState([]);
   const [store, setStore] = useState([]);
   const [search, setSearch] = useState([]);
-  const [editingProduct, setEditingProduct] = useState();
+  const [editingProduct, setEditingProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   const [changeProductAvailability] = useMutation(CHANGE_PRODUCT_AVAILABILITY, {
@@ -192,23 +191,21 @@ export default function Products() {
       }, 150);
   };
 
-  const handlePriceChanged = (enabled,price, product) => {
-    if (enabled && product.quantity === -1) {
-      handleViewModal(product);
-    } else
-      setTimeout(() => {
-        changeProductAvailability({
-          variables: {
-            availabilityInput: {
-              id: product.id,
-              store_id: store[0].id,
-              product_size_id: product.product_size_id,
-              price: product.price ?product.price: price,
-              quantity: enabled ? 1 : 0,
-            },
+  const handleProductChanged = (product) => {
+    console.log(product);
+    setTimeout(() => {
+      changeProductAvailability({
+        variables: {
+          availabilityInput: {
+            id: product.id,
+            store_id: store[0].id,
+            product_size_id: product.product_size_id,
+            price: product.price,
+            quantity: product.quantity,
           },
-        });
-      }, 150);
+        },
+      });
+    }, 150);
   };
 
   return (
@@ -321,16 +318,19 @@ export default function Products() {
             ) : (
               <NoResult />
             )}
-            <ProductUpdateForm
-              product={editingProduct}
-              isOpen={showModal}
-              onSave={(enabled,price, product)=>{
-                handlePriceChanged(enabled,price,product)
-              }}
-              onClose={() => {
-                setShowModal(false);
-              }}
-            />
+            {editingProduct && (
+              <ProductUpdateForm
+                product={editingProduct}
+                isOpen={showModal}
+                onSave={(product) => {
+                  handleProductChanged(product);
+                  setShowModal(false);
+                }}
+                onClose={() => {
+                  setShowModal(false);
+                }}
+              />
+            )}
           </Row>
         </Col>
       </Row>
@@ -369,18 +369,14 @@ const Row = styled(Rows, () => ({
   },
 }));
 
-export const ProductCardWrapper = styled('div', () => ({
-  height: '100%',
-}));
-
-export const LoaderWrapper = styled('div', () => ({
+const LoaderWrapper = styled('div', () => ({
   width: '100%',
   height: '100vh',
   display: 'flex',
   flexWrap: 'wrap',
 }));
 
-export const LoaderItem = styled('div', () => ({
+const LoaderItem = styled('div', () => ({
   width: '25%',
   padding: '0 15px',
   marginBottom: '30px',

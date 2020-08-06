@@ -30,6 +30,15 @@ export class GetProductsArgs {
   category?: string;
 }
 
+@ArgsType()
+export class GetProductArgs {
+  @Field()
+  id: string;
+
+  @Field()
+  product_size_id: string;
+}
+
 @ObjectType()
 export class StoreProductDTO {
   @Field((type) => ID)
@@ -101,8 +110,8 @@ export class ChangeProductAvailability {
   @Field()
   product_size_id: string;
 
-  @Field((type) => Float, { nullable: true })
-  price?: number;
+  @Field()
+  price: number;
 
   @Field((type) => Int)
   quantity: number;

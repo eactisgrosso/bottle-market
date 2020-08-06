@@ -1,7 +1,7 @@
 import React from 'react';
 import ContentLoader from 'react-content-loader';
 
-const PostLoader = props => (
+const ProductCardLoader = (props) => (
   <ContentLoader
     height={350}
     width={245}
@@ -18,4 +18,4 @@ const PostLoader = props => (
   </ContentLoader>
 );
 
-export default PostLoader;
+export default ProductCardLoader;

@@ -14,27 +14,28 @@ export const SubtitlePrice = styled('h3', ({ $theme }) => ({
   ...$theme.typography.font16,
   color: $theme.colors.textDark,
   textAlign: 'center',
-  margin:'10px 20px'
+  margin: '10px 20px',
 }));
 
 export const SubtitleToogle = styled('h3', ({ $theme }) => ({
   ...$theme.typography.font16,
   color: $theme.colors.textDark,
   textAlign: 'center',
-  margin:'10px 0'
+  margin: '10px 0',
 }));
 
 export const PurchasedPrice = styled('h3', ({ $theme }) => ({
   ...$theme.typography.font16,
   color: $theme.colors.primary,
   textAlign: 'center',
-  margin: '10px'
+  margin: '10px',
 }));
 
 export const Description = styled('p', ({ $theme }) => ({
   ...$theme.typography.font16,
   color: $theme.colors.textNormal,
   marginBottom: 'auto',
+  marginTop: '0px',
   minHeight: '48px',
   textAlign: 'justify',
   paddingBottom: '30px',
@@ -52,7 +53,7 @@ export const ButtonsWrapper = styled('div', {
   display: 'inline-flex',
   justifyContent: 'center',
   width: '100%',
-  borderTop: '1px solid #bbb'
+  borderTop: '1px solid #bbb',
 });
 
 export const CarouselWrapper = styled('div', {
@@ -66,23 +67,22 @@ export const DetailsWrapper = styled('div', {
   alignItems: 'center',
 });
 
-export const SalePriceWrapper = styled('div',{
+export const SalePriceWrapper = styled('div', {
   display: 'inline-flex',
   alignItems: 'center',
-  margin: '0 14px'
-})
+  margin: '0 14px',
+});
 
-export const ToogleWrapper = styled('div',{
+export const ToogleWrapper = styled('div', {
   display: 'inline-flex',
   alignItems: 'center',
-  margin: '0 14px'
-})
+  margin: '0 14px',
+});
 
 export const TitlePriceWrapper = styled('div', {
   display: 'inline-flex',
   alignItems: 'baseline',
 });
-
 
 export const ControlsWrapper = styled('div', {
   display: 'inline-flex',
@@ -93,6 +93,6 @@ export const ControlsWrapper = styled('div', {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    margin: '20px 0'
+    margin: '20px 0',
   },
 });
