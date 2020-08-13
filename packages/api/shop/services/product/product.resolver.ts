@@ -51,7 +51,7 @@ export class ProductResolver {
     const address = lat && lat != 0 && lng && lng != 0;
     const fields = address
       ? [
-          'sp.store_id',
+          'sp.quantity',
           'da.geom',
           this.knex.raw('ST_Distance(geom, ref_geom) AS distance'),
         ]
@@ -78,7 +78,7 @@ export class ProductResolver {
 
     if (address) {
       query
-        .whereNotNull('sp.store_id')
+        .where('sp.quantity', '>', 0)
         .whereRaw(this.knex.raw('ST_DWithin(geom, ref_geom, radius * 1000)'))
         .orderBy('distance');
 
