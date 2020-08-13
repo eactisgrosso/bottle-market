@@ -1,19 +1,19 @@
-import { Module, Param } from "@nestjs/common";
-import { GraphQLModule } from "@nestjs/graphql";
-import { ConfigModule } from "@nestjs/config";
-import { KnexModule } from "@nestjsplus/knex";
+import { Module, Param } from '@nestjs/common';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ConfigModule } from '@nestjs/config';
+import { KnexModule } from '@nestjsplus/knex';
 
-import { IAppModule } from "../app";
-import { AuthzModule } from "../common/auth/authz.module";
-import { UserModule } from "../common/services/user/user.module";
+import { IAppModule } from '../app';
+import { AuthzModule } from '../common/auth/authz.module';
+import { UserModule } from '../common/services/user/user.module';
 
-import { ProductModule } from "./services/product/product.module";
-import { PaymentModule } from "./services/payment/payment.module";
-import { OrderModule } from "./services/order/order.module";
-import { CouponModule } from "./services/coupon/coupon.module";
-import { CategoryModule } from "./services/category/category.module";
+import { ProductModule } from './services/product/product.module';
+import { PaymentModule } from './services/payment/payment.module';
+import { OrderModule } from './services/order/order.module';
+import { CouponModule } from './services/coupon/coupon.module';
+import { CategoryModule } from './services/category/category.module';
 
-import { ParameterStore } from "../common/config/parameterStore";
+import { ParameterStore } from '../common/config/parameterStore';
 
 @Module({
   imports: [
@@ -29,10 +29,10 @@ import { ParameterStore } from "../common/config/parameterStore";
       isGlobal: true,
     }),
     GraphQLModule.forRoot({
-      path: "/shop/graphql",
+      path: '/shop/graphql',
       installSubscriptionHandlers: true,
       autoSchemaFile: true,
-      context: ({ req }) => ({ req }),
+      context: ({ request, req }) => ({ req: request ?? req }),
     }),
     KnexModule.registerAsync({
       useFactory: async () => (await ParameterStore.getInstance()).dbConfig,
