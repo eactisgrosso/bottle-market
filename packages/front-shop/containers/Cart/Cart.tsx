@@ -106,7 +106,7 @@ const Cart: React.FC<CartPropsType> = ({
   const { signIn, isAuthenticated } = useAuth();
 
   const handleJoin = () => {
-    setCookie('returnUrl', '/');
+    setCookie('returnUrl', '/checkout');
     signIn();
     openModal({
       show: true,
@@ -122,6 +122,22 @@ const Cart: React.FC<CartPropsType> = ({
         height: 'auto',
       },
     });
+  };
+
+  const renderCheckoutButton = (onClick) => {
+    return (
+      <CheckoutButton onClick={onClick}>
+        <>
+          <Title>
+            <FormattedMessage id="navlinkCheckout" defaultMessage="Checkout" />
+          </Title>
+          <PriceBox>
+            {CURRENCY}
+            {calculatePrice()}
+          </PriceBox>
+        </>
+      </CheckoutButton>
+    );
   };
 
   return (
@@ -225,52 +241,13 @@ const Cart: React.FC<CartPropsType> = ({
         {cartItemsCount !== 0 ? (
           isAuthenticated ? (
             <Link href="/checkout">
-              <CheckoutButton onClick={onCloseBtnClick}>
-                <>
-                  <Title>
-                    <FormattedMessage
-                      id="navlinkCheckout"
-                      defaultMessage="Checkout"
-                    />
-                  </Title>
-                  <PriceBox>
-                    {CURRENCY}
-                    {calculatePrice()}
-                  </PriceBox>
-                </>
-              </CheckoutButton>
+              {renderCheckoutButton(onCloseBtnClick)}
             </Link>
           ) : (
-            <CheckoutButton onClick={handleJoin}>
-              <>
-                <Title>
-                  <FormattedMessage
-                    id="navlinkCheckout"
-                    defaultMessage="Checkout"
-                  />
-                </Title>
-                <PriceBox>
-                  {CURRENCY}
-                  {calculatePrice()}
-                </PriceBox>
-              </>
-            </CheckoutButton>
+            renderCheckoutButton(handleJoin)
           )
         ) : (
-          <CheckoutButton>
-            <>
-              <Title>
-                <FormattedMessage
-                  id="navlinkCheckout"
-                  defaultMessage="Checkout"
-                />
-              </Title>
-              <PriceBox>
-                {CURRENCY}
-                {calculatePrice()}
-              </PriceBox>
-            </>
-          </CheckoutButton>
+          renderCheckoutButton(() => {})
         )}
       </CheckoutButtonWrapper>
     </CartPopupBody>

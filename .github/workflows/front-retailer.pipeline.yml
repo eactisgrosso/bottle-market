@@ -4,7 +4,7 @@ on:
   push:
     branches: [dev]
     paths:
-      - "packages/front-retailer/**"
+      - 'packages/front-retailer/**'
 
 jobs:
   build:
@@ -14,16 +14,17 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: '12.x'
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Build
         run: yarn build:front-retailer
         env:
-          CI: ""
+          CI: ''
       - name: Deploy
         run: |
           export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws s3 sync packages/front-retailer/build s3://tiendas.bottlemarket.com.ar/ --exclude index.html --region us-east-1
           aws s3 cp packages/front-retailer/build/index.html s3://tiendas.bottlemarket.com.ar/ --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type text/html --region us-east-1
+          aws cloudfront create-invalidation --distribution-id E3JGM1IPB0Q1GI --paths "/index.html" --region us-east-1
