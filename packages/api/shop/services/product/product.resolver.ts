@@ -51,13 +51,22 @@ export class ProductResolver {
     const address = lat && lat != 0 && lng && lng != 0;
     const fields = address
       ? [
+          'p.id',
+          'p.title',
+          'p.slug',
+          'p.description',
+          'p.size',
+          'p.discountInPercent',
+          'p.images',
+          'p.categories',
           'sp.quantity',
           'da.geom',
+          this.knex.raw('COALESCE(sp.price, p.price) as price'),
           this.knex.raw('ST_Distance(geom, ref_geom) AS distance'),
         ]
       : [];
 
-    let query = this.productQuery.select('product_view as p', ...fields);
+    let query = this.productQuery.select('product_view as p', fields);
 
     if (address) {
       query.leftJoin('product_size as ps', 'p.id', 'ps.product_id');

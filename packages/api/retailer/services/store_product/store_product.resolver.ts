@@ -37,8 +37,7 @@ export class StoreProductResolver {
     @Args()
     { limit, offset, store_id, type, searchText, category }: GetProductsArgs
   ): Promise<StoreProducts> {
-    const query = this.productQuery.select(
-      'retailer_product_view as p',
+    const query = this.productQuery.select('retailer_product_view as p', [
       'id',
       'product_size_id',
       'title',
@@ -47,8 +46,8 @@ export class StoreProductResolver {
       'price_retail',
       'size',
       'promo_discount',
-      'quantity'
-    );
+      'quantity',
+    ]);
 
     if (category) await this.productQuery.byCategorySlug(query, category);
     else if (type) await this.productQuery.byCategorySlug(query, type);
