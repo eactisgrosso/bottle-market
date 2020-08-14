@@ -1,6 +1,6 @@
-import { InputType, ObjectType, Field } from "@nestjs/graphql";
+import { InputType, ObjectType, Field } from '@nestjs/graphql';
 
-@InputType({ description: "New delivery data" })
+@InputType({ description: 'New delivery data' })
 export class AddDeliveryAreaInput implements Partial<DeliveryAreaDTO> {
   @Field()
   name: string;
@@ -21,64 +21,64 @@ export class AddDeliveryAreaInput implements Partial<DeliveryAreaDTO> {
   monday: boolean;
 
   @Field({ nullable: true })
-  monday_hours_from?: string;
+  monday_hours_from?: number;
 
   @Field({ nullable: true })
-  monday_hours_to?: string;
+  monday_hours_to?: number;
 
   @Field()
   tuesday: boolean;
 
   @Field({ nullable: true })
-  tuesday_hours_from?: string;
+  tuesday_hours_from?: number;
 
   @Field({ nullable: true })
-  tuesday_hours_to?: string;
+  tuesday_hours_to?: number;
 
   @Field()
   wednesday: boolean;
 
   @Field({ nullable: true })
-  wednesday_hours_from?: string;
+  wednesday_hours_from?: number;
 
   @Field({ nullable: true })
-  wednesday_hours_to?: string;
+  wednesday_hours_to?: number;
 
   @Field()
   thursday: boolean;
 
   @Field({ nullable: true })
-  thursday_hours_from?: string;
+  thursday_hours_from?: number;
 
   @Field({ nullable: true })
-  thursday_hours_to?: string;
+  thursday_hours_to?: number;
 
   @Field()
   friday: boolean;
 
   @Field({ nullable: true })
-  friday_hours_from?: string;
+  friday_hours_from?: number;
 
   @Field({ nullable: true })
-  friday_hours_to?: string;
+  friday_hours_to?: number;
 
   @Field()
   saturday: boolean;
 
   @Field({ nullable: true })
-  saturday_hours_from?: string;
+  saturday_hours_from?: number;
 
   @Field({ nullable: true })
-  saturday_hours_to?: string;
+  saturday_hours_to?: number;
 
   @Field()
   sunday: boolean;
 
   @Field({ nullable: true })
-  sunday_hours_from?: string;
+  sunday_hours_from?: number;
 
   @Field({ nullable: true })
-  sunday_hours_to?: string;
+  sunday_hours_to?: number;
 
   @Field()
   lat: number;
@@ -114,64 +114,64 @@ export class DeliveryAreaDTO {
   monday: boolean;
 
   @Field({ nullable: true })
-  monday_hours_from?: string;
+  monday_hours_from?: number;
 
   @Field({ nullable: true })
-  monday_hours_to?: string;
+  monday_hours_to?: number;
 
   @Field()
   tuesday: boolean;
 
   @Field({ nullable: true })
-  tuesday_hours_from?: string;
+  tuesday_hours_from?: number;
 
   @Field({ nullable: true })
-  tuesday_hours_to?: string;
+  tuesday_hours_to?: number;
 
   @Field()
   wednesday: boolean;
 
   @Field({ nullable: true })
-  wednesday_hours_from?: string;
+  wednesday_hours_from?: number;
 
   @Field({ nullable: true })
-  wednesday_hours_to?: string;
+  wednesday_hours_to?: number;
 
   @Field()
   thursday: boolean;
 
   @Field({ nullable: true })
-  thursday_hours_from?: string;
+  thursday_hours_from?: number;
 
   @Field({ nullable: true })
-  thursday_hours_to?: string;
+  thursday_hours_to?: number;
 
   @Field()
   friday: boolean;
 
   @Field({ nullable: true })
-  friday_hours_from?: string;
+  friday_hours_from?: number;
 
   @Field({ nullable: true })
-  friday_hours_to?: string;
+  friday_hours_to?: number;
 
   @Field()
   saturday: boolean;
 
   @Field({ nullable: true })
-  saturday_hours_from?: string;
+  saturday_hours_from?: number;
 
   @Field({ nullable: true })
-  saturday_hours_to?: string;
+  saturday_hours_to?: number;
 
   @Field()
   sunday: boolean;
 
   @Field({ nullable: true })
-  sunday_hours_from?: string;
+  sunday_hours_from?: number;
 
   @Field({ nullable: true })
-  sunday_hours_to?: string;
+  sunday_hours_to?: number;
 }
 
 @ObjectType()

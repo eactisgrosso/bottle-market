@@ -69,29 +69,27 @@ const BusinessHours: React.FC<BusinessHoursProps> = ({ dataDelivery,onChange }) 
   useEffect(() => {
     onChange({
       monday,
-      mondayFrom: monday && mondayFrom ? mondayFrom[0].label : null_label,
-      mondayTo: monday && mondayTo ? mondayTo[0].label : null_label,
+      mondayFrom: monday && mondayFrom ? mondayFrom[0].id : null_label,
+      mondayTo: monday && mondayTo ? mondayTo[0].id : null_label,
       tuesday,
-      tuesdayFrom: tuesday && tuesdayFrom ? tuesdayFrom[0].label : null_label,
-      tuesdayTo: tuesday && tuesdayTo ? tuesdayTo[0].label : null_label,
+      tuesdayFrom: tuesday && tuesdayFrom ? tuesdayFrom[0].id : null_label,
+      tuesdayTo: tuesday && tuesdayTo ? tuesdayTo[0].id : null_label,
       wednesday,
       wednesdayFrom:
-        wednesday && wednesdayFrom ? wednesdayFrom[0].label : null_label,
-      wednesdayTo: wednesday && wednesdayTo ? wednesdayTo[0].label : null_label,
+        wednesday && wednesdayFrom ? wednesdayFrom[0].id : null_label,
+      wednesdayTo: wednesday && wednesdayTo ? wednesdayTo[0].id : null_label,
       thursday,
-      thursdayFrom:
-        thursday && thursdayFrom ? thursdayFrom[0].label : null_label,
-      thursdayTo: thursday && thursdayTo ? thursdayTo[0].label : null_label,
+      thursdayFrom: thursday && thursdayFrom ? thursdayFrom[0].id : null_label,
+      thursdayTo: thursday && thursdayTo ? thursdayTo[0].id : null_label,
       friday,
-      fridayFrom: friday && fridayFrom ? fridayFrom[0].label : null_label,
-      fridayTo: friday && fridayTo ? fridayTo[0].label : null_label,
+      fridayFrom: friday && fridayFrom ? fridayFrom[0].id : null_label,
+      fridayTo: friday && fridayTo ? fridayTo[0].id : null_label,
       saturday,
-      saturdayFrom:
-        saturday && saturdayFrom ? saturdayFrom[0].label : null_label,
-      saturdayTo: saturday && saturdayTo ? saturdayTo[0].label : null_label,
+      saturdayFrom: saturday && saturdayFrom ? saturdayFrom[0].id : null_label,
+      saturdayTo: saturday && saturdayTo ? saturdayTo[0].id : null_label,
       sunday,
-      sundayFrom: sunday && sundayFrom ? sundayFrom[0].label : null_label,
-      sundayTo: sunday && sundayTo ? sundayTo[0].label : null_label,
+      sundayFrom: sunday && sundayFrom ? sundayFrom[0].id : null_label,
+      sundayTo: sunday && sundayTo ? sundayTo[0].id : null_label,
     });
     
   }, [
@@ -122,9 +120,9 @@ const BusinessHours: React.FC<BusinessHoursProps> = ({ dataDelivery,onChange }) 
     day: string,
     checked: boolean,
     setChecked: Function,
-    initialFrom: string,
+    initialFrom: number,
     onChangeFrom: Function,
-    initialTo: string,
+    initialTo: number,
     onChangeTo: Function
   ) => {
     return (
@@ -159,63 +157,63 @@ const BusinessHours: React.FC<BusinessHoursProps> = ({ dataDelivery,onChange }) 
         'Lunes',
         monday,
         setMonday,
-        nineAM_label,
+        nineAM,
         setMondayFrom,
-        sixPM_label,
+        sixPM,
         setMondayTo
       )}
       {renderRow(
         'Martes',
         tuesday,
         setTuesday,
-        nineAM_label,
+        nineAM,
         setTuesdayFrom,
-        sixPM_label,
+        sixPM,
         setTuesdayTo
       )}
       {renderRow(
         'Miércoles',
         wednesday,
         setWednesday,
-        nineAM_label,
+        nineAM,
         setWednesdayFrom,
-        sixPM_label,
+        sixPM,
         setWednesdayTo
       )}
       {renderRow(
         'Jueves',
         thursday,
         setThursday,
-        nineAM_label,
+        nineAM,
         setThursdayFrom,
-        sixPM_label,
+        sixPM,
         setThursdayTo
       )}
       {renderRow(
         'Viernes',
         friday,
         setFriday,
-        nineAM_label,
+        nineAM,
         setFridayFrom,
-        sixPM_label,
+        sixPM,
         setFridayTo
       )}
       {renderRow(
         'Sábado',
         saturday,
         setSaturday,
-        nineAM_label,
+        nineAM,
         setSaturdayFrom,
-        sixPM_label,
+        sixPM,
         setSaturdayTo
       )}
       {renderRow(
         'Domingo',
         sunday,
         setSunday,
-        nineAM_label,
+        nineAM,
         setSundayFrom,
-        sixPM_label,
+        sixPM,
         setSundayTo
       )}
     </>

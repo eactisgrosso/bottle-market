@@ -40,27 +40,27 @@ type DeliveryCardProps = {
   address: string;
   radius: number;
   monday: boolean;
-  monday_hours_from: string;
-  monday_hours_to: string;
+  monday_hours_from: number;
+  monday_hours_to: number;
   tuesday: boolean;
-  tuesday_hours_from: string;
-  tuesday_hours_to: string;
+  tuesday_hours_from: number;
+  tuesday_hours_to: number;
   wednesday: boolean;
-  wednesday_hours_from: string;
-  wednesday_hours_to: string;
+  wednesday_hours_from: number;
+  wednesday_hours_to: number;
   thursday: boolean;
-  thursday_hours_from: string;
-  thursday_hours_to: string;
+  thursday_hours_from: number;
+  thursday_hours_to: number;
   friday: boolean;
-  friday_hours_from: string;
-  friday_hours_to: string;
+  friday_hours_from: number;
+  friday_hours_to: number;
   saturday: boolean;
-  saturday_hours_from: string;
-  saturday_hours_to: string;
+  saturday_hours_from: number;
+  saturday_hours_to: number;
   sunday: boolean;
-  sunday_hours_from: string;
-  sunday_hours_to: string;
-  delivery:any
+  sunday_hours_from: number;
+  sunday_hours_to: number;
+  delivery: any
 };
 const DeliveryCard: React.FC<DeliveryCardProps> = ({
   id,
@@ -105,6 +105,18 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
     }
     result.push(current);
     return result;
+  };
+
+  const secondsToHourMinute = (seconds: number) => {
+    const d = new Date(seconds * 1000);
+    return [d.getUTCHours(), d.getUTCMinutes()];
+  };
+
+  const secondsToLabel = (seconds: number) => {
+    let [hours, minutes] = secondsToHourMinute(seconds);
+    const zeroPrefix = (n) => (n < 10 ? `0${n}` : n);
+
+    return `${zeroPrefix(hours)}:${zeroPrefix(minutes)}`;
   };
 
   useEffect(() => {
@@ -160,32 +172,43 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
       });
 
     const grouped = groupBy(businessHours, function (hour) {
-      return `${hour.from.substring(0, 5)} a ${hour.to.substring(0, 5)}`;
+      return [hour.from, hour.to];
     });
 
     const hoursLabel = [];
     for (let schedule in grouped) {
       const values = grouped[schedule];
-      if (values.length == 1)
-        hoursLabel.push(`${values[0].day} de ${schedule}`);
-      else {
+      const scheduleLabel = `${secondsToLabel(
+        values[0].from
+      )} a ${secondsToLabel(values[0].to)}`;
+      if (values.length == 1) {
+        hoursLabel.push({
+          i: values[0].i,
+          label: `${values[0].day} de ${scheduleLabel}`,
+        });
+      } else {
         let start = 0;
         do {
           const consecutives = getConsecutives(values.slice(start), 0, []);
           if (consecutives.length > 2)
-            hoursLabel.push(
-              `${consecutives[0].day} a ${
+            hoursLabel.push({
+              i: consecutives[0].i,
+              label: `${consecutives[0].day} a ${
                 consecutives[consecutives.length - 1].day
-              } de ${schedule}`
-            );
+              } de ${scheduleLabel}`,
+            });
           else
-            hoursLabel.push(
-              `${consecutives.map((v) => v.day).join(' y ')} de ${schedule}`
-            );
+            hoursLabel.push({
+              i: consecutives[0].i,
+              label: `${consecutives
+                .map((v) => v.day)
+                .join(' y ')} de ${scheduleLabel}`,
+            });
           start += consecutives.length;
         } while (start < values.length);
       }
     }
+    hoursLabel.sort((a, b) => a.i - b.i);
     setHours(hoursLabel);
   }, [
     monday,
@@ -286,7 +309,7 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
                 },
               }}
             >
-              {day}
+              {day.label}
             </Tag>
           </React.Fragment>
         ))}

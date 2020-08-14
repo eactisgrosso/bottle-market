@@ -1,31 +1,31 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import gql from "graphql-tag";
-import { useQuery, useMutation } from "@apollo/client";
-import { Scrollbars } from "react-custom-scrollbars";
-import { geolocated, GeolocatedProps } from "react-geolocated";
-import { useDrawerDispatch } from "../../../context/DrawerContext";
-import Button, { KIND } from "../../../components/Button/Button";
-import DrawerBox from "../../../components/DrawerBox/DrawerBox";
-import { Row, Col } from "../../../components/FlexBox/FlexBox";
+import React, { useState, useCallback, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import gql from 'graphql-tag';
+import { useQuery, useMutation } from '@apollo/client';
+import { Scrollbars } from 'react-custom-scrollbars';
+import { geolocated, GeolocatedProps } from 'react-geolocated';
+import { useDrawerDispatch } from '../../../context/DrawerContext';
+import Button, { KIND } from '../../../components/Button/Button';
+import DrawerBox from '../../../components/DrawerBox/DrawerBox';
+import { Row, Col } from '../../../components/FlexBox/FlexBox';
 import {
   FormFields,
   FormLabel,
-} from "../../../components/FormFields/FormFields";
-import Select from "../../../components/Select/DrawerSelect";
-import Input from "../../../components/Input/Input";
-import DeliveryArea from "../../../components/DeliveryArea/DeliveryArea";
-import BusinessHours from "../../../components/BusinessHours/BusinessHours";
+} from '../../../components/FormFields/FormFields';
+import Select from '../../../components/Select/DrawerSelect';
+import Input from '../../../components/Input/Input';
+import DeliveryArea from '../../../components/DeliveryArea/DeliveryArea';
+import BusinessHours from '../../../components/BusinessHours/BusinessHours';
 import {
   Form,
   DrawerTitleWrapper,
   DrawerTitle,
   FieldDetails,
   ButtonGroup,
-} from "../../DrawerItems/DrawerItems.style";
-import { GET_STORES } from "../../../graphql/query/store.query";
-import { GET_DELIVERY_AREAS } from "../../../graphql/query/delivery.query";
-import { updateStore } from "../../../graphql/mutation/store.mutation";
+} from '../../DrawerItems/DrawerItems.style';
+import { GET_STORES } from '../../../graphql/query/store.query';
+import { GET_DELIVERY_AREAS } from '../../../graphql/query/delivery.query';
+import { updateStore } from '../../../graphql/mutation/store.mutation';
 
 const CREATE_DELIVERY_AREA = gql`
   mutation createDeliveryArea($deliveryAreaInput: AddDeliveryAreaInput!) {
@@ -67,12 +67,12 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
   const { data: storesData, error, loading } = useQuery(GET_STORES);
 
   const dispatch = useDrawerDispatch();
-  const closeDrawer = useCallback(() => dispatch({ type: "CLOSE_DRAWER" }), [
+  const closeDrawer = useCallback(() => dispatch({ type: 'CLOSE_DRAWER' }), [
     dispatch,
   ]);
   const { register, handleSubmit, setValue } = useForm();
   const [store, setStore] = useState([]);
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState('');
   const [deliveryArea, setDeliveryArea] = useState(null);
   const [businessHours, setBusinessHours] = useState(null);
 
@@ -110,7 +110,7 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
   }, [storesData]);
 
   const handleStoreChange = ({ value }) => {
-    setValue("store", value);
+    setValue('store', value);
     setStore(value);
 
     const s = storesData.stores.find((s) => s.id == value[0].id);
@@ -123,6 +123,7 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
   };
 
   const handleBusinessHoursChange = (value) => {
+    console.log(value);
     setBusinessHours(value);
   };
 
@@ -170,16 +171,16 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
         <DrawerTitle>Agregar Delivery</DrawerTitle>
       </DrawerTitleWrapper>
 
-      <Form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
+      <Form onSubmit={handleSubmit(onSubmit)} style={{ height: '100%' }}>
         <Scrollbars
           autoHide
           renderView={(props) => (
-            <div {...props} style={{ ...props.style, overflowX: "hidden" }} />
+            <div {...props} style={{ ...props.style, overflowX: 'hidden' }} />
           )}
           renderTrackHorizontal={(props) => (
             <div
               {...props}
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               className="track-horizontal"
             />
           )}
@@ -195,11 +196,11 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
                 overrides={{
                   Block: {
                     style: {
-                      width: "100%",
-                      height: "auto",
-                      padding: "30px",
-                      borderRadius: "3px",
-                      backgroundColor: "#ffffff",
+                      width: '100%',
+                      height: 'auto',
+                      padding: '30px',
+                      borderRadius: '3px',
+                      backgroundColor: '#ffffff',
                     },
                   },
                 }}
@@ -252,14 +253,14 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
                 overrides={{
                   Block: {
                     style: {
-                      width: "100%",
-                      height: "auto",
-                      padding: "30px",
-                      borderRadius: "3px",
-                      backgroundColor: "#ffffff",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
+                      width: '100%',
+                      height: 'auto',
+                      padding: '30px',
+                      borderRadius: '3px',
+                      backgroundColor: '#ffffff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                     },
                   },
                 }}
@@ -283,14 +284,14 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
                 overrides={{
                   Block: {
                     style: {
-                      width: "100%",
-                      height: "auto",
-                      padding: "30px",
-                      borderRadius: "3px",
-                      backgroundColor: "#ffffff",
-                      display: "grid",
-                      alignItems: "center",
-                      justifyContent: "center",
+                      width: '100%',
+                      height: 'auto',
+                      padding: '30px',
+                      borderRadius: '3px',
+                      backgroundColor: '#ffffff',
+                      display: 'grid',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                     },
                   },
                 }}
@@ -308,12 +309,12 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
             overrides={{
               BaseButton: {
                 style: ({ $theme }) => ({
-                  width: "50%",
-                  borderTopLeftRadius: "3px",
-                  borderTopRightRadius: "3px",
-                  borderBottomRightRadius: "3px",
-                  borderBottomLeftRadius: "3px",
-                  marginRight: "15px",
+                  width: '50%',
+                  borderTopLeftRadius: '3px',
+                  borderTopRightRadius: '3px',
+                  borderBottomRightRadius: '3px',
+                  borderBottomLeftRadius: '3px',
+                  marginRight: '15px',
                   color: $theme.colors.red400,
                 }),
               },
@@ -327,11 +328,11 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
             overrides={{
               BaseButton: {
                 style: ({ $theme }) => ({
-                  width: "50%",
-                  borderTopLeftRadius: "3px",
-                  borderTopRightRadius: "3px",
-                  borderBottomRightRadius: "3px",
-                  borderBottomLeftRadius: "3px",
+                  width: '50%',
+                  borderTopLeftRadius: '3px',
+                  borderTopRightRadius: '3px',
+                  borderBottomRightRadius: '3px',
+                  borderBottomLeftRadius: '3px',
                 }),
               },
             }}

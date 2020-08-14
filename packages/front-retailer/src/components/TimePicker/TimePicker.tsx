@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import Select from "../Select/Select";
+import React, { useState, useEffect } from 'react';
+import Select from '../Select/Select';
 
 type Props = {
   placeholder?: string;
-  initialValue?: string;
+  initialValue?: number;
   onChange: Function;
 };
 
@@ -30,7 +30,7 @@ const TimePicker: React.FC<Props> = ({
     setOptions(opt);
 
     if (initialValue) {
-      const o = opt.find((o) => o.label == initialValue);
+      const o = opt.find((o) => o.id == initialValue);
       if (o)
         setValue([
           {
@@ -57,7 +57,7 @@ const TimePicker: React.FC<Props> = ({
     <Select
       clearable={false}
       options={options}
-      placeholder={placeholder ? placeholder : ""}
+      placeholder={placeholder ? placeholder : ''}
       value={value}
       searchable={false}
       onChange={(params) => {
@@ -65,7 +65,7 @@ const TimePicker: React.FC<Props> = ({
         setValue(params.value);
       }}
       overrides={{
-        Dropdown: { style: { maxHeight: "200px" } },
+        Dropdown: { style: { maxHeight: '200px' } },
         Placeholder: {
           style: ({ $theme }) => {
             return {

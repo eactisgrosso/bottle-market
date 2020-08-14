@@ -1,17 +1,17 @@
-import { Resolver, Query, Args, Int, Mutation } from "@nestjs/graphql";
-import { Inject, Injectable, HttpService } from "@nestjs/common";
-import { KNEX_CONNECTION } from "@nestjsplus/knex";
-import { UseGuards } from "@nestjs/common";
-import { GraphqlAuthGuard } from "../../../common/auth/graphql.auth.guard";
-import { User } from "../../../common/auth/user.decorator";
-import { DeliveryAreaRepository } from "../../domain/repositories/delivery_area.repository";
+import { Resolver, Query, Args, Int, Mutation } from '@nestjs/graphql';
+import { Inject, Injectable, HttpService } from '@nestjs/common';
+import { KNEX_CONNECTION } from '@nestjsplus/knex';
+import { UseGuards } from '@nestjs/common';
+import { GraphqlAuthGuard } from '../../../common/auth/graphql.auth.guard';
+import { User } from '../../../common/auth/user.decorator';
+import { DeliveryAreaRepository } from '../../domain/repositories/delivery_area.repository';
 import {
   AddDeliveryAreaInput,
   DeliveryAreaDTO,
   DeliveryAreaDeleteDTO,
-} from "./delivery_area.types";
+} from './delivery_area.types';
 
-const { v4: uuidv4 } = require("uuid");
+const { v4: uuidv4 } = require('uuid');
 
 @Injectable()
 @Resolver()
@@ -25,9 +25,9 @@ export class DeliveryResolver {
   @UseGuards(GraphqlAuthGuard)
   @Query(() => [DeliveryAreaDTO])
   async deliveryAreas(@User() user: any): Promise<DeliveryAreaDTO[]> {
-    const dbAreas = await this.knex("delivery_area_view")
-      .select("*")
-      .where("user_id", user.id);
+    const dbAreas = await this.knex('delivery_area_view')
+      .select('*')
+      .where('user_id', user.id);
 
     return dbAreas;
   }
@@ -36,19 +36,19 @@ export class DeliveryResolver {
   @Query(() => [DeliveryAreaDTO])
   async deliveryAreasByStore(
     @User() user: any,
-    @Args("store_id") store_id: string
+    @Args('store_id') store_id: string
   ): Promise<DeliveryAreaDTO[]> {
-    const dbAreas = await this.knex("delivery_area_view")
-      .select("*")
-      .where("user_id", user.id)
-      .andWhere("store_id", store_id);
+    const dbAreas = await this.knex('delivery_area_view')
+      .select('*')
+      .where('user_id', user.id)
+      .andWhere('store_id', store_id);
 
     return dbAreas;
   }
 
-  @Mutation(() => DeliveryAreaDTO, { description: "Create Delivery Area" })
+  @Mutation(() => DeliveryAreaDTO, { description: 'Create Delivery Area' })
   async createDeliveryArea(
-    @Args("deliveryAreaInput") deliveryAreaInput: AddDeliveryAreaInput
+    @Args('deliveryAreaInput') deliveryAreaInput: AddDeliveryAreaInput
   ): Promise<DeliveryAreaDTO> {
     const id = uuidv4();
     const delivery_area = await this.repository.load(id);
@@ -96,7 +96,7 @@ export class DeliveryResolver {
 
   @Mutation(() => DeliveryAreaDeleteDTO)
   async deleteDeliveryArea(
-    @Args("id") id: string
+    @Args('id') id: string
   ): Promise<DeliveryAreaDeleteDTO> {
     const delivery_area = await this.repository.load(id);
 
