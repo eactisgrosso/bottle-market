@@ -102,109 +102,132 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
     return result;
   };
 
-  // useEffect(() => {
-  //   let businessHours = [];
-  //   if (monday)
-  //     businessHours.push({
-  //       i: 0,
-  //       day: 'Lunes',
-  //       from: monday_hours_from,
-  //       to: monday_hours_to,
-  //     });
-  //   if (tuesday)
-  //     businessHours.push({
-  //       i: 1,
-  //       day: 'Martes',
-  //       from: tuesday_hours_from,
-  //       to: tuesday_hours_to,
-  //     });
-  //   if (wednesday)
-  //     businessHours.push({
-  //       i: 2,
-  //       day: 'Miércoles',
-  //       from: wednesday_hours_from,
-  //       to: wednesday_hours_to,
-  //     });
-  //   if (thursday)
-  //     businessHours.push({
-  //       i: 3,
-  //       day: 'Jueves',
-  //       from: thursday_hours_from,
-  //       to: thursday_hours_to,
-  //     });
-  //   if (friday)
-  //     businessHours.push({
-  //       i: 4,
-  //       day: 'Viernes',
-  //       from: friday_hours_from,
-  //       to: friday_hours_to,
-  //     });
-  //   if (saturday)
-  //     businessHours.push({
-  //       i: 5,
-  //       day: 'Sábados',
-  //       from: saturday_hours_from,
-  //       to: saturday_hours_to,
-  //     });
-  //   if (sunday)
-  //     businessHours.push({
-  //       i: 6,
-  //       day: 'Domingos',
-  //       from: sunday_hours_from,
-  //       to: sunday_hours_to,
-  //     });
+  const secondsToHourMinute = (seconds: number) => {
+    const d = new Date(seconds * 1000);
+    return [d.getUTCHours(), d.getUTCMinutes()];
+  };
 
-  //   const grouped = groupBy(businessHours, function (hour) {
-  //     return `${hour.from.substring(0, 5)} a ${hour.to.substring(0, 5)}`;
-  //   });
+  const secondsToLabel = (seconds: number) => {
+    let [hours, minutes] = secondsToHourMinute(seconds);
+    const zeroPrefix = (n) => (n < 10 ? `0${n}` : n);
 
-  //   const hoursLabel = [];
-  //   for (let schedule in grouped) {
-  //     const values = grouped[schedule];
-  //     if (values.length == 1)
-  //       hoursLabel.push(`${values[0].day} de ${schedule}`);
-  //     else {
-  //       let start = 0;
-  //       do {
-  //         const consecutives = getConsecutives(values.slice(start), 0, []);
-  //         if (consecutives.length > 2)
-  //           hoursLabel.push(
-  //             `${consecutives[0].day} a ${
-  //               consecutives[consecutives.length - 1].day
-  //             } de ${schedule}`
-  //           );
-  //         else
-  //           hoursLabel.push(
-  //             `${consecutives.map((v) => v.day).join(' y ')} de ${schedule}`
-  //           );
-  //         start += consecutives.length;
-  //       } while (start < values.length);
-  //     }
-  //   }
-  //   setHours(hoursLabel);
-  // }, [
-  //   monday,
-  //   monday_hours_from,
-  //   monday_hours_to,
-  //   tuesday,
-  //   tuesday_hours_from,
-  //   tuesday_hours_to,
-  //   wednesday,
-  //   wednesday_hours_from,
-  //   wednesday_hours_to,
-  //   thursday,
-  //   thursday_hours_from,
-  //   thursday_hours_to,
-  //   friday,
-  //   friday_hours_from,
-  //   friday_hours_to,
-  //   saturday,
-  //   saturday_hours_from,
-  //   saturday_hours_to,
-  //   sunday,
-  //   sunday_hours_from,
-  //   sunday_hours_to,
-  // ]);
+    return `${zeroPrefix(hours)}:${zeroPrefix(minutes)}`;
+  };
+
+  useEffect(() => {
+    let businessHours = [];
+    if (monday)
+      businessHours.push({
+        i: 0,
+        day: 'Lunes',
+        from: monday_hours_from,
+        to: monday_hours_to,
+      });
+    if (tuesday)
+      businessHours.push({
+        i: 1,
+        day: 'Martes',
+        from: tuesday_hours_from,
+        to: tuesday_hours_to,
+      });
+    if (wednesday)
+      businessHours.push({
+        i: 2,
+        day: 'Miércoles',
+        from: wednesday_hours_from,
+        to: wednesday_hours_to,
+      });
+    if (thursday)
+      businessHours.push({
+        i: 3,
+        day: 'Jueves',
+        from: thursday_hours_from,
+        to: thursday_hours_to,
+      });
+    if (friday)
+      businessHours.push({
+        i: 4,
+        day: 'Viernes',
+        from: friday_hours_from,
+        to: friday_hours_to,
+      });
+    if (saturday)
+      businessHours.push({
+        i: 5,
+        day: 'Sábados',
+        from: saturday_hours_from,
+        to: saturday_hours_to,
+      });
+    if (sunday)
+      businessHours.push({
+        i: 6,
+        day: 'Domingos',
+        from: sunday_hours_from,
+        to: sunday_hours_to,
+      });
+
+    const grouped = groupBy(businessHours, function (hour) {
+      return [hour.from, hour.to];
+    });
+
+    const hoursLabel = [];
+    for (let schedule in grouped) {
+      const values = grouped[schedule];
+      const scheduleLabel = `${secondsToLabel(
+        values[0].from
+      )} a ${secondsToLabel(values[0].to)}`;
+      if (values.length == 1) {
+        hoursLabel.push({
+          i: values[0].i,
+          label: `${values[0].day} de ${scheduleLabel}`,
+        });
+      } else {
+        let start = 0;
+        do {
+          const consecutives = getConsecutives(values.slice(start), 0, []);
+          if (consecutives.length > 2)
+            hoursLabel.push({
+              i: consecutives[0].i,
+              label: `${consecutives[0].day} a ${
+                consecutives[consecutives.length - 1].day
+              } de ${scheduleLabel}`,
+            });
+          else
+            hoursLabel.push({
+              i: consecutives[0].i,
+              label: `${consecutives
+                .map((v) => v.day)
+                .join(' y ')} de ${scheduleLabel}`,
+            });
+          start += consecutives.length;
+        } while (start < values.length);
+      }
+    }
+    hoursLabel.sort((a, b) => a.i - b.i);
+    setHours(hoursLabel);
+  }, [
+    monday,
+    monday_hours_from,
+    monday_hours_to,
+    tuesday,
+    tuesday_hours_from,
+    tuesday_hours_to,
+    wednesday,
+    wednesday_hours_from,
+    wednesday_hours_to,
+    thursday,
+    thursday_hours_from,
+    thursday_hours_to,
+    friday,
+    friday_hours_from,
+    friday_hours_to,
+    saturday,
+    saturday_hours_from,
+    saturday_hours_to,
+    sunday,
+    sunday_hours_from,
+    sunday_hours_to,
+  ]);
 
   const [deleteDeliveryArea] = useMutation(DELETE_DELIVERY_AREA, {
     update(cache, { data: { deleteDeliveryArea } }) {
@@ -280,7 +303,7 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
                 },
               }}
             >
-              {day}
+              {day.label}
             </Tag>
           </React.Fragment>
         ))}
