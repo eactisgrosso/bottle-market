@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import CheckBox from "../CheckBox/CheckBox";
-import TimePicker from "../TimePicker/TimePicker";
-import { Row, Label, Days, Hours } from "./BusinessHours.style";
+import React, { useState, useEffect } from 'react';
+import CheckBox from '../CheckBox/CheckBox';
+import TimePicker from '../TimePicker/TimePicker';
+import { Row, Label, Days, Hours } from './BusinessHours.style';
 
 type BusinessHoursProps = {
   onChange: Function;
 };
 
 const nineAM = 32400;
-const nineAM_label = "09:00";
+const nineAM_label = '09:00';
 const sixPM = 64800;
-const sixPM_label = "18:00";
-const null_label = "00:00";
+const sixPM_label = '18:00';
+const null_label = '00:00';
 
 const BusinessHours: React.FC<BusinessHoursProps> = ({ onChange }) => {
   const [monday, setMonday] = useState(true);
@@ -61,29 +61,27 @@ const BusinessHours: React.FC<BusinessHoursProps> = ({ onChange }) => {
   useEffect(() => {
     onChange({
       monday,
-      mondayFrom: monday && mondayFrom ? mondayFrom[0].label : null_label,
-      mondayTo: monday && mondayTo ? mondayTo[0].label : null_label,
+      mondayFrom: monday && mondayFrom ? mondayFrom[0].id : null_label,
+      mondayTo: monday && mondayTo ? mondayTo[0].id : null_label,
       tuesday,
-      tuesdayFrom: tuesday && tuesdayFrom ? tuesdayFrom[0].label : null_label,
-      tuesdayTo: tuesday && tuesdayTo ? tuesdayTo[0].label : null_label,
+      tuesdayFrom: tuesday && tuesdayFrom ? tuesdayFrom[0].id : null_label,
+      tuesdayTo: tuesday && tuesdayTo ? tuesdayTo[0].id : null_label,
       wednesday,
       wednesdayFrom:
-        wednesday && wednesdayFrom ? wednesdayFrom[0].label : null_label,
-      wednesdayTo: wednesday && wednesdayTo ? wednesdayTo[0].label : null_label,
+        wednesday && wednesdayFrom ? wednesdayFrom[0].id : null_label,
+      wednesdayTo: wednesday && wednesdayTo ? wednesdayTo[0].id : null_label,
       thursday,
-      thursdayFrom:
-        thursday && thursdayFrom ? thursdayFrom[0].label : null_label,
-      thursdayTo: thursday && thursdayTo ? thursdayTo[0].label : null_label,
+      thursdayFrom: thursday && thursdayFrom ? thursdayFrom[0].id : null_label,
+      thursdayTo: thursday && thursdayTo ? thursdayTo[0].id : null_label,
       friday,
-      fridayFrom: friday && fridayFrom ? fridayFrom[0].label : null_label,
-      fridayTo: friday && fridayTo ? fridayTo[0].label : null_label,
+      fridayFrom: friday && fridayFrom ? fridayFrom[0].id : null_label,
+      fridayTo: friday && fridayTo ? fridayTo[0].id : null_label,
       saturday,
-      saturdayFrom:
-        saturday && saturdayFrom ? saturdayFrom[0].label : null_label,
-      saturdayTo: saturday && saturdayTo ? saturdayTo[0].label : null_label,
+      saturdayFrom: saturday && saturdayFrom ? saturdayFrom[0].id : null_label,
+      saturdayTo: saturday && saturdayTo ? saturdayTo[0].id : null_label,
       sunday,
-      sundayFrom: sunday && sundayFrom ? sundayFrom[0].label : null_label,
-      sundayTo: sunday && sundayTo ? sundayTo[0].label : null_label,
+      sundayFrom: sunday && sundayFrom ? sundayFrom[0].id : null_label,
+      sundayTo: sunday && sundayTo ? sundayTo[0].id : null_label,
     });
   }, [
     monday,
@@ -113,9 +111,9 @@ const BusinessHours: React.FC<BusinessHoursProps> = ({ onChange }) => {
     day: string,
     checked: boolean,
     setChecked: Function,
-    initialFrom: string,
+    initialFrom: number,
     onChangeFrom: Function,
-    initialTo: string,
+    initialTo: number,
     onChangeTo: Function
   ) => {
     return (
@@ -127,7 +125,7 @@ const BusinessHours: React.FC<BusinessHoursProps> = ({ onChange }) => {
           ></CheckBox>
           <Label
             style={{
-              marginRight: "15px",
+              marginRight: '15px',
             }}
           >
             {day}
@@ -136,7 +134,7 @@ const BusinessHours: React.FC<BusinessHoursProps> = ({ onChange }) => {
         {checked && (
           <Hours>
             <TimePicker initialValue={initialFrom} onChange={onChangeFrom} />
-            <div style={{ width: "18px" }}></div>
+            <div style={{ width: '18px' }}></div>
             <TimePicker initialValue={initialTo} onChange={onChangeTo} />
           </Hours>
         )}
@@ -147,66 +145,66 @@ const BusinessHours: React.FC<BusinessHoursProps> = ({ onChange }) => {
   return (
     <>
       {renderRow(
-        "Lunes",
+        'Lunes',
         monday,
         setMonday,
-        nineAM_label,
+        nineAM,
         setMondayFrom,
-        sixPM_label,
+        sixPM,
         setMondayTo
       )}
       {renderRow(
-        "Martes",
+        'Martes',
         tuesday,
         setTuesday,
-        nineAM_label,
+        nineAM,
         setTuesdayFrom,
-        sixPM_label,
+        sixPM,
         setTuesdayTo
       )}
       {renderRow(
-        "Miércoles",
+        'Miércoles',
         wednesday,
         setWednesday,
-        nineAM_label,
+        nineAM,
         setWednesdayFrom,
-        sixPM_label,
+        sixPM,
         setWednesdayTo
       )}
       {renderRow(
-        "Jueves",
+        'Jueves',
         thursday,
         setThursday,
-        nineAM_label,
+        nineAM,
         setThursdayFrom,
-        sixPM_label,
+        sixPM,
         setThursdayTo
       )}
       {renderRow(
-        "Viernes",
+        'Viernes',
         friday,
         setFriday,
-        nineAM_label,
+        nineAM,
         setFridayFrom,
-        sixPM_label,
+        sixPM,
         setFridayTo
       )}
       {renderRow(
-        "Sábado",
+        'Sábado',
         saturday,
         setSaturday,
-        nineAM_label,
+        nineAM,
         setSaturdayFrom,
-        sixPM_label,
+        sixPM,
         setSaturdayTo
       )}
       {renderRow(
-        "Domingo",
+        'Domingo',
         sunday,
         setSunday,
-        nineAM_label,
+        nineAM,
         setSundayFrom,
-        sixPM_label,
+        sixPM,
         setSundayTo
       )}
     </>

@@ -1,8 +1,8 @@
-import { Aggregate } from "../../common/domain/aggregate";
+import { Aggregate } from '../../common/domain/aggregate';
 import {
   DeliveryAreaSetup,
   DeliveryAreaClosed,
-} from "./events/delivery_area.events";
+} from './events/delivery_area.events';
 
 export class DeliveryArea extends Aggregate {
   name: string;
@@ -13,26 +13,26 @@ export class DeliveryArea extends Aggregate {
   lng: number;
   radius: number;
   monday: boolean;
-  monday_hours_from?: string;
-  monday_hours_to?: string;
+  monday_hours_from?: number;
+  monday_hours_to?: number;
   tuesday: boolean;
-  tuesday_hours_from?: string;
-  tuesday_hours_to?: string;
+  tuesday_hours_from?: number;
+  tuesday_hours_to?: number;
   wednesday: boolean;
-  wednesday_hours_from?: string;
-  wednesday_hours_to?: string;
+  wednesday_hours_from?: number;
+  wednesday_hours_to?: number;
   thursday: boolean;
-  thursday_hours_from?: string;
-  thursday_hours_to?: string;
+  thursday_hours_from?: number;
+  thursday_hours_to?: number;
   friday: boolean;
-  friday_hours_from?: string;
-  friday_hours_to?: string;
+  friday_hours_from?: number;
+  friday_hours_to?: number;
   saturday: boolean;
-  saturday_hours_from?: string;
-  saturday_hours_to?: string;
+  saturday_hours_from?: number;
+  saturday_hours_to?: number;
   sunday: boolean;
-  sunday_hours_from?: string;
-  sunday_hours_to?: string;
+  sunday_hours_from?: number;
+  sunday_hours_to?: number;
 
   constructor(readonly id: string) {
     super(id);
@@ -53,20 +53,20 @@ export class DeliveryArea extends Aggregate {
     friday: boolean,
     saturday: boolean,
     sunday: boolean,
-    monday_hours_from?: string,
-    monday_hours_to?: string,
-    tuesday_hours_from?: string,
-    tuesday_hours_to?: string,
-    wednesday_hours_from?: string,
-    wednesday_hours_to?: string,
-    thursday_hours_from?: string,
-    thursday_hours_to?: string,
-    friday_hours_from?: string,
-    friday_hours_to?: string,
-    saturday_hours_from?: string,
-    saturday_hours_to?: string,
-    sunday_hours_from?: string,
-    sunday_hours_to?: string
+    monday_hours_from?: number,
+    monday_hours_to?: number,
+    tuesday_hours_from?: number,
+    tuesday_hours_to?: number,
+    wednesday_hours_from?: number,
+    wednesday_hours_to?: number,
+    thursday_hours_from?: number,
+    thursday_hours_to?: number,
+    friday_hours_from?: number,
+    friday_hours_to?: number,
+    saturday_hours_from?: number,
+    saturday_hours_to?: number,
+    sunday_hours_from?: number,
+    sunday_hours_to?: number
   ) {
     this.apply(
       new DeliveryAreaSetup(
