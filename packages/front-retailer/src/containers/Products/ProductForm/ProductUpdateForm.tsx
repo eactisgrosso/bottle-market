@@ -5,7 +5,7 @@ import Button, { KIND } from '../../../components/Button/Button';
 import Toogle from '../../../components/Toggle/Toggle';
 import ModalProduct from '../../../components/ModalProduct/ModalProduct';
 
-import { useStyletron, styled } from 'baseui';
+import { useStyletron } from 'baseui';
 import { Grid, Cell } from 'baseui/layout-grid';
 import {
   Title,
@@ -88,10 +88,10 @@ const ProductUpdateForm: React.FC<Props> = ({
         overrides={{
           Grid: {
             style: {
-              padding: '30px 0px',
+              padding: '30px 0',
 
               '@media only screen and (max-width: 767px)': {
-                paddingBottom: '0px',
+                paddingBottom: '0',
               },
             },
           },
@@ -135,7 +135,7 @@ const ProductUpdateForm: React.FC<Props> = ({
                   size={SizeInput.compact}
                   overrides={{
                     InputContainer: {
-                      style: ({ $theme }) => {
+                      style: () => {
                         return {
                           maxWidth: '80px',
                         };
@@ -167,7 +167,7 @@ const ProductUpdateForm: React.FC<Props> = ({
                 }}
                 overrides={{
                   BaseButton: {
-                    style: ({ $theme }) => {
+                    style: () => {
                       return {
                         margin: '18px',
                       };
@@ -182,7 +182,7 @@ const ProductUpdateForm: React.FC<Props> = ({
                 kind={KIND.secondary}
                 overrides={{
                   BaseButton: {
-                    style: ({ $theme }) => {
+                    style: () => {
                       return {
                         margin: '18px',
                       };

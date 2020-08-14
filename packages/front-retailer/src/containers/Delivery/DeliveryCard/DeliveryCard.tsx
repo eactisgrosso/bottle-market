@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import gql from "graphql-tag";
-import { useMutation } from "@apollo/client";
-import { GET_DELIVERY_AREAS } from "../../../graphql/query/delivery.query";
-import { updateStore } from "../../../graphql/mutation/store.mutation";
-import { DeliveryIcon, GpsIcon } from "../../../components/AllSvgIcon";
+import React, { useEffect, useState } from 'react';
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/client';
+import { GET_DELIVERY_AREAS } from '../../../graphql/query/delivery.query';
+import { updateStore } from '../../../graphql/mutation/store.mutation';
+import { DeliveryIcon, GpsIcon } from '../../../components/AllSvgIcon';
 import {
   Card,
   TopInfo,
@@ -17,11 +17,12 @@ import {
   PrimaryText,
   Content,
   ButtonContainer,
-} from "./DeliveryCard.style";
-import Button, { KIND } from "../../../components/Button/Button";
-import { Tag, VARIANT } from "baseui/tag";
-import { groupBy } from "lodash";
-import Confirm from "../../../components/Confirm/Confirm";
+} from './DeliveryCard.style';
+import Button, { KIND } from '../../../components/Button/Button';
+import { Tag, VARIANT } from 'baseui/tag';
+import { groupBy } from 'lodash';
+import Confirm from '../../../components/Confirm/Confirm';
+import { useDrawerDispatch } from '../../../context/DrawerContext';
 
 const DELETE_DELIVERY_AREA = gql`
   mutation deleteDeliveryArea($id: String!) {
@@ -59,6 +60,7 @@ type DeliveryCardProps = {
   sunday: boolean;
   sunday_hours_from: string;
   sunday_hours_to: string;
+  delivery:any
 };
 const DeliveryCard: React.FC<DeliveryCardProps> = ({
   id,
@@ -87,8 +89,11 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
   sunday,
   sunday_hours_from,
   sunday_hours_to,
+  delivery,
   ...props
 }) => {
+  const dispatch = useDrawerDispatch();
+
   const [hours, setHours] = useState([]);
 
   const getConsecutives = (arr, i, result) => {
@@ -107,49 +112,49 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
     if (monday)
       businessHours.push({
         i: 0,
-        day: "Lunes",
+        day: 'Lunes',
         from: monday_hours_from,
         to: monday_hours_to,
       });
     if (tuesday)
       businessHours.push({
         i: 1,
-        day: "Martes",
+        day: 'Martes',
         from: tuesday_hours_from,
         to: tuesday_hours_to,
       });
     if (wednesday)
       businessHours.push({
         i: 2,
-        day: "Miércoles",
+        day: 'Miércoles',
         from: wednesday_hours_from,
         to: wednesday_hours_to,
       });
     if (thursday)
       businessHours.push({
         i: 3,
-        day: "Jueves",
+        day: 'Jueves',
         from: thursday_hours_from,
         to: thursday_hours_to,
       });
     if (friday)
       businessHours.push({
         i: 4,
-        day: "Viernes",
+        day: 'Viernes',
         from: friday_hours_from,
         to: friday_hours_to,
       });
     if (saturday)
       businessHours.push({
         i: 5,
-        day: "Sábados",
+        day: 'Sábados',
         from: saturday_hours_from,
         to: saturday_hours_to,
       });
     if (sunday)
       businessHours.push({
         i: 6,
-        day: "Domingos",
+        day: 'Domingos',
         from: sunday_hours_from,
         to: sunday_hours_to,
       });
@@ -175,7 +180,7 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
             );
           else
             hoursLabel.push(
-              `${consecutives.map((v) => v.day).join(" y ")} de ${schedule}`
+              `${consecutives.map((v) => v.day).join(' y ')} de ${schedule}`
             );
           start += consecutives.length;
         } while (start < values.length);
@@ -233,6 +238,7 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
       variables: { id: id },
     });
   };
+
 
   return (
     <Card>
@@ -295,13 +301,13 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
             overrides={{
               BaseButton: {
                 style: ({ $theme }) => ({
-                  display: "inline-block",
-                  width: "40%",
-                  borderTopLeftRadius: "3px",
-                  borderTopRightRadius: "3px",
-                  borderBottomRightRadius: "3px",
-                  borderBottomLeftRadius: "3px",
-                  marginRight: "15px",
+                  display: 'inline-block',
+                  width: '40%',
+                  borderTopLeftRadius: '3px',
+                  borderTopRightRadius: '3px',
+                  borderBottomRightRadius: '3px',
+                  borderBottomLeftRadius: '3px',
+                  marginRight: '15px',
                   color: $theme.colors.red400,
                 }),
               },
@@ -312,16 +318,23 @@ const DeliveryCard: React.FC<DeliveryCardProps> = ({
         </Confirm>
 
         <Button
+          onClick={() => {
+            dispatch({
+              type: 'OPEN_DRAWER',
+              drawerComponent: 'DELIVERY_UPDATE_FORM',
+              data: delivery
+            });
+          }}
           kind={KIND.secondary}
           overrides={{
             BaseButton: {
               style: ({ $theme }) => ({
-                display: "inline-block",
-                width: "40%",
-                borderTopLeftRadius: "3px",
-                borderTopRightRadius: "3px",
-                borderBottomRightRadius: "3px",
-                borderBottomLeftRadius: "3px",
+                display: 'inline-block',
+                width: '40%',
+                borderTopLeftRadius: '3px',
+                borderTopRightRadius: '3px',
+                borderBottomRightRadius: '3px',
+                borderBottomLeftRadius: '3px',
               }),
             },
           }}

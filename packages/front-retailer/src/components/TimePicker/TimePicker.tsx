@@ -38,6 +38,7 @@ const TimePicker: React.FC<Props> = ({
           },
         ]);
     }
+    console.log(initialValue)
   }, []);
 
   const secondsToHourMinute = (seconds: number) => {

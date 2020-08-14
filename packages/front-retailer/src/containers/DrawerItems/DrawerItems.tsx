@@ -8,12 +8,14 @@ import StoreForm from '../Stores/StoreForm/StoreForm';
 import DeliveryForm from '../Delivery/DeliveryForm/DeliveryForm';
 import ProductUpdateForm from '../Products/ProductForm/ProductUpdateForm';
 import Sidebar from '../Layout/Sidebar/Sidebar';
+import DeliveryUpdateForm from '../Delivery/DeliveryUpdateForm/DeliveryUpdateForm';
 
 const DRAWER_COMPONENTS = {
   STORE_FORM: StoreForm,
   DELIVERY_FORM: DeliveryForm,
   PRODUCT_UPDATE_FORM: ProductUpdateForm,
   SIDEBAR: Sidebar,
+  DELIVERY_UPDATE_FORM: DeliveryUpdateForm
 };
 
 const CloseButton = styled('button', ({ $theme }) => ({

@@ -103,7 +103,8 @@ const Delivery: React.FC<Props> = (props) => {
                         sunday={deliveryArea.sunday}
                         sunday_hours_from={deliveryArea.sunday_hours_from}
                         sunday_hours_to={deliveryArea.sunday_hours_to}
-                      ></DeliveryCard>
+                        delivery={deliveryArea}
+                      />
                     </Fade>
                   </Col>
                 ))
