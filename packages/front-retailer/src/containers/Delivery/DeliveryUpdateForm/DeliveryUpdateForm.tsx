@@ -77,11 +77,13 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
     dispatch,
   ]);
   const { register, handleSubmit, setValue } = useForm({
-      defaultValues:{
-        name: dataState.name
-      }
+    defaultValues: {
+      name: dataState.name,
+    },
   });
-  const [store, setStore] = useState([{id:dataState.store_id, label:dataState.store}]);
+  const [store, setStore] = useState([
+    { id: dataState.store_id, label: dataState.store },
+  ]);
   const [address, setAddress] = useState(dataState.address);
   const [deliveryArea, setDeliveryArea] = useState(null);
   const [businessHours, setBusinessHours] = useState(null);
@@ -171,12 +173,10 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
     createDeliveryArea({
       variables: { deliveryAreaInput: newDeliveryArea },
     });
-    closeDrawer();
     console.log(newDeliveryArea);
+    e.target.reset();
+    closeDrawer();
   };
-
- 
-  
 
   return (
     <>
@@ -248,7 +248,6 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
                           })
                         : []
                     }
-                    
                     placeholder="Tienda"
                     value={store}
                     searchable={false}
@@ -311,7 +310,10 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
                   },
                 }}
               >
-                <BusinessHours dataDelivery={dataState} onChange={handleBusinessHoursChange} />
+                <BusinessHours
+                  dataDelivery={dataState}
+                  onChange={handleBusinessHoursChange}
+                />
               </DrawerBox>
             </Col>
           </Row>
