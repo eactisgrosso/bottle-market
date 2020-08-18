@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Wrapper } from "./DeliveryArea.style";
-import Radio from "../Radio/Radio";
-import Input from "../Input/Input";
-import Slider from "../Slider/Slider";
-import { FormFields } from "../FormFields/FormFields";
-import Suggestions from "./Suggestions";
-import { GoogleMap, Marker, Circle } from "@react-google-maps/api";
-import { usePlaces } from "@bottle-market/common/helpers";
+import React, { useState, useEffect, useRef } from 'react';
+import { Wrapper } from './DeliveryArea.style';
+import Radio from '../Radio/Radio';
+import Input from '../Input/Input';
+import Slider from '../Slider/Slider';
+import { FormFields } from '../FormFields/FormFields';
+import Suggestions from './Suggestions';
+import { GoogleMap, Marker, Circle } from '@react-google-maps/api';
+import { usePlaces } from '@bottle-market/common/helpers';
 
 const ARG_POSITION = {
   lat: -34.603722,
@@ -20,14 +20,16 @@ type Props = {
   km?: number;
   address?: string;
   onChange: Function;
+  defaultSlider?: number;
 };
 const DeliveryArea: React.FC<Props> = ({
   isGeolocationEnabled,
   coords,
-  searchHint = "Calle y número, ciudad, provincia",
+  searchHint = 'Calle y número, ciudad, provincia',
   km,
   address,
   onChange,
+  defaultSlider,
 }) => {
   const {
     placeSearch,
@@ -38,19 +40,19 @@ const DeliveryArea: React.FC<Props> = ({
     getLatLng,
     clear,
   } = usePlaces();
-  const [radius, setRadius] = useState(1);
+  const [radius, setRadius] = useState(defaultSlider ? defaultSlider : 1);
   const [zoom, setZoom] = useState(14);
   const [position, setPosition] = useState(ARG_POSITION);
-  const [search, setSearch] = useState("");
-  const [deliveryOption, setDeliveryOption] = useState("1");
+  const [search, setSearch] = useState(address ? address : '');
+  const [deliveryOption, setDeliveryOption] = useState('1');
   const [toggleSuggestion, setToggleSuggestion] = useState(false);
 
   let searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside, false);
+    document.addEventListener('click', handleClickOutside, false);
     return () => {
-      document.removeEventListener("click", handleClickOutside, false);
+      document.removeEventListener('click', handleClickOutside, false);
     };
   }, []);
 
@@ -89,13 +91,13 @@ const DeliveryArea: React.FC<Props> = ({
   }, [suggestions]);
 
   useEffect(() => {
-    if (deliveryOption == "2") {
+    if (deliveryOption == '2') {
       setZoom(4);
       if (onChange)
         onChange({
           lat: ARG_POSITION.lat,
           lng: ARG_POSITION.lng,
-          address: "",
+          address: '',
           radius: 1,
         });
     } else {
@@ -154,7 +156,7 @@ const DeliveryArea: React.FC<Props> = ({
         });
       })
       .catch((error) => {
-        console.log("😱 Error: ", error);
+        console.log('😱 Error: ', error);
       });
   };
 
@@ -168,21 +170,23 @@ const DeliveryArea: React.FC<Props> = ({
       <FormFields>
         <Radio
           options={[
-            { value: "1", name: "Envíos locales" },
-            { value: "2", name: "Envíos a todo el país" },
+            { value: '1', name: 'Envíos locales' },
+            { value: '2', name: 'Envíos a todo el país' },
           ]}
-          defaultValue="1"
+          defaultValue={address ? '1' : '2'}
           onChange={handleChangeDeliveryOption}
-        ></Radio>
-        {deliveryOption == "1" && (
+        />
+
+        {deliveryOption == '1' && (
           <Input
-            value={search || ""}
+            value={search || ''}
             placeholder={searchHint}
             onChange={(event) => {
               handleSearchInput(event.target.value);
             }}
           />
         )}
+
         {toggleSuggestion ? (
           <Suggestions
             suggestions={suggestions}
@@ -196,7 +200,7 @@ const DeliveryArea: React.FC<Props> = ({
         zoom={zoom}
         center={position}
         mapContainerStyle={{
-          minHeight: "50vh",
+          minHeight: '50vh',
         }}
       >
         <Marker
@@ -217,18 +221,18 @@ const DeliveryArea: React.FC<Props> = ({
             }}
             radius={radius * 1000}
             options={{
-              strokeColor: "transparent",
-              fillColor: "#009E7F",
+              strokeColor: 'transparent',
+              fillColor: '#009E7F',
             }}
           />
         </Marker>
       </GoogleMap>
-      {deliveryOption == "1" && (
+      {deliveryOption == '1' && (
         <Slider
           max={100}
           min={1}
           initialValue={radius}
-          unit={"km"}
+          unit={'km'}
           onChange={(value) => {
             setRadius(value);
           }}

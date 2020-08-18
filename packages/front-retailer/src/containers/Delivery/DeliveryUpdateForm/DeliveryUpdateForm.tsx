@@ -81,8 +81,8 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
         name: dataState.name
       }
   });
-  const [store, setStore] = useState([dataState.store]);
-  const [address, setAddress] = useState('');
+  const [store, setStore] = useState([{id:dataState.store_id, label:dataState.store}]);
+  const [address, setAddress] = useState(dataState.address);
   const [deliveryArea, setDeliveryArea] = useState(null);
   const [businessHours, setBusinessHours] = useState(null);
 
@@ -172,11 +172,7 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
       variables: { deliveryAreaInput: newDeliveryArea },
     });
     closeDrawer();
-
     console.log(newDeliveryArea);
-
-    e.target.reset();
-
   };
 
  
@@ -252,6 +248,7 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
                           })
                         : []
                     }
+                    
                     placeholder="Tienda"
                     value={store}
                     searchable={false}
@@ -287,6 +284,7 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
                   coords={props.coords}
                   address={address}
                   onChange={handleDeliveryAreaChange}
+                  defaultSlider={dataState.radius}
                 />
               </DrawerBox>
             </Col>

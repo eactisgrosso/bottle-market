@@ -5,93 +5,118 @@ import { Row, Label, Days, Hours } from './BusinessHours.style';
 
 type BusinessHoursProps = {
   onChange: Function;
-  dataDelivery?:any
+  dataDelivery?: any;
 };
 
 const nineAM = 32400;
-const nineAM_label = '09:00';
 const sixPM = 64800;
-const sixPM_label = '18:00';
-const null_label = '00:00';
+const null_label = 0;
 
-const BusinessHours: React.FC<BusinessHoursProps> = ({ dataDelivery,onChange }) => {
+const BusinessHours: React.FC<BusinessHoursProps> = ({
+  dataDelivery,
+  onChange,
+}) => {
+  //Monday
+  const [monday, setMonday] = useState(
+    dataDelivery ? dataDelivery.monday : true
+  );
+  const [mondayFrom, setMondayFrom] = useState(
+    dataDelivery ? dataDelivery.monday_hours_from : sixPM
+  );
+  const [mondayTo, setMondayTo] = useState(
+    dataDelivery ? dataDelivery.monday_hours_to : nineAM
+  );
 
-  const [monday, setMonday] = useState(dataDelivery ? dataDelivery.monday : true);
-  const [mondayFrom, setMondayFrom] = useState([
-    { id: nineAM, label: dataDelivery ? dataDelivery.monday_hours_from : nineAM_label },
-  ]);
-  const [mondayTo, setMondayTo] = useState([{ id: sixPM, label: sixPM_label }]);
+  //Tuesday
+  const [tuesday, setTuesday] = useState(
+    dataDelivery ? dataDelivery.tuesday : true
+  );
+  const [tuesdayFrom, setTuesdayFrom] = useState(
+    dataDelivery ? dataDelivery.tuesday_hours_from : sixPM
+  );
+  const [tuesdayTo, setTuesdayTo] = useState(
+    dataDelivery ? dataDelivery.tuesday_hours_to : nineAM
+  );
 
-  const [tuesday, setTuesday] = useState(dataDelivery ? dataDelivery.tuesday : true);
-  const [tuesdayFrom, setTuesdayFrom] = useState([
-    { id: nineAM, label: nineAM_label },
-  ]);
-  const [tuesdayTo, setTuesdayTo] = useState([
-    { id: sixPM, label: sixPM_label },
-  ]);
+  //Wednesday
+  const [wednesday, setWednesday] = useState(
+    dataDelivery ? dataDelivery.wednesday : true
+  );
+  const [wednesdayFrom, setWednesdayFrom] = useState(
+    dataDelivery ? dataDelivery.wednesday_hours_from : sixPM
+  );
+  const [wednesdayTo, setWednesdayTo] = useState(
+    dataDelivery ? dataDelivery.wednesday_hours_to : nineAM
+  );
 
-  const [wednesday, setWednesday] = useState(dataDelivery ? dataDelivery.wednesday : true);
-  const [wednesdayFrom, setWednesdayFrom] = useState([
-    { id: nineAM, label: nineAM_label },
-  ]);
-  const [wednesdayTo, setWednesdayTo] = useState([
-    { id: sixPM, label: sixPM_label },
-  ]);
+  //Thursday
+  const [thursday, setThursday] = useState(
+    dataDelivery ? dataDelivery.thursday : true
+  );
+  const [thursdayFrom, setThursdayFrom] = useState(
+    dataDelivery ? dataDelivery.thursday_hours_from : sixPM
+  );
+  const [thursdayTo, setThursdayTo] = useState(
+    dataDelivery ? dataDelivery.thursday_hours_to : nineAM
+  );
 
-  const [thursday, setThursday] = useState(dataDelivery ? dataDelivery.thursday : true);
-  const [thursdayFrom, setThursdayFrom] = useState([
-    { id: nineAM, label: nineAM_label },
-  ]);
-  const [thursdayTo, setThursdayTo] = useState([
-    { id: sixPM, label: sixPM_label },
-  ]);
+  //Friday
+  const [friday, setFriday] = useState(
+    dataDelivery ? dataDelivery.friday : true
+  );
+  const [fridayFrom, setFridayFrom] = useState(
+    dataDelivery ? dataDelivery.friday_hours_from : sixPM
+  );
+  const [fridayTo, setFridayTo] = useState(
+    dataDelivery ? dataDelivery.friday_hours_to : nineAM
+  );
 
-  const [friday, setFriday] = useState(dataDelivery ? dataDelivery.friday : true);
-  const [fridayFrom, setFridayFrom] = useState([
-    { id: nineAM, label: nineAM_label },
-  ]);
-  const [fridayTo, setFridayTo] = useState([{ id: sixPM, label: sixPM_label }]);
+  //Saturday
+  const [saturday, setSaturday] = useState(
+    dataDelivery ? dataDelivery.saturday : true
+  );
+  const [saturdayFrom, setSaturdayFrom] = useState(
+    dataDelivery ? dataDelivery.saturday_hours_from : sixPM
+  );
+  const [saturdayTo, setSaturdayTo] = useState(
+    dataDelivery ? dataDelivery.saturday_hours_to : nineAM
+  );
 
-  const [saturday, setSaturday] = useState(dataDelivery ? dataDelivery.saturday : true);
-  const [saturdayFrom, setSaturdayFrom] = useState([
-    { id: nineAM, label: nineAM_label },
-  ]);
-  const [saturdayTo, setSaturdayTo] = useState([
-    { id: sixPM, label: sixPM_label },
-  ]);
-
-  const [sunday, setSunday] = useState(dataDelivery ? dataDelivery.sunday : true);
-  const [sundayFrom, setSundayFrom] = useState([
-    { id: nineAM, label: nineAM_label },
-  ]);
-  const [sundayTo, setSundayTo] = useState([{ id: sixPM, label: sixPM_label }]);
+  //Sunday
+  const [sunday, setSunday] = useState(
+    dataDelivery ? dataDelivery.sunday : true
+  );
+  const [sundayFrom, setSundayFrom] = useState(
+    dataDelivery ? dataDelivery.sunday_hours_from : sixPM
+  );
+  const [sundayTo, setSundayTo] = useState(
+    dataDelivery ? dataDelivery.sunday_hours_to : nineAM
+  );
 
   useEffect(() => {
     onChange({
       monday,
-      mondayFrom: monday && mondayFrom ? mondayFrom[0].id : null_label,
-      mondayTo: monday && mondayTo ? mondayTo[0].id : null_label,
+      mondayFrom: monday && mondayFrom ? mondayFrom : null_label,
+      mondayTo: monday && mondayTo ? mondayTo : null_label,
       tuesday,
-      tuesdayFrom: tuesday && tuesdayFrom ? tuesdayFrom[0].id : null_label,
-      tuesdayTo: tuesday && tuesdayTo ? tuesdayTo[0].id : null_label,
+      tuesdayFrom: tuesday && tuesdayFrom ? tuesdayFrom : null_label,
+      tuesdayTo: tuesday && tuesdayTo ? tuesdayTo : null_label,
       wednesday,
-      wednesdayFrom:
-        wednesday && wednesdayFrom ? wednesdayFrom[0].id : null_label,
-      wednesdayTo: wednesday && wednesdayTo ? wednesdayTo[0].id : null_label,
+      wednesdayFrom: wednesday && wednesdayFrom ? wednesdayFrom : null_label,
+      wednesdayTo: wednesday && wednesdayTo ? wednesdayTo : null_label,
       thursday,
-      thursdayFrom: thursday && thursdayFrom ? thursdayFrom[0].id : null_label,
-      thursdayTo: thursday && thursdayTo ? thursdayTo[0].id : null_label,
+      thursdayFrom: thursday && thursdayFrom ? thursdayFrom : null_label,
+      thursdayTo: thursday && thursdayTo ? thursdayTo : null_label,
       friday,
-      fridayFrom: friday && fridayFrom ? fridayFrom[0].id : null_label,
-      fridayTo: friday && fridayTo ? fridayTo[0].id : null_label,
+      fridayFrom: friday && fridayFrom ? fridayFrom : null_label,
+      fridayTo: friday && fridayTo ? fridayTo : null_label,
       saturday,
-      saturdayFrom: saturday && saturdayFrom ? saturdayFrom[0].id : null_label,
-      saturdayTo: saturday && saturdayTo ? saturdayTo[0].id : null_label,
+      saturdayFrom: saturday && saturdayFrom ? saturdayFrom : null_label,
+      saturdayTo: saturday && saturdayTo ? saturdayTo : null_label,
       sunday,
-      sundayFrom: sunday && sundayFrom ? sundayFrom[0].id : null_label,
-      sundayTo: sunday && sundayTo ? sundayTo[0].id : null_label,
+      sundayFrom: sunday && sundayFrom ? sundayFrom : null_label,
+      sundayTo: sunday && sundayTo ? sundayTo : null_label,
     });
-    
   }, [
     monday,
     mondayFrom,
@@ -157,63 +182,63 @@ const BusinessHours: React.FC<BusinessHoursProps> = ({ dataDelivery,onChange }) 
         'Lunes',
         monday,
         setMonday,
-        nineAM,
+        mondayFrom,
         setMondayFrom,
-        sixPM,
+        mondayTo,
         setMondayTo
       )}
       {renderRow(
         'Martes',
         tuesday,
         setTuesday,
-        nineAM,
+        tuesdayFrom,
         setTuesdayFrom,
-        sixPM,
+        tuesdayTo,
         setTuesdayTo
       )}
       {renderRow(
         'Miércoles',
         wednesday,
         setWednesday,
-        nineAM,
+        wednesdayFrom,
         setWednesdayFrom,
-        sixPM,
+        wednesdayTo,
         setWednesdayTo
       )}
       {renderRow(
         'Jueves',
         thursday,
         setThursday,
-        nineAM,
+        thursdayFrom,
         setThursdayFrom,
-        sixPM,
+        thursdayTo,
         setThursdayTo
       )}
       {renderRow(
         'Viernes',
         friday,
         setFriday,
-        nineAM,
+        fridayFrom,
         setFridayFrom,
-        sixPM,
+        fridayTo,
         setFridayTo
       )}
       {renderRow(
         'Sábado',
         saturday,
         setSaturday,
-        nineAM,
+        saturdayFrom,
         setSaturdayFrom,
-        sixPM,
+        saturdayTo,
         setSaturdayTo
       )}
       {renderRow(
         'Domingo',
         sunday,
         setSunday,
-        nineAM,
+        sundayFrom,
         setSundayFrom,
-        sixPM,
+        sundayTo,
         setSundayTo
       )}
     </>
