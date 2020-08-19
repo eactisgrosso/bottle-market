@@ -97,40 +97,40 @@ export class DeliveryResolver {
 
   @Mutation(() => DeliveryAreaDTO, { description: 'Change Delivery Area' })
   async changeDeliveryArea(
-    @Args('deliveryAreaInput') deliveryAreaInput: ChangeDeliveryAreaInput
+    @Args('changeDeliveryAreaInput') changeDeliveryAreaInput: ChangeDeliveryAreaInput
   ): Promise<DeliveryAreaDTO> {
     const id = uuidv4();
     const delivery_area = await this.repository.load(id);
 
     delivery_area.change(
-      deliveryAreaInput.name,
-      deliveryAreaInput.store_id,
-      deliveryAreaInput.store,
-      deliveryAreaInput.address,
-      deliveryAreaInput.lat,
-      deliveryAreaInput.lng,
-      deliveryAreaInput.radius,
-      deliveryAreaInput.monday,
-      deliveryAreaInput.tuesday,
-      deliveryAreaInput.wednesday,
-      deliveryAreaInput.thursday,
-      deliveryAreaInput.friday,
-      deliveryAreaInput.saturday,
-      deliveryAreaInput.sunday,
-      deliveryAreaInput.monday_hours_from,
-      deliveryAreaInput.monday_hours_to,
-      deliveryAreaInput.tuesday_hours_from,
-      deliveryAreaInput.tuesday_hours_to,
-      deliveryAreaInput.wednesday_hours_from,
-      deliveryAreaInput.wednesday_hours_to,
-      deliveryAreaInput.thursday_hours_from,
-      deliveryAreaInput.thursday_hours_to,
-      deliveryAreaInput.friday_hours_from,
-      deliveryAreaInput.friday_hours_to,
-      deliveryAreaInput.saturday_hours_from,
-      deliveryAreaInput.saturday_hours_to,
-      deliveryAreaInput.sunday_hours_from,
-      deliveryAreaInput.sunday_hours_to
+      changeDeliveryAreaInput.name,
+      changeDeliveryAreaInput.store_id,
+      changeDeliveryAreaInput.store,
+      changeDeliveryAreaInput.address,
+      changeDeliveryAreaInput.lat,
+      changeDeliveryAreaInput.lng,
+      changeDeliveryAreaInput.radius,
+      changeDeliveryAreaInput.monday,
+      changeDeliveryAreaInput.tuesday,
+      changeDeliveryAreaInput.wednesday,
+      changeDeliveryAreaInput.thursday,
+      changeDeliveryAreaInput.friday,
+      changeDeliveryAreaInput.saturday,
+      changeDeliveryAreaInput.sunday,
+      changeDeliveryAreaInput.monday_hours_from,
+      changeDeliveryAreaInput.monday_hours_to,
+      changeDeliveryAreaInput.tuesday_hours_from,
+      changeDeliveryAreaInput.tuesday_hours_to,
+      changeDeliveryAreaInput.wednesday_hours_from,
+      changeDeliveryAreaInput.wednesday_hours_to,
+      changeDeliveryAreaInput.thursday_hours_from,
+      changeDeliveryAreaInput.thursday_hours_to,
+      changeDeliveryAreaInput.friday_hours_from,
+      changeDeliveryAreaInput.friday_hours_to,
+      changeDeliveryAreaInput.saturday_hours_from,
+      changeDeliveryAreaInput.saturday_hours_to,
+      changeDeliveryAreaInput.sunday_hours_from,
+      changeDeliveryAreaInput.sunday_hours_to
     );
 
     delivery_area.commit();

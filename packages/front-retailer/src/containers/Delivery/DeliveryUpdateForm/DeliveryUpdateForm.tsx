@@ -31,8 +31,8 @@ import { GET_DELIVERY_AREAS } from '../../../graphql/query/delivery.query';
 import { updateStore } from '../../../graphql/mutation/store.mutation';
 
 const CHANGE_DELIVERY_AREA = gql`
-  mutation changeDeliveryArea($deliveryAreaInput: ChangeDeliveryAreaInput!) {
-    changeDeliveryArea(deliveryAreaInput: $deliveryAreaInput) {
+  mutation changeDeliveryArea($changeDeliveryAreaInput: ChangeDeliveryAreaInput!) {
+    changeDeliveryArea(changeDeliveryAreaInput: $changeDeliveryAreaInput) {
       id
       store_id
       store
@@ -171,11 +171,10 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
       creation_date: new Date(),
     };
     changeDeliveryArea({
-      variables: { deliveryAreaInput: newDeliveryArea },
+      variables: { changeDeliveryAreaInput: newDeliveryArea },
     });
     console.log(newDeliveryArea);
     e.target.reset();
-    closeDrawer();
   };
 
   return (

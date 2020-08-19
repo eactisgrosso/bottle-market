@@ -111,4 +111,5 @@ export class DeliveryAreaChangedHandler
 export const EventHandlers = [
   DeliveryAreaSetupHandler,
   DeliveryAreaClosedtHandler,
+,
 ];
