@@ -13,7 +13,6 @@ import {
   ProductPrice,
   DiscountedPrice,
 } from './ProductCard.style';
-import Button, { KIND, SIZE, SHAPE } from '../../../components/Button/Button';
 import Toogle from '../../../components/Toggle/Toggle';
 
 type ProductCardProps = {
