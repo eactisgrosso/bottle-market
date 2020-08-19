@@ -93,6 +93,9 @@ export class AddDeliveryAreaInput implements Partial<DeliveryAreaDTO> {
 @InputType({ description: ' Change delivery data' })
 export class ChangeDeliveryAreaInput implements Partial<DeliveryAreaDTO> {
   @Field()
+  id: string;
+
+  @Field()
   name: string;
 
   @Field({ nullable: true })

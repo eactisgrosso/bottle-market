@@ -8,6 +8,7 @@ export const updateStore = (cache, store_id, fields) => {
   });
 };
 
+
 export const updateProduct = (cache, product_id, fields) => {
   cache.modify({
     id: cache.identify({

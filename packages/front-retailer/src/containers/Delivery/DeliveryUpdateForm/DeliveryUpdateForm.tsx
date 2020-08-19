@@ -140,6 +140,7 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
 
   const onSubmit = (data, e) => {
     const newDeliveryArea = {
+      id: dataState.id,
       store_id: store[0].id,
       store: store[0].label,
       name: data.name,
@@ -174,6 +175,7 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
       variables: { changeDeliveryAreaInput: newDeliveryArea },
     });
     console.log(newDeliveryArea);
+    closeDrawer();
     e.target.reset();
   };
 

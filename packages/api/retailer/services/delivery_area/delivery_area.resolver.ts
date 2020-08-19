@@ -9,7 +9,7 @@ import {
   AddDeliveryAreaInput,
   DeliveryAreaDTO,
   DeliveryAreaDeleteDTO,
-  ChangeDeliveryAreaInput
+  ChangeDeliveryAreaInput,
 } from './delivery_area.types';
 
 const { v4: uuidv4 } = require('uuid');
@@ -97,12 +97,15 @@ export class DeliveryResolver {
 
   @Mutation(() => DeliveryAreaDTO, { description: 'Change Delivery Area' })
   async changeDeliveryArea(
-    @Args('changeDeliveryAreaInput') changeDeliveryAreaInput: ChangeDeliveryAreaInput
+    @Args('changeDeliveryAreaInput')
+    changeDeliveryAreaInput: ChangeDeliveryAreaInput
   ): Promise<DeliveryAreaDTO> {
-    const id = uuidv4();
-    const delivery_area = await this.repository.load(id);
+    const delivery_area = await this.repository.load(
+      changeDeliveryAreaInput.id
+    );
 
     delivery_area.change(
+      changeDeliveryAreaInput.id,
       changeDeliveryAreaInput.name,
       changeDeliveryAreaInput.store_id,
       changeDeliveryAreaInput.store,
