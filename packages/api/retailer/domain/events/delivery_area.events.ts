@@ -37,6 +37,7 @@ export class DeliveryAreaSetup extends Event {
 
 export class DeliveryAreaChanged extends Event {
   constructor(
+    public readonly id: string,
     public readonly name: string,
     public readonly store_id: string,
     public readonly store: string,

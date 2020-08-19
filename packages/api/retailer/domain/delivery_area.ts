@@ -135,6 +135,7 @@ export class DeliveryArea extends Aggregate {
   }
 
   change(
+    id: string,
     name: string,
     store_id: string,
     store: string,
@@ -166,6 +167,7 @@ export class DeliveryArea extends Aggregate {
   ) {
     this.apply(
       new DeliveryAreaChanged(
+        id,
         name,
         store_id,
         store,
@@ -199,6 +201,7 @@ export class DeliveryArea extends Aggregate {
   }
 
   onDeliveryAreaChanged(event: DeliveryAreaChanged) {
+    this.name = event.id;
     this.name = event.name;
     this.store_id = event.store_id;
     this.store = event.store;

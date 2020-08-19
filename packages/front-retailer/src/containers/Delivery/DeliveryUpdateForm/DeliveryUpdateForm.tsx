@@ -88,24 +88,7 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
   const [deliveryArea, setDeliveryArea] = useState(null);
   const [businessHours, setBusinessHours] = useState(null);
 
-  const [changeDeliveryArea] = useMutation(CHANGE_DELIVERY_AREA, {
-    update(cache, { data: { changeDeliveryArea } }) {
-      const { deliveryAreas } = cache.readQuery({
-        query: GET_DELIVERY_AREAS,
-      });
-
-      cache.writeQuery({
-        query: GET_DELIVERY_AREAS,
-        data: {
-          deliveryAreas: [changeDeliveryArea, ...deliveryAreas],
-        },
-      });
-
-      updateStore(cache, changeDeliveryArea.store_id, {
-        delivery_areas: (value) => value + 1,
-      });
-    },
-  });
+  const [changeDeliveryArea] = useMutation(CHANGE_DELIVERY_AREA);
 
   useEffect(() => {
     if (storesData && storesData.stores.length > 0 && store.length == 0) {
