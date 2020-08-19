@@ -67,7 +67,12 @@ export class DeliveryAreaClosedtHandler
 @EventsHandler(DeliveryAreaChanged)
 export class DeliveryAreaChangedHandler
   implements IEventHandler<DeliveryAreaChanged> {
-  constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {}
+  private readonly st;
+
+  constructor(@Inject(KNEX_CONNECTION) private readonly knex: any) {
+    this.st = knexPostgis(knex);
+  }
+
   async handle(event: DeliveryAreaChanged) {
     await this.knex('delivery_area')
       .where({ id: event.aggregateId })

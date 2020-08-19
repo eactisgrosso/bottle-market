@@ -30,9 +30,9 @@ import { GET_STORES } from '../../../graphql/query/store.query';
 import { GET_DELIVERY_AREAS } from '../../../graphql/query/delivery.query';
 import { updateStore } from '../../../graphql/mutation/store.mutation';
 
-const CREATE_DELIVERY_AREA = gql`
-  mutation createDeliveryArea($deliveryAreaInput: AddDeliveryAreaInput!) {
-    createDeliveryArea(deliveryAreaInput: $deliveryAreaInput) {
+const CHANGE_DELIVERY_AREA = gql`
+  mutation changeDeliveryArea($deliveryAreaInput: ChangeDeliveryAreaInput!) {
+    changeDeliveryArea(deliveryAreaInput: $deliveryAreaInput) {
       id
       store_id
       store
@@ -88,8 +88,8 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
   const [deliveryArea, setDeliveryArea] = useState(null);
   const [businessHours, setBusinessHours] = useState(null);
 
-  const [createDeliveryArea] = useMutation(CREATE_DELIVERY_AREA, {
-    update(cache, { data: { createDeliveryArea } }) {
+  const [changeDeliveryArea] = useMutation(CHANGE_DELIVERY_AREA, {
+    update(cache, { data: { changeDeliveryArea } }) {
       const { deliveryAreas } = cache.readQuery({
         query: GET_DELIVERY_AREAS,
       });
@@ -97,11 +97,11 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
       cache.writeQuery({
         query: GET_DELIVERY_AREAS,
         data: {
-          deliveryAreas: [createDeliveryArea, ...deliveryAreas],
+          deliveryAreas: [changeDeliveryArea, ...deliveryAreas],
         },
       });
 
-      updateStore(cache, createDeliveryArea.store_id, {
+      updateStore(cache, changeDeliveryArea.store_id, {
         delivery_areas: (value) => value + 1,
       });
     },
@@ -170,7 +170,7 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
       sunday_hours_to: businessHours.sundayTo,
       creation_date: new Date(),
     };
-    createDeliveryArea({
+    changeDeliveryArea({
       variables: { deliveryAreaInput: newDeliveryArea },
     });
     console.log(newDeliveryArea);
