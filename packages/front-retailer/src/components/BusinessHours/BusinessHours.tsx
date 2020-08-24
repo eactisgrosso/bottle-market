@@ -21,10 +21,10 @@ const BusinessHours: React.FC<BusinessHoursProps> = ({
     dataDelivery ? dataDelivery.monday : true
   );
   const [mondayFrom, setMondayFrom] = useState(
-    dataDelivery ? dataDelivery.monday_hours_from : sixPM
+    dataDelivery ? dataDelivery.monday_hours_from : nineAM
   );
   const [mondayTo, setMondayTo] = useState(
-    dataDelivery ? dataDelivery.monday_hours_to : nineAM
+    dataDelivery ? dataDelivery.monday_hours_to : sixPM
   );
 
   //Tuesday
@@ -32,10 +32,10 @@ const BusinessHours: React.FC<BusinessHoursProps> = ({
     dataDelivery ? dataDelivery.tuesday : true
   );
   const [tuesdayFrom, setTuesdayFrom] = useState(
-    dataDelivery ? dataDelivery.tuesday_hours_from : sixPM
+    dataDelivery ? dataDelivery.tuesday_hours_from : nineAM
   );
   const [tuesdayTo, setTuesdayTo] = useState(
-    dataDelivery ? dataDelivery.tuesday_hours_to : nineAM
+    dataDelivery ? dataDelivery.tuesday_hours_to : sixPM
   );
 
   //Wednesday
@@ -43,10 +43,10 @@ const BusinessHours: React.FC<BusinessHoursProps> = ({
     dataDelivery ? dataDelivery.wednesday : true
   );
   const [wednesdayFrom, setWednesdayFrom] = useState(
-    dataDelivery ? dataDelivery.wednesday_hours_from : sixPM
+    dataDelivery ? dataDelivery.wednesday_hours_from : nineAM
   );
   const [wednesdayTo, setWednesdayTo] = useState(
-    dataDelivery ? dataDelivery.wednesday_hours_to : nineAM
+    dataDelivery ? dataDelivery.wednesday_hours_to : sixPM
   );
 
   //Thursday
@@ -54,10 +54,10 @@ const BusinessHours: React.FC<BusinessHoursProps> = ({
     dataDelivery ? dataDelivery.thursday : true
   );
   const [thursdayFrom, setThursdayFrom] = useState(
-    dataDelivery ? dataDelivery.thursday_hours_from : sixPM
+    dataDelivery ? dataDelivery.thursday_hours_from : nineAM
   );
   const [thursdayTo, setThursdayTo] = useState(
-    dataDelivery ? dataDelivery.thursday_hours_to : nineAM
+    dataDelivery ? dataDelivery.thursday_hours_to : sixPM
   );
 
   //Friday
@@ -65,10 +65,10 @@ const BusinessHours: React.FC<BusinessHoursProps> = ({
     dataDelivery ? dataDelivery.friday : true
   );
   const [fridayFrom, setFridayFrom] = useState(
-    dataDelivery ? dataDelivery.friday_hours_from : sixPM
+    dataDelivery ? dataDelivery.friday_hours_from : nineAM
   );
   const [fridayTo, setFridayTo] = useState(
-    dataDelivery ? dataDelivery.friday_hours_to : nineAM
+    dataDelivery ? dataDelivery.friday_hours_to : sixPM
   );
 
   //Saturday
@@ -76,10 +76,10 @@ const BusinessHours: React.FC<BusinessHoursProps> = ({
     dataDelivery ? dataDelivery.saturday : true
   );
   const [saturdayFrom, setSaturdayFrom] = useState(
-    dataDelivery ? dataDelivery.saturday_hours_from : sixPM
+    dataDelivery ? dataDelivery.saturday_hours_from : nineAM
   );
   const [saturdayTo, setSaturdayTo] = useState(
-    dataDelivery ? dataDelivery.saturday_hours_to : nineAM
+    dataDelivery ? dataDelivery.saturday_hours_to : sixPM
   );
 
   //Sunday
@@ -87,10 +87,10 @@ const BusinessHours: React.FC<BusinessHoursProps> = ({
     dataDelivery ? dataDelivery.sunday : true
   );
   const [sundayFrom, setSundayFrom] = useState(
-    dataDelivery ? dataDelivery.sunday_hours_from : sixPM
+    dataDelivery ? dataDelivery.sunday_hours_from : nineAM
   );
   const [sundayTo, setSundayTo] = useState(
-    dataDelivery ? dataDelivery.sunday_hours_to : nineAM
+    dataDelivery ? dataDelivery.sunday_hours_to : sixPM
   );
 
   useEffect(() => {
