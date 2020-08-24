@@ -137,26 +137,60 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
       lng: deliveryArea.lng,
       radius: deliveryArea.radius,
       monday: businessHours.monday,
-      monday_hours_from: businessHours.mondayFrom,
-      monday_hours_to: businessHours.mondayTo,
+      monday_hours_from: businessHours.mondayFrom[0]
+        ? businessHours.mondayFrom[0].id
+        : businessHours.mondayFrom,
+      monday_hours_to: businessHours.mondayTo[0]
+        ? businessHours.mondayTo[0].id
+        : businessHours.mondayTo,
+
       tuesday: businessHours.tuesday,
-      tuesday_hours_from: businessHours.tuesdayFrom,
-      tuesday_hours_to: businessHours.tuesdayTo,
+      tuesday_hours_from: businessHours.tuesdayFrom[0]
+        ? businessHours.tuesdayFrom[0].id
+        : businessHours.tuesdayFrom,
+      tuesday_hours_to: businessHours.tuesdayTo[0]
+        ? businessHours.tuesdayTo[0].id
+        : businessHours.tuesdayTo,
+
       wednesday: businessHours.wednesday,
-      wednesday_hours_from: businessHours.wednesdayFrom,
-      wednesday_hours_to: businessHours.wednesdayTo,
+      wednesday_hours_from: businessHours.wednesdayFrom[0]
+        ? businessHours.wednesdayFrom[0].id
+        : businessHours.wednesdayFrom,
+      wednesday_hours_to: businessHours.wednesdayTo[0]
+        ? businessHours.wednesdayTo[0].id
+        : businessHours.wednesdayTo,
+
       thursday: businessHours.thursday,
-      thursday_hours_from: businessHours.thursdayFrom,
-      thursday_hours_to: businessHours.thursdayTo,
+      thursday_hours_from: businessHours.thursdayFrom[0]
+        ? businessHours.thursdayFrom[0].id
+        : businessHours.thursdayFrom,
+      thursday_hours_to: businessHours.thursdayTo[0]
+        ? businessHours.thursdayTo[0].id
+        : businessHours.thursdayTo,
+
       friday: businessHours.friday,
-      friday_hours_from: businessHours.fridayFrom,
-      friday_hours_to: businessHours.fridayTo,
+      friday_hours_from: businessHours.fridayFrom[0]
+        ? businessHours.fridayFrom[0].id
+        : businessHours.fridayFrom,
+      friday_hours_to: businessHours.fridayTo[0]
+        ? businessHours.fridayTo[0].id
+        : businessHours.fridayTo,
+
       saturday: businessHours.saturday,
-      saturday_hours_from: businessHours.saturdayFrom,
-      saturday_hours_to: businessHours.saturdayTo,
+      saturday_hours_from: businessHours.saturdayFrom[0]
+        ? businessHours.saturdayFrom[0].id
+        : businessHours.saturdayFrom,
+      saturday_hours_to: businessHours.saturdayTo[0]
+        ? businessHours.saturdayTo[0].id
+        : businessHours.saturdayTo,
+
       sunday: businessHours.sunday,
-      sunday_hours_from: businessHours.sundayFrom,
-      sunday_hours_to: businessHours.sundayTo,
+      sunday_hours_from: businessHours.sundayFrom[0]
+        ? businessHours.sundayFrom[0].id
+        : businessHours.sundayFrom,
+      sunday_hours_to: businessHours.sundayTo[0]
+        ? businessHours.sundayTo[0].id
+        : businessHours.sundayTo,
       creation_date: new Date(),
     };
     createDeliveryArea({
