@@ -1,7 +1,6 @@
 export const HOME_PAGE = "/";
 export const WINE_PAGE = "/vinos";
-export const OPORTO_PAGE = "/oporto";
-export const VERMOUTH_PAGE = "/vermouth";
+export const BEER_PAGE = "/beer";
 export const SPIRITS_PAGE = "/spirits";
 export const DETAILS_PAGE = "/detail";
 export const PROCEED_TO_CHECKOUT_PAGE = "/checkout";

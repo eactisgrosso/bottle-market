@@ -115,7 +115,6 @@ const AddDeliveryArea: React.FC<Props & GeolocatedProps> = (props) => {
   };
 
   const handleDeliveryAreaChange = (value) => {
-    console.log(JSON.stringify(value));
     setDeliveryArea(value);
   };
 

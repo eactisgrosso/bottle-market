@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { styled } from "baseui";
 import gql from "graphql-tag";
 import { GET_DELIVERY_AREAS } from "../../graphql/query/delivery.query";

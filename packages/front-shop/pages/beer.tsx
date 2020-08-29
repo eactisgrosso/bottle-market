@@ -18,7 +18,7 @@ import {
 } from "styled/pages.style";
 // Static Data Import Here
 import OFFERS from "data/offers";
-import BannerImg from "image/Vermouth.png";
+import BannerImg from "image/Beer.png";
 import storeType from "constants/storeType";
 
 const PAGE_TYPE = "vermouth";
@@ -37,12 +37,12 @@ function BagsPage({ deviceType }) {
 
   return (
     <>
-      <SEO title="Vermouth - BottleMarket" description="Vermouth Details" />
+      <SEO title="Cervezas - BottleMarket" description="Beer Details" />
       <Modal>
         <Banner
-          intlTitleId="vermouthTitle"
-          intlDescriptionId="vermouthSubTitle"
-          intlMenuId="navVermouthMenu"
+          intlTitleId="beerTitle"
+          intlDescriptionId="beerSubTitle"
+          intlMenuId="navBeerMenu"
           imageUrl={BannerImg}
         />
 
