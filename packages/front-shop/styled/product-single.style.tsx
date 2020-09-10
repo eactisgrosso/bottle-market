@@ -15,10 +15,6 @@ const ProductSingleWrapper = styled.div`
   }
 `;
 
-export const ProductSingleContainer = styled.div`
-  width: 100%;
-`;
-
 export const RelatedItemContainer = styled.div`
   display: flex;
   flex-wrap: wrap;

@@ -1,16 +1,14 @@
-import React from "react";
-import { NextPage } from "next";
-import { SEO } from "components/seo";
-import { useRouter } from "next/router";
-import { useQuery } from "@apollo/client";
-import ProductDetails from "containers/ProductDetails/ProductDetails";
-import { Modal } from "@redq/reuse-modal";
-import ProductSingleWrapper, {
-  ProductSingleContainer,
-} from "styled/product-single.style";
-import CartPopUp from "containers/Cart/CartPopUp";
-import { withApollo } from "helper/apollo";
-import { GET_PRODUCT_DETAILS } from "graphql/query/product.query";
+import React from 'react';
+import { NextPage } from 'next';
+import { SEO } from 'components/seo';
+import { useRouter } from 'next/router';
+import { useQuery } from '@apollo/client';
+import ProductDetails from 'containers/ProductDetails/ProductDetails';
+import { Modal } from '@redq/reuse-modal';
+import ProductSingleWrapper from 'styled/product-single.style';
+import CartPopUp from 'containers/Cart/CartPopUp';
+import { withApollo } from 'helper/apollo';
+import { GET_PRODUCT_DETAILS } from 'graphql/query/product.query';
 
 type Props = {
   deviceType?: {
@@ -44,10 +42,8 @@ const ProductPage: NextPage<Props> = ({ deviceType }) => {
 
       <Modal>
         <ProductSingleWrapper>
-          <ProductSingleContainer>
-            <ProductDetails product={data.product} deviceType={deviceType} />
-            <CartPopUp deviceType={deviceType} />
-          </ProductSingleContainer>
+          <ProductDetails deviceType={deviceType} product={data.product} />
+          <CartPopUp deviceType={deviceType} />
         </ProductSingleWrapper>
       </Modal>
     </>

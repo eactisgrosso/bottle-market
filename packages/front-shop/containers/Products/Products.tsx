@@ -18,6 +18,7 @@ import Fade from 'react-reveal/Fade';
 import NoResultFound from 'components/NoResult/NoResult';
 import { SearchContext } from 'contexts/search/search.context';
 import { Waypoint } from 'react-waypoint';
+import Link from 'next/link';
 
 const QuickView = dynamic(() => import('../QuickView/QuickView'));
 
@@ -104,7 +105,7 @@ export const Products: React.FC<ProductsProps> = ({
     closeModal();
   };
 
-  const handleQuickViewModal = (
+  /* const handleQuickViewModal = (
     modalProps: any,
     deviceType: any,
     onModalClose: any
@@ -138,7 +139,7 @@ export const Products: React.FC<ProductsProps> = ({
     const href = router.asPath;
     const as = `/product/${modalProps.slug}`;
     router.push(href, as, { shallow: true });
-  };
+  }; */
 
   if (loading) {
     return (
@@ -194,21 +195,20 @@ export const Products: React.FC<ProductsProps> = ({
                 delay={index * 10}
                 style={{ height: '100%' }}
               >
-                <ProductCard
-                  title={item.title}
-                  description={item.description}
-                  image={item.image}
-                  weight={item.size}
-                  currency={CURRENCY}
-                  price={item.price}
-                  salePrice={item.salePrice}
-                  discountInPercent={item.discountInPercent}
-                  data={item}
-                  deviceType={deviceType}
-                  onClick={() =>
-                    handleQuickViewModal(item, deviceType, handleModalClose)
-                  }
-                />
+                <Link href="/product/[slug]" as={`/product/${item.slug}`}>
+                  <ProductCard
+                    title={item.title}
+                    description={item.description}
+                    image={item.image}
+                    weight={item.size}
+                    currency={CURRENCY}
+                    price={item.price}
+                    salePrice={item.salePrice}
+                    discountInPercent={item.discountInPercent}
+                    data={item}
+                    deviceType={deviceType}
+                  />
+                </Link>
               </Fade>
             </ProductCardWrapper>
           </ProductsCol>

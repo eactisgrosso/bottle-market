@@ -1,15 +1,16 @@
-import React, { useEffect } from "react";
-import Link from "next/link";
-import Router from "next/router";
-import Button from "components/Button/Button";
+import React, { useEffect } from 'react';
+import Link from 'next/link';
+import Router from 'next/router';
+import Button from 'components/Button/Button';
 import {
+  DescriptionWrapper,
+  AvailableStoresWrapper,
   ProductDetailsWrapper,
   ProductPreview,
   ProductInfo,
   ProductTitlePriceWrapper,
   ProductTitle,
   BackButton,
-  ProductWeight,
   ProductDescription,
   ProductMeta,
   ProductCartWrapper,
@@ -19,18 +20,21 @@ import {
   ProductCartBtn,
   MetaSingle,
   MetaItem,
-  RelatedItems,
-} from "./ProductDetails.style";
-import { LongArrowLeft, CartIcon } from "components/AllSvgIcon";
-import ReadMore from "components/Truncate/Truncate";
-import CarouselWithCustomDots from "components/MultiCarousel/MultiCarousel";
-import Products from "containers/Products/Products";
-import { CURRENCY } from "helper/constant";
-import { Product } from "interfaces";
-import { FormattedMessage } from "react-intl";
-import { useLocale } from "contexts/language/language.provider";
-import { useCart } from "contexts/cart/use-cart";
-import { Counter } from "components/Counter/Counter";
+  RelatedItemsWrapper,
+  ProductSingleContainer,
+  ProductWeightWrapper,
+} from './ProductDetails.style';
+import { LongArrowLeft, CartIcon } from 'components/AllSvgIcon';
+import ReadMore from 'components/Truncate/Truncate';
+import CarouselWithCustomDots from 'components/MultiCarousel/MultiCarousel';
+import Products from 'containers/Products/Products';
+import { CURRENCY } from 'helper/constant';
+import { Product } from 'interfaces';
+import { FormattedMessage } from 'react-intl';
+import { useLocale } from 'contexts/language/language.provider';
+import { useCart } from 'contexts/cart/use-cart';
+import { Counter } from 'components/Counter/Counter';
+import { AvailableStores } from 'components/AvailableStores/AvailableStores';
 
 type ProductDetailsProps = {
   product: Product | any;
@@ -66,26 +70,10 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
   }, []);
 
   return (
-    <>
+    <ProductSingleContainer>
       <ProductDetailsWrapper className="product-card" dir="ltr">
         {!isRtl && (
           <ProductPreview>
-            <BackButton>
-              <Button
-                title="Back"
-                intlButtonId="backBtn"
-                iconPosition="left"
-                size="small"
-                style={{
-                  backgroundColor: "#ffffff",
-                  border: "1px solid #f1f1f1",
-                  color: "#77798c",
-                }}
-                icon={<LongArrowLeft />}
-                onClick={Router.back}
-              />
-            </BackButton>
-
             <CarouselWithCustomDots
               items={product.gallery}
               deviceType={deviceType}
@@ -93,52 +81,14 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
           </ProductPreview>
         )}
 
-        <ProductInfo dir={isRtl ? "rtl" : "ltr"}>
+        <ProductInfo dir={isRtl ? 'rtl' : 'ltr'}>
           <ProductTitlePriceWrapper>
             <ProductTitle>{product.title}</ProductTitle>
-            <ProductPriceWrapper>
-              {product.discountInPercent ? (
-                <SalePrice>
-                  {CURRENCY}
-                  {product.price}
-                </SalePrice>
-              ) : (
-                ""
-              )}
-
-              <ProductPrice>
-                {CURRENCY}
-                {product.salePrice ? product.salePrice : product.price}
-              </ProductPrice>
-            </ProductPriceWrapper>
           </ProductTitlePriceWrapper>
-
-          <ProductWeight>{product.size}</ProductWeight>
-          <ProductDescription>
-            <ReadMore character={600}>{product.description}</ReadMore>
-          </ProductDescription>
-
-          <ProductCartWrapper>
-            <ProductCartBtn>
-              {!isInCart(data.id) ? (
-                <Button
-                  title="Add to Cart"
-                  intlButtonId="addToCartButton"
-                  iconPosition="left"
-                  size="small"
-                  className="cart-button"
-                  icon={<CartIcon />}
-                  onClick={handleAddClick}
-                />
-              ) : (
-                <Counter
-                  value={getItem(data.id).quantity}
-                  onDecrement={handleRemoveClick}
-                  onIncrement={handleAddClick}
-                />
-              )}
-            </ProductCartBtn>
-          </ProductCartWrapper>
+          
+          <ProductWeightWrapper>
+            <Button title={product.size} colors="primary" variant="outlined" />
+          </ProductWeightWrapper>
 
           <ProductMeta>
             <MetaSingle>
@@ -157,7 +107,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
                       }
                     </Link>
                   ))
-                : ""}
+                : ''}
             </MetaSingle>
           </ProductMeta>
         </ProductInfo>
@@ -171,9 +121,9 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
                 iconPosition="left"
                 size="small"
                 style={{
-                  backgroundColor: "#ffffff",
-                  border: "1px solid #f1f1f1",
-                  color: "#77798c",
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #f1f1f1',
+                  color: '#77798c',
                 }}
                 icon={<LongArrowLeft />}
                 onClick={Router.back}
@@ -188,7 +138,19 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
         )}
       </ProductDetailsWrapper>
 
-      <RelatedItems>
+      <DescriptionWrapper>
+        <h2>
+          <FormattedMessage
+            id="intlDescriptionProduct"
+            defaultMessage="Related Items"
+          />
+        </h2>
+        <ProductDescription>
+          <ReadMore character={600}>{product.description}</ReadMore>
+        </ProductDescription>
+      </DescriptionWrapper>
+
+      <RelatedItemsWrapper>
         <h2>
           <FormattedMessage
             id="intlReletedItems"
@@ -201,8 +163,10 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
           loadMore={false}
           fetchLimit={10}
         />
-      </RelatedItems>
-    </>
+      </RelatedItemsWrapper>
+
+      <AvailableStoresWrapper></AvailableStoresWrapper>
+    </ProductSingleContainer>
   );
 };
 
