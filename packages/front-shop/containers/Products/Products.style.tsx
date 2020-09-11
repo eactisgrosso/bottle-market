@@ -5,7 +5,6 @@ export const ProductsRow = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-top: 25px;
-  background-color: #f7f7f7;
   position: relative;
   z-index: 1;
   margin: 0 -15px;
@@ -206,7 +205,6 @@ export const LoaderItem = styled.div`
 
 export const ProductCardWrapper = styled.div`
   height: 100%;
-
   > div {
     height: 100%;
   }

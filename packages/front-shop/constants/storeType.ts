@@ -1,28 +1,27 @@
 import {
   WINE_PAGE,
-  OPORTO_PAGE,
-  VERMOUTH_PAGE,
+  BEER_PAGE,
   SPIRITS_PAGE,
-} from "./navigation";
+} from './navigation';
 export default [
   {
     link: WINE_PAGE,
-    icon: "",
-    label: "Vinos",
-  },
-  {
-    link: OPORTO_PAGE,
-    icon: "",
-    label: "Oporto",
-  },
-  {
-    link: VERMOUTH_PAGE,
-    icon: "",
-    label: "Vermouth",
+    icon: '',
+    label: 'Vinos',
   },
   {
     link: SPIRITS_PAGE,
-    icon: "",
-    label: "Spirits",
+    icon: '',
+    label: 'Spirits',
+  },
+  {
+    link: BEER_PAGE,
+    icon: '',
+    label: 'Cervezas',
+  },
+  {
+    link: WINE_PAGE,
+    icon: '',
+    label: 'Más',
   },
 ];

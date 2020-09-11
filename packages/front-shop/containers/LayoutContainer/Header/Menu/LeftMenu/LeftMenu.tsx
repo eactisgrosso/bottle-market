@@ -1,54 +1,44 @@
-import React from "react";
+import React from 'react';
 import {
   MainMenu,
   SelectedItem,
   Icon,
   Arrow,
   LeftMenuBox,
-} from "./LeftMenu.style";
-import Popover from "components/Popover/Popover";
+} from './LeftMenu.style';
+import Popover from 'components/Popover/Popover';
 import {
   MenuDown,
   Vino,
   Spirits,
-  Oporto,
   Vermouth,
-} from "components/AllSvgIcon";
-import NavLink from "components/NavLink/NavLink";
-import {
-  WINE_PAGE,
-  OPORTO_PAGE,
-  VERMOUTH_PAGE,
-  SPIRITS_PAGE,
-} from "constants/navigation";
-import { useRouter } from "next/router";
-import { FormattedMessage } from "react-intl";
-
-import Logo from "components/Logo/Logo";
+} from 'components/AllSvgIcon';
+import NavLink from 'components/NavLink/NavLink';
+import { WINE_PAGE, SPIRITS_PAGE, BEER_PAGE } from 'constants/navigation';
+import { useRouter } from 'next/router';
+import { FormattedMessage } from 'react-intl';
+import Logo from 'components/Logo/Logo';
+import MenuNav from 'components/MenuNav/MenuNav';
 const MENU_ITEMS = [
   {
     link: WINE_PAGE,
-    icon: <Vino />,
-    label: "Vinos",
-    intlId: "navWineMenu",
-  },
-  {
-    link: OPORTO_PAGE,
-    label: "Oporto",
-    icon: <Oporto />,
-    intlId: "navPortWineMenu",
-  },
-  {
-    link: VERMOUTH_PAGE,
-    label: "Vermouth",
-    icon: <Vermouth />,
-    intlId: "navVermouthMenu",
+    label: 'Vinos',
+    intlId: 'navWineMenu',
   },
   {
     link: SPIRITS_PAGE,
-    label: "Spirits",
-    icon: <Spirits />,
-    intlId: "navSpiritsMenu",
+    label: 'Spirits',
+    intlId: 'navSpiritsMenu',
+  },
+  {
+    link: BEER_PAGE,
+    label: 'Cervezas',
+    intlId: 'navBeerMenu',
+  },
+  {
+    link: WINE_PAGE,
+    label: 'Más',
+    intlId: 'navMoreMenu',
   },
 ];
 
@@ -62,7 +52,6 @@ const CategoryMenu = ({ onClick }) => {
           className="menu-item"
           href={item.link}
           label={item.label}
-          icon={item.icon}
           iconClass="menu-item-icon"
           intlId={item.intlId}
         />
@@ -86,32 +75,10 @@ export const LeftMenu: React.FC<Props> = ({ logo }) => {
     <LeftMenuBox>
       <Logo
         imageUrl={logo}
-        alt={"Shop Logo"}
+        alt={'Shop Logo'}
         onClick={() => setActiveMenu(MENU_ITEMS[0])}
       />
-
-      <MainMenu>
-        <Popover
-          className="right"
-          handler={
-            <SelectedItem>
-              <span>
-                <Icon>{activeMenu?.icon}</Icon>
-                <span>
-                  <FormattedMessage
-                    id={activeMenu?.intlId}
-                    defaultMessage={activeMenu?.label}
-                  />
-                </span>
-              </span>
-              <Arrow>
-                <MenuDown />
-              </Arrow>
-            </SelectedItem>
-          }
-          content={<CategoryMenu onClick={setActiveMenu} />}
-        />
-      </MainMenu>
+      <MenuNav items={MENU_ITEMS} />
     </LeftMenuBox>
   );
 };
