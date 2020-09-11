@@ -49,28 +49,29 @@ export class ProductResolver {
     @Args('category', { nullable: true }) category?: string
   ) {
     const address = lat && lat != 0 && lng && lng != 0;
-    const baseFields = [
-      'id',
-      'slug',
-      'title',
-      'description',
-      'size',
-      'price',
-      'discountInPercent',
-      'images',
-      'categories',
+    const fields = [
+      'p.id',
+      'p.title',
+      'p.slug',
+      'p.description',
+      'p.size',
+      'p.discountInPercent',
+      'p.images',
+      'p.categories',
     ];
-    const fields = address
-      ? [
-          ...baseFields,
-          'sp.quantity',
-          'da.geom',
-          this.knex.raw('COALESCE(sp.price, p.price) as price'),
-          this.knex.raw('ST_Distance(geom, ref_geom) AS distance'),
-        ]
-      : [];
 
-    let query = this.productQuery.select('product_view as p', ...fields);
+    let query = this.productQuery.select(
+      'product_view as p',
+      address
+        ? [
+            ...fields,
+            this.knex.raw('COALESCE(sp.price, p.price) as price'),
+            'sp.quantity',
+            'da.geom',
+            this.knex.raw('ST_Distance(geom, ref_geom) AS distance'),
+          ]
+        : [...fields, 'p.price']
+    );
 
     if (address) {
       query.leftJoin('product_size as ps', 'p.id', 'ps.product_id');
@@ -95,6 +96,17 @@ export class ProductResolver {
         .whereRaw(this.knex.raw('ST_DWithin(geom, ref_geom, radius * 1000)'))
         .orderBy('distance');
 
+      const baseFields = [
+        'id',
+        'slug',
+        'title',
+        'description',
+        'size',
+        'price',
+        'discountInPercent',
+        'images',
+        'categories',
+      ];
       query = this.knex
         .with('nearby', query)
         .select(...baseFields)
