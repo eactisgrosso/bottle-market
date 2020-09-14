@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import Button from 'components/Button/Button';
 import {
+  StarsWrapper,
   DescriptionWrapper,
   AvailableStoresWrapper,
   ProductDetailsWrapper,
@@ -23,6 +24,9 @@ import {
   RelatedItemsWrapper,
   ProductSingleContainer,
   ProductWeightWrapper,
+  AvailableStoresTitle,
+  AvailableStore,
+  StoreWrapper,
 } from './ProductDetails.style';
 import { LongArrowLeft, CartIcon } from 'components/AllSvgIcon';
 import ReadMore from 'components/Truncate/Truncate';
@@ -35,6 +39,11 @@ import { useLocale } from 'contexts/language/language.provider';
 import { useCart } from 'contexts/cart/use-cart';
 import { Counter } from 'components/Counter/Counter';
 import { AvailableStores } from 'components/AvailableStores/AvailableStores';
+import Rating from 'react-rating';
+import StarOn from '../../image/starOn.svg';
+import StarOff from '../../image/starOff.svg';
+import { width } from 'styled-system';
+import CarouselProducts from '../CarouselProducts/CarouselProducts';
 
 type ProductDetailsProps = {
   product: Product | any;
@@ -56,6 +65,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
   const handleAddClick = (e) => {
     e.stopPropagation();
     addItem(data);
+    console.log(JSON.stringify(product));
   };
 
   const handleRemoveClick = (e) => {
@@ -68,6 +78,12 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
       window.scrollTo(0, 0);
     }, 500);
   }, []);
+
+  const hardcodeStores = [
+    { name: 'Winery', price: '980$' },
+    { name: 'Tonel Privado', price: '860$' },
+    { name: 'Picasso Vinoteca', price: '750$' },
+  ];
 
   return (
     <ProductSingleContainer>
@@ -85,7 +101,26 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
           <ProductTitlePriceWrapper>
             <ProductTitle>{product.title}</ProductTitle>
           </ProductTitlePriceWrapper>
-          
+
+          <StarsWrapper>
+            <Rating
+              emptySymbol={
+                <img
+                  src={StarOff}
+                  style={{ width: '30px', marginRight: '10px' }}
+                  className="icon"
+                />
+              }
+              fullSymbol={
+                <img
+                  src={StarOn}
+                  style={{ width: '30px', marginRight: '10px' }}
+                  className="icon"
+                />
+              }
+            />
+          </StarsWrapper>
+
           <ProductWeightWrapper>
             <Button title={product.size} colors="primary" variant="outlined" />
           </ProductWeightWrapper>
@@ -163,9 +198,64 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
           loadMore={false}
           fetchLimit={10}
         />
+        <CarouselProducts
+          type={product.type.toLowerCase()}
+          deviceType={deviceType}
+          loadMore={false}
+          fetchLimit={10}
+        />
       </RelatedItemsWrapper>
 
-      <AvailableStoresWrapper></AvailableStoresWrapper>
+      <AvailableStoresWrapper>
+        <AvailableStoresTitle>
+          <FormattedMessage
+            id="intlAvailableStores"
+            defaultMessage="Tiendas Disponibles"
+          />
+        </AvailableStoresTitle>
+        {hardcodeStores.map((store: any) => (
+          <AvailableStore>
+            <ProductPriceWrapper>
+              {product.discountInPercent ? (
+                <SalePrice>
+                  {CURRENCY}
+                  {store.price}
+                </SalePrice>
+              ) : (
+                ''
+              )}
+
+              <ProductPrice>
+                {CURRENCY}
+                {product.salePrice ? product.salePrice : store.price}
+              </ProductPrice>
+            </ProductPriceWrapper>
+            <StoreWrapper>
+              <h3>{store.name}</h3>
+            </StoreWrapper>
+            <ProductCartWrapper>
+              <ProductCartBtn>
+                {!isInCart(data.id) ? (
+                  <Button
+                    title="Add to Cart"
+                    intlButtonId="addToCartButton"
+                    iconPosition="left"
+                    className="cart-button"
+                    icon={<CartIcon />}
+                    onClick={handleAddClick}
+                  />
+                ) : (
+                  <Counter
+                    value={getItem(data.id).quantity}
+                    onDecrement={handleRemoveClick}
+                    onIncrement={handleAddClick}
+                  />
+                )}
+              </ProductCartBtn>
+            </ProductCartWrapper>
+          </AvailableStore>
+        ))}
+      </AvailableStoresWrapper>
     </ProductSingleContainer>
   );
 };

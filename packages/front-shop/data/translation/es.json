@@ -2,8 +2,8 @@
   "navWineMenu": "Vinos",
   "navPortWineMenu": "Oporto",
   "navSpiritsMenu": "Spirits",
-  "navBeerMenu":"Cerveza",
-  "navMoreMenu":"Más",
+  "navBeerMenu": "Cerveza",
+  "navMoreMenu": "Más",
 
   "wineTitle": "Vinos entregados en {minute} minutos",
   "wineSubTitle": "Te entregamos vino a tu puerta, todos los días",
@@ -155,6 +155,7 @@
   "navLinkHome": "Inicio",
   "intlTextBy": "por",
   "intlReletedItems": "Productos relacionados",
+  "intlAvailableStores": "Tiendas Disponibles",
   "intlDescriptionProduct": "Descripción",
   "readFreeSampleButton": "Leer muestra gratis",
   "bookSectionTitle": "Acerca del libro",

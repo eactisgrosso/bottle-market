@@ -61,7 +61,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
     if (!isInCart(data.id)) {
       cartAnimation(e);
     }
+    console.log(JSON.stringify(data));
   };
+
   const handleRemoveClick = (e) => {
     e.stopPropagation();
     removeItem(data);
