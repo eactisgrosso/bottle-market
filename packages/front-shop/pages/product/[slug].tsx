@@ -27,6 +27,8 @@ const ProductPage: NextPage<Props> = ({ deviceType }) => {
     variables: { slug },
   });
 
+  console.log('data', data);
+
   if (loading) {
     return <div>loading...</div>;
   }

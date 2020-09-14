@@ -146,6 +146,20 @@ export class ProductResolver {
     const product = new ProductDTO();
     this.mapProduct(dbProduct, product);
 
+    const categories = await this.knex('category')
+      .select('id', 'title', 'slug')
+      .whereIn('slug', dbProduct.categories);
+
+    for (let dbCategory of categories) {
+      let category = new Category();
+      category.id = dbCategory.id;
+      category.slug = dbCategory.slug;
+      category.title = dbCategory.title;
+      category.children = [];
+      category.icon = '';
+      product.categories.push(category);
+    }
+
     product.type = ProductType.vino;
 
     return product;
