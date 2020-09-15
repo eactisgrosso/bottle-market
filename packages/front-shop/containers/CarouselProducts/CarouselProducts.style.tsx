@@ -190,8 +190,7 @@ export const LoaderItem = styled.div`
 `;
 
 export const ProductCardWrapper = styled.div`
-  height: 100%;
-  > div {
-    height: 100%;
-  }
+ max-width: 200px;
+ margin-left: 20px
 `;
+

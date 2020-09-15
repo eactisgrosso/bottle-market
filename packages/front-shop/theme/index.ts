@@ -74,6 +74,7 @@ export const theme = {
       '&:hover': {
         backgroundColor: colors.transparent,
         borderColor: colors.primary,
+        borderWidth: '2px',
       },
     },
     outlinedDash: {

@@ -159,5 +159,7 @@
   "readFreeSampleButton": "Read Free Sample",
   "bookSectionTitle": "About The Book",
   "authorSectionTitle": "About The Author",
-  "defaultIntlId": "Please add a Placeholder from language file"
+  "defaultIntlId": "Please add a Placeholder from language file",
+  "intlGetItNow": "Get it now"
+
 }

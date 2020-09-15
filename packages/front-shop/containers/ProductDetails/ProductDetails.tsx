@@ -9,7 +9,6 @@ import {
   ProductDetailsWrapper,
   ProductPreview,
   ProductInfo,
-  ProductTitlePriceWrapper,
   ProductTitle,
   BackButton,
   ProductDescription,
@@ -42,8 +41,10 @@ import { AvailableStores } from 'components/AvailableStores/AvailableStores';
 import Rating from 'react-rating';
 import StarOn from '../../image/starOn.svg';
 import StarOff from '../../image/starOff.svg';
-import { width } from 'styled-system';
+import shopIcon from '../../image/shopIcon.png';
 import CarouselProducts from '../CarouselProducts/CarouselProducts';
+import { background } from 'styled-system';
+import { cartAnimation } from '../../helper/cart-animation';
 
 type ProductDetailsProps = {
   product: Product | any;
@@ -60,17 +61,16 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
 }) => {
   const { isRtl } = useLocale();
   const { addItem, removeItem, isInCart, getItem, items } = useCart();
-  const data = product;
 
   const handleAddClick = (e) => {
     e.stopPropagation();
-    addItem(data);
-    console.log(JSON.stringify(product));
+    addItem(product);
+    
   };
 
   const handleRemoveClick = (e) => {
     e.stopPropagation();
-    removeItem(data);
+    removeItem(product);
   };
 
   useEffect(() => {
@@ -80,14 +80,16 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
   }, []);
 
   const hardcodeStores = [
-    { name: 'Winery', price: '980$' },
-    { name: 'Tonel Privado', price: '860$' },
-    { name: 'Picasso Vinoteca', price: '750$' },
+    { name: 'Winery', price: '980' },
+    { name: 'Tonel Privado', price: '860' },
+    { name: 'Picasso Vinoteca', price: '750' },
   ];
+
+  console.log('categories', product.categories);
 
   return (
     <ProductSingleContainer>
-      <ProductDetailsWrapper className="product-card" dir="ltr">
+      <ProductDetailsWrapper dir="ltr">
         {!isRtl && (
           <ProductPreview>
             <CarouselWithCustomDots
@@ -98,34 +100,22 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
         )}
 
         <ProductInfo dir={isRtl ? 'rtl' : 'ltr'}>
-          <ProductTitlePriceWrapper>
-            <ProductTitle>{product.title}</ProductTitle>
-          </ProductTitlePriceWrapper>
+          <ProductTitle>{product.title}</ProductTitle>
 
           <StarsWrapper>
             <Rating
-              emptySymbol={
-                <img
-                  src={StarOff}
-                  style={{ width: '30px', marginRight: '10px' }}
-                  className="icon"
-                />
-              }
-              fullSymbol={
-                <img
-                  src={StarOn}
-                  style={{ width: '30px', marginRight: '10px' }}
-                  className="icon"
-                />
-              }
+              emptySymbol={<img src={StarOff} className="icon" />}
+              fullSymbol={<img src={StarOn} className="icon" />}
+              initialRating={4}
             />
+            <h3>4.9</h3>
           </StarsWrapper>
 
           <ProductWeightWrapper>
-            <Button title={product.size} colors="primary" variant="outlined" />
+            <Button title={product.size} variant={'outlined'} />
           </ProductWeightWrapper>
 
-          <ProductMeta>
+          {/* <ProductMeta>
             <MetaSingle>
               {product.categories
                 ? product.categories.map((item: any) => (
@@ -144,7 +134,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
                   ))
                 : ''}
             </MetaSingle>
-          </ProductMeta>
+          </ProductMeta> */}
         </ProductInfo>
 
         {isRtl && (
@@ -192,12 +182,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
             defaultMessage="Related Items"
           />
         </h2>
-        <Products
-          type={product.type.toLowerCase()}
-          deviceType={deviceType}
-          loadMore={false}
-          fetchLimit={10}
-        />
+
         <CarouselProducts
           type={product.type.toLowerCase()}
           deviceType={deviceType}
@@ -208,6 +193,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
 
       <AvailableStoresWrapper>
         <AvailableStoresTitle>
+          <img src={shopIcon} />
           <FormattedMessage
             id="intlAvailableStores"
             defaultMessage="Tiendas Disponibles"
@@ -230,23 +216,27 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
                 {product.salePrice ? product.salePrice : store.price}
               </ProductPrice>
             </ProductPriceWrapper>
+
             <StoreWrapper>
-              <h3>{store.name}</h3>
+              <p className="storeName">{store.name}</p>
+              <p className="quantityProducts">| 4k de productos</p>
             </StoreWrapper>
+
             <ProductCartWrapper>
               <ProductCartBtn>
-                {!isInCart(data.id) ? (
+                {!isInCart(product.id) ? (
                   <Button
                     title="Add to Cart"
                     intlButtonId="addToCartButton"
                     iconPosition="left"
                     className="cart-button"
+                    size="small"
                     icon={<CartIcon />}
                     onClick={handleAddClick}
                   />
                 ) : (
                   <Counter
-                    value={getItem(data.id).quantity}
+                    value={getItem(product.id).quantity}
                     onDecrement={handleRemoveClick}
                     onIncrement={handleAddClick}
                   />

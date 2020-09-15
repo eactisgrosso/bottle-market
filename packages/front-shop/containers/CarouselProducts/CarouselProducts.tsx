@@ -164,16 +164,16 @@ const CarouselProducts: React.FC<CarouselProductsProps> = ({
             max: 3000,
             min: 1024,
           },
-          items: 3,
-          partialVisibilityGutter: 80,
+          items: 4,
+          partialVisibilityGutter: 60,
         },
         mobile: {
           breakpoint: {
-            max: 464,
+            max: 768,
             min: 0,
           },
           items: 1,
-          partialVisibilityGutter: 30,
+          partialVisibilityGutter: 60,
         },
         tablet: {
           breakpoint: {
@@ -190,24 +190,24 @@ const CarouselProducts: React.FC<CarouselProductsProps> = ({
       swipeable
     >
       {data.products.items.map((item: any, index: number) => (
-          <ProductCardWrapper key={index}>
-            <Fade duration={800} delay={index * 10} style={{ height: '100%' }}>
-              <Link href="/product/[slug]" as={`/product/${item.slug}`}>
-                <ProductCard
-                  title={item.title}
-                  description={item.description}
-                  image={item.image}
-                  weight={item.size}
-                  currency={CURRENCY}
-                  price={item.price}
-                  salePrice={item.salePrice}
-                  discountInPercent={item.discountInPercent}
-                  data={item}
-                  deviceType={deviceType}
-                />
-              </Link>
-            </Fade>
-          </ProductCardWrapper>
+        <ProductCardWrapper key={index}>
+          <Fade duration={800} delay={index * 10} style={{ height: '100%' }}>
+            <Link href="/product/[slug]" as={`/product/${item.slug}`}>
+              <ProductCard
+                title={item.title}
+                description={item.description}
+                image={item.image}
+                weight={item.size}
+                currency={CURRENCY}
+                price={item.price}
+                salePrice={item.salePrice}
+                discountInPercent={item.discountInPercent}
+                data={item}
+                deviceType={deviceType}
+              />
+            </Link>
+          </Fade>
+        </ProductCardWrapper>
       ))}
       {loadMore && data.products.hasMore && (
         <Waypoint onEnter={() => infiniteScroll()} />

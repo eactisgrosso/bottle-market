@@ -7,11 +7,14 @@ import {
   ProductImageWrapper,
   ProductInfo,
   SaleTag,
+  StarsWrapper,
   DiscountPercent,
 } from './ProductCard.style';
 import { useCart } from 'contexts/cart/use-cart';
-import { Counter } from 'components/Counter/Counter';
-import { cartAnimation } from 'helper/cart-animation';
+import Rating from 'react-rating';
+import StarOn from '../../image/starOn.svg';
+import StarOff from '../../image/starOff.svg';
+import { FormattedMessage } from 'react-intl';
 
 type ProductCardProps = {
   title: string;
@@ -55,19 +58,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
   ...props
 }) => {
   const { addItem, removeItem, getItem, isInCart, items } = useCart();
-  const handleAddClick = (e) => {
-    e.stopPropagation();
-    addItem(data);
-    if (!isInCart(data.id)) {
-      cartAnimation(e);
-    }
-    console.log(JSON.stringify(data));
-  };
-
-  const handleRemoveClick = (e) => {
-    e.stopPropagation();
-    removeItem(data);
-  };
 
   return (
     <ProductCardWrapper onClick={onClick} className="product-card">
@@ -88,44 +78,41 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </ProductImageWrapper>
       <ProductInfo>
         <h3 className="product-title">{title}</h3>
-        <span className="product-weight">{weight}</span>
         <div className="product-meta">
           <div className="productPriceWrapper">
             {discountInPercent ? (
-              <span className="discountedPrice">
+              <p className="price">
                 {currency}
                 {price}
-              </span>
+              </p>
             ) : (
               ''
             )}
 
-            <span className="product-price">
+            <p className="price">
               {currency}
               {salePrice ? salePrice : price}
-            </span>
+            </p>
           </div>
-
-          {!isInCart(data.id) ? (
-            <Button
-              title="Cart"
-              intlButtonId="addCartButton"
-              iconPosition="left"
-              colors="primary"
-              size="small"
-              variant="outlined"
-              className="cart-button"
-              icon={<CartIcon />}
-              onClick={handleAddClick}
-            />
-          ) : (
-            <Counter
-              value={getItem(data.id).quantity}
-              onDecrement={handleRemoveClick}
-              onIncrement={handleAddClick}
-            />
-          )}
+          
+          <p className="weight">{weight}</p>
         </div>
+
+        <p className="get-it-now">
+          <FormattedMessage
+            id="intlGetItNow"
+            defaultMessage="Conseguir ahora"
+          />
+        </p>
+
+        <StarsWrapper>
+          <Rating
+            emptySymbol={<img src={StarOff} className="icon" />}
+            fullSymbol={<img src={StarOn} className="icon" />}
+            initialRating={4}
+          />
+          <p>4.9</p>
+        </StarsWrapper>
       </ProductInfo>
     </ProductCardWrapper>
   );
