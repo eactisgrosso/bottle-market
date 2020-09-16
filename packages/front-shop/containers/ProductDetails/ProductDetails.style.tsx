@@ -6,24 +6,26 @@ export const ProductSingleContainer = styled.div`
   width: 100vw;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(3, auto);
+  grid-template-rows: repeat(4, auto);
   gap: 0px 0px;
   grid-template-areas:
-    'lt-carouselAndPrice lt-carouselAndPrice lt-carouselAndPrice lt-carouselAndPrice lt-availableStores lt-availableStores'
-    'lt-description lt-description lt-description lt-description lt-availableStores lt-availableStores'
-    'lt-relatedProducts lt-relatedProducts lt-relatedProducts lt-relatedProducts lt-availableStores lt-availableStores';
+    'lt-breadcrumb        lt-breadcrumb         lt-breadcrumb         lt-breadcrumb         lt-availableStores  lt-availableStores'
+    'lt-carouselAndPrice  lt-carouselAndPrice   lt-carouselAndPrice   lt-carouselAndPrice   lt-availableStores  lt-availableStores'
+    'lt-description       lt-description        lt-description        lt-description        lt-availableStores  lt-availableStores'
+    'lt-relatedProducts   lt-relatedProducts    lt-relatedProducts    lt-relatedProducts    lt-availableStores  lt-availableStores';
 
   @media (max-width: 768px) {
     margin-top: -7.5px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(4, auto);
+    grid-template-rows: repeat(5, auto);
     gap: 0px 0px;
     grid-template-areas:
-      'lt-carouselAndPrice lt-carouselAndPrice lt-carouselAndPrice lt-carouselAndPrice'
-      'lt-availableStores lt-availableStores lt-availableStores lt-availableStores'
-      'lt-description lt-description lt-description lt-description'
-      'lt-relatedProducts lt-relatedProducts lt-relatedProducts lt-relatedProducts';
+      'lt-breadcrumb        lt-breadcrumb         lt-breadcrumb         lt-breadcrumb  '
+      'lt-carouselAndPrice  lt-carouselAndPrice   lt-carouselAndPrice   lt-carouselAndPrice'
+      'lt-availableStores   lt-availableStores    lt-availableStores    lt-availableStores'
+      'lt-description       lt-description        lt-description        lt-description'
+      'lt-relatedProducts   lt-relatedProducts    lt-relatedProducts    lt-relatedProducts';
   }
 `;
 
@@ -49,6 +51,12 @@ export const AvailableStoresTitle = styled.h2`
 export const AvailableStore = styled.div`
   padding: 30px;
   border-bottom: 1px solid ${themeGet('colors.borderColor', '#f1f1f1')};
+`;
+
+export const BreadcrumbWrapper = styled.div`
+  grid-area: lt-breadcrumb;
+  padding: 30px 30px 0 ;
+  background: #fff;
 `;
 
 export const ProductDetailsWrapper = styled.div`
@@ -214,7 +222,7 @@ export const BackButton = styled.div`
 export const ProductInfo = styled.div`
   width: 70%;
   padding: 30px;
-   >p
+
   @media (max-width: 990px) {
     padding: 30px 40px;
   }

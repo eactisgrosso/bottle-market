@@ -26,6 +26,7 @@ import {
   AvailableStoresTitle,
   AvailableStore,
   StoreWrapper,
+  BreadcrumbWrapper,
 } from './ProductDetails.style';
 import { LongArrowLeft, CartIcon } from 'components/AllSvgIcon';
 import ReadMore from 'components/Truncate/Truncate';
@@ -45,6 +46,7 @@ import shopIcon from '../../image/shopIcon.png';
 import CarouselProducts from '../CarouselProducts/CarouselProducts';
 import { background } from 'styled-system';
 import { cartAnimation } from '../../helper/cart-animation';
+import Breadcrumb from 'components/Breadcrumb/Breadcrumb';
 
 type ProductDetailsProps = {
   product: Product | any;
@@ -65,7 +67,6 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
   const handleAddClick = (e) => {
     e.stopPropagation();
     addItem(product);
-    
   };
 
   const handleRemoveClick = (e) => {
@@ -85,10 +86,15 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
     { name: 'Picasso Vinoteca', price: '750' },
   ];
 
-  console.log('categories', product.categories);
+  console.log('product', product);
 
   return (
     <ProductSingleContainer>
+     
+      <BreadcrumbWrapper>
+        <Breadcrumb deviceType={deviceType} categories={product.categories} />
+      </BreadcrumbWrapper>
+
       <ProductDetailsWrapper dir="ltr">
         {!isRtl && (
           <ProductPreview>

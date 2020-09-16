@@ -3,19 +3,18 @@ import { themeGet } from '@styled-system/theme-get';
 
 export const ProductCardWrapper = styled.div`
   height: 100%;
-  width: 100%
+  width: 100%;
   background-color: #fff;
   position: relative;
   font-family: "Lato", sans-serif;
   border-radius: 6px;
   cursor: pointer;
-  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
-  
+  box-shadow: 0 .125rem .25rem  rgba(0,0,0,.075);
 `;
 
 export const ProductImageWrapper = styled.div`
   height: 240px;
-  padding: 25px;
+  padding: 25px 25px 15px 25px;
   position: relative;
   text-align: center;
   display: flex;
@@ -67,7 +66,7 @@ export const DiscountPercent = styled.span`
 `;
 
 export const ProductInfo = styled.div`
-  padding: 20px 25px 30px;
+  padding: 10px 25px 25px 25px;
 
   @media (max-width: 767px) {
     padding: 15px 20px;
@@ -78,13 +77,14 @@ export const ProductInfo = styled.div`
     margin-top: 10px;
     font-family: 'Lato', sans-serif;
     font-size: ${themeGet('fontSizes.2', '15')}px;
-    font-weight: ${themeGet('fontWeights.6', '700')};
+    font-weight: ${themeGet('fontWeights.0', '100')};
     color: ${themeGet('colors.primary', '#009E7F')};
   }
 
   .product-title {
     font-family: 'Lato', sans-serif;
     font-size: ${themeGet('fontSizes.2', '15')}px;
+    font-weight: ${themeGet('fontWeights.0', '100')};
     color: ${themeGet('colors.darkBold', '#0D1136')};
     margin: 0 0 7px 0;
     -webkit-line-clamp: 2;
@@ -114,8 +114,8 @@ export const ProductInfo = styled.div`
     }
 
     .weight {
-        font-size: ${themeGet('fontSizes.1', '13')}px;
-        margin-left: 10px
+        font-size: 12px;
+        margin-left: 5px
       }
 
     .productPriceWrapper {
