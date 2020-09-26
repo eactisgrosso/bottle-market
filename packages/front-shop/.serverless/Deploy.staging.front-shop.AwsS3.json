@@ -1,0 +1,6 @@
+{
+  "name": "dev-shop-bottle",
+  "region": "us-east-1",
+  "accelerated": true,
+  "url": "https://dev-shop-bottle.s3.amazonaws.com"
+}

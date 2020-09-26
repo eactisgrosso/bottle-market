@@ -3,3 +3,5 @@ front-shop:
   inputs:
     description: 'Bottle House - Front Shop SSR'
     bucketName: ${env.BUCKET_NAME}
+    cloudfront:
+      distributionId: ${env.DISTRIBUTION_ID}
