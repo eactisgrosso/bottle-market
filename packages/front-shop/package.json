@@ -7,8 +7,6 @@
     "build": "next build",
     "build:staging": "env-cmd -f .env.staging next build",
     "build:production": "env-cmd -f .env.production next build",
-    "deploy:staging": "env-cmd -f .env.staging serverless --stage=staging",
-    "deploy:production": "env-cmd -f .env.production serverless --stage=production",
     "start": "next start",
     "serve": "serve ./out"
   },

@@ -25,8 +25,9 @@ jobs:
         run: npm install -g serverless
       - name: Build
         run: yarn build:front-shop:staging
-      - name: Serverless AWS authentication
-        run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - name: Deploy Comprador Web
+      - name: Deploy Shop
         working-directory: ./packages/front-shop
-        run: yarn deploy:staging
+        run: |
+        sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        mv .env.staging .env
+        serverless --stage=staging
