@@ -28,6 +28,6 @@ jobs:
       - name: Deploy Shop
         working-directory: ./packages/front-shop
         run: |
-        sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        mv .env.staging .env
-        serverless --stage=staging
+          sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          mv .env.staging .env
+          serverless --stage=staging
