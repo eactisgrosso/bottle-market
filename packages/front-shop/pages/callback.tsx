@@ -1,11 +1,10 @@
-import { useEffect } from "react";
-import { useAuth } from "@bottle-market/common/auth";
-import { NextPage } from "next";
-import Router from "next/router";
-import { withApollo } from "helper/apollo";
-import { useMutation } from "@apollo/client";
-import { SIGN_ME_UP } from "graphql/mutation/me";
-import { getCookie } from "helper/session";
+import { useEffect } from 'react';
+import { useAuth } from '@bottle-market/common/auth';
+import { NextPage } from 'next';
+import Router from 'next/router';
+import { useMutation } from '@apollo/client';
+import { SIGN_ME_UP } from 'graphql/mutation/me';
+import { getCookie } from 'helper/session';
 
 interface Props {}
 
@@ -39,8 +38,8 @@ const Auth0CallbackPage: NextPage<Props> = () => {
           renewSession();
         }
 
-        const returnUrl = getCookie("returnUrl");
-        Router.push(returnUrl ? returnUrl : "/");
+        const returnUrl = getCookie('returnUrl');
+        Router.push(returnUrl ? returnUrl : '/');
       })();
     }
   }, [isAuthenticated]);
@@ -48,4 +47,4 @@ const Auth0CallbackPage: NextPage<Props> = () => {
   return <div></div>;
 };
 
-export default withApollo(Auth0CallbackPage);
+export default Auth0CallbackPage;

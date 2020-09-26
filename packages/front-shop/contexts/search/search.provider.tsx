@@ -38,7 +38,6 @@ export const SearchProvider: React.FunctionComponent = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    console.log(JSON.stringify(state));
     localStorage.setItem(
       'address',
       JSON.stringify({

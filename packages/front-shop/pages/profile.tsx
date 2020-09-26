@@ -1,22 +1,21 @@
-import React, { useEffect } from "react";
-import { NextPage } from "next";
-import Link from "next/link";
-import { useLazyQuery } from "@apollo/client";
-import { Modal } from "@redq/reuse-modal";
-import { useAuth } from "@bottle-market/common/auth";
-import { ProfileProvider } from "contexts/profile/profile.provider";
-import { GET_LOGGED_IN_CUSTOMER } from "graphql/query/customer.query";
-import SettingsContent from "containers/Profile/Settings/Settings";
+import React, { useEffect } from 'react';
+import { NextPage } from 'next';
+import Link from 'next/link';
+import { useLazyQuery } from '@apollo/client';
+import { Modal } from '@redq/reuse-modal';
+import { useAuth } from '@bottle-market/common/auth';
+import { ProfileProvider } from 'contexts/profile/profile.provider';
+import { GET_LOGGED_IN_CUSTOMER } from 'graphql/query/customer.query';
+import SettingsContent from 'containers/Profile/Settings/Settings';
 import {
   PageWrapper,
   SidebarSection,
   ContentBox,
-} from "containers/Profile/Profile.style";
-import Sidebar from "containers/Profile/Sidebar/Sidebar";
-import { SEO } from "components/seo";
-import SiteFooter from "components/SiteFooter/SiteFooter";
-import { FormattedMessage } from "react-intl";
-import { withApollo } from "helper/apollo";
+} from 'containers/Profile/Profile.style';
+import Sidebar from 'containers/Profile/Sidebar/Sidebar';
+import { SEO } from 'components/seo';
+import SiteFooter from 'components/SiteFooter/SiteFooter';
+import { FormattedMessage } from 'react-intl';
 
 type Props = {
   deviceType?: {
@@ -73,4 +72,4 @@ const ProfilePage: NextPage<Props> = ({ deviceType }) => {
   );
 };
 
-export default withApollo(ProfilePage);
+export default ProfilePage;

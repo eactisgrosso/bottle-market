@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 import Document, {
   Html,
   Head,
   Main,
   NextScript,
   DocumentContext,
-} from "next/document";
-import { ServerStyleSheet } from "styled-components";
+} from 'next/document';
+import { ServerStyleSheet } from 'styled-components';
 
 export default class CustomDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -38,10 +38,6 @@ export default class CustomDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          />
           <link
             href="https://fonts.googleapis.com/css?family=Lato:400,700%7CPoppins:700&display=swap"
             rel="stylesheet"

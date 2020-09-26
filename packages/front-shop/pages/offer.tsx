@@ -1,21 +1,20 @@
-import React from "react";
-import { NextPage } from "next";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/client";
-import { FormattedMessage } from "react-intl";
-import { SEO } from "components/seo";
-import CartPopUp from "containers/Cart/CartPopUp";
-import { withApollo } from "helper/apollo";
-import { Modal } from "@redq/reuse-modal";
+import React from 'react';
+import { NextPage } from 'next';
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/client';
+import { FormattedMessage } from 'react-intl';
+import { SEO } from 'components/seo';
+import CartPopUp from 'containers/Cart/CartPopUp';
+import { Modal } from '@redq/reuse-modal';
 
 import {
   OfferPageWrapper,
   ProductsRow,
   MainContentArea,
   ProductsCol,
-} from "styled/pages.style";
-import GiftCard from "components/GiftCard/GiftCard";
-import SiteFooter from "components/SiteFooter/SiteFooter";
+} from 'styled/pages.style';
+import GiftCard from 'components/GiftCard/GiftCard';
+import SiteFooter from 'components/SiteFooter/SiteFooter';
 
 const GET_COUPON = gql`
   query {
@@ -44,7 +43,7 @@ const GiftCardPage: NextPage<GiftCardProps> = ({ deviceType }) => {
       <SEO title="Offer - BottleMarket" description="Offer Details" />
       <OfferPageWrapper>
         <MainContentArea>
-          <div style={{ width: "100%" }}>
+          <div style={{ width: '100%' }}>
             <ProductsRow>
               {data && data.coupons
                 ? data.coupons.map((coupon) => (
@@ -69,4 +68,4 @@ const GiftCardPage: NextPage<GiftCardProps> = ({ deviceType }) => {
     </Modal>
   );
 };
-export default withApollo(GiftCardPage);
+export default GiftCardPage;

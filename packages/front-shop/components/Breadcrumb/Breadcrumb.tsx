@@ -19,8 +19,10 @@ const Breadcrumb: React.FunctionComponent<BreadcrumbProps> = ({
   return (
     <Items>
       {categories.map((item: any) => (
-        <Item>
-          <Link href={'/vinos'}>{item.title}</Link>
+        <Item key={item.id}>
+          <Link href={'/vinos'}>
+            <a>{item.title}</a>
+          </Link>
         </Item>
       ))}
     </Items>

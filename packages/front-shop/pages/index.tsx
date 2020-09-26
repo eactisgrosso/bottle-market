@@ -1,11 +1,11 @@
-import React from "react";
-import Head from "next/head";
-import { useRouter } from "next/router";
+import React from 'react';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 // the redirect will only happen on the client-side. This is by design,
 const Index: React.FC = () => {
   const router = useRouter();
   React.useEffect(() => {
-    router.replace("/vinos");
+    router.replace('/vinos');
   });
   return (
     <Head>

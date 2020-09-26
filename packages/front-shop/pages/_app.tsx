@@ -1,4 +1,5 @@
 import React from 'react';
+import Head from 'next/head';
 
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'theme';
@@ -7,10 +8,13 @@ import { StickyProvider } from 'contexts/app/app.provider';
 import { SearchProvider } from 'contexts/search/search.provider';
 import { HeaderProvider } from 'contexts/header/header.provider';
 import { LanguageProvider } from 'contexts/language/language.provider';
+import { ApolloProvider } from '@apollo/client';
+import { useApollo } from 'helper/apollo';
 
 import AppLayout from 'containers/LayoutContainer/AppLayout';
 import { useDeviceType } from '@bottle-market/common/helpers';
 import { CartProvider } from 'contexts/cart/use-cart';
+
 // Language translation files
 import localEn from 'data/translation/en.json';
 import localEs from 'data/translation/es.json';
@@ -39,39 +43,44 @@ export default function ExtendedApp({
   locale,
   query,
 }) {
+  const apolloClient = useApollo(pageProps.initialApolloState);
   const deviceType = useDeviceType(userAgent);
 
   return (
-    <ThemeProvider theme={theme}>
-      <LanguageProvider messages={messages} initLocale={locale}>
-        <CartProvider>
-          <SearchProvider>
-            <HeaderProvider>
-              <StickyProvider>
-                <AuthProvider
-                  domain={process.env.AUTH0_DOMAIN}
-                  clientId={process.env.AUTH0_CLIENTID}
-                  callback={process.env.AUTH0_CALLBACK}
-                >
-                  <>
-                    <AppLayout deviceType={deviceType}>
-                      <Component {...pageProps} deviceType={deviceType} />
-                    </AppLayout>
-                    <GlobalStyle />
-                  </>
-                </AuthProvider>
-              </StickyProvider>
-            </HeaderProvider>
-          </SearchProvider>
-        </CartProvider>
-      </LanguageProvider>
-    </ThemeProvider>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+          href="https://fonts.googleapis.com/css?family=Lato:400,700%7CPoppins:700&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
+      <ThemeProvider theme={theme}>
+        <LanguageProvider messages={messages} initLocale={locale}>
+          <CartProvider>
+            <SearchProvider>
+              <HeaderProvider>
+                <StickyProvider>
+                  <ApolloProvider client={apolloClient}>
+                    <AuthProvider
+                      domain={process.env.AUTH0_DOMAIN}
+                      clientId={process.env.AUTH0_CLIENTID}
+                      callback={process.env.AUTH0_CALLBACK}
+                    >
+                      <>
+                        <AppLayout deviceType={deviceType}>
+                          <Component {...pageProps} deviceType={deviceType} />
+                        </AppLayout>
+                        <GlobalStyle />
+                      </>
+                    </AuthProvider>
+                  </ApolloProvider>
+                </StickyProvider>
+              </HeaderProvider>
+            </SearchProvider>
+          </CartProvider>
+        </LanguageProvider>
+      </ThemeProvider>
+    </>
   );
 }
-
-ExtendedApp.getInitialProps = async (appContext) => {
-  const { req, query } = appContext.ctx;
-  const userAgent = req ? req.headers['user-agent'] : navigator.userAgent;
-  const { locale } = parseCookies(req);
-  return { userAgent, query, locale };
-};

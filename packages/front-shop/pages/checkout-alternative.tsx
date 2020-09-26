@@ -1,14 +1,13 @@
-import React, { useEffect } from "react";
-import { NextPage } from "next";
-import { useLazyQuery } from "@apollo/client";
-import { Modal } from "@redq/reuse-modal";
-import { withApollo } from "helper/apollo";
-import { SEO } from "components/seo";
-import Checkout from "containers/CheckoutWithSidebar/CheckoutWithSidebar";
-import { useAuth } from "@bottle-market/common/auth";
-import { GET_LOGGED_IN_CUSTOMER } from "graphql/query/customer.query";
+import React, { useEffect } from 'react';
+import { NextPage } from 'next';
+import { useLazyQuery } from '@apollo/client';
+import { Modal } from '@redq/reuse-modal';
+import { SEO } from 'components/seo';
+import Checkout from 'containers/CheckoutWithSidebar/CheckoutWithSidebar';
+import { useAuth } from '@bottle-market/common/auth';
+import { GET_LOGGED_IN_CUSTOMER } from 'graphql/query/customer.query';
 
-import { ProfileProvider } from "contexts/profile/profile.provider";
+import { ProfileProvider } from 'contexts/profile/profile.provider';
 
 type Props = {
   deviceType: {
@@ -37,7 +36,7 @@ const CheckoutPage: NextPage<Props> = ({ deviceType }) => {
     return <div>loading...</div>;
   }
   if (error) return <div>{error.message}</div>;
-  const token = "true";
+  const token = 'true';
 
   return (
     <>
@@ -56,4 +55,4 @@ const CheckoutPage: NextPage<Props> = ({ deviceType }) => {
   );
 };
 
-export default withApollo(CheckoutPage);
+export default CheckoutPage;

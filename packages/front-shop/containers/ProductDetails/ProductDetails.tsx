@@ -38,7 +38,7 @@ import { FormattedMessage } from 'react-intl';
 import { useLocale } from 'contexts/language/language.provider';
 import { useCart } from 'contexts/cart/use-cart';
 import { Counter } from 'components/Counter/Counter';
-import { AvailableStores } from 'components/AvailableStores/AvailableStores';
+// import { AvailableStores } from 'components/AvailableStores/AvailableStores';
 import Rating from 'react-rating';
 import StarOn from '../../image/starOn.svg';
 import StarOff from '../../image/starOff.svg';
@@ -81,16 +81,15 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
   }, []);
 
   const hardcodeStores = [
-    { name: 'Winery', price: '980' },
-    { name: 'Tonel Privado', price: '860' },
-    { name: 'Picasso Vinoteca', price: '750' },
+    { id: '1', name: 'Winery', price: '980' },
+    { id: '2', name: 'Tonel Privado', price: '860' },
+    { id: '3', name: 'Picasso Vinoteca', price: '750' },
   ];
 
   console.log('product', product);
 
   return (
     <ProductSingleContainer>
-     
       <BreadcrumbWrapper>
         <Breadcrumb deviceType={deviceType} categories={product.categories} />
       </BreadcrumbWrapper>
@@ -121,7 +120,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
             <Button title={product.size} variant={'outlined'} />
           </ProductWeightWrapper>
 
-          {/* <ProductMeta>
+          <ProductMeta>
             <MetaSingle>
               {product.categories
                 ? product.categories.map((item: any) => (
@@ -140,7 +139,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
                   ))
                 : ''}
             </MetaSingle>
-          </ProductMeta> */}
+          </ProductMeta>
         </ProductInfo>
 
         {isRtl && (
@@ -206,7 +205,7 @@ const ProductDetails: React.FunctionComponent<ProductDetailsProps> = ({
           />
         </AvailableStoresTitle>
         {hardcodeStores.map((store: any) => (
-          <AvailableStore>
+          <AvailableStore key={store.id}>
             <ProductPriceWrapper>
               {product.discountInPercent ? (
                 <SalePrice>

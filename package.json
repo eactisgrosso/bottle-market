@@ -16,6 +16,7 @@
     "clean:build": "lerna exec -- rimraf \"{.next,dist,build}\"",
     "dev:front-shop": "concurrently \"yarn workspace @bottle-market/front-shop dev\" \"yarn workspace @bottle-market/api shop\"",
     "build:front-shop": "yarn workspace @bottle-market/front-shop build",
+    "build:front-shop:staging": "yarn workspace @bottle-market/front-shop build:staging",
     "serve:front-shop": "yarn  workspace @bottle-market/front-shop serve",
     "dev:front-admin": "concurrently \"yarn workspace @bottle-market/front-admin start\" \"yarn workspace @bottle-market/api admin\"",
     "build:front-admin": "yarn workspace @bottle-market/front-admin build",

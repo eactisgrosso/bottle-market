@@ -1,9 +1,8 @@
-import React from "react";
-import { SEO } from "components/seo";
-import OrderRecivedPage from "containers/OrderReceived/OrderReceived";
-import { withApollo } from "helper/apollo";
+import React from 'react';
+import { SEO } from 'components/seo';
+import OrderRecivedPage from 'containers/OrderReceived/OrderReceived';
 
-class OrderRecived extends React.Component<any> {
+class OrderReceived extends React.Component<any> {
   public render() {
     return (
       <>
@@ -14,4 +13,4 @@ class OrderRecived extends React.Component<any> {
   }
 }
 
-export default withApollo(OrderRecived);
+export default OrderReceived;

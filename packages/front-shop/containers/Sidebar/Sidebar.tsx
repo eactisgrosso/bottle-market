@@ -1,19 +1,19 @@
-import React, { useContext } from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { useQuery } from "@apollo/client";
-import Sticky from "react-stickynode";
-import { Scrollbars } from "react-custom-scrollbars";
-import Popover from "components/Popover/Popover";
-import { ArrowDropDown, CategoryIcon } from "components/AllSvgIcon";
-import { SearchContext } from "contexts/search/search.context";
-import { useLocale } from "contexts/language/language.provider";
-import { useStickyState } from "contexts/app/app.provider";
+import React, { useContext } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { useQuery } from '@apollo/client';
+import Sticky from 'react-stickynode';
+import { Scrollbars } from 'react-custom-scrollbars';
+import Popover from 'components/Popover/Popover';
+import { ArrowDropDown, CategoryIcon } from 'components/AllSvgIcon';
+import { SearchContext } from 'contexts/search/search.context';
+import { useLocale } from 'contexts/language/language.provider';
+import { useStickyState } from 'contexts/app/app.provider';
 import {
   SidebarMobileLoader,
   SidebarLoader,
-} from "components/Placeholder/Placeholder";
-import { FormattedMessage } from "react-intl";
+} from 'components/Placeholder/Placeholder';
+import { FormattedMessage } from 'react-intl';
 import {
   CategoryWrapper,
   TreeWrapper,
@@ -22,13 +22,11 @@ import {
   SidebarWrapper,
   RequestMedicine,
   Loading,
-} from "./Sidebar.style";
+} from './Sidebar.style';
 
-import { TreeMenu } from "components/TreeMenu/TreeMenu";
+import { TreeMenu } from 'components/TreeMenu/TreeMenu';
 
-import { GET_CATEGORIES } from "graphql/query/category.query";
-
-import { REQUEST_MEDICINE_PAGE } from "constants/navigation";
+import { GET_CATEGORIES } from 'graphql/query/category.query';
 
 type SidebarCategoryProps = {
   deviceType: {
@@ -62,7 +60,7 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({
       query: updatedQuery,
     });
   };
-  const isSidebarSticky = useStickyState("isSidebarSticky");
+  const isSidebarSticky = useStickyState('isSidebarSticky');
 
   if (!data || loading) {
     if (mobile || tablet) {
@@ -89,34 +87,17 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({
           }
           className="category-popover"
           content={
-            <>
-              {type === "medicine" && (
-                <Link href={REQUEST_MEDICINE_PAGE}>
-                  <RequestMedicine>
-                    <FormattedMessage id="reqMedicine" />
-                  </RequestMedicine>
-                </Link>
-              )}
-              <TreeMenu
-                data={data.categories}
-                onClick={handleCategorySelection}
-                active={selectedQueries}
-              />
-            </>
+            <TreeMenu
+              data={data.categories}
+              onClick={handleCategorySelection}
+              active={selectedQueries}
+            />
           }
         />
       </PopoverWrapper>
 
-      <SidebarWrapper style={{ paddingTop: type === "medicine" ? 0 : 45 }}>
-        <Sticky enabled={isSidebarSticky} top={type === "medicine" ? 89 : 110}>
-          {type === "medicine" && (
-            <Link href={REQUEST_MEDICINE_PAGE}>
-              <RequestMedicine>
-                <FormattedMessage id="reqMedicine" />
-              </RequestMedicine>
-            </Link>
-          )}
-
+      <SidebarWrapper style={{ paddingTop: type === 'medicine' ? 0 : 45 }}>
+        <Sticky enabled={isSidebarSticky} top={type === 'medicine' ? 89 : 110}>
           <Scrollbars
             universal
             autoHide

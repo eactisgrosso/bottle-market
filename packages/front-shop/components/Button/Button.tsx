@@ -55,7 +55,7 @@ const Button: React.FC<ButtonProps> = ({
       <>{loader ? loader : 'loading....'}</>
     ) : (
       icon && (
-        <span className='btn-icon' style={iconStyle}>
+        <span className="btn-icon" style={iconStyle}>
           {icon}
         </span>
       )
@@ -83,11 +83,11 @@ const Button: React.FC<ButtonProps> = ({
     >
       {position === 'left' && buttonIcon}
       {title && !isLoading && (
-        <span className='btn-text'>
-          <FormattedMessage
-            id={intlButtonId ? intlButtonId : 'intlButtonId'}
-            defaultMessage={title}
-          />
+        <span className="btn-text">
+          {intlButtonId && (
+            <FormattedMessage id={intlButtonId} defaultMessage={title} />
+          )}
+          {!intlButtonId && title}
         </span>
       )}
       {position === 'right' && buttonIcon}

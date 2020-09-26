@@ -1,0 +1,5 @@
+front-shop:
+  component: '@sls-next/serverless-component@1.17.0-alpha.13'
+  inputs:
+    description: 'Bottle House - Front Shop SSR'
+    bucketName: ${env.BUCKET_NAME}

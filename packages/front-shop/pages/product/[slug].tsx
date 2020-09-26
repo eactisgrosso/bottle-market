@@ -1,13 +1,11 @@
 import React from 'react';
 import { NextPage } from 'next';
 import { SEO } from 'components/seo';
-import { useRouter } from 'next/router';
-import { useQuery } from '@apollo/client';
 import ProductDetails from 'containers/ProductDetails/ProductDetails';
 import { Modal } from '@redq/reuse-modal';
 import ProductSingleWrapper from 'styled/product-single.style';
 import CartPopUp from 'containers/Cart/CartPopUp';
-import { withApollo } from 'helper/apollo';
+import { initializeApollo } from 'helper/apollo';
 import { GET_PRODUCT_DETAILS } from 'graphql/query/product.query';
 
 type Props = {
@@ -16,25 +14,10 @@ type Props = {
     tablet: boolean;
     desktop: boolean;
   };
+  data: any;
 };
 
-const ProductPage: NextPage<Props> = ({ deviceType }) => {
-  const {
-    query: { slug },
-  } = useRouter();
-
-  const { data, error, loading } = useQuery(GET_PRODUCT_DETAILS, {
-    variables: { slug },
-  });
-
-  console.log('data', data);
-
-  if (loading) {
-    return <div>loading...</div>;
-  }
-
-  if (error) return <div>Error: {error.message}</div>;
-
+const ProductPage: NextPage<Props> = ({ data, deviceType }) => {
   return (
     <>
       <SEO
@@ -51,4 +34,20 @@ const ProductPage: NextPage<Props> = ({ deviceType }) => {
     </>
   );
 };
-export default withApollo(ProductPage);
+
+export async function getServerSideProps({ params }) {
+  const apolloClient = initializeApollo();
+
+  const { data } = await apolloClient.query({
+    query: GET_PRODUCT_DETAILS,
+    variables: {
+      slug: params.slug,
+    },
+  });
+  return {
+    props: {
+      data,
+    },
+  };
+}
+export default ProductPage;
