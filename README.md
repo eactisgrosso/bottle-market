@@ -2,11 +2,9 @@
 
 # Introduction
 
-Wine ecommerce built with React, NextJS, TypeScript, GraphQL, NestJS & Styled-Components. We used graphql and NestJS in order to build the schema very easily. GraphQL playground makes it’s own documentation.
+Wine ecommerce built with React, NextJS, TypeScript, GraphQL, NestJS & Styled-Components.
 
-# Tech We Have Used
-
-We have used monorepo folder structure with Yarn Workspace. We have three different part Admin Dashboard, Shop and API. Tech specification for specific part is given below
+Monorepo folder structure with Yarn Workspace.
 
 ## Admin Dashboard
 
@@ -54,8 +52,6 @@ yarn build:admin
 ```
 
 ## Shop
-
-Configure Stripe api key in the `/packages/shop/next.config.js`. In the `env` section set `STRIPE_PUBLIC_KEY` to your `stripe` public key.
 
 For starting the shop part with corresponding api run below commands.
 
@@ -148,7 +144,6 @@ now
 
 ```
 env: {
-    STRIPE_PUBLIC_KEY: 'put_your_stripe_public_key',
     API_URL: '{put_your_api_url_here.}/shop/graphql',
   },
 ```
